@@ -1,0 +1,19 @@
+citHeader("To cite COMET in publications use:")
+
+citEntry(entry="Article",
+         title = "",
+         author = personList(as.person(""),
+		         as.person("")),
+         journal= "",
+         volume	= ,
+		 number = ,
+         year	= ,
+         pages	="",
+		 month  ="",
+         url	="",
+
+         textVersion =
+       paste("",
+        "",
+        "")
+)

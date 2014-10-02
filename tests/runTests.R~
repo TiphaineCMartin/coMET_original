@@ -1,0 +1,2 @@
+require("comet") || stop("unable to load Package:comet")
+BiocGenerics:::testPackage("comet")
