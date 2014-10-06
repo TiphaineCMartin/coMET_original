@@ -1929,7 +1929,7 @@ draw.name.tracks.web <- function(config.var,gbl.var) {
     if(has.key("transcriptENSEMBL", gbl.var$split.list.tracks)) {
       label.tracks.text.ensembl <- textGrob("Transcript ENSEMBL",
                                             x = -0.25,
-                                            y = num.tracks,
+                                            y = y.label.pos[num.tracks],
                                             just=c("right"),
                                             gp = gpar(fontsize = (gbl.var$font.size*0.75),
                                                       fontface = "bold"))
@@ -1942,7 +1942,7 @@ draw.name.tracks.web <- function(config.var,gbl.var) {
     if(has.key("CGI",gbl.var$split.list.tracks)) {
       label.tracks.text.cgisland <- textGrob("CG Island",
                                              x = -0.25,
-                                             y = num.tracks,
+                                             y = y.label.pos[num.tracks],
                                              just=c("right"),
                                              gp = gpar(fontsize = (gbl.var$font.size *0.75  ),
                                                        fontface = "bold"))
@@ -1955,7 +1955,7 @@ draw.name.tracks.web <- function(config.var,gbl.var) {
     if(has.key("ChromHMM",gbl.var$split.list.tracks)) {
       label.tracks.text.chromatinhmm <- textGrob("Broad ChromHMM",
                                                  x = -0.25,
-                                                 y = num.tracks,
+                                                 y = y.label.pos[num.tracks],
                                                  just=c("right"),
                                                  gp = gpar(fontsize = (gbl.var$font.size *0.75 ),
                                                            fontface = "bold"))
@@ -1968,7 +1968,7 @@ draw.name.tracks.web <- function(config.var,gbl.var) {
     if(has.key("DNAse",gbl.var$split.list.tracks)) {
       label.tracks.text.dnase <- textGrob("DNase Clusters",
                                           x = -0.25,
-                                          y = num.tracks,
+                                          y = y.label.pos[num.tracks],
                                           just=c("right"),
                                           gp = gpar(fontsize = (gbl.var$font.size *0.75 ),fontface = "bold"))
       
@@ -1980,7 +1980,7 @@ draw.name.tracks.web <- function(config.var,gbl.var) {
     if(has.key("RegENSEMBL",gbl.var$split.list.tracks)) {
       label.tracks.text.reg <- textGrob("Regulation ENSEMBL",
                                         x = -0.25,
-                                        y = num.tracks,
+                                        y = y.label.pos[num.tracks],
                                         just=c("right"),
                                         gp = gpar(fontsize = (gbl.var$font.size *0.75 ),fontface = "bold"))
       legend.tracks.list[[num.tracks]] <- label.tracks.text.reg
@@ -1991,7 +1991,7 @@ draw.name.tracks.web <- function(config.var,gbl.var) {
     if(has.key("SNP",gbl.var$split.list.tracks) ){
       label.tracks.text.snp <- textGrob("SNP UCSC",
                                         x = -0.25,
-                                        y = num.tracks,
+                                        y = y.label.pos[num.tracks],
                                         just=c("right"),
                                         gp = gpar(fontsize = (gbl.var$font.size *0.75 ),fontface = "bold"))
       legend.tracks.list[[num.tracks]] <- label.tracks.text.snp
@@ -2003,7 +2003,7 @@ draw.name.tracks.web <- function(config.var,gbl.var) {
     if(has.key("SNPstoma",gbl.var$split.list.tracks)) {
       label.tracks.text.chromatinhmm <- textGrob("SNP stomatic cells",
                                                  x = -0.25,
-                                                 y = num.tracks,
+                                                 y = y.label.pos[num.tracks],
                                                  just=c("right"),
                                                  gp = gpar(fontsize = (gbl.var$font.size *0.75 ),fontface = "bold"))
       
@@ -2014,22 +2014,34 @@ draw.name.tracks.web <- function(config.var,gbl.var) {
     
     #--- SNPstru
     if(has.key("SNPstru",gbl.var$split.list.tracks)) {
-      label.tracks.text.dnase <- textGrob("SNP structure",
+      label.tracks.text.dnase <- textGrob("structural SNP",
                                           x = -0.25,
-                                          y = num.tracks,
+                                          y = y.label.pos[num.tracks],
                                           just=c("right"),
                                           gp = gpar(fontsize = (gbl.var$font.size *0.75 ),fontface = "bold"))
       
       legend.tracks.list[[num.tracks]] <- label.tracks.text.dnase
       num.tracks <- num.tracks + 1
     }
+  #--- SNPstrustoma
+  if(has.key("SNPstrustoma",gbl.var$split.list.tracks)) {
+    label.tracks.text.dnase <- textGrob(" stomatic stuctural SNP",
+                                        x = -0.25,
+                                        y = y.label.pos[num.tracks],
+                                        just=c("right"),
+                                        gp = gpar(fontsize = (gbl.var$font.size *0.75 ),fontface = "bold"))
+    
+    legend.tracks.list[[num.tracks]] <- label.tracks.text.dnase
+    num.tracks <- num.tracks + 1
+  }
+  
     
     
     #--- ISCA
     if(has.key("ISCA",gbl.var$split.list.tracks)) {
       label.tracks.text.reg <- textGrob("ISCA",
                                         x = -0.25,
-                                        y = num.tracks,
+                                        y = y.label.pos[num.tracks],
                                         just=c("right"),
                                         gp = gpar(fontsize = (gbl.var$font.size *0.75 ),fontface = "bold"))
       
@@ -2037,11 +2049,24 @@ draw.name.tracks.web <- function(config.var,gbl.var) {
       num.tracks <- num.tracks + 1
     }
   
+  #--- COSMIC
+  if(has.key("COSMIC",gbl.var$split.list.tracks)) {
+    label.tracks.text.reg <- textGrob("GAD",
+                                      x = -0.25,
+                                      y = y.label.pos[num.tracks],
+                                      just=c("right"),
+                                      gp = gpar(fontsize = (gbl.var$font.size *0.75 ),fontface = "bold"))
+    
+    legend.tracks.list[[num.tracks]] <- label.tracks.text.reg
+    num.tracks <- num.tracks + 1
+  }
+  
+  
   #--- GAD
   if(has.key("GAD",gbl.var$split.list.tracks)) {
     label.tracks.text.reg <- textGrob("GAD",
                                       x = -0.25,
-                                      y = num.tracks,
+                                      y = y.label.pos[num.tracks],
                                       just=c("right"),
                                       gp = gpar(fontsize = (gbl.var$font.size *0.75 ),fontface = "bold"))
     
@@ -2054,7 +2079,7 @@ draw.name.tracks.web <- function(config.var,gbl.var) {
     if(has.key("ClinVar",gbl.var$split.list.tracks) ){
       label.tracks.text.snp <- textGrob("ClinVar",
                                         x = -0.25,
-                                        y = num.tracks,
+                                        y = y.label.pos[num.tracks],
                                         just=c("right"),
                                         gp = gpar(fontsize = (gbl.var$font.size *0.75 ),fontface = "bold"))
       legend.tracks.list[[num.tracks]] <- label.tracks.text.snp
@@ -2065,7 +2090,7 @@ draw.name.tracks.web <- function(config.var,gbl.var) {
   if(has.key("GeneReviews",gbl.var$split.list.tracks) ){
     label.tracks.text.snp <- textGrob("GeneReviews",
                                       x = -0.25,
-                                      y = num.tracks,
+                                      y = y.label.pos[num.tracks],
                                       just=c("right"),
                                       gp = gpar(fontsize = (gbl.var$font.size *0.75 ),fontface = "bold"))
     legend.tracks.list[[num.tracks]] <- label.tracks.text.snp
@@ -2076,7 +2101,7 @@ draw.name.tracks.web <- function(config.var,gbl.var) {
   if(has.key("GWAS",gbl.var$split.list.tracks) ){
     label.tracks.text.snp <- textGrob("GWAS",
                                       x = -0.25,
-                                      y = num.tracks,
+                                      y = y.label.pos[num.tracks],
                                       just=c("right"),
                                       gp = gpar(fontsize = (gbl.var$font.size *0.75 ),fontface = "bold"))
     legend.tracks.list[[num.tracks]] <- label.tracks.text.snp
@@ -2087,13 +2112,46 @@ draw.name.tracks.web <- function(config.var,gbl.var) {
   if(has.key("ClinVarCNV",gbl.var$split.list.tracks) ){
     label.tracks.text.snp <- textGrob("ClinVarCNV",
                                       x = -0.25,
-                                      y = num.tracks,
+                                      y = y.label.pos[num.tracks],
                                       just=c("right"),
                                       gp = gpar(fontsize = (gbl.var$font.size *0.75 ),fontface = "bold"))
     legend.tracks.list[[num.tracks]] <- label.tracks.text.snp
     num.tracks <- num.tracks + 1
   }
  
+  
+  #--- GC content
+  if(has.key("GCcontent",gbl.var$split.list.tracks) ){
+    label.tracks.text.snp <- textGrob("GC content",
+                                      x = -0.25,
+                                      y = y.label.pos[num.tracks],
+                                      just=c("right"),
+                                      gp = gpar(fontsize = (gbl.var$font.size *0.75 ),fontface = "bold"))
+    legend.tracks.list[[num.tracks]] <- label.tracks.text.snp
+    num.tracks <- num.tracks + 1
+  }
+  
+  #--- genes UCSC 
+  if(has.key("genesUCSC",gbl.var$split.list.tracks) ){
+    label.tracks.text.snp <- textGrob("genes UCSC",
+                                      x = -0.25,
+                                      y = y.label.pos[num.tracks],
+                                      just=c("right"),
+                                      gp = gpar(fontsize = (gbl.var$font.size *0.75 ),fontface = "bold"))
+    legend.tracks.list[[num.tracks]] <- label.tracks.text.snp
+    num.tracks <- num.tracks + 1
+  }
+  
+  #--- xenogenes UCSC 
+  if(has.key("xenogenesUCSC",gbl.var$split.list.tracks) ){
+    label.tracks.text.snp <- textGrob("xeno genes UCSC",
+                                      x = -0.25,
+                                      y = y.label.pos[num.tracks],
+                                      just=c("right"),
+                                      gp = gpar(fontsize = (gbl.var$font.size *0.75 ),fontface = "bold"))
+    legend.tracks.list[[num.tracks]] <- label.tracks.text.snp
+    num.tracks <- num.tracks + 1
+  }
   
   class(legend.tracks.list) <- c("gList")
   
@@ -2237,6 +2295,17 @@ create.tracks.web <- function(config.var,gbl.var) {
     }
   }
   
+  #--- gene UCSC
+  if(has.key("genesUCSC",gbl.var$split.list.tracks)) {
+    dnasetrack<-knownGenesUCSC(config.var$GENOME,gbl.var$mydata.chr,gbl.var$min.x,
+                          gbl.var$max.x)
+    if(length(listtracks_gviz) == 0) {
+      listtracks_gviz <- list(dnasetrack)
+    } else {
+      listtracks_gviz <- c(listtracks_gviz,dnasetrack)
+    }
+  }
+  
   #---- Regulation
   if(has.key("RegENSEMBL",gbl.var$split.list.tracks)) {
     regtrack<-regulationBiomart(gbl.var$mydata.chr,gbl.var$min.x,gbl.var$max.x,
@@ -2257,6 +2326,17 @@ create.tracks.web <- function(config.var,gbl.var) {
   if(has.key("SNPstru",gbl.var$split.list.tracks)) {
     structrack<-structureBiomart(gbl.var$mydata.chr,gbl.var$min.x,gbl.var$max.x,"*",
                                  config.var$DATASET.STRU)
+    if(length(listtracks_gviz) == 0) {
+      listtracks_gviz <- list(structrack)
+    } else {
+      listtracks_gviz <- c(listtracks_gviz,structrack)
+    }
+  }
+  
+  #---- stomatic structural variation
+  if(has.key("SNPstrustoma",gbl.var$split.list.tracks)) {
+    structrack<-structureBiomart(gbl.var$mydata.chr,gbl.var$min.x,gbl.var$max.x,"*",
+                                 config.var$DATASET.STRU.STOMA)
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(structrack)
     } else {
@@ -2295,6 +2375,18 @@ create.tracks.web <- function(config.var,gbl.var) {
       listtracks_gviz <- list(iscatrack)
     } else {
       listtracks_gviz <- c(listtracks_gviz,iscatrack)
+    }
+  }
+  
+  
+  #------ COSMIC
+  if(has.key("COSMIC",gbl.var$split.list.tracks) ){
+    cosmictrack <-COSMICTrack(config.var$GENOME,gbl.var$mydata.chr,
+                                    gbl.var$min.x,gbl.var$max.x,showId=FALSE)
+    if(length(listtracks_gviz) == 0) {
+      listtracks_gviz <- list(cosmictrack)
+    } else {
+      listtracks_gviz <- c(listtracks_gviz,cosmictrack)
     }
   }
   
@@ -2347,6 +2439,28 @@ create.tracks.web <- function(config.var,gbl.var) {
       listtracks_gviz <- list(geneRtrack)
     } else {
       listtracks_gviz <- c(listtracks_gviz,geneRtrack)
+    }
+  }
+  
+  #------ GC content
+  if(has.key("GCcontent",gbl.var$split.list.tracks) ){
+    gctrack <-gcContent(config.var$GENOME,gbl.var$mydata.chr,gbl.var$min.x,
+                                  gbl.var$max.x)
+    if(length(listtracks_gviz) == 0) {
+      listtracks_gviz <- list(gctrack)
+    } else {
+      listtracks_gviz <- c(listtracks_gviz,gctrack)
+    }
+  }
+  
+  #------ xeno ref
+  if(has.key("xenogenesUCSC",gbl.var$split.list.tracks) ){
+    gctrack <-xenorefGenesUCSC(config.var$GENOME,gbl.var$mydata.chr,gbl.var$min.x,
+                        gbl.var$max.x)
+    if(length(listtracks_gviz) == 0) {
+      listtracks_gviz <- list(gctrack)
+    } else {
+      listtracks_gviz <- c(listtracks_gviz,gctrack)
     }
   }
   

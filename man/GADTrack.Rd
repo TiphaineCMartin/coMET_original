@@ -54,10 +54,13 @@ Tiphaine Martin
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
+library("Gviz")
+gen2 <- "hg19"
+chrom2 <- "chr2"
+start2 <- 38290160
+end2 <- 38303219
+tmp<-GADTrack(gen=gen2 ,chr=chrom2 ,start=start2 ,end=end2)
+plotTracks(tmp) 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

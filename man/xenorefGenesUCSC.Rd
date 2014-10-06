@@ -1,24 +1,31 @@
-\name{draw.plot.annotation}
-\alias{draw.plot.annotation}
+\name{xenorefGenesUCSC}
+\alias{xenorefGenesUCSC}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Display the annotation track from ENSEMBL and UCSC
+Create track reference Genes from UCSC
 }
 \description{
-Display the annotation track from ENSEMBL and UCSC between the plot of
-pvalue and heatmap
+Create track reference Genes from UCSC
 }
 \usage{
-draw.plot.annotation(config.var, gbl.var)
+xenorefGenesUCSC(gen, chr, start, end,showId=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-\item{config.var}{
-list of all variables defined in configuration file or via options of
-comet function
+ \item{gen}{
+the name of genome
 }
-  \item{gbl.var}{
-list of internal variables
+  \item{chr}{
+the chromosome of interest
+}
+  \item{start}{
+the first position of region of interest (the smallest value)
+}
+  \item{end}{
+the last position of region of interest (the biggest value)
+}
+\item{showId}{
+Show Id of genetic elements
 }
 }
 \details{
@@ -47,13 +54,15 @@ Tiphaine Martin
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-
+library("Gviz")
+gen <- "hg19"
+chr <- "chr7"
+start <- 38290160
+end <- 38303219
+tmp<-xenorefGenesUCSC(gen,chr,start,end)
+plotTracks(tmp) 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ internal }
-\keyword{ method }% __ONLY ONE__ keyword per line
+\keyword{ ~kwd1 }
+\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

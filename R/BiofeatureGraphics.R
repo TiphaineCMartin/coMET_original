@@ -116,7 +116,6 @@ transcriptENSEMBL<-function(gen,chr,start,end,showId=FALSE){
                                       just.group = "above",showId=showId )
   
   #stacking="dense"
-  #showId=FALSE
   biomTrack
 }
 
@@ -370,7 +369,7 @@ knownGenesUCSC<-function(gen,chr,start,end){
 }
 
 #-------------------- CREATION track ref Genes from UCSC ------------------
-refGenesUCSC<-function(gen,chr,start,end,showId=FALSE){
+xenorefGenesUCSC<-function(gen,chr,start,end,showId=FALSE){
   if(is.null(chr)){
     stop("Invalid in function refGenesUCSC :chr null:\n")
   }
@@ -631,28 +630,6 @@ COSMICTrack <-function(gen,chr,start,end,showId=FALSE){
             stacking="squish", fill = "firebrick1", name = "COSMIC",showId=showId)
 }
 
-#-------------------- CREATION track raw COSMIC from UCSC ------------------
-COSMICRawTrack <-function(gen,chr,start,end,showId=FALSE){ 
-  if(is.null(chr)){
-    stop("Invalid in function COSMICRawUCSC:chr null:\n")
-  }
-  if(is.null(start)){
-    stop("Invalid in function COSMICRawUCSC :start null:\n")
-  }
-  if(is.null(end)){
-    stop("Invalid in function COSMICRawUCSC :end null:\n")
-  }
-  if(is.null(gen)){
-    stop("Invalid in function COSMICRawUCSC :gen null:\n")
-  }
-  
-  UcscTrack(genome = gen, chromosome = chr, from = start, to = end,
-            track="COSMIC", table="cosmicRaw", 
-            trackType = "AnnotationTrack", start = "chromStart", end = "chromEnd", 
-            id = "name", feature = "func", strand = "*", shape = "box", 
-            stacking="squish", fill = "darkorange1", name = "COSMIC",showId=showId)
-}
-
 #-------------------- CREATION track GAD from UCSC ------------------
 GADTrack <-function(gen,chr,start,end,showId=FALSE){ 
   if(is.null(chr)){
@@ -734,7 +711,7 @@ ISCATrack <-function(gen,chr,start,end,table,showId=FALSE){
     stop("Invalid in function ISCA:gen null:\n")
   }
   
-  if(is.null(table) & gen== "hg19"){
+  if((is.null(table) | ! exists(table))& gen== "hg19"){
     table="iscaCuratedBenign"
   }else if(is.null(table)){
     stop("Invalid in function ISCA:table null (possible table : iscaBenign

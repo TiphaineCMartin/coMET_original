@@ -239,9 +239,29 @@ Tiphaine Martin
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-%% ~~configfile <- "config_cyp1b1_zoom.txt" ~~~
-%% ~~comet.web(config.file=configfile) ~~~
+library(Gviz)
+extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
+configfile <- file.path(extdata, "config_cyp1b1_zoom_4comet.txt")
 
+chrom <- "chr2"
+start <- 38290160
+end <- 38303219
+gen <- "hg19"
+
+genetrack <-genesENSEMBL(gen,chrom,start,end,showId=FALSE)
+snptrack <- snpBiomart(chrom, start, end, 
+                       dataset="hsapiens_snp_som",showId=FALSE)
+strutrack <- structureBiomart(chrom, start, end, 
+                              strand, dataset="hsapiens_structvar_som")
+clinVariant<-ClinVarMainTrack(gen,chrom,start,end)
+clinCNV<-ClinVarCnvTrack(gen,chrom,start,end)
+gwastrack <-GWASTrack(gen,chrom,start,end)
+geneRtrack <-GeneReviewsTrack(gen,chrom,start,end)
+
+listgviz <- list(genetrack,snptrack,strutrack,clinVariant,
+                 clinCNV,gwastrack,geneRtrack)
+comet(config.file=configfile,TRACKS.GVIZ=listgviz, 
+      VERBOSE=FALSE, PRINT.IMAGE=FALSE,DISP.PVALUEPLOT=FALSE)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

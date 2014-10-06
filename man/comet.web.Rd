@@ -160,7 +160,8 @@ Tiphaine Martin
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-configfile <- "../inst/extdata/config_cyp1b1_zoom.txt" 
+extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
+configfile <- file.path(extdata, "config_cyp1b1_zoom.txt")
 comet.web(config.file=configfile,PRINT.IMAGE=FALSE,VERBOSE=FALSE)
 
 }

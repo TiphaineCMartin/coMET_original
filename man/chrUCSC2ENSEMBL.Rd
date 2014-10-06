@@ -45,12 +45,6 @@ Tiphaine Martin
 chr<-"chr7"
 chrUCSC2ENSEMBL(chr)
 
-
-## The function is currently defined as
-function (chr) 
-{
-    gsub("^chr", "", chr)
-  }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

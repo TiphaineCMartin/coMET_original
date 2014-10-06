@@ -38,7 +38,7 @@ options(replace.assign=TRUE,width=90)
 \newcommand{\RR}[0]{{\texttt{R}}}
 
 \title{The coMET User Guide}
-\author{Tiphaine Martin \footnote{tiphain.martin@kcl.ac.uk}, Idil Yet \footnote{idil.yet@kcl.ac.uk}, Pei-Chien Tsai \footnote{peichien.tsai@kcl.ac.uk}, Jordana T. Bell \footnote{jordana.bell@kcl.ac.uk}}
+\author{Tiphaine Martin \footnote{tiphaine.martin@kcl.ac.uk}, Idil Yet \footnote{idil.yet@kcl.ac.uk}, Pei-Chien Tsai \footnote{peichien.tsai@kcl.ac.uk}, Jordana T. Bell \footnote{jordana.bell@kcl.ac.uk}}
 \date{Edited: September 2014; Compiled: \today}
 
 \begin{document}
@@ -65,7 +65,7 @@ biocLite("coMET")
 @
 
 CoMET can be loaded into R using this command:
-<<dd,echo=FALSE>>=
+<<dd,echo=FALSE,eval=FALSE>>=
 require("hash")
 require("grid")
 require("grDevices")
@@ -76,16 +76,16 @@ require("rtracklayer")
 require("GenomicRanges")
 require("colortools")
 
-
-source("../R/AnalyseFile.R")
-source("../R/BiofeatureGraphics.R")
-source("../R/comet.R")
-source("../R/cometWeb.R")
-source("../R/DrawPlot.R")
-source("../R/GeneralMethodComet.R")
+rdir <- system.file("R", package="coMET",mustWork=TRUE)
+source(file.path(rdir, "AnalyseFile.R"))
+source(file.path(rdir, "BiofeatureGraphics.R"))
+source(file.path(rdir, "comet.R"))
+source(file.path(rdir, "cometWeb.R"))
+source(file.path(rdir, "DrawPlot.R"))
+source(file.path(rdir, "GeneralMethodComet.R"))
 @
 
-<<loadPackages, eval=FALSE>>=
+<<loadPackages, eval=TRUE>>=
 library(coMET)
 @
 

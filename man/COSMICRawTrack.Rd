@@ -57,7 +57,13 @@ Tiphaine Martin
 ##---- Should be DIRECTLY executable !! ----
 ##-- ==>  Define data, use random,
 ##--	or do  help(data=index)  for the standard data sets.
-
+library("Gviz")
+chrom <- "chr2"
+start <- 38290160
+end <- 38303219
+gen <- "hg19"
+cosmicVariant<-COSMICRawTrack(gen,chrom,start,end)
+plotTracks(cosmicVariant)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

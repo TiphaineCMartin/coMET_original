@@ -54,10 +54,13 @@ Tiphaine Martin
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
+library("Gviz")
+chrom <- "chr2"
+start <- 38290160
+end <- 38303219
+gen <- "hg19"
+clinCNV<-ClinVarCnvTrack(gen,chrom,start,end)
+plotTracks(clinCNV) 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

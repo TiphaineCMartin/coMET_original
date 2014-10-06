@@ -8,7 +8,7 @@ Get the genes in the genomic regions of interest
 Get the genes in the genomic regions of interest
 }
 \usage{
-genesENSEMBL(gen, chr, start, end, showId=TRUE)
+genesENSEMBL(gen, chr, start, end, showId=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -54,9 +54,13 @@ Tiphaine Martin
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
+library("Gviz")
+gen <- "hg19"
+chr <- "chr7"
+start <- 38290160
+end <- 38303219
+tmp<-genesENSEMBL(gen,chr,start,end)
+plotTracks(tmp) 
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

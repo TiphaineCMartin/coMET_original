@@ -56,7 +56,7 @@ Tiphaine Martin
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-require("Gviz")
+library("Gviz")
 gen <- "hg19"
 BROWSER.SESSION="UCSC"
 mySession <- browserSession(BROWSER.SESSION)

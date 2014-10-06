@@ -29,7 +29,7 @@ created as PDF,EPS files.
 A list containing two items: config.var and gbl.var, which includes the values of all significant variables used by coMET.
 }
 \author{
-Tiphaine Martin, Idil Erte, Pei-Chien Tsai, Jordana T. Bell
+Tiphaine Martin, Idil Yet, Pei-Chien Tsai, Jordana T. Bell
 
 Maintainer: Tiphaine Martin <tiphaine.martin@kcl.ac.uk>
 Website: http://www.epigen.kcl.ac.uk/comet

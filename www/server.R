@@ -26,66 +26,66 @@ options(shiny.maxRequestSize = 9*1024^2)
 shinyServer(function(input, output,session) {
   #### CREATE LIST OF ELEMENTS
   output$listCpG <- renderUI ({
-   inFile1 <- input$datafile
-       listCpG <- c("")
-     if (is.null(inFile1)) {
-        listCpG <- c("")
-        sizeListCpG <- length(listCpG) - 1
-       # print(sizeListCpG,digit= 10)
-
-     } else {
-       dataInput <- read.csv(inFile1$datapath, header = TRUE,
-             sep = "\t",quote="")
-       	listDI<-dataInput[,1]
-	listCpG <- sapply(listDI,as.character)
-       sizeListCpG <- length(listCpG) 
-       #print(sizeListCpG,digit=10);
-
-     }
-   selectInput("reflistCpG", paste ("among",sizeListCpG) , 
+    inFile1 <- input$datafile
+    listCpG <- c("")
+    if (is.null(inFile1)) {
+      listCpG <- c("")
+      sizeListCpG <- length(listCpG) - 1
+      # print(sizeListCpG,digit= 10)
+      
+    } else {
+      dataInput <- read.csv(inFile1$datapath, header = TRUE,
+                            sep = "\t",quote="")
+      listDI<-dataInput[,1]
+      listCpG <- sapply(listDI,as.character)
+      sizeListCpG <- length(listCpG) 
+      #print(sizeListCpG,digit=10);
+      
+    }
+    selectInput("reflistCpG", paste ("among",sizeListCpG) , 
                 choices = listCpG,selected = NULL,
-    		multiple = FALSE)
-
+                multiple = FALSE)
+    
   })  
-   
-   ## Start position
-   output$startCpG <- renderUI ({
-       inFile1 <- input$datafile
-       startCpG <- 1
-       if (is.null(inFile1)) {
-          p('Start position to visualise (nt):')
-       } else {
-         dataInput <- read.csv(inFile1$datapath, header = TRUE,
-             sep = "\t",quote="")
-          if (input$dataformat == 'REGION' | input$dataformat == 'REGION_ASSO') {
-              startCpG <- min(dataInput[,3])
-           } else  {
-              startCpG <- min(dataInput[,3])
-           }
-           numericInput("start", "Start position to visualise (nt):", startCpG)
-       } 
-       
+  
+  ## Start position
+  output$startCpG <- renderUI ({
+    inFile1 <- input$datafile
+    startCpG <- 1
+    if (is.null(inFile1)) {
+      p('Start position to visualise (nt):')
+    } else {
+      dataInput <- read.csv(inFile1$datapath, header = TRUE,
+                            sep = "\t",quote="")
+      if (input$dataformat == 'REGION' | input$dataformat == 'REGION_ASSO') {
+        startCpG <- min(dataInput[,3])
+      } else  {
+        startCpG <- min(dataInput[,3])
+      }
+      numericInput("start", "Start position to visualise (nt):", startCpG)
+    } 
+    
   })  
   
   ## Stop position
-   output$stopCpG <- renderUI ({
-       inFile1 <- input$datafile
-       stopCpG <- 1
-       if (is.null(inFile1)) {
-         p('Stop position to visualise (nt):')
-       } else {
-         dataInput <- read.csv(inFile1$datapath, header = TRUE,
-             sep = "\t",quote="")
-         if (input$dataformat == 'REGION' | input$dataformat == 'REGION_ASSO') {
-            stopCpG <- max(dataInput[,4])
-         } else  {
-            stopCpG <- max(dataInput[,3])
-         }
-         numericInput("stop", "Stop position to visualise (nt):", stopCpG)
-       }
-      
-   }) 
- 
+  output$stopCpG <- renderUI ({
+    inFile1 <- input$datafile
+    stopCpG <- 1
+    if (is.null(inFile1)) {
+      p('Stop position to visualise (nt):')
+    } else {
+      dataInput <- read.csv(inFile1$datapath, header = TRUE,
+                            sep = "\t",quote="")
+      if (input$dataformat == 'REGION' | input$dataformat == 'REGION_ASSO') {
+        stopCpG <- max(dataInput[,4])
+      } else  {
+        stopCpG <- max(dataInput[,3])
+      }
+      numericInput("stop", "Stop position to visualise (nt):", stopCpG)
+    }
+    
+  }) 
+  
   #### READ DIFFERENT FILES 
   ## DATASET
   output$table <- renderTable({
@@ -94,502 +94,502 @@ shinyServer(function(input, output,session) {
     # 'size', 'type', and 'datapath' columns. The 'datapath'
     # column will contain the local filenames where the data can
     # be found.
-
+    
     inFile <- input$datafile
-
+    
     if (is.null(inFile))
       return(NULL)
-
+    
     read.csv(inFile$datapath, header = TRUE,
              sep = "\t",quote="")
   })
-
-   ## INFO DATA for help
+  
+  ## INFO DATA for help
   output$infoHelp <- renderTable({
     infohelp <- "/var/shiny-server/www/coMET/cyp1b1info.txt" 
-
+    
     if (is.null(infohelp))
       return(NULL)
-
-   data_infohelp <-read.csv(infohelp, header = TRUE,
-             sep = "\t", quote = "")
-   data_infohelp[1:6,]
+    
+    data_infohelp <-read.csv(infohelp, header = TRUE,
+                             sep = "\t", quote = "")
+    data_infohelp[1:6,]
   })
   
   ## INFO DATA for help,region format
   output$infoRegionHelp <- renderTable({
     infohelp <- "/var/shiny-server/www/coMET/cyp1b1info_expr_reduce_region.txt" 
-
+    
     if (is.null(infohelp))
       return(NULL)
-
-   data_infohelp <-read.csv(infohelp, header = TRUE,
-             sep = "\t", quote = "")
-   data_infohelp
+    
+    data_infohelp <-read.csv(infohelp, header = TRUE,
+                             sep = "\t", quote = "")
+    data_infohelp
   })
-
-   ## CONFING FILE for help,region format
+  
+  ## CONFING FILE for help,region format
   output$configFileHelp <- renderTable({
     infohelp <- "/var/shiny-server/www/coMET/config_cyp1b1_zoom.txt" 
-
+    
     if (is.null(infohelp))
       return(NULL)
-
-   data_infohelp <-read.csv(infohelp, header = TRUE,
-             sep = "\t", quote = "")
-   data_infohelp
+    
+    data_infohelp <-read.csv(infohelp, header = TRUE,
+                             sep = "\t", quote = "")
+    data_infohelp
   })
-
+  
   ## CORRELATION MATRIX
   output$cortable <- renderTable({
     corinFile <- input$corfile
-
+    
     if (is.null(corinFile))
       return(NULL)
-
+    
     read.csv(corinFile$datapath, header = TRUE,
              sep = "\t", quote = "")
   })
-
-   ## CORRELATION MATRIX for help
+  
+  ## CORRELATION MATRIX for help
   output$corHelp <- renderTable({
     corhelp <- "/var/shiny-server/www/coMET/cyp1b1res_37.txt" 
-
+    
     if (is.null(corhelp))
       return(NULL)
-
-   data_corhelp <-read.csv(corhelp, header = TRUE,
-             sep = "\t", quote = "")
-   data_corhelp[1:6,1:6]
+    
+    data_corhelp <-read.csv(corhelp, header = TRUE,
+                            sep = "\t", quote = "")
+    data_corhelp[1:6,1:6]
   })
-
-
+  
+  
   ## EXTRA DATASET
   output$odatatable <- renderTable({
     oinFile <- input$datalargefile
-
+    
     if (is.null(oinFile))
       return(NULL)
-
+    
     read.csv(oinFile$datapath, header = TRUE,
              sep = "\t", quote = "")
   })
   
-   ## ANNOTATION DATA
-   output$annottable <- renderTable({
+  ## ANNOTATION DATA
+  output$annottable <- renderTable({
     annotinFile <- input$annotfile
-
+    
     if (is.null(annotinFile))
       return(NULL)
-
+    
     read.csv(annotinFile$datapath, header = TRUE,
              sep = "\t", quote = "")
   })
   
   ## CONFIGURATION DATA
-   output$configtable <- renderTable({
+  output$configtable <- renderTable({
     configdatainFile <- input$configfile
-
+    
     if (is.null(configdatainFile))
       return(NULL)
-
+    
     configdata<-read.csv(configdatainFile$datapath, header = FALSE,
-             sep = "=", quote = "")
+                         sep = "=", quote = "")
     colnames(configdata)<- c("Parameter","Value")
     configdata
   })
-
   
-   ##### DRAW THE PLOT
-   output$cometplot <- renderPlot(function() {
-        plotPrintInput()
-   })
-
-   cometplotPrint <- renderPrint({ plotPrintInput() })
-
-    plotPrintInput <- function() {
-
+  
+  ##### DRAW THE PLOT
+  output$cometplot <- renderPlot(function() {
+    plotPrintInput()
+  })
+  
+  cometplotPrint <- renderPrint({ plotPrintInput() })
+  
+  plotPrintInput <- function() {
+    
     datainFile <- input$datafile
     if (is.null(datainFile))
       return(NULL)
-
-     cordatainFile <- input$corfile
-     if (is.null(cordatainFile))
+    
+    cordatainFile <- input$corfile
+    if (is.null(cordatainFile))
       return(NULL)
-      
-     largedatainFile <- input$datalargefile
-      largedatainFilepath <- NULL
-     if (!is.null(largedatainFile)) 
-       largedatainFilepath <-  largedatainFile$datapath
-
-     annotdatainFile <- input$annotfile
-     annotdatainFilepath <- NULL
-     if (!is.null(annotdatainFile))
+    
+    largedatainFile <- input$datalargefile
+    largedatainFilepath <- NULL
+    if (!is.null(largedatainFile)) 
+      largedatainFilepath <-  largedatainFile$datapath
+    
+    annotdatainFile <- input$annotfile
+    annotdatainFilepath <- NULL
+    if (!is.null(annotdatainFile))
       annotdatainFilepath <- annotdatainFile$datapath
-      
+    
     configdatainFile <- input$configfile
-     
-     listTrack <- "geneENSEMBL,CGI,ChromHMM,DNAse,RegENSEMBL,SNP"
-     if (is.null(input$trackAnnot)){
-      	 listTrack <-"geneENSEMBL,CGI,ChromHMM,DNAse,RegENSEMBL,SNP"
-      } else if(!is.null(input$trackAnnot) & input$defineTrack){
-         listTrack<-paste(input$trackAnnot,collapse=',')
-     }
-     
-     dataformat <- NULL
-     if(!is.null(input$dataformat) & (input$defineParm))
-        dataformat <-input$dataformat
- 
-      dispAsso <- "FALSE"
-      if(!is.null(input$dispAsso) & (input$defineParm) & input$dispAsso)
-	 dispAsso <- "TRUE"
-
-      dispReg <- "FALSE"
-      if( !is.null(input$dispReg) & (input$defineParm) & input$dispReg)
-	 dispReg <- "TRUE"
     
-       datalab <- NULL
-       if(!is.null(input$datalabel) & (input$defineParm))
-	 datalab <- input$datalabel
-
-       datasymb <- NULL
-       if(!is.null(input$datasymb) & (input$defineParm))
-	 datasymb <- input$datasymb
-       
-        datacolor <- "red"
-        if(!is.null(input$datacolor) & (input$defineParm))
-          datacolor <- input$datacolor
-
-
-       datalargeformat <- NULL
-       if(!is.null(input$datalargeformat) & (input$defineextraParm))
-        datalargeformat <-input$datalargeformat
- 
-      displargeAsso <- "FALSE"
-      if(!is.null(input$dispAssolarge) & (input$defineextraParm) & input$dispAssolarge)
-	 displargeAsso <- "TRUE"
-
-      dispReglarge <- "FALSE"
-      if( !is.null(input$dispReglarge) & (input$defineextraParm) & input$dispReglarge)
-	 dispReglarge <- "TRUE"
-         disReglarge <- as.character(dispReglarge)
+    listTrack <- "geneENSEMBL,CGI,ChromHMM,DNAse,RegENSEMBL,SNP"
+    if (is.null(input$trackAnnot)){
+      listTrack <-"geneENSEMBL,CGI,ChromHMM,DNAse,RegENSEMBL,SNP"
+    } else if(!is.null(input$trackAnnot) & input$defineTrack){
+      listTrack<-paste(input$trackAnnot,collapse=',')
+    }
     
-       datalablarge <- NULL
-       if(!is.null(input$datalargelabel) & (input$defineextraParm))
-	 datalablarge <- input$datalargelabel
-
-       datalargesymb <- NULL
-       if(!is.null(input$datalargesymb) & (input$defineextraParm))
-	 datalargesymb <- input$datalargesymb
-       
-       datalargecolor <- "green"
-       if(!is.null(input$datalargecolor) & (input$defineextraParm))
-         datalargecolor <- input$datalargecolor
-
-       cormethod <- "spearman"
-       if(!is.null(input$cormethod) & (input$definecorParm))
-         cormethod <- input$cormethod
-
-       corformat <- "RAW"
-       if(!is.null(input$corformat) & (input$definecorParm))
-         corformat <- input$corformat
-
-       corcolor <- "bluewhitered"
-       if(!is.null(input$corcolor) & (input$definecorParm))
-         corcolor <- input$corcolor
-       
-       startCpG <- NULL
-       if(!is.null(input$startCpG) & (input$defineplotParm))
-         startCpG <- input$startCpG
-
-       stopCpG <- NULL
-       if(!is.null(input$stopCpG) & (input$defineplotParm))
-         stopCpG <- input$stopCpG
-
-       myrefCpG <- NULL
-       if(!is.null(input$reflistCpG) & (!(input$reflistCpG == "" )) & (input$defineplotParm) & input$refCpG)
-         myrefCpG <- as.character(input$reflistCpG)
- 
-       dispCpG <- "FALSE"
-       if(!is.null(input$refCpGcolor) & (input$defineplotParm) & input$refCpGcolor) 
-           dispCpG <- "TRUE"
-
-       if(!is.null(input$refCpGcolor) & (!input$defineplotParm)) 
-          dispCpG <- "TRUE"
-
-        
-	annotformat <- NULL
-        if(!is.null(input$annotformat) & input$annotformat != "NULL"
-		&(input$defineTrack))
-           annotformat <- as.character(input$annotformat)
-
-        annotplot <- NULL
-        if(!is.null(input$annotplot) & input$annotplot != "NULL"
-		& (input$defineTrack))
-           annotplot <- as.character(input$annotplot)
-        
-         imagetitle <- "coMET plot"
-         if(!is.null(input$imagetitle))
-            imagetitle <- as.character(input$imagetitle)
+    dataformat <- NULL
+    if(!is.null(input$dataformat) & (input$defineParm))
+      dataformat <-input$dataformat
+    
+    dispAsso <- "FALSE"
+    if(!is.null(input$dispAsso) & (input$defineParm) & input$dispAsso)
+      dispAsso <- "TRUE"
+    
+    dispReg <- "FALSE"
+    if( !is.null(input$dispReg) & (input$defineParm) & input$dispReg)
+      dispReg <- "TRUE"
+    
+    datalab <- NULL
+    if(!is.null(input$datalabel) & (input$defineParm))
+      datalab <- input$datalabel
+    
+    datasymb <- NULL
+    if(!is.null(input$datasymb) & (input$defineParm))
+      datasymb <- input$datasymb
+    
+    datacolor <- "red"
+    if(!is.null(input$datacolor) & (input$defineParm))
+      datacolor <- input$datacolor
+    
+    
+    datalargeformat <- NULL
+    if(!is.null(input$datalargeformat) & (input$defineextraParm))
+      datalargeformat <-input$datalargeformat
+    
+    displargeAsso <- "FALSE"
+    if(!is.null(input$dispAssolarge) & (input$defineextraParm) & input$dispAssolarge)
+      displargeAsso <- "TRUE"
+    
+    dispReglarge <- "FALSE"
+    if( !is.null(input$dispReglarge) & (input$defineextraParm) & input$dispReglarge)
+      dispReglarge <- "TRUE"
+    disReglarge <- as.character(dispReglarge)
+    
+    datalablarge <- NULL
+    if(!is.null(input$datalargelabel) & (input$defineextraParm))
+      datalablarge <- input$datalargelabel
+    
+    datalargesymb <- NULL
+    if(!is.null(input$datalargesymb) & (input$defineextraParm))
+      datalargesymb <- input$datalargesymb
+    
+    datalargecolor <- "green"
+    if(!is.null(input$datalargecolor) & (input$defineextraParm))
+      datalargecolor <- input$datalargecolor
+    
+    cormethod <- "spearman"
+    if(!is.null(input$cormethod) & (input$definecorParm))
+      cormethod <- input$cormethod
+    
+    corformat <- "RAW"
+    if(!is.null(input$corformat) & (input$definecorParm))
+      corformat <- input$corformat
+    
+    corcolor <- "bluewhitered"
+    if(!is.null(input$corcolor) & (input$definecorParm))
+      corcolor <- input$corcolor
+    
+    startCpG <- NULL
+    if(!is.null(input$startCpG) & (input$defineplotParm))
+      startCpG <- input$startCpG
+    
+    stopCpG <- NULL
+    if(!is.null(input$stopCpG) & (input$defineplotParm))
+      stopCpG <- input$stopCpG
+    
+    myrefCpG <- NULL
+    if(!is.null(input$reflistCpG) & (!(input$reflistCpG == "" )) & (input$defineplotParm) & input$refCpG)
+      myrefCpG <- as.character(input$reflistCpG)
+    
+    dispCpG <- "FALSE"
+    if(!is.null(input$refCpGcolor) & (input$defineplotParm) & input$refCpGcolor) 
+      dispCpG <- "TRUE"
+    
+    if(!is.null(input$refCpGcolor) & (!input$defineplotParm)) 
+      dispCpG <- "TRUE"
+    
+    
+    annotformat <- NULL
+    if(!is.null(input$annotformat) & input$annotformat != "NULL"
+       &(input$defineTrack))
+      annotformat <- as.character(input$annotformat)
+    
+    annotplot <- NULL
+    if(!is.null(input$annotplot) & input$annotplot != "NULL"
+       & (input$defineTrack))
+      annotplot <- as.character(input$annotplot)
+    
+    imagetitle <- "coMET plot"
+    if(!is.null(input$imagetitle))
+      imagetitle <- as.character(input$imagetitle)
     
     if (is.null(configdatainFile)) {
       #plot(1,2)
-       #comet.web(MYDATA.FILE=datainFile$datapath,MYDATA.FORMAT=as.character(input$dataformat))
+      #comet.web(MYDATA.FILE=datainFile$datapath,MYDATA.FORMAT=as.character(input$dataformat))
       comet.web(MYDATA.FILE=datainFile$datapath,MYDATA.FORMAT=dataformat,DISP.ASSOCIATION=dispAsso,DISP.REGION=dispReg, SAMPLE.LABELS=datalab, SYMBOLS=datasymb, COLOR.LIST=datacolor,CORMATRIX.FILE=cordatainFile$datapath,CORMATRIX.METHOD=cormethod, CORMATRIX.FORMAT=corformat,CORMATRIX.COLOR.SCHEME=corcolor,MYDATA.LARGE.FILE=largedatainFilepath,MYDATA.LARGE.FORMAT=datalargeformat,DISP.ASSOCIATION.LARGE=displargeAsso,DISP.REGION.LARGE=dispReglarge, SAMPLE.LABELS.LARGE=datalablarge, SYMBOLS.LARGE=datalargesymb, COLOR.LIST.LARGE=datalargecolor,START=startCpG,END=stopCpG,MYDATA.REF=myrefCpG,DISP.COLOR.REF=dispCpG,LIST.TRACKS=listTrack, BIOFEAT.USER.FILE=annotdatainFilepath, BIOFEAT.USER.TYPE=annotformat, BIOFEAT.USER.TYPE.PLOT=annotplot, IMAGE.TITLE=imagetitle, PRINT.IMAGE=FALSE, VERBOSE=TRUE)
     } else {
-    #plot(1,2)
+      #plot(1,2)
       #MYDATA.LARGE.FILE=largedatainFilepath,
       #configFile="/home/tmartin/git_iop/comet/Rpackage/comet/data/smoking/config_cyp1b1_zoom_local.txt"
       #comet.web(config.file=configFile,MYDATA.FILE=datainFile$datapath,CORMATRIX.FILE=cordatainFile$datapath, PRINT.IMAGE=FALSE)
-   
+      
       comet.web(config.file=configdatainFile$datapath, MYDATA.FILE=datainFile$datapath,CORMATRIX.FILE=cordatainFile$datapath, MYDATA.LARGE.FILE=largedatainFilepath, BIOFEAT.USER.FILE=annotdatainFilepath, PRINT.IMAGE=FALSE, VERBOSE=TRUE)
     }
-   
+    
   }
-   
-   output$downloadPlot <- downloadHandler(
+  
+  output$downloadPlot <- downloadHandler(
     
     filename = function() { paste(input$plotfilename, input$imageformat, sep='.') },
     content = function(filename) {
-   if(input$imageformat == "pdf"){
-     pdf(encoding = "ISOLatin1.enc",
-               file = filename,
-               onefile=FALSE,
-               width=as.numeric(input$imagesize),
-               height=as.numeric(input$imagesize),
-               paper="special")
-   } 
-   if(input$imageformat == "eps"){
-   	postscript(encoding = "ISOLatin1.enc",
-               file = filename,
-               horizontal=FALSE,
-               onefile=FALSE,
-               width=as.numeric(input$imagesize),
-               height=as.numeric(input$imagesize),
-               paper="special",
-               pagecentre=TRUE,
-               fonts=c("sans"))
-   }
-           cometplotPrint()
-     dev.off()
+      if(input$imageformat == "pdf"){
+        pdf(encoding = "ISOLatin1.enc",
+            file = filename,
+            onefile=FALSE,
+            width=as.numeric(input$imagesize),
+            height=as.numeric(input$imagesize),
+            paper="special")
+      } 
+      if(input$imageformat == "eps"){
+        postscript(encoding = "ISOLatin1.enc",
+                   file = filename,
+                   horizontal=FALSE,
+                   onefile=FALSE,
+                   width=as.numeric(input$imagesize),
+                   height=as.numeric(input$imagesize),
+                   paper="special",
+                   pagecentre=TRUE,
+                   fonts=c("sans"))
+      }
+      cometplotPrint()
+      dev.off()
     }
   ) 
-
- 
+  
+  
   observe({
-	if(input$goPlot) {
-           if(is.null(input$datafile)){
-                output$cometplotUI <- renderUI({
-	           h5("Need to upload data file",style = "color:red")
-                })
-            } else if (is.null(input$corfile)) {
-	        output$cometplotUI <- renderUI({
-	          h5("Need to upload correlation file",style = "color:red")
-                })
-            } else if (is.null(input$configfile) &&  ((input$defineParm == FALSE) || (input$definecorParm == FALSE) || (input$defineplotParm == FALSE))) {
-	        output$cometplotUI <- renderUI({
-	          h5("Need to upload configuration file to define parameters of data file, of correlation file and of plot or define from the website",style = "color:red")
-                })
-            } else {
-   		output$cometplotUI <- renderUI({
-              
-                    tagList(
-                        p('your plot is running, please wait....'),
-                        hr(),    
-       		        plotOutput("cometplot"),
-                        hr(),    
-       		        h5("Save your image"),
-       		        textInput('plotfilename', "Filename of your plot","coMET"),
-                        selectInput("imageformat", "Define the format of plot:" , 
-                		    choices = c("pdf","eps")),
-                        selectInput("imagesize", "Define the size of plot:" , 
-                		    choices = c("3.5","7")),
-       			downloadButton('downloadPlot', 'Download')
-     		   )
-   		})
-              }
-        }else {          output$cometplotUI <- renderUI({
-            h5("Need to upload different files, parameters, and to click on button that launch the plot",style = "color:red")
-          })
-        }
-   })
-
-
-#### PARAMETERS of coMET PLOT
+    if(input$goPlot) {
+      if(is.null(input$datafile)){
+        output$cometplotUI <- renderUI({
+          h5("Need to upload data file",style = "color:red")
+        })
+      } else if (is.null(input$corfile)) {
+        output$cometplotUI <- renderUI({
+          h5("Need to upload correlation file",style = "color:red")
+        })
+      } else if (is.null(input$configfile) &&  ((input$defineParm == FALSE) || (input$definecorParm == FALSE) || (input$defineplotParm == FALSE))) {
+        output$cometplotUI <- renderUI({
+          h5("Need to upload configuration file to define parameters of data file, of correlation file and of plot or define from the website",style = "color:red")
+        })
+      } else {
+        output$cometplotUI <- renderUI({
+          
+          tagList(
+            p('your plot is running, please wait....'),
+            hr(),    
+            plotOutput("cometplot"),
+            hr(),    
+            h5("Save your image"),
+            textInput('plotfilename', "Filename of your plot","coMET"),
+            selectInput("imageformat", "Define the format of plot:" , 
+                        choices = c("pdf","eps")),
+            selectInput("imagesize", "Define the size of plot:" , 
+                        choices = c("3.5","7")),
+            downloadButton('downloadPlot', 'Download')
+          )
+        })
+      }
+    }else {          output$cometplotUI <- renderUI({
+      h5("Need to upload different files, parameters, and to click on button that launch the plot",style = "color:red")
+    })
+    }
+  })
+  
+  
+  #### PARAMETERS of coMET PLOT
   output$configtableUI <- renderUI({
     tagList(
       h1('Parameters used in coMET plot'),
       h3('Parameters from web interface :'),
-     
-        #### List of parameters
-       h4('Info file :'),
-	p("Info File :",input$datafile),
+      
+      #### List of parameters
+      h4('Info file :'),
+      p("Info File :",input$datafile),
       
       if(!is.null(input$dataformat) & (input$defineParm))
-      p('Format of info file:',input$dataformat),
+        p('Format of info file:',input$dataformat),
       
       if(!is.null(input$dispAsso) & (input$defineParm) & input$dispAsso)
         p('Show association of info file:',input$dispAsso),
-
-	if(!is.null(input$dispAsso) & (input$defineParm) &  !input$dispAsso)
-	p('Show association of info file: FALSE'),
       
-     if( !is.null(input$dispReg) & (input$defineParm) & input$dispReg)
-      p('Show region of info file:',TRUE),
-
+      if(!is.null(input$dispAsso) & (input$defineParm) &  !input$dispAsso)
+        p('Show association of info file: FALSE'),
+      
+      if( !is.null(input$dispReg) & (input$defineParm) & input$dispReg)
+        p('Show region of info file:',TRUE),
+      
       if( !is.null(input$dispReg) & (input$defineParm) & !input$dispReg)
-      p('Show region of info file:',FALSE),
-    
+        p('Show region of info file:',FALSE),
+      
       if(!is.null(input$datalabel) & (input$defineParm))
-      p('Label of info file:',input$datalabel),
+        p('Label of info file:',input$datalabel),
       
       if(!is.null(input$datasymb) & (input$defineParm))
-      p('Symbol of info file:', input$datasymb),
+        p('Symbol of info file:', input$datasymb),
       
       if(!is.null(input$datacolor) & (input$defineParm))
-      p('Color of info file:', input$datacolor),
-        
-        ##Correlation
+        p('Color of info file:', input$datacolor),
+      
+      ##Correlation
       h4('Info file :'),
       p('Correlation File :', input$corfile),
       
       if(!is.null(input$cormethod) & (input$definecorParm))
-       p('Method of Correlation File:',input$cormethod),
+        p('Method of Correlation File:',input$cormethod),
       
       if(!is.null(input$corformat) & (input$definecorParm))
-      p('Format of Correlation File:',input$corformat),
+        p('Format of Correlation File:',input$corformat),
       
       if(!is.null(input$corcolor) & (input$definecorParm))
-      p('Color Correlation File:',input$corcolor),
+        p('Color Correlation File:',input$corcolor),
       
-        #Supplementary file
-       h4('Supplementary file :'),
+      #Supplementary file
+      h4('Supplementary file :'),
       if (!is.null(input$datalargefile)) 
         p('Supplementary File :',input$datalargefile),
-     
+      
       if(!is.null(input$datalargeformat) & (input$defineextraParm))
-      p('Format of supplementary file:',input$datalargeformat),
+        p('Format of supplementary file:',input$datalargeformat),
       
       if(!is.null(input$dispAssolarge) & (input$defineextraParm) & input$dispAssolarge)
-      p('Show association of supplementary file:',input$dispAssolarge),
+        p('Show association of supplementary file:',input$dispAssolarge),
       
       if( !is.null(input$dispReglarge) & (input$defineextraParm) & input$dispReglarge)
-     p('Show region of supplementary file:',input$dispReglarge),
+        p('Show region of supplementary file:',input$dispReglarge),
       
       if(!is.null(input$datalargelabel) & (input$defineextraParm))
-      p('Label of supplementary file:',input$datalargelabel),
-   
+        p('Label of supplementary file:',input$datalargelabel),
+      
       if(!is.null(input$datalargesymb) & (input$defineextraParm))
-      p('Symbole of supplementary file:',input$datalargesymb),
+        p('Symbole of supplementary file:',input$datalargesymb),
       
       if(!is.null(input$datalargecolor) & (input$defineextraParm))
-      p('Color of supplementary file:',input$datalargecolor),
-        
+        p('Color of supplementary file:',input$datalargecolor),
+      
       #Configuration
       h4('Configuration file :'),
       p('Configuration File :',input$configfile),
-       
-         if (is.null(input$trackAnnot))
-          p('list of tracks:geneENSEMBL,CGI,ChromHMM,DNAse,RegENSEMBL,SNP'),
-        if(!is.null(input$trackAnnot) & input$defineTrack)
-          p('list of tracks:',paste(input$trackAnnot,collapse=',')),
-        
-        if(!is.null(input$startCpG) & (input$defineplotParm))
+      
+      if (is.null(input$trackAnnot))
+        p('list of tracks:geneENSEMBL,CGI,ChromHMM,DNAse,RegENSEMBL,SNP'),
+      if(!is.null(input$trackAnnot) & input$defineTrack)
+        p('list of tracks:',paste(input$trackAnnot,collapse=',')),
+      
+      if(!is.null(input$startCpG) & (input$defineplotParm))
         p('Start of genomic region :',input$startCpG),
-        
-        if(!is.null(input$stopCpG) & (input$defineplotParm))
-         p('Stop of genomic region :',input$stopCpG),
-        
-        if(!is.null(input$reflistCpG) & (!(input$reflistCpG == "" )) & (input$defineplotParm) & input$refCpG)
-         p('Name of reference element:',as.character(input$reflistCpG)),
-        
-        if(!is.null(input$refCpGcolor) & (input$defineplotParm) & input$refCpGcolor) 
+      
+      if(!is.null(input$stopCpG) & (input$defineplotParm))
+        p('Stop of genomic region :',input$stopCpG),
+      
+      if(!is.null(input$reflistCpG) & (!(input$reflistCpG == "" )) & (input$defineplotParm) & input$refCpG)
+        p('Name of reference element:',as.character(input$reflistCpG)),
+      
+      if(!is.null(input$refCpGcolor) & (input$defineplotParm) & input$refCpGcolor) 
         p('Show reference element:',input$refCpGcolor),
-        if(!is.null(input$refCpGcolor) & (!input$defineplotParm))
-      p('Show reference element:',input$refCpGcolor),
+      if(!is.null(input$refCpGcolor) & (!input$defineplotParm))
+        p('Show reference element:',input$refCpGcolor),
       
       #Annotation
       h4('user file for annotation :'),
       if (!is.null(input$annotfile))
-      p('Annotation File :',input$annotfile),
-        
+        p('Annotation File :',input$annotfile),
+      
       if(!is.null(input$annotformat) & (input$defineTrack))
-      p('Format of annotation file :',as.character(input$annotformat)),
-        
+        p('Format of annotation file :',as.character(input$annotformat)),
+      
       if(!is.null(input$annotplot) & (input$defineTrack))
-      p('Type of plot :',as.character(input$annotplot)),
-        
+        p('Type of plot :',as.character(input$annotplot)),
+      
       if(!is.null(input$imagetitle))
-      p('Title of plot :',as.character(input$imagetitle)),
+        p('Title of plot :',as.character(input$imagetitle)),
       ####
       
       h3('Parametres from configuration file'),
       tableOutput("configtable")
     )
   })
-
   
-   ##### EXPLANATIONS ABOUT COMET
-    output$home <- renderUI({
-      tagList(
-        h1('Welcome to coMET'),
-        h3('Overview'),
-        p('The coMET package is a web-based plotting tool and R-based package to visualize different genome-wide association scans such as EWAS (epigenome-wide association scan) results in a genomic region of interest. coMET provides a plot of the EWAS association signal and visualisation of the methylation correlation between CpG sites (co-methylation). The coMET package also provides the option to annotate the region using functional genomic information, including both user-defined features and pre-selected features based on the ',
-      a(href = 'http://genome.ucsc.edu/ENCODE/', 'Encode'),  
-      'project. The plot can be customized with different parameters, such as plot labels, colours, symbols, heatmap colour scheme, significance thresholds, and including reference CpG sites. Finally, the tool can also be applied to display the correlation patterns of other genomic data, e.g. gene expression array data.'
-        ),
-        h3('coMET webservice'),
-        p('The webservice is the pre-formated web service of coMET with a reduction of parameters availlable.'),
-         h3('Developpers'),
-        p('coMET is developed by Tiphaine C. Martin in collaboration with Idil Erte, Pei-Chien Tsai, Jordana T.Bell, Department of Twin Research, Kings College London.'),
-         h3('Cite'),
-         p('Martin, T.C, Erte, I, Tsai, P-C, Bell, J.T.,coMET: an R plotting package to visualize regional plots of epigenome-wide association scan results, QC14, 2014.'),
-         h3('Contacts'),
-        p('For any question, you can send an email to',
+  
+  ##### EXPLANATIONS ABOUT COMET
+  output$home <- renderUI({
+    tagList(
+      h1('Welcome to coMET'),
+      h3('Overview'),
+      p('The coMET package is a web-based plotting tool and R-based package to visualize different genome-wide association scans such as EWAS (epigenome-wide association scan) results in a genomic region of interest. coMET provides a plot of the EWAS association signal and visualisation of the methylation correlation between CpG sites (co-methylation). The coMET package also provides the option to annotate the region using functional genomic information, including both user-defined features and pre-selected features based on the ',
+        a(href = 'http://genome.ucsc.edu/ENCODE/', 'Encode'),  
+        'project. The plot can be customized with different parameters, such as plot labels, colours, symbols, heatmap colour scheme, significance thresholds, and including reference CpG sites. Finally, the tool can also be applied to display the correlation patterns of other genomic data, e.g. gene expression array data.'
+      ),
+      h3('coMET webservice'),
+      p('The webservice is the pre-formated web service of coMET with a reduction of parameters availlable.'),
+      h3('Developpers'),
+      p('coMET is developed by Tiphaine C. Martin in collaboration with Idil Erte, Pei-Chien Tsai, Jordana T.Bell, Department of Twin Research, Kings College London.'),
+      h3('Cite'),
+      p('Martin, T.C, Erte, I, Tsai, P-C, Bell, J.T.,coMET: an R plotting package to visualize regional plots of epigenome-wide association scan results, QC14, 2014.'),
+      h3('Contacts'),
+      p('For any question, you can send an email to',
         a(href='mailto:tiphaine.martin@kcl.ac.uk;jordana.bell@kcl.ac.uk?Subject=CoMET', 'Tiphaine Martin and Jordana Bell')),
-        h3('More information'),
-        p('Go to the website',
+      h3('More information'),
+      p('Go to the website',
         a(href='http://epigen.kcl.ac.uk/comet', ' Department of Twin Research')),
-        h3('Download'),
-        p('Want to download the R package :',
+      h3('Download'),
+      p('Want to download the R package :',
         a(href='http://epigen.kcl.ac.uk/comet', ' Department of Twin Research'))
-      )
-        
+    )
+    
   })
-
-   output$help <- renderUI({
-      tagList(
-        h1('Welcome to coMET help'),
-        h3('Format of info file(mandatory):'),
-	p('Info file can be a list of CpG sites with/without Beta(or direction sign). If it is a site file then it is mandatory to have the 4 columns as shown below with headers in the same order. Beta can be the 5th column(optional).'),  
-        tableOutput("infoHelp"),
-
-	 p('Also it can be region with/without an end start of the base pair. If it is a region file then it is mandatory to have the 5 columns below with headers in this order. Beta can be the 6th column(optional).'),
-
-         tableOutput("infoRegionHelp"),
-
-	 h3('Format of correlation matrix(mandatory):'),
-	 p('The data can be either pre-calculated correlation matrix or raw data. If it is a raw data then you can select the type of correlation method (spearman ,kendall or pearson). '),
-	 tableOutput("corHelp"),
-
-	 h3('Format of extra info file:'),
-	 p('This can be another type of info file (e.g Expression data or replication data) and it follows the same rules than the info file.'),
-
-	 h3('Format of annotation file'),
-	 p('format accepted by GViz such as BED, GTF, and GFF3 format'),
-
-	 h3('Option of config.file'),
-	 p('If you would like to make your own changes to the plot you can download the configuration file from this site. After you make the relative changes you can upload it to the server again and plot.'),
-         tableOutput("configFileHelp"),
-   
- 
-        hr(),
-        h3('Option of comet.web'),
-        ?comet.web
-     )
-  })
-
   
-
-
+  output$help <- renderUI({
+    tagList(
+      h1('Welcome to coMET help'),
+      h3('Format of info file(mandatory):'),
+      p('Info file can be a list of CpG sites with/without Beta(or direction sign). If it is a site file then it is mandatory to have the 4 columns as shown below with headers in the same order. Beta can be the 5th column(optional).'),  
+      tableOutput("infoHelp"),
+      
+      p('Also it can be region with/without an end start of the base pair. If it is a region file then it is mandatory to have the 5 columns below with headers in this order. Beta can be the 6th column(optional).'),
+      
+      tableOutput("infoRegionHelp"),
+      
+      h3('Format of correlation matrix(mandatory):'),
+      p('The data can be either pre-calculated correlation matrix or raw data. If it is a raw data then you can select the type of correlation method (spearman ,kendall or pearson). '),
+      tableOutput("corHelp"),
+      
+      h3('Format of extra info file:'),
+      p('This can be another type of info file (e.g Expression data or replication data) and it follows the same rules than the info file.'),
+      
+      h3('Format of annotation file'),
+      p('format accepted by GViz such as BED, GTF, and GFF3 format'),
+      
+      h3('Option of config.file'),
+      p('If you would like to make your own changes to the plot you can download the configuration file from this site. After you make the relative changes you can upload it to the server again and plot.'),
+      tableOutput("configFileHelp"),
+      
+      
+      hr(),
+      h3('Option of comet.web'),
+      ?comet.web
+    )
+  })
+  
+  
+  
+  
 })

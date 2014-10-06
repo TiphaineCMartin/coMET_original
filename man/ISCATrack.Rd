@@ -25,7 +25,7 @@ the first position of region of interest (the smallest value)
 the last position of region of interest (the biggest value)
 }
   \item{table}{
-A table of ISCAT
+A table of ISCAT : iscaBenign, iscaCuratedBenign, iscaCuratedPathogenic, iscaLikelyBenign, iscaLikelyPathogenic, iscaPathGainCum, iscaPathLossCum, iscaPathogenic, iscaUncertain
 }
  \item{showId}{
 Show Id of genetic elements
@@ -57,10 +57,13 @@ Tiphaine Martin
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
+library("Gviz")
+gen <- "hg19"
+chr <- "chr7"
+start <- 38290160
+end <- 38303219
+tmp<-ISCATrack(gen,chr,start,end,"iscaPathGainCum")
+plotTracks(tmp)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

@@ -16,7 +16,7 @@ Version: \tab 0.99.0\cr
 Date: \tab 2014-09-26\cr
 License: \tab GPL (>=2)\cr
 }
-coMET package that can generate the regional plot capturing the features of co-methylation patterns, EWAS results, and genomic information. A coMET figure includes plot of p-value from the EWAS result, provides customized annotation tracks, and a triangle heatmap plot which demonstrates the correlation structure of CpG sites in a genomic region, calculated by the pairwise Spearman’s rank correlation method.Plots are created as PDF,EPS files.
+coMET package that can generate the regional plot capturing the features of co-methylation patterns, EWAS results, and genomic information. A coMET figure includes plot of p-value from the EWAS result, provides customized annotation tracks, and a triangle heatmap plot which demonstrates the correlation structure of CpG sites in a genomic region, calculated by the pairwise Spearman s rank correlation method.Plots are created as PDF,EPS files.
 
 A list containing two items: config.var and gbl.var, which includes the values of all significant variables used by coMET.
 }
