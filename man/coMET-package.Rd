@@ -21,20 +21,17 @@ coMET package that can generate the regional plot capturing the features of co-m
 A list containing two items: config.var and gbl.var, which includes the values of all significant variables used by coMET.
 }
 \author{
-Tiphaine Martin, Idil Erte, Pei-Chien Tsai, Jordana T. Bell
+Tiphaine C. Martin, Idil Yet, Pei-Chien Tsai, Jordana T. Bell
 
 Maintainer: Tiphaine Martin <tiphaine.martin@kcl.ac.uk>
 Website: http://www.epigen.kcl.ac.uk/comet
 }
 \references{
-~~ Literature or other references for background information ~~
+Martin, T.C, Erte, I, Tsai, P-C, Bell, J.T.,coMET: an R plotting package to visualize regional plots of epigenome-wide association scan results, QG14, 2014.
 }
 \keyword{ package }
 \seealso{
-~~ Optionally other standard keywords, one per line, from file KEYWORDS in the R ~~
-~~ documentation directory ~~
-~~ Optional links to other man pages, e.g. ~~
-~~ \code{\link[<coMET>:<coMET>-package]{<coMET>}} ~~
+ \code{\link[<coMET>:<coMET>-package]{<coMET>}}
 }
 \examples{
 library(coMET)

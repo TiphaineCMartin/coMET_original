@@ -2,13 +2,13 @@
 \alias{ISCATrack}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Get the genomic positions of variants in ISCA
+Create one track of the genomic positions of variants from ISCA
 }
 \description{
-Get the genomic positions of variants from International Standards for Cytogenomic Arrays (ISCA) Consortium
+Create one track of the genomic positions of variants from International Standards for Cytogenomic Arrays (ISCA) Consortium  in using the Gviz bioconductor package
 }
 \usage{
-ISCATrack(gen, chr, start, end, table, showId=FALSE)
+ISCATrack(gen, chr, start, end, mySession, table.name, showId=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -24,7 +24,10 @@ the first position of region of interest (the smallest value)
   \item{end}{
 the last position of region of interest (the biggest value)
 }
-  \item{table}{
+ \item{mySession}{
+the object session from the function browserSession of rtracklayer
+}
+  \item{table.name}{
 A table of ISCAT : iscaBenign, iscaCuratedBenign, iscaCuratedPathogenic, iscaLikelyBenign, iscaLikelyPathogenic, iscaPathGainCum, iscaPathLossCum, iscaPathogenic, iscaUncertain
 }
  \item{showId}{
@@ -35,11 +38,7 @@ Show Id of genetic elements
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+An UcscTrack object of Gviz
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -59,13 +58,15 @@ Tiphaine Martin
 \examples{
 library("Gviz")
 gen <- "hg19"
-chr <- "chr7"
-start <- 38290160
-end <- 38303219
-tmp<-ISCATrack(gen,chr,start,end,"iscaPathGainCum")
-plotTracks(tmp)
+chr <- "chr2"
+start <- 38292433
+end <- 38305492
+BROWSER.SESSION="UCSC"
+mySession <- browserSession(BROWSER.SESSION)
+genome(mySession) <- gen
+tmp<-ISCATrack(gen,chr,start,end,mySession,"iscaPathogenic")
+plotTracks(tmp, from = start, to =end)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ hplot }

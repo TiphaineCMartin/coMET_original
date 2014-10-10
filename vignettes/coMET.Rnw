@@ -3,11 +3,12 @@
 %\VignetteKeywords{Software, Visualization, GenomeAnnotation, GeneRegulation, GenomicVariation, DNAMethylation, SNP, GeneExpression }
 %\VignettePackage{coMET}
 %\VignetteEngine{knitr::knitr}
+
 \documentclass[11pt]{article}
 
 % A bunch of styles and package requirements for the Bioconductor vignette branding
 <<style, eval=TRUE, echo=FALSE,results="asis">>=
-#require("BiocStyle")
+#library("BiocStyle")
 BiocStyle::latex()
 @
 
@@ -46,6 +47,10 @@ options(replace.assign=TRUE,width=90)
 \maketitle
 
 \section{Citation}
+<<citatation>>=
+citation(package='coMET')
+@
+
 \clearpage
 
 \tableofcontents
@@ -55,9 +60,17 @@ options(replace.assign=TRUE,width=90)
 \section{Introduction}
 The CoMET package is a web-based plotting tool and R-based package to visualize EWAS (epigenome-wide association scan) results in a genomic region of interest. CoMET provides a plot of the EWAS association signal and visualisation of the methylation correlation between CpG sites (co-methylation). The CoMET package also provides the option to annotate the region using functional genomic information, including both user-defined features and pre-selected features based on the Encode project. The plot can be customized with different parameters, such as plot labels, colours, symbols, heatmap colour scheme, significance thresholds, and including reference CpG sites. Finally, the tool can also be applied to display the correlation patterns of other genomic data, e.g. gene expression array data.
 
+coMET generates a multi-panel plot to visualize EWAS results, co-methylation patterns, and annotation tracks in a genomic region of interest. A coMET figure (cf. Fig. 1) includes three components: 
+\begin{enumerate}
+  \item the upper plot shows the strength and extent of EWAS association signal;
+  \item the middle panel provides customized annotation tracks;
+  \item the lower panel shows the correlation between selected CpG sites in the genomic region.
+\end{enumerate}
+The structure of the plots builds on snp.plotter (Luna et al., 2007), with extensions to incorporate genomic annotation tracks and customized functions. coMET produces plots in PDF and Encapsulated Postscript (EPS) format.
+
 
 \section{Usage}
-CoMET requires the installation of R, the statistical computing software, freely available for Linux, Windows, or MacOS.CoMET can be downloaded from bioconductor. Packages can be installed using the install.packages command in R.  The coMET R package includes two major functions comet.web and comet. the function ’comet.web’ generates output plot with the same settings of genomic annotation tracks as that of the webservice (http://www.epigen.kcl.ac.uk/comet). the function ’comet’ generates output plots with the customized annotation tracks defined by user. 
+CoMET requires the installation of R, the statistical computing software, freely available for Linux, Windows, or MacOS.CoMET can be downloaded from bioconductor. Packages can be installed using the install.packages command in R.  The coMET R package includes two major functions \emph{comet.web} and \emph{comet}. the function \emph{comet.web} generates output plot with the same settings of genomic annotation tracks as that of the webservice ( http://comet.epigen.kcl.ac.uk:3838/coMET/ or http://www.epigen.kcl.ac.uk/comet). the function \emph{comet} generates output plots with the customized annotation tracks defined by user. 
 
 <<installPackages,eval=FALSE>>=
 source("http://bioconductor.org/biocLite.R")
@@ -89,7 +102,7 @@ source(file.path(rdir, "GeneralMethodComet.R"))
 library(coMET)
 @
 
-The configuration file ammends the options for the plot to be produced from comet. Example configuration and input files are also provided in the webervice(http://www.epigen.kcl.ac.uk/comet and http://comet.epigen.kcl.ac.uk:3838/coMET/). Information about the package can viewed from within R using this command.
+The configuration file ammends the options for the plot to be produced from comet. Example configuration and input files are also provided in the webervice (http://comet.epigen.kcl.ac.uk:3838/coMET/ and http://www.epigen.kcl.ac.uk/comet). Information about the package can viewed from within R using this command.
 
 <<findHel, eval=FALSE>>=
 ?comet
@@ -157,11 +170,35 @@ This can be another type of info file (e.g Expression data or replication data) 
 
 \subsection{Format of annotation file}
 
-format accepted by GViz such as BED, GTF, and GFF3 format
+format accepted by Gviz such as BED, GTF, and GFF3 format
 
 \subsection{Option of config.file}
 
 If you would like to make your own changes to the plot you can download the configuration file from this site. After you make the relative changes you can upload it to the server again and plot.
+
+ The important options of a coMET figure includes three components: 
+\begin{enumerate}
+  \item the upper plot shows the strength and extent of EWAS association signal;
+   \begin{itemize}
+      \item PVAL.THRESHOLD : Threshold of the significance that is displayed as a red dash line
+      \item DISP.ASSOCIATION : Optional works only if MYDATA.FILE= SITE\_ASSOC or REGION\_ASSOC and so the file contains the effect directions. If it is FALSE (the default), the co-methylation pattern related to reference genomic reference (defined by the option MYDATA.REF) is shown in p-value plot; if it is True, the effect directions is shown on the plot
+      \item DISP.REGION : Optional works only if MYDATA.FILE= REGION or REGION\_ASSOC. If it is TRUE, the region of genomic element will be shown by a continuous line with the color of  genomic element, in addition to a symbole in center of region.
+  \end{itemize}
+  
+  \item the middle panel provides customized annotation tracks;
+     \begin{itemize}
+     \item LIST.TRACKS (for \emph{comet.web} function): List of annotation tracks that is able to visualise  visualise :geneENSEMBL, CGI, ChromHMM, DNAse, RegENSEMBL, SNP, transcriptENSEMBL, SNPstoma, SNPstru, SNPstrustoma, ISCA, COSMIC, GAD, ClinVar, GeneReviews, GWAS, ClinVarCNV, GCcontent, genesUCSC, xenogenesUCSC. 
+     \item TRACKS.GVIZ, TRACKS.GGBIO, TRACKS.TRACKVIEWER (for \emph{comet} function): For each option, it is possible to give a list of annotation tracks that is created by Gviz, GGBio, TrackViewer bioconductor package.
+     \end{itemize}
+
+  \item the lower panel shows the correlation between selected CpG sites in the genomic region.
+    \begin{itemize}
+      \item CORMATRIX.FORMAT : Format of the input CORMATRIX.FILE: either raw data (option RAW) or correlation matrix (option CORMATRIX) 
+      \item CORMATRIX.METHOD : If data are raw, it will be necessary to produce the correlation matrix being able to use 3 methods (spearman, pearson and kendall).
+      \item CORMATRIX.COLOR.SCHEME : There are 5 colors (heat, bluewhitered, cm, topo, gray, bluetored)
+   \end{itemize}
+
+\end{enumerate}
 
 <<configMatrix>>=
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
@@ -173,7 +210,7 @@ data_config
 @
 
 \section{Creation plot like webservice:}
-It is possible to use simply the creation of plot with the function comet.web
+It is possible to use simply the creation of plot with the function comet.web, for example the figure \ref{fig:cometweb_simple}.
 
 <<cometwebPlotText, eval=FALSE, fig.keep='last' >>=
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
@@ -194,7 +231,7 @@ comet.web(config.file=configfile,PRINT.IMAGE=FALSE,VERBOSE=FALSE)
 
 \section{Creation plot with the generic function: comet}
 It is possible to create the annotation tracks by Gviz, trackviewer or ggbio.
-Currently, the combinaison of annotation tracks from Gviz with the heatmap of correlation between genetics elements is better plot in coMET.
+Currently, the combinaison of annotation tracks from Gviz with the heatmap of correlation between genetics elements is better plot in coMET, for example the figure \ref{fig:cometPlot}.
 
 \subsection{coMET plot: pvalue plot, annotation tracks, and correlation matrice}
 <<cometPlotText, eval=FALSE, fig.keep='last' >>=
@@ -206,6 +243,7 @@ chrom <- "chr2"
 start <- 38290160
 end <- 38303219
 gen <- "hg19"
+strant <- "*"
 
 genetrack <-genesENSEMBL(gen,chrom,start,end,showId=FALSE)
 snptrack <- snpBiomart(chrom, start, end, dataset="hsapiens_snp_som",showId=FALSE)
@@ -228,12 +266,17 @@ chrom <- "chr2"
 start <- 38290160
 end <- 38303219
 gen <- "hg19"
+strant <- "*"
+
+BROWSER.SESSION="UCSC"
+mySession <- browserSession(BROWSER.SESSION)
+genome(mySession) <- gen
 
 genetrack <-genesENSEMBL(gen,chrom,start,end,showId=FALSE)
 snptrack <- snpBiomart(chrom, start, end, dataset="hsapiens_snp_som",showId=FALSE)
 strutrack <- structureBiomart(chrom, start, end, strand,
                               dataset="hsapiens_structvar_som",showId=FALSE)
-iscatrack <-ISCATrack(gen,chrom,start,end,table="iscaPathogenic")
+iscatrack <-ISCATrack(gen,chrom,start,end,mySession, table="iscaPathogenic")
 
 listgviz <- list(genetrack,snptrack,iscatrack)
 comet(config.file=configfile,TRACKS.GVIZ=listgviz, 
@@ -244,7 +287,7 @@ comet(config.file=configfile,TRACKS.GVIZ=listgviz,
 
 \subsection{coMET plot: annotation tracks and correlation matrice}  
 It is possible to visualise only annotation tracks and the correlation between genetic elements.
-In this case, we need to use the option \texttt{DISP.PVALUEPLOT=FALSE}
+In this case, we need to use the option \texttt{DISP.PVALUEPLOT=FALSE}, for example the figure \ref{fig:cometPlot_nopval}.
 
 <<cometPlotNopvalText, eval=FALSE, fig.keep='last' >>=
 library(Gviz)

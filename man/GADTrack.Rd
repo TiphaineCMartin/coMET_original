@@ -2,10 +2,10 @@
 \alias{GADTrack}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Get the genomic positions of variants of Genetic Association Database (GAD) 
+Create one track of the genomic positions of variants from Genetic Association Database (GAD) 
 }
 \description{
-Get the genomic positions of variants of Genetic Association Database (GAD) (archive of human genetic association studies of complex diseases and disorders)
+Create one track of the genomic positions of variants from Genetic Association Database (GAD) (archive of human genetic association studies of complex diseases and disorders) in using the Gviz bioconductor package
 }
 \usage{
 GADTrack(gen, chr, start, end, showId=FALSE)
@@ -32,11 +32,7 @@ Show Id of genetic elements
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+An UcscTrack object of Gviz
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -60,9 +56,8 @@ chrom2 <- "chr2"
 start2 <- 38290160
 end2 <- 38303219
 tmp<-GADTrack(gen=gen2 ,chr=chrom2 ,start=start2 ,end=end2)
-plotTracks(tmp) 
+plotTracks(tmp, from = start2, to =end2) 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ hplot }

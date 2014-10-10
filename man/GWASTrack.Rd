@@ -2,10 +2,10 @@
 \alias{GWASTrack}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Get the genomic positions of variants in GWAS catalog
+Create one track of the genomic positions of variants from GWAS catalog
 }
 \description{
-Get the genomic positions of variants in NHGRI Catalog of Published Genome-Wide Association Studies
+Create one track of the genomic positions of variants from NHGRI Catalog of Published Genome-Wide Association Studies in using the Gviz bioconductor package
 }
 \usage{
 GWASTrack(gen, chr, start, end, showId=FALSE)
@@ -32,11 +32,7 @@ Show Id of genetic elements
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+An UcscTrack object of Gviz
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -56,13 +52,12 @@ Tiphaine Martin
 \examples{
 library("Gviz")
 gen <- "hg19"
-chr <- "chr7"
-start <- 38290160
-end <- 38303219
+chr <- "chr2"
+start <- 37949607
+end <- 37965207
 tmp<-GWASTrack(gen,chr,start,end)
-plotTracks(tmp) 
+plotTracks(tmp, from = start, to =end) 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ hplot }

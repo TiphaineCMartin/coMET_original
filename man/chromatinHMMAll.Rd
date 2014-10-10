@@ -2,7 +2,7 @@
 \alias{chromatinHMMAll}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Create multiple chromaHMM Broad tracks from UCSC's genome browser
+Create multiple chromaHMM Broad tracks from UCSC's genome browser 
 }
 \description{
 Create multiple chromaHMM Broad tracks from a connection to UCSC genome browser in using the GViz bioconductor package
@@ -42,7 +42,7 @@ the name of table from the track
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-An AnnotationTrack object of GViz
+ list of AnnotationTrack objects of GViz
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -76,10 +76,10 @@ tmp<-chromatinHMMAll(gen,chr,start,end,mySession,track.name,PATTERN.REGULATION)
 plotTracks(tmp)
 
 tmp<-chromatinHMMAll(gen,chr,start,end,mySession,track.name)
-plotTracks(tmp)
+plotTracks(tmp, from = start, to =end)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ hplot }
+

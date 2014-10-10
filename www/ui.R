@@ -9,6 +9,8 @@ shinyUI(fluidPage(
     sidebarPanel(
       h5("Info file",style = "color:red"),
       p(span("You need to load a file", style = "color:red")),
+      p("Example file:",a(href="http://comet.epigen.kcl.ac.uk:3838/cyp1b1_infofile.txt", "cyp1b1_infofile.txt", target="_blank")),
+   
       fileInput('datafile', 'Choose info file to upload (mandatory) :',
                 accept=c('text/csv', 
                          'text/comma-separated-values,
@@ -45,6 +47,7 @@ shinyUI(fluidPage(
       hr(),
       h5("Correlation matrix or Raw data",style = "color:red"),
       p(span("You need to load a file", style = "color:red")),
+      p("Example file:",a(href="http://comet.epigen.kcl.ac.uk:3838/cyp1b1_res37_rawMatrix.txt", "cyp1b1_res37_rawMatrix.txt", target="_blank")),
       fileInput('corfile', 'Choose raw or correlation file to upload (mandatory):',
                 accept=c('text/csv', 
                          'text/comma-separated-values,
@@ -64,8 +67,9 @@ shinyUI(fluidPage(
                                                     c(
                                                       "Spearman" = "spearman",
                                                       "Pearson" = "pearson",
-                                                      "Kendall" = "kendall")),
-                                        selectInput("corcolor", "Define the color scheme of correlation matrix:",
+                                                      "Kendall" = "kendall"))
+                       ),
+			selectInput("corcolor", "Define the color scheme of correlation matrix:",
                                                     c(
                                                       "Blue to Red via white" = "bluewhitered",
                                                       "Heat" = "heat",
@@ -73,12 +77,14 @@ shinyUI(fluidPage(
                                                       "topo" = "topo",
                                                       "Gray" = "gray",
                                                       "Blue to Red"= "bluetored"))
-                       )
+
       ),
       
       hr(),
       h5("Configuration file"),
       p('If you do not want to define the parameters of coMET via the interface, you can download the example configuration file and modify according to your data. But you have to modify at least 3 parameters (', span("MYDATA.FORMAT (format of info file), CORMATRIX.FORMAT ( format of raw or correlation matrice), CORMATRIX.METHOD (method to analyse the raw data if it is raw format)", style = "color:red"),')'),
+      p("Example file:",a(href="http://comet.epigen.kcl.ac.uk:3838/config_cyp1b1_zoom_4webserver.txt", target="_blank", 
+                          "config_cyp1b1_zoom_4webserver.txt")),
       fileInput('configfile', 'Choose configuration file to upload:',
                 accept=c('text/plain', '.txt')
       ),
@@ -110,6 +116,8 @@ shinyUI(fluidPage(
       
       hr(),
       h5("Info file for the second set of data (e.g.= gene expression, validation data) (optional)"),
+      p("Example file:",a(href="http://comet.epigen.kcl.ac.uk:3838/cyp1b1_infofile_exprGene_region.txt", target="_blank", 
+                          "cyp1b1_infofile_exprGene_region.txt")),
       fileInput('datalargefile', 'Choose other data file to upload',
                 accept=c('text/csv', 
                          'text/comma-separated-values,

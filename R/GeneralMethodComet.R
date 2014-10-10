@@ -1892,10 +1892,20 @@ draw.name.tracks.web <- function(config.var,gbl.var) {
                                             layout.pos.row = 5,
                                             layout.pos.col = 1,
                                             name = "name.tracks.vp.nocormatrixmap")
+  name.tracks.vp.nocormatrixmap.nopval <- viewport(height = 1,
+                                            width = 1,
+                                            layout.pos.row = 3,
+                                            layout.pos.col = 1,
+                                            name = "name.tracks.vp.nocormatrixmap.nopval")
   
   if(config.var$DISP.CORMATRIXMAP) {
-    pushViewport(vpTree(top.vp, vpList(name.tracks.vp.cormatrixmap)))
-    name.tracks.vp <- name.tracks.vp.cormatrixmap
+    if(config.var$DISP.PVALUEPLOT) {
+      pushViewport(vpTree(top.vp, vpList(name.tracks.vp.cormatrixmap)))
+      name.tracks.vp <- name.tracks.vp.cormatrixmap
+    } else {
+      pushViewport(vpTree(top.vp, vpList(name.tracks.vp.cormatrixmap.nopval)))
+      name.tracks.vp <- name.tracks.vp.cormatrixmap.nopval
+    }
   }
   else {
     pushViewport(vpTree(top.vp, vpList(name.tracks.vp.nocormatrixmap)))
@@ -1913,7 +1923,7 @@ draw.name.tracks.web <- function(config.var,gbl.var) {
     # if (config.var$VERBOSE)  cat("All tracks \n")
     y.label.pos <- c(1.25,-0.35,-0.85,-1.15,-1.45,-1.75)
   } else if(config.var$IMAGE.SIZE == 7) {
-    y.label.pos <- c(1.25,0.25, -0.1, -0.85, -1.2, -1.8)
+    y.label.pos <- c(1.25,-0.1, -0.7, -1.3, -1.7, -2.1)
   }
     #--- GENES ENSEMBL 
     if(has.key("geneENSEMBL", gbl.var$split.list.tracks)) {
@@ -2275,8 +2285,21 @@ create.tracks.web <- function(config.var,gbl.var) {
   if(has.key("ChromHMM",gbl.var$split.list.tracks)) {
     chromatintrack <- chromatinHMMAll(config.var$GENOME,gbl.var$mydata.chr,
                                       gbl.var$min.x,gbl.var$max.x,
-                                      gbl.var$mySession,"Broad ChromHMM",
-                                      config.var$PATTERN.REGULATION)
+                                      gbl.var$mySession,track.name="Broad ChromHMM",
+                                      pattern=config.var$PATTERN.REGULATION)
+    if(length(listtracks_gviz) == 0) {
+      listtracks_gviz <- list(chromatintrack)
+    } else {
+      listtracks_gviz <- c(listtracks_gviz,chromatintrack)
+    }
+  }
+  
+  #--- Broad Histone
+  if(has.key("BroadHistone",gbl.var$split.list.tracks)) {
+    chromatintrack <- HistoneHMMAll(config.var$GENOME,gbl.var$mydata.chr,
+                                      gbl.var$min.x,gbl.var$max.x,
+                                      gbl.var$mySession,track.name="Broad histone",
+                                      pattern=config.var$PATTERN.REGULATION)
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(chromatintrack)
     } else {
@@ -2316,11 +2339,6 @@ create.tracks.web <- function(config.var,gbl.var) {
       listtracks_gviz <- c(listtracks_gviz,regtrack)
     }
   }
-  
-  #--- CTCF
-  #if(gbl.var$split.list.tracks[["CTCF"]]) {
-  
-  #}
   
   #---- structural variation
   if(has.key("SNPstru",gbl.var$split.list.tracks)) {
@@ -2370,7 +2388,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   #------ ISCA
   if(has.key("ISCA",gbl.var$split.list.tracks) ){
     iscatrack <-ISCATrack(config.var$GENOME,gbl.var$mydata.chr,gbl.var$min.x,gbl.var$max.x,
-                          table="iscaPathogenic",showId=FALSE)
+                          gbl.var$mySession, table.name="iscaPathogenic",showId=FALSE)
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(iscatrack)
     } else {
@@ -2456,7 +2474,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   #------ xeno ref
   if(has.key("xenogenesUCSC",gbl.var$split.list.tracks) ){
     gctrack <-xenorefGenesUCSC(config.var$GENOME,gbl.var$mydata.chr,gbl.var$min.x,
-                        gbl.var$max.x)
+                        gbl.var$max.x,showId=TRUE)
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(gctrack)
     } else {

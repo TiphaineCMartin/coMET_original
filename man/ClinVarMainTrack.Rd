@@ -2,10 +2,10 @@
 \alias{ClinVarMainTrack}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Get the genomic positions of variants in the ClinVar database (variants only)
+Create one track of the genomic positions of variants from the ClinVar database (variants only)
 }
 \description{
-Get the genomic positions of variants in the ClinVar database (Variants only, CNV excluded)
+Create one track of the genomic positions of variants from the ClinVar database (Variants only, CNV excluded) in using the Gviz bioconductor package
 }
 \usage{
 ClinVarMainTrack(gen, chr, start, end, showId=FALSE)
@@ -32,11 +32,7 @@ Show Id of genetic elements
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+An UcscTrack object of Gviz
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -61,9 +57,8 @@ start <- 38290160
 end <- 38303219
 
 clinVariant<-ClinVarMainTrack(gen,chrom,start,end)
-plotTracks(clinVariant) 
+plotTracks(clinVariant, from = start, to =end) 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ hplot }

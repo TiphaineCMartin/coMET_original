@@ -32,10 +32,10 @@ comet.web(MYDATA.FILE = NULL, MYDATA.FORMAT = c("SITE", "REGION", "SITE_ASSO", "
  Options for generating correlation matrix. There are three options: spearman, pearson and kendall
 }
   \item{CORMATRIX.FORMAT}{
- Format of the input CORMATRIX.FILE. Two options for raw files (RAW or DTR_RAW) and and pre-computed correlation matrix (CORMATRIX)
+ Format of the input CORMATRIX.FILE. There are two options: raw files (RAW) and and pre-computed correlation matrix (CORMATRIX)
 }
   \item{CORMATRIX.COLOR.SCHEME}{
-  Color scheme options: heat, ETC
+  Color scheme options: heat, bluewhitered, cm, topo, gray, bluetored
 }
   \item{MYDATA.REF}{
  The name of reference site listed in the MYDATA.FILE
@@ -65,12 +65,11 @@ comet.web(MYDATA.FILE = NULL, MYDATA.FORMAT = c("SITE", "REGION", "SITE_ASSO", "
  Optinal if MYDATA.LARGE.FILE contains the effect directions (SITE_ASSOC, REGION_ASSOC). A value which can be TRUE or False. If it is False (the default), the comethylation pattern is shown in p-value plot; if it is True, the effect directions is shown on the plot
 }
   \item{DISP.REGION}{
-  Optional if MYDATA.FILE= REGION or REGION_ASSOC. A value which can be TRUE or False (the default). If it is TRUE, the plot will shown in the newly defined x-scale limits
+  Optional if MYDATA.FILE= REGION or REGION_ASSOC. A value which can be TRUE or False (the default). If it is TRUE, the region of genomic element will be shown by a continuous line with the color of element, in addition to a symbole in center of region
 }
   \item{DISP.REGION.LARGE}{
   Optional if MYDATA.LARGE.FILE= REGION or REGION_ASSOC. A value which
-  can be TRUE or False (the default). If it is TRUE, the plot will shown
-  in the newly defined x-scale limits
+  can be TRUE or False (the default). If it is TRUE, the region of genomic element will be shown by a continuous line with the color of element, in addition to a symbole in center of region
 }
 \item{SYMBOLS}{
   The symbol shown in the p-value plot. Options: circle, square, diamond, triangle. Symbols can be filled by appending -fill, e.g. square-fill. In this case, the SNP.FILE ASSOC column is read and an up-triangle and down-triangle are used to indicate positive and negative association (indicating susceptibility or protective alleles), respectively. Example: circle,NA,diamond-fill,triangle
@@ -106,7 +105,7 @@ comet.web(MYDATA.FILE = NULL, MYDATA.FORMAT = c("SITE", "REGION", "SITE_ASSO", "
   Format of plot if the data are DataTrack. They are separated by comma.
 }
   \item{LIST.TRACKS}{
-  Options from geneENSEMBL,CGI,ChromHMM,DNAse,RegENSEMBL,SNP
+   List of annotation tracks to visualise. Options from geneENSEMBL, CGI, ChromHMM, DNAse, RegENSEMBL, SNP, transcriptENSEMBL, SNPstoma, SNPstru, SNPstrustoma, ISCA, COSMIC, GAD, ClinVar, GeneReviews, GWAS, ClinVarCNV, GCcontent, genesUCSC, xenogenesUCSC. 
 }
   \item{PATTERN.REGULATION}{
   The tissue or the list of tissues to visualise the regulation region defined by Broad ChromHMM
@@ -167,5 +166,4 @@ comet.web(config.file=configfile,PRINT.IMAGE=FALSE,VERBOSE=FALSE)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ hplot }

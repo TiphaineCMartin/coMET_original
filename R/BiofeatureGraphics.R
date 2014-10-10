@@ -48,9 +48,13 @@ genesNameENSEMBL<-function(gen,chr,start,end,dataset){
   }
   chrEnsembl=chrUCSC2ENSEMBL(chr)
   martENSEMBL=useMart("ensembl",dataset=dataset)
+  
   ens_ENSEMBL <- getBM(c("ensembl_gene_id","external_gene_id"),
                        filters = c("chromosome_name","start","end"),
                        values = list(chrEnsembl, start, end), mart=martENSEMBL) 
+  if(nrow(ens_ENSEMBL) == 0) {
+    ens_ENSEMBL <- NULL
+  } 
   ens_ENSEMBL
 }
 
@@ -87,7 +91,7 @@ genesENSEMBL<-function(gen,chr,start,end,showId=FALSE){
     })
     #cat("change elements2\n")
     ranges(biomTrack) <- unlist(rNew)
-  }
+  } 
   #cat("change elements3\n")
   
   biomTrack
@@ -116,6 +120,7 @@ transcriptENSEMBL<-function(gen,chr,start,end,showId=FALSE){
                                       just.group = "above",showId=showId )
   
   #stacking="dense"
+  
   biomTrack
 }
 
@@ -149,7 +154,16 @@ chromatinHMMAll<-function(gen,chr,start,end,mySession,track.name=NULL,pattern=NU
   for(i in patterntable){
     table.name<-tablestrack[i]
     tmp<-chromatinHMMOne(gen,chr,start,end,mySession,track.name,table.name)
-    lltrack=c(lltrack,tmp)
+    if(!is.null(tmp) | length(feature(tmp)) > 0){
+      lltrack=c(lltrack,tmp)
+    }
+  }
+  if(length(lltrack) == 0){
+    data_trackfunc <- AnnotationTrack()
+    chromosome(data_trackfunc) <- chr
+    start(data_trackfunc) <- start
+    end(data_trackfunc) <- end
+    lltrack=list(data_trackfunc)
   }
   lltrack
 }
@@ -181,29 +195,39 @@ chromatinHMMOne<-function(gen,chr,start,end,mySession,track.name=NULL,table.name
   mygrange <- GRanges(chr, IRanges(start, end))
   dataUCSC <- getTable(ucscTableQuery (mySession, range=mygrange, 
                                        track=track.name, table=table.name))
-  data_trackfunc <- AnnotationTrack(chromosome=dataUCSC[,"chrom"],strand ="*",
-                                    start=dataUCSC[,"chromStart"],end=dataUCSC[,"chromEnd"],
-                                    feature=dataUCSC[,"name"],group=dataUCSC[,"name"],
-                                    id=dataUCSC[,"name"], name = "Broad chromatinHMM",
-                                    stacking="dense")
-  chromosome(data_trackfunc) <- chr
   
-  displayPars(data_trackfunc) <- list(
-    "1_Active_Promoter"= "firebrick1",
-    "2_Weak_Promoter"="darksalmon"  ,
-    "3_Poised_Promoter"="blueviolet",
-    "4_Strong_Enhancer"= "Orange",
-    "5_Strong_Enhancer"= "coral",
-    "6_Weak_Enhancer"="yellow",
-    "7_Weak_Enhancer"="gold",
-    "8_Insulator"="cornflowerblue",
-    "9_Txn_Transition"="darkolivegreen",
-    "10_Txn_Elongation"="forestgreen",
-    "11_Weak_Txn"="darkseagreen1",
-    "12_Repressed"="gainsboro",
-    "13_Heterochrom/lo"="gray74",
-    "14_Repetitive/CNV"="gray77",
-    "15_Repetitive/CNV"="gray86")
+  data_trackfunc <- AnnotationTrack()
+  if(nrow(dataUCSC) > 0) {
+    data_trackfunc <- AnnotationTrack(chromosome=dataUCSC[,"chrom"],strand ="*",
+                                      start=dataUCSC[,"chromStart"],end=dataUCSC[,"chromEnd"],
+                                      feature=dataUCSC[,"name"],group=dataUCSC[,"name"],
+                                      id=dataUCSC[,"name"], name = "Broad chromatinHMM",
+                                      stacking="dense")
+    chromosome(data_trackfunc) <- chr
+    
+    displayPars(data_trackfunc) <- list(
+      "1_Active_Promoter"= "firebrick1",
+      "2_Weak_Promoter"="darksalmon"  ,
+      "3_Poised_Promoter"="blueviolet",
+      "4_Strong_Enhancer"= "Orange",
+      "5_Strong_Enhancer"= "coral",
+      "6_Weak_Enhancer"="yellow",
+      "7_Weak_Enhancer"="gold",
+      "8_Insulator"="cornflowerblue",
+      "9_Txn_Transition"="darkolivegreen",
+      "10_Txn_Elongation"="forestgreen",
+      "11_Weak_Txn"="darkseagreen1",
+      "12_Repressed"="gainsboro",
+      "13_Heterochrom/lo"="gray74",
+      "14_Repetitive/CNV"="gray77",
+      "15_Repetitive/CNV"="gray86")
+  } else {
+    data_trackfunc <- AnnotationTrack()
+    chromosome(data_trackfunc) <- chr
+    start(data_trackfunc) <- start
+    end(data_trackfunc) <- end
+  }
+  
   data_trackfunc
 }
 
@@ -231,7 +255,12 @@ HistoneAll<-function(gen,chr,start,end,mySession,pattern=NULL,track.name=NULL,ta
   #patternPk="PkV*[0-9]*$"
   patternPk="Pk$"
   patterntablePk<-grep(patternPk, tablestrack,ignore.case=TRUE)
-  tablesub<-tablestrack[patterntablePk]
+  
+  patternPkV2="PkV2$"
+  patterntablePkV2 <- grep(patternPkV2, tablestrack,ignore.case=TRUE)
+  
+  patterntablePktotal <- c(patterntablePk,patterntablePkV2)
+  tablesub<-tablestrack[patterntablePktotal]
   if(!is.null(pattern)) {
     patterntable<-grep(pattern,tablesub ,ignore.case=TRUE)
   }
@@ -240,9 +269,20 @@ HistoneAll<-function(gen,chr,start,end,mySession,pattern=NULL,track.name=NULL,ta
     table.name<-tablesub[i]
     print(table.name)
     tmp<-HistoneOne(gen,chr,start,end,mySession,track.name,table.name)
-    print(tmp)
-    lltrack=c(lltrack,tmp)
-    print(length(lltrack))
+    if(!is.null(tmp)| length(feature(tmp)) > 0 ){
+      print(tmp)
+      lltrack=c(lltrack,tmp)
+      print(length(lltrack))
+    }
+    
+  }
+  
+  if(length(lltrack) == 0){
+    data_trackfunc <- AnnotationTrack()
+    chromosome(data_trackfunc) <- chr
+    start(data_trackfunc) <- start
+    end(data_trackfunc) <- end
+    lltrack=list(data_trackfunc)
   }
   lltrack
 }
@@ -274,16 +314,27 @@ HistoneOne<-function(gen,chr,start,end,mySession,track.name=NULL,table.name=NULL
   mygrange <- GRanges(chr, IRanges(start, end))
   dataUCSC <- getTable(ucscTableQuery (mySession, range=mygrange, 
                                        track=track.name, table=table.name))
-  data_trackfunc <- AnnotationTrack(chromosome=dataUCSC[,"chrom"],strand ="*",
-                                    start=dataUCSC[,"chromStart"],end=dataUCSC[,"chromEnd"],
-                                    feature=dataUCSC[,"score"],group=dataUCSC[,"name"],
-                                    id=dataUCSC[,"name"], name = "Broad Histone"
-                                    ,stacking="dense")
-  chromosome(data_trackfunc) <- chr
-  a<-0:1000
-  b<-gray(0:1000 /1000)
-  v=(a=b)
-  displayPars(data_trackfunc) <- list(v)
+  
+  
+  data_trackfunc <- AnnotationTrack()
+  if(nrow(dataUCSC) > 0) {
+    data_trackfunc <- AnnotationTrack(chromosome=dataUCSC[,"chrom"],strand ="*",
+                                      start=dataUCSC[,"chromStart"],end=dataUCSC[,"chromEnd"],
+                                      feature=dataUCSC[,"score"],group=dataUCSC[,"name"],
+                                      id=dataUCSC[,"name"], name = "Broad Histone"
+                                      ,stacking="dense")
+    chromosome(data_trackfunc) <- chr
+    a<-0:1000
+    b<-gray(0:1000 /1000)
+    v=(a=b)
+    displayPars(data_trackfunc) <- list(v)
+  } else {
+    data_trackfunc <- AnnotationTrack()
+    chromosome(data_trackfunc) <- chr
+    start(data_trackfunc) <- start
+    end(data_trackfunc) <- end
+  }
+  
   data_trackfunc
 }
 
@@ -314,16 +365,28 @@ DNAseUCSC<-function(gen,chr,start,end,mySession,track.name=NULL,table.name=NULL)
   mygrange <- GRanges(chr, IRanges(start, end))
   dataUCSC <- getTable(ucscTableQuery (mySession, range=mygrange, 
                                        track=track.name, table=table.name))
-  data_trackfunc <- AnnotationTrack(chromosome=dataUCSC[,"chrom"],strand ="*",
-                                    start=dataUCSC[,"chromStart"],end=dataUCSC[,"chromEnd"],
-                                    feature=dataUCSC[,"score"],group=dataUCSC[,"name"],
-                                    id=dataUCSC[,"name"], name = "DNA cluster",
-                                    stacking = "dense")
-  chromosome(data_trackfunc) <- chr
-  a<-0:1000
-  b<-gray(0:1000 /1000)
-  v=(a=b)
-  displayPars(data_trackfunc) <- list(v)
+  
+  data_trackfunc <- AnnotationTrack()
+  if(nrow(dataUCSC) > 0) {
+    data_trackfunc <- AnnotationTrack(chromosome=dataUCSC[,"chrom"],strand ="*",
+                                      start=dataUCSC[,"chromStart"],end=dataUCSC[,"chromEnd"],
+                                      feature=dataUCSC[,"score"],group=dataUCSC[,"name"],
+                                      id=dataUCSC[,"name"], name = "DNA cluster",
+                                      stacking = "dense")
+    chromosome(data_trackfunc) <- chr
+    if(nrow(dataUCSC) > 0) {
+      a<-0:1000
+      b<-gray(0:1000 /1000)
+      v=(a=b)
+      displayPars(data_trackfunc) <- list(v)
+    } 
+    
+  } else {
+    data_trackfunc <- AnnotationTrack()
+    chromosome(data_trackfunc) <- chr
+    start(data_trackfunc) <- start
+    end(data_trackfunc) <- end
+  }
   data_trackfunc
 }
 
@@ -344,7 +407,7 @@ gcContent <- function(gen,chr,start,end){
   UcscTrack(genome = gen, chromosome = chr, track = "GC Percent", table = "gc5Base", 
             from = start,	to = end, trackType = "DataTrack", start = "start", 
             end = "end", data = "score", type = "hist", window = -1,	windowSize = 1500, 
-            fill.histogram = "black",	col.histogram = "black", ylim = c(30, 70), 
+            fill.histogram = "black",	col.histogram = "red", ylim = c(30, 70), 
             name = "GC Percent")
 }
 
@@ -454,16 +517,27 @@ regulationBiomart <- function(chr, start, end, dataset) {
                      "feature_type_name_1057","display_label_1057"),
                    filters = c("reg_chromosome_name", "reg_start", "reg_end"),
                    values = list(chrEnsembl, start, end), mart=martfunc) 
-  data_trackfunc <- AnnotationTrack(chromosome=chrEnsembl,strand ="*",start=ensfunc[,2],
-                                    end=ensfunc[,3],
-                                    feature=ensfunc[,4],group=ensfunc[,1],id=ensfunc[,1], 
-                                    name = "Regulation ENSEMBL",stacking="dense")
-  displayPars(data_trackfunc) <- list(
-    "Promoter Associated"="darkolivegreen",
-    "Gene Associated" = "coral",
-    "Non-gene Associated" = "darkgoldenrod1",
-    "Polymerase III Associated" = "yellow",
-    "Unclassified" = "aquamarine")
+  
+  data_trackfunc <- AnnotationTrack()
+  if(nrow(ensfunc) > 0) {
+    data_trackfunc <- AnnotationTrack(chromosome=chrEnsembl,strand ="*",start=ensfunc[,2],
+                                      end=ensfunc[,3],
+                                      feature=ensfunc[,4],group=ensfunc[,1],id=ensfunc[,1], 
+                                      name = "Regulation ENSEMBL",stacking="dense")
+    displayPars(data_trackfunc) <- list(
+      "Promoter Associated"="darkolivegreen",
+      "Gene Associated" = "coral",
+      "Non-gene Associated" = "darkgoldenrod1",
+      "Polymerase III Associated" = "yellow",
+      "Unclassified" = "aquamarine")
+    
+  } else {
+    data_trackfunc <- AnnotationTrack()
+    chromosome(data_trackfunc) <- chr
+    start(data_trackfunc) <- start
+    end(data_trackfunc) <- end
+  }
+  
   data_trackfunc
 }
 
@@ -490,15 +564,26 @@ snpBiomart <- function(chr, start, end, dataset, showId=FALSE, title=NULL) {
   ens_snp <- getBM(c("refsnp_id","chrom_start","chrom_strand","chr_name"),
                    filters = c("chr_name","chrom_start","chrom_end"),
                    values = list(chrEnsembl, start, end), mart=martsnp) 
-  data_tracksnp <- AnnotationTrack(chromosome=ens_snp[,4],strand =ens_snp[,3],start=ens_snp[,2],
-                                   end=ens_snp[,2],feature="snp",group=ens_snp[,1],
-                                   id=ens_snp[,1], name = title,stacking="squish",
-                                   showId=showId)
-  displayPars(data_tracksnp) <- list(snp="red",
-                                     insertion ="blueviolet",
-                                     deletion = "orange",
-                                     indel="darkgoldenrod1",
-                                     substitution="dodgerblue2")
+  
+  data_tracksnp <- AnnotationTrack()
+  if(nrow(ens_snp) > 0) {
+    data_tracksnp <- AnnotationTrack(chromosome=ens_snp[,4],strand =ens_snp[,3],start=ens_snp[,2],
+                                     end=ens_snp[,2],feature="snp",group=ens_snp[,1],
+                                     id=ens_snp[,1], name = title,stacking="squish",
+                                     showId=showId)
+    displayPars(data_tracksnp) <- list(snp="red",
+                                       insertion ="blueviolet",
+                                       deletion = "orange",
+                                       indel="darkgoldenrod1",
+                                       substitution="dodgerblue2")
+    
+  } else {
+    data_tracksnp <- AnnotationTrack()
+    chromosome(data_tracksnp) <- chr
+    start(data_tracksnp) <- start
+    end(data_tracksnp) <- end
+  }
+  
   data_tracksnp
   
 }
@@ -526,18 +611,28 @@ structureBiomart <- function(chr, start, end, strand, dataset,showId=FALSE,title
                  "sv_variant_type","dgva_study_accession"),
                filters = c("chr_name","chrom_start","chrom_end"),
                values = list(chrEnsembl, start, end), mart=martstruct) 
-  data_track <- AnnotationTrack(chromosome=chr,strand ="*",start=ens[,2],end=ens[,3],
-                                feature=ens[,6],group=ens[,1],id=ens[,1], 
-                                name = "Structural variation",stacking="squish",showId=showId)
-  displayPars(data_track) <- list(copy_number_variation="cornsilk",
-                                  inversion="darkolivegreen",
-                                  translocation="cyan",
-                                  sequence_alteration="coral",
-                                  snp="red",
-                                  insertion ="blueviolet",
-                                  deletion = "orange",
-                                  indel="darkgoldenrod1",
-                                  substitution="dodgerblue2")
+  
+  data_track <- AnnotationTrack()
+  if(nrow(ens) > 0) {
+    data_track <- AnnotationTrack(chromosome=chr,strand ="*",start=ens[,2],end=ens[,3],
+                                  feature=ens[,6],group=ens[,1],id=ens[,1], 
+                                  name = "Structural variation",stacking="squish",showId=showId)
+    displayPars(data_track) <- list(copy_number_variation="cornsilk",
+                                    inversion="darkolivegreen",
+                                    translocation="cyan",
+                                    sequence_alteration="coral",
+                                    snp="red",
+                                    insertion ="blueviolet",
+                                    deletion = "orange",
+                                    indel="darkgoldenrod1",
+                                    substitution="dodgerblue2")
+  } else {
+    data_track <- AnnotationTrack()
+    chromosome(data_track) <- chr
+    start(data_track) <- start
+    end(data_track) <- end
+  }
+  
   data_track
 }
 
@@ -697,7 +792,7 @@ GeneReviewsTrack <-function(gen,chr,start,end,showId=FALSE){
 }
 
 #-------------------- CREATION track ISCA from UCSC ------------------
-ISCATrack <-function(gen,chr,start,end,table,showId=FALSE){ 
+ISCATrack <-function(gen,chr,start,end,mySession,table.name,showId=FALSE){ 
   if(is.null(chr)){
     stop("Invalid in function ISCA:chr null:\n")
   }
@@ -711,18 +806,68 @@ ISCATrack <-function(gen,chr,start,end,table,showId=FALSE){
     stop("Invalid in function ISCA:gen null:\n")
   }
   
-  if((is.null(table) | ! exists(table))& gen== "hg19"){
-    table="iscaCuratedBenign"
-  }else if(is.null(table)){
+  if((is.null(table.name) | ! exists(table.name))& gen== "hg19"){
+    table.name="iscaPathogenic"
+  }else if(is.null(table.name)){
     stop("Invalid in function ISCA:table null (possible table : iscaBenign
          , iscaCuratedBenign, iscaCuratedPathogenic, iscaLikelyBenign, 
          iscaLikelyPathogenic, iscaPathGainCum, iscaPathLossCum, 
          iscaPathogenic, iscaUncertain )\n")
   }
   
-  UcscTrack(genome = gen, chromosome = chr, from = start, to = end,
-            track="ISCA", table= table, 
-            trackType = "AnnotationTrack", start = "chromStart", end = "chromEnd", 
-            id = "name", feature = "func", strand = "*", shape = "box", 
-            stacking="squish", fill = "deeppink3", name = "ISCA",showId=showId)
+  #  UcscTrack(genome = gen, chromosome = chr, from = start, to = end,
+  #           track="ISCA", table= table.name, 
+  #          trackType = "AnnotationTrack", start = "chromStart", end = "chromEnd", 
+  #         id = "name", feature = "func", strand = "*", shape = "box", 
+  #        stacking="squish", fill = "deeppink3", name = "ISCA",showId=showId)
+  
+  mygrange <- GRanges(chr, IRanges(start, end))
+  dataUCSC <- getTable(ucscTableQuery (mySession, range=mygrange, 
+                                       track="ISCA", table=table.name))
+  
+  data_trackfunc <- AnnotationTrack()
+  if(nrow(dataUCSC) > 0) {
+    data_trackfunc <- AnnotationTrack(chromosome=dataUCSC[,"chrom"],strand ="*",
+                                      start=dataUCSC[,"chromStart"],end=dataUCSC[,"chromEnd"],
+                                      feature=dataUCSC[,"score"],group=dataUCSC[,"name"],
+                                      id=dataUCSC[,"name"], name = "ISCA",
+                                      stacking = "squish")
+    chromosome(data_trackfunc) <- chr
+    
+    
+    if(table.name == "iscaPathogenic") {
+      displayPars(data_trackfunc) <- list(fill="purple")
+    }
+    if(table.name == "iscaPathGainCum") {
+      displayPars(data_trackfunc) <- list(fill="red")
+    }
+    if(table.name == "iscaPathLossCum") {
+      displayPars(data_trackfunc) <- list(fill="blue")
+    }
+    if(table.name == "iscaCuratedPathogenic") {
+      displayPars(data_trackfunc) <- list(fill="purple")
+    }
+    if(table.name == "iscaLikelyPathogenic") {
+      displayPars(data_trackfunc) <- list(fill="lightpurple")
+    }
+    if(table.name == "iscaUncertain") {
+      displayPars(data_trackfunc) <- list(fill="lightgrey")
+    }
+    if(table.name == "iscaBenign") {
+      displayPars(data_trackfunc) <- list(fill="black")
+    }
+    if(table.name == "iscaCuratedBenign") {
+      displayPars(data_trackfunc) <- list(fill="black")
+    }
+    if(table.name == "iscaLikelyBenign") {
+      displayPars(data_trackfunc) <- list(fill="black")
+    }
+    
+  } else{
+    data_trackfunc <- AnnotationTrack()
+    chromosome(data_trackfunc) <- chr
+    start(data_trackfunc) <- start
+    end(data_trackfunc) <- end
+  }
+  data_trackfunc
 }

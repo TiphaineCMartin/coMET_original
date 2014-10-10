@@ -139,6 +139,18 @@ shinyServer(function(input, output,session) {
                              sep = "\t", quote = "")
     data_infohelp
   })
+
+ ## INFO DATA to download
+ # output$downloadINFO <- downloadHandler(
+#	filename =  "cyp1b1_infofile.txt",
+
+ #  content = function(file){
+#	dataINFO = "/var/shiny-server/www/coMET/cyp1b1_infofile.txt",
+#	write.csv(dataINFO, file)
+#	}
+# )
+
+
   
   ## CORRELATION MATRIX
   output$cortable <- renderTable({
@@ -528,7 +540,7 @@ shinyServer(function(input, output,session) {
     )
   })
   
-  
+
   ##### EXPLANATIONS ABOUT COMET
   output$home <- renderUI({
     tagList(
@@ -541,9 +553,13 @@ shinyServer(function(input, output,session) {
       h3('coMET webservice'),
       p('The webservice is the pre-formated web service of coMET with a reduction of parameters availlable.'),
       h3('Developpers'),
-      p('coMET is developed by Tiphaine C. Martin in collaboration with Idil Erte, Pei-Chien Tsai, Jordana T.Bell, Department of Twin Research, Kings College London.'),
+      p('coMET is developed by Tiphaine C. Martin in collaboration with Idil Yet, Pei-Chien Tsai, Jordana T.Bell, Department of Twin Research, Kings College London.'),
       h3('Cite'),
-      p('Martin, T.C, Erte, I, Tsai, P-C, Bell, J.T.,coMET: an R plotting package to visualize regional plots of epigenome-wide association scan results, QC14, 2014.'),
+      p('Martin, T.C, Erte, I, Tsai, P-C, Bell, J.T.,coMET: an R plotting package to visualize regional plots of epigenome-wide association scan results,',
+	a(href='http://quantgen.soc.srcf.net/qg14/', 'QG14'),
+	', 2014.'),
+       h3('Example of coMET plot'),
+         img(src='http://comet.epigen.kcl.ac.uk:3838/minimal-cometwebPlot.jpeg'),
       h3('Contacts'),
       p('For any question, you can send an email to',
         a(href='mailto:tiphaine.martin@kcl.ac.uk;jordana.bell@kcl.ac.uk?Subject=CoMET', 'Tiphaine Martin and Jordana Bell')),
@@ -552,7 +568,8 @@ shinyServer(function(input, output,session) {
         a(href='http://epigen.kcl.ac.uk/comet', ' Department of Twin Research')),
       h3('Download'),
       p('Want to download the R package :',
-        a(href='http://epigen.kcl.ac.uk/comet', ' Department of Twin Research'))
+        a(href='https://github.com/TiphaineCMartin/coMET', ' Department of Twin Research'))
+	
     )
     
   })

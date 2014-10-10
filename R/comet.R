@@ -381,8 +381,6 @@ comet <- function(MYDATA.FILE = NULL,
   
   if(!is.null(TRACKS.TRACKVIEWER) ){
     gbl.var$listtracks_trackviewer <- TRACKS.TRACKVIEWER
-    
-    
   }
   
   #------------- connection to database
@@ -564,6 +562,11 @@ comet <- function(MYDATA.FILE = NULL,
   
   #---------------- DRAW DIFFERENT ANNOTATION TRACK ---------
   # gbl.var <- create.tracks.web(config.var,gbl.var)
+  
+  if( DISP.PVALUEPLOT == FALSE & DISP.CORMATRIXMAP == FALSE){
+    stop("Impossible to have no draw pvalue plot and correlation matrix!\n 
+          Change the value of DISP.PVALUEPLOT and DISP.CORMATRIXMAP")
+  }
   
   #------ DRAW the STRUCTURE COMET	
   if(DISP.PVALUEPLOT) {

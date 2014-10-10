@@ -2,10 +2,10 @@
 \alias{COSMICTrack}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Get the genomic positions of variants of COSMIC
+Create one track of the genomic positions of variants from COSMIC
 }
 \description{
-Get the genomic positions of variants of COSMIC, the "Catalogue Of Somatic Mutations In Cancer"
+Create one track of the genomic positions of variants from COSMIC, the "Catalogue Of Somatic Mutations In Cancer" in using the Gviz bioconductor package
 }
 \usage{
 COSMICTrack(gen, chr, start, end, showId=FALSE)
@@ -32,11 +32,7 @@ Show Id of genetic elements
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+An UcscTrack object of Gviz
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -60,9 +56,8 @@ start <- 38290160
 end <- 38303219
 gen <- "hg19"
 cosmicVariant<-COSMICTrack(gen,chrom,start,end)
-plotTracks(cosmicVariant)
+plotTracks(cosmicVariant, from = start, to =end)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ hplot }

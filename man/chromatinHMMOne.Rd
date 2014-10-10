@@ -5,7 +5,7 @@
 Create one track of chromaHMM Broad from UCSC's genome browser
 }
 \description{
-Creation of a track related to only one type of chromaHMM  Broad from UCSC 
+Creation of a track related to only one type of chromaHMM  Broad from UCSC in using the Gviz bioconductor package
 }
 \usage{
 chromatinHMMOne(gen, chr, start, end, mySession, track.name = NULL, table.name = NULL)
@@ -38,7 +38,7 @@ the name of table from the track
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-An AnnotationTrack object of GViz
+An AnnotationTrack object of Gviz
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -68,10 +68,10 @@ chr <- "chr7"
 start <- 38290160
 end <- 38303219
 tmp<-chromatinHMMOne(gen,chr,start,end,mySession,track.name,table.name)
-plotTracks(tmp) 
+plotTracks(tmp, from = start, to =end) 
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ hplot }
+

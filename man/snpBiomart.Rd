@@ -5,7 +5,7 @@
 Create track Short Variation from ENSEMBL
 }
 \description{
-Create track Short Variation from ENSEMBL
+Create track Short Variation from ENSEMBL in using the Gviz bioconductor package
 }
 \usage{
 snpBiomart(chr, start, end, dataset, showId=FALSE, title = NULL)
@@ -35,11 +35,7 @@ the last position of region of interest (the biggest value)
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+An AnnotationTrack object of Gviz
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -59,13 +55,12 @@ Tiphaine Martin
 \examples{
 library("Gviz")
 gen <- "hg19"
-chr <- "chr7"
+chr <- "chr2"
 start <- 38290160
 end <- 38303219
-tmp<-snpBiomart(gen,chr,start,end,"hsapiens_snp_som")
-plotTracks(tmp) 
+tmp<-snpBiomart(chr,start,end,"hsapiens_snp_som")
+plotTracks(tmp, from = start, to =end) 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ hplot }

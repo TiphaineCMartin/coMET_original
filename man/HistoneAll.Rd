@@ -5,7 +5,7 @@
 Create multiple tracks of Histone from UCSC's genome browser
 }
 \description{
-Create multiple tracks of Histone from UCSC's genome browser (ENCODE/Broad)
+Create multiple tracks of Histone from UCSC's genome browser (ENCODE/Broad) in using the Gviz bioconductor package
 }
 \usage{
 HistoneAll(gen, chr, start, end, mySession, pattern = NULL, track.name = NULL, table.name = NULL)
@@ -41,11 +41,7 @@ the name of table from the track
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+A list of AnnotationTrack object of Gviz
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -68,15 +64,15 @@ gen <- "hg19"
 BROWSER.SESSION="UCSC"
 mySession <- browserSession(BROWSER.SESSION)
 genome(mySession) <- gen
-chr <- "chr7"
+pattern1 <- "GM12878"
+chr <- "chr2"
 start <- 38290160
 end <- 38313219
 
-tmp<-HistoneAll(gen,chr,start,end,mySession)
-plotTracks(tmp)
+tmp<-HistoneAll(gen,chr,start,end,mySession, pattern=pattern1,track.name="Broad Histone")
+plotTracks(tmp, from = start, to =end)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ hplot }

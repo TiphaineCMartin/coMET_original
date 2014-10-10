@@ -95,9 +95,12 @@ draw.plot.comet.web <- function(config.var, gbl.var,newpage=TRUE){
   # draw annotation tracks
   draw.plot.annotation(config.var, gbl.var)
   
-  # draw name of genes
-  draw.name.genes.web(config.var, gbl.var)
-  
+  if(has.key("geneENSEMBL", gbl.var$split.list.tracks) | 
+       (has.key("transcriptENSEMBL", gbl.var$split.list.tracks))
+      | (has.key("genesUCSC",gbl.var$split.list.tracks) )) {
+    # draw name of genes
+    draw.name.genes.web(config.var, gbl.var)
+  }
   # draw name of tracks
   draw.name.tracks.web(config.var,gbl.var)
   
@@ -180,6 +183,7 @@ draw.plot.comet <- function(config.var, gbl.var,newpage=TRUE){
   # draw annotation tracks
   draw.plot.annotation(config.var, gbl.var)
   
+  
   config.var <- fix.var$config.var
   gbl.var <- fix.var$gbl.var
   
@@ -232,6 +236,8 @@ draw.plot.comet.nopval <- function(config.var, gbl.var,newpage=TRUE){
   #------------ DRAW BIOFEATURES : BIOFEAT and OTHER ANNOTATION 
   # draw annotation tracks
   draw.plot.annotation(config.var, gbl.var)
+  
+
   
   config.var <- fix.var$config.var
   gbl.var <- fix.var$gbl.var

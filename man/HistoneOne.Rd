@@ -5,7 +5,7 @@
 Create track one type of Histone density from UCSC
 }
 \description{
-Create track one type of Histone density from UCSC (ENCODE/Broad)
+Create track one type of Histone density from UCSC (ENCODE/Broad) in using the Gviz bioconductor package
 }
 \usage{
 HistoneOne(gen, chr, start, end, mySession, track.name = NULL, table.name = NULL)
@@ -38,11 +38,7 @@ the name of table from the track
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+An AnnotationTrack object of Gviz
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -66,13 +62,12 @@ BROWSER.SESSION="UCSC"
 mySession <- browserSession(BROWSER.SESSION)
 genome(mySession) <- gen
 
-chr <- "chr7"
+chr <- "chr2"
 start <- 38290160
 end <- 38303219
 tmp<-HistoneOne(gen,chr,start,end,mySession)
-plotTracks(tmp) 
+plotTracks(tmp, from = start, to =end) 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ hplot }

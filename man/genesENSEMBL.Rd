@@ -2,10 +2,10 @@
 \alias{genesENSEMBL}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Get the genes in the genomic regions of interest
+Create one track of the genes in the genomic regions of interest from EMSEMBL
 }
 \description{
-Get the genes in the genomic regions of interest
+Create one track of the genes in the genomic regions of interest from EMSEMBL in using the Gviz bioconductor package
 }
 \usage{
 genesENSEMBL(gen, chr, start, end, showId=FALSE)
@@ -32,11 +32,7 @@ Show Id of genetic elements
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+A BiomartGeneRegionTrack object of Gviz
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -60,10 +56,10 @@ chr <- "chr7"
 start <- 38290160
 end <- 38303219
 tmp<-genesENSEMBL(gen,chr,start,end)
-plotTracks(tmp) 
+plotTracks(tmp, from = start, to =end) 
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ hplot }
+

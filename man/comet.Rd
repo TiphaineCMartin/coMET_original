@@ -31,10 +31,10 @@ comet(MYDATA.FILE = NULL, MYDATA.FORMAT = "SITE", MYDATA.LARGE.FILE = NULL, MYDA
  Options for generating correlation matrix. There are three options: spearman, pearson and kendall
 }
  \item{CORMATRIX.FORMAT}{
- Format of the input CORMATRIX.FILE. Two options for raw files (RAW or DTR_RAW) and and pre-computed correlation matrix (CORMATRIX)
+ Format of the input CORMATRIX.FILE. TThere are two options: raw files (RAW) and and pre-computed correlation matrix (CORMATRIX)
 }
   \item{CORMATRIX.COLOR.SCHEME}{
-  Color scheme options: heat, ETC
+  Color scheme options: heat, bluewhitered, cm, topo, gray, bluetored
 }
   \item{MYDATA.REF}{
  The name of reference site listed in the MYDATA.FILE
@@ -64,10 +64,10 @@ comet(MYDATA.FILE = NULL, MYDATA.FORMAT = "SITE", MYDATA.LARGE.FILE = NULL, MYDA
  Optinal if MYDATA.LARGE.FILE contains the effect directions (SITE_ASSOC, REGION_ASSOC). A value which can be TRUE or False. If it is False (the default), the comethylation pattern is shown in p-value plot; if it is True, the effect directions is shown on the plot
 }
   \item{DISP.REGION}{
-  Optional if MYDATA.FILE= REGION or REGION_ASSOC. A value which can be TRUE or False (the default). If it is TRUE, the plot will shown in the newly defined x-scale limits
+  Optional if MYDATA.FILE= REGION or REGION_ASSOC. A value which can be TRUE or False (the default). If it is TRUE, the region of genomic element will be shown by a continuous line with the color of element, in addition to a symbole in center of region
 }
   \item{DISP.REGION.LARGE}{
-  Optional if MYDATA.LARGE.FILE= REGION or REGION_ASSOC. A value which can be TRUE or False (the default). If it is TRUE, the plot will shown in the newly defined x-scale limits
+  Optional if MYDATA.LARGE.FILE= REGION or REGION_ASSOC. A value which can be TRUE or False (the default). If it is TRUE, the region of genomic element will be shown by a continuous line with the color of element, in addition to a symbole in center of region
 }
   \item{SYMBOLS}{
   The symbol shown in the p-value plot. Options: circle, square, diamond, triangle. Symbols can be filled by appending -fill, e.g. square-fill. In this case, the SNP.FILE ASSOC column is read and an up-triangle and down-triangle are used to indicate positive and negative association (indicating susceptibility or protective alleles), respectively. Example: circle,NA,diamond-fill,triangle
@@ -265,5 +265,4 @@ comet(config.file=configfile,TRACKS.GVIZ=listgviz,
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~method }
-\keyword{ ~hplot }% __ONLY ONE__ keyword per line
+\keyword{ hplot }% __ONLY ONE__ keyword per line
