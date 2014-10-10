@@ -34,7 +34,6 @@ Martin, T.C, Erte, I, Tsai, P-C, Bell, J.T.,coMET: an R plotting package to visu
  \code{\link[<coMET>:<coMET>-package]{<coMET>}}
 }
 \examples{
-library(coMET)
 library(Gviz)
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
 configfile <- file.path(extdata, "config_cyp1b1_zoom_4comet.txt") 

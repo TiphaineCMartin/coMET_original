@@ -10,8 +10,7 @@ Depends: R (>= 3.1.0), grid, grDevices, biomaRt, Gviz, ggbio, trackViewer, rtrac
 Suggests: knitr, RUnit, BiocGenerics
 License: GPL (>= 2)
 URL: http://comet.epigen.kcl.ac.uk:3838/coMET/ or http://epigen.kcl.ac.uk/comet
-biocViews: Software, Epigenetics, Genomics,Sequence, Visualization
+biocViews: Software, Epigenetics, Visualization
 VignetteBuilder: knitr
 NeedsCompilation: no
 Repository: Bioconductor
-
