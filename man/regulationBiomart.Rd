@@ -52,8 +52,15 @@ gen <- "hg19"
 chr <- "chr7"
 start <- 38290160
 end <- 38303219
-tmp<-regulationBiomart(gen,chr,start,end,"hsapiens_feature_set")
-plotTracks(tmp, from = start, to =end) 
+
+if(interactive()){
+  regulationENSEMBLtrack<-regulationBiomart(chr,start,end,dataset="hsapiens_feature_set")
+  plotTracks(regulationENSEMBLtrack, from = start, to =end) 
+} else {
+  data(regulationENSEMBLtrack)
+  plotTracks(regulationENSEMBLtrack, from = start, to =end)
+}
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

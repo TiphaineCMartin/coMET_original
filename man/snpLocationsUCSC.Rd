@@ -56,8 +56,15 @@ gen <- "hg19"
 chr <- "chr7"
 start <- 38290160
 end <- 38303219
-tmp<-snpLocationsUCSC(gen,chr,start,end,"snp138")
-plotTracks(tmp, from = start, to =end) 
+
+if(interactive()) {
+  snpUCSCtrack<-snpLocationsUCSC(gen,chr,start,end,"snp138")
+  plotTracks(snpUCSCtrack, from = start, to =end) 
+} else {
+  data(snpUCSCtrack)
+  plotTracks(snpUCSCtrack, from = start, to =end) 
+}
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

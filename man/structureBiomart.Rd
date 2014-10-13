@@ -59,11 +59,19 @@ Tiphaine Martin
 \examples{
 library("Gviz")
 gen <- "hg19"
-chr <- "chr7"
+chr <- "chr2"
 start <- 38290160
 end <- 38303219
-tmp<-structureBiomart(chr,start,end,"*","hsapiens_structvar")
-plotTracks(tmp, from = start, to =end) 
+
+if(interactive()){
+  strutrack <- structureBiomart(chrom, start, end, 
+                              strand, dataset="hsapiens_structvar_som")
+  plotTracks(strutrack, from = start, to =end) 
+}else {
+  data(strucBiomarttrack)
+  plotTracks(strutrack, from = start, to =end)
+}
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

@@ -56,8 +56,14 @@ chrom <- "chr2"
 start <- 38290160
 end <- 38303219
 
-clinVariant<-ClinVarMainTrack(gen,chrom,start,end)
-plotTracks(clinVariant, from = start, to =end) 
+if(interactive()) {
+  clinVariant<-ClinVarMainTrack(gen,chrom,start,end)
+  plotTracks(clinVariant, from = start, to =end) 
+}else{
+  data(clinVarMaintrack)
+  plotTracks(clinVariant, from = start, to =end) 
+}
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

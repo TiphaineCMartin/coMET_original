@@ -61,11 +61,18 @@ gen <- "hg19"
 chr <- "chr2"
 start <- 38292433
 end <- 38305492
-BROWSER.SESSION="UCSC"
-mySession <- browserSession(BROWSER.SESSION)
-genome(mySession) <- gen
-tmp<-ISCATrack(gen,chr,start,end,mySession,"iscaPathogenic")
-plotTracks(tmp, from = start, to =end)
+
+if(interactive()){
+  BROWSER.SESSION="UCSC"
+  mySession <- browserSession(BROWSER.SESSION)
+  genome(mySession) <- gen
+  iscatrack <-ISCATrack(gen,chrom,start,end,mySession, table="iscaPathogenic")
+  plotTracks(iscatrack, from = start, to =end)
+} else {
+  data(ISCAtrack)
+  plotTracks(iscatrack, from = start, to =end)
+}
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

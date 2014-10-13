@@ -55,8 +55,15 @@ gen <- "hg19"
 chr <- "chr7"
 start <- 38290160
 end <- 38303219
-tmp<-transcriptENSEMBL(gen,chr,start,end)
-plotTracks(tmp, from = start, to =end) 
+
+if(interactive()){
+  transENSMBLtrack<-transcriptENSEMBL(gen,chr,start,end)
+  plotTracks(transENSMBLtrack, from = start, to =end)
+} else {
+  data(transENSMBLtrack)
+  plotTracks(transENSMBLtrack, from = start, to =end)
+}
+ 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

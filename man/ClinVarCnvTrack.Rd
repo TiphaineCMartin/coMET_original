@@ -55,8 +55,15 @@ chrom <- "chr2"
 start <- 38290160
 end <- 38303219
 gen <- "hg19"
-clinCNV<-ClinVarCnvTrack(gen,chrom,start,end)
-plotTracks(clinCNV, from = start, to =end) 
+if(interactive()){
+  clinCNV<-ClinVarCnvTrack(gen,chrom,start,end)
+  plotTracks(clinCNV, from = start, to =end) 
+}else {
+  data(ClinVarCnvTrack)
+  plotTracks(clinCNV, from = start, to =end) 
+}
+
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

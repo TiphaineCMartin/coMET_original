@@ -2,10 +2,10 @@
 \alias{xenorefGenesUCSC}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Create track reference Genes from UCSC
+Create track xeno-reference Genes from UCSC
 }
 \description{
-Create track reference Genes from UCSC in using the Gviz bioconductor package
+Create track xeno-reference Genes from UCSC in using the Gviz bioconductor package
 }
 \usage{
 xenorefGenesUCSC(gen, chr, start, end,showId=FALSE)
@@ -55,8 +55,15 @@ gen <- "hg19"
 chr <- "chr7"
 start <- 38290160
 end <- 38303219
-tmp<-xenorefGenesUCSC(gen,chr,start,end)
-plotTracks(tmp, from = start, to =end) 
+
+if(interactive()){
+  xenogenestrack<-xenorefGenesUCSC(gen,chr,start,end)
+  plotTracks(xenogenestrack, from = start, to =end) 
+} else {
+  data(xenogenestrack)
+  plotTracks(xenogenestrack, from = start, to =end) 
+}
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

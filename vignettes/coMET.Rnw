@@ -88,6 +88,9 @@ require("ggbio")
 require("rtracklayer")
 require("GenomicRanges")
 require("colortools")
+require("gridExtra")
+require("ggplot2")
+require("trackViewer")
 
 rdir <- system.file("R", package="coMET",mustWork=TRUE)
 source(file.path(rdir, "AnalyseFile.R"))
@@ -129,7 +132,6 @@ Info file can be a list of CpG sites with/without Beta value (or direction sign)
 <<Filedata>>=
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
 infofile <- file.path(extdata, "cyp1b1_infofile.txt")
-#infofile <- "../inst/extdata/cyp1b1_infofile.txt" 
 
 data_info <-read.csv(infofile, header = TRUE,
                      sep = "\t", quote = "")
@@ -142,7 +144,6 @@ Also it can be region with/without an end start of the base pair. If it is a reg
 <<expMatrix>>=
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
 infoexp <- file.path(extdata, "cyp1b1_infofile_exprGene_region.txt")
-#infoexp <- "../inst/extdata/cyp1b1_infofile_exprGene_region.txt" 
 
 data_infoexp <-read.csv(infoexp, header = TRUE,
                         sep = "\t", quote = "")
@@ -156,7 +157,6 @@ The data can be either pre-calculated correlation matrix or raw data. If it is a
 <<corrMatrix>>=
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
 corfile <- file.path(extdata, "cyp1b1_res37_rawMatrix.txt")
-#corfile <- "../inst/extdata/cyp1b1_res37_rawMatrix.txt" 
 
 data_cor <-read.csv(corfile, header = TRUE,
                     sep = "\t", quote = "")
@@ -203,7 +203,6 @@ If you would like to make your own changes to the plot you can download the conf
 <<configMatrix>>=
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
 configfile <- file.path(extdata, "config_cyp1b1_zoom_4webserver.txt")
-#configfile <- "../inst/extdata/config_cyp1b1_zoom_4webserver.txt" 
 
 data_config <-read.csv(configfile, quote = "")
 data_config
@@ -215,7 +214,6 @@ It is possible to use simply the creation of plot with the function comet.web, f
 <<cometwebPlotText, eval=FALSE, fig.keep='last' >>=
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
 configfile <- file.path(extdata, "config_cyp1b1_zoom.txt")
-#configfile <- "../inst/extdata/config_cyp1b1_zoom.txt" 
 comet.web(config.file=configfile,PRINT.IMAGE=FALSE,VERBOSE=FALSE)
 @
 
@@ -223,7 +221,6 @@ comet.web(config.file=configfile,PRINT.IMAGE=FALSE,VERBOSE=FALSE)
 <<cometwebPlot, echo=FALSE, fig.keep='last' >>=
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
 configfile <- file.path(extdata, "config_cyp1b1_zoom.txt")
-#configfile <- "../inst/extdata/config_cyp1b1_zoom.txt" 
 comet.web(config.file=configfile,PRINT.IMAGE=FALSE,VERBOSE=FALSE)
 @
 \caption{Plot with comet.web function.\label{fig:cometweb_simple}}
@@ -235,33 +232,8 @@ Currently, the combinaison of annotation tracks from Gviz with the heatmap of co
 
 \subsection{coMET plot: pvalue plot, annotation tracks, and correlation matrice}
 <<cometPlotText, eval=FALSE, fig.keep='last' >>=
-library(Gviz)
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
 configfile <- file.path(extdata, "config_cyp1b1_zoom_4comet.txt")
-#configfile <- "../inst/extdata/config_cyp1b1_zoom_4comet.txt" 
-chrom <- "chr2"
-start <- 38290160
-end <- 38303219
-gen <- "hg19"
-strant <- "*"
-
-genetrack <-genesENSEMBL(gen,chrom,start,end,showId=FALSE)
-snptrack <- snpBiomart(chrom, start, end, dataset="hsapiens_snp_som",showId=FALSE)
-strutrack <- structureBiomart(chrom, start, end, strand,
-                              dataset="hsapiens_structvar_som",showId=FALSE)
-iscatrack <-ISCATrack(gen,chrom,start,end,table="iscaPathogenic")
-
-listgviz <- list(genetrack,snptrack,iscatrack)
-comet(config.file=configfile,TRACKS.GVIZ=listgviz, 
-      VERBOSE=FALSE, PRINT.IMAGE=FALSE)
-@
-
-\begin{figure}
-<<cometPlot, echo=FALSE, fig.keep='last' >>=
-library(Gviz)
-extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
-configfile <- file.path(extdata, "config_cyp1b1_zoom_4comet.txt")
-#configfile <- "../inst/extdata/config_cyp1b1_zoom_4comet.txt" 
 chrom <- "chr2"
 start <- 38290160
 end <- 38303219
@@ -282,6 +254,26 @@ listgviz <- list(genetrack,snptrack,iscatrack)
 comet(config.file=configfile,TRACKS.GVIZ=listgviz, 
       VERBOSE=FALSE, PRINT.IMAGE=FALSE)
 @
+
+\begin{figure}
+<<cometPlot, echo=FALSE, fig.keep='last' >>=
+extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
+configfile <- file.path(extdata, "config_cyp1b1_zoom_4comet.txt")
+#configfile <- "../inst/extdata/config_cyp1b1_zoom_4comet.txt" 
+chrom <- "chr2"
+start <- 38290160
+end <- 38303219
+gen <- "hg19"
+strant <- "*"
+
+data(geneENSEMBLtrack)
+data(snpBiomarttrack)
+data(ISCAtrack)
+
+listgviz <- list(genetrack,snptrack,iscatrack)
+comet(config.file=configfile,TRACKS.GVIZ=listgviz, 
+      VERBOSE=FALSE, PRINT.IMAGE=FALSE)
+@
 \caption{Plot with comet function.\label{fig:cometPlot}}
 \end{figure}
 
@@ -290,7 +282,6 @@ It is possible to visualise only annotation tracks and the correlation between g
 In this case, we need to use the option \texttt{DISP.PVALUEPLOT=FALSE}, for example the figure \ref{fig:cometPlot_nopval}.
 
 <<cometPlotNopvalText, eval=FALSE, fig.keep='last' >>=
-library(Gviz)
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
 configfile <- file.path(extdata, "config_cyp1b1_zoom_4comet.txt")
 #configfile <- "../inst/extdata/config_cyp1b1_zoom_4comet.txt" 
@@ -317,7 +308,6 @@ comet(config.file=configfile,TRACKS.GVIZ=listgviz,
 
 \begin{figure}
 <<cometPlot_nopval, echo=FALSE, fig.keep='last' >>=
-library(Gviz)
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
 configfile <- file.path(extdata, "config_cyp1b1_zoom_4comet.txt")
 #configfile <- "../inst/extdata/config_cyp1b1_zoom_4comet.txt" 
@@ -326,15 +316,13 @@ start <- 38290160
 end <- 38303219
 gen <- "hg19"
 
-genetrack <-genesENSEMBL(gen,chrom,start,end,showId=FALSE)
-snptrack <- snpBiomart(chrom, start, end, 
-                       dataset="hsapiens_snp_som",showId=FALSE)
-strutrack <- structureBiomart(chrom, start, end, 
-                              strand, dataset="hsapiens_structvar_som")
-clinVariant<-ClinVarMainTrack(gen,chrom,start,end)
-clinCNV<-ClinVarCnvTrack(gen,chrom,start,end)
-gwastrack <-GWASTrack(gen,chrom,start,end)
-geneRtrack <-GeneReviewsTrack(gen,chrom,start,end)
+data(geneENSEMBLtrack)
+data(snpBiomarttrack)
+data(strucBiomarttrack)
+data(ClinVarCnvTrack)
+data(clinVarMaintrack)
+data(GWASTrack)
+data(GeneReviewTrack)
 
 listgviz <- list(genetrack,snptrack,strutrack,clinVariant,
                  clinCNV,gwastrack,geneRtrack)

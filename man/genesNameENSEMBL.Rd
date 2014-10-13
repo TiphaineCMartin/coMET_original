@@ -59,8 +59,16 @@ gen <- "hg19"
 chr <- "chr7"
 start <- 38290160
 end <- 38303219
-dataset<- "hsapiens_gene_ensembl"
-genesNameENSEMBL(gen,chr,start,end,dataset)
+
+if(interactive()){
+  dataset<- "hsapiens_gene_ensembl"
+  geneNameEnsembl<- genesNameENSEMBL(gen,chr,start,end,dataset)
+  geneNameEnsembl
+} else {
+  data(geneNameEnsembl)
+  geneNameEnsembl
+}
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

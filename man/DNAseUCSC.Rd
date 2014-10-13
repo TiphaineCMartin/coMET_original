@@ -58,17 +58,23 @@ Tiphaine Martin
 \examples{
 library("Gviz")
 gen <- "hg19"
-BROWSER.SESSION="UCSC"
-mySession <- browserSession(BROWSER.SESSION)
-genome(mySession) <- gen
-track.name="Broad ChromHMM"
-tablestrack<-tableNames(ucscTableQuery(mySession, track=track.name))
-table.name<-tablestrack[1]
 chr <- "chr7"
 start <- 38290160
 end <- 38303219
-tmp<-DNAseUCSC(gen,chr,start,end,mySession)
-plotTracks(tmp, from = start, to =end) 
+if(interactive()){
+  BROWSER.SESSION="UCSC"
+  mySession <- browserSession(BROWSER.SESSION)
+  genome(mySession) <- gen
+  track.name="Broad ChromHMM"
+  tablestrack<-tableNames(ucscTableQuery(mySession, track=track.name))
+  table.name<-tablestrack[1]
+  dnasetrack<-DNAseUCSC(gen,chr,start,end,mySession)
+  plotTracks(dnasetrack, from = start, to =end) 
+}else {
+    data(dnasetrack)
+   plotTracks(dnasetrack, from = start, to =end) 
+}
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

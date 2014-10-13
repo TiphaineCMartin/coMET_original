@@ -52,8 +52,15 @@ gen <- "hg19"
 chr <- "chr7"
 start <- 38290160
 end <- 38303219
-tmp<-gcContent(gen,chr,start,end)
-plotTracks(tmp,from= start, to=end) 
+
+if(interactive()){
+  gctrack<-gcContent(gen,chr,start,end)
+  plotTracks(gctrack,from= start, to=end) 
+} else {
+  data(gctrack)
+  plotTracks(gctrack,from= start, to=end) 
+}
+
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

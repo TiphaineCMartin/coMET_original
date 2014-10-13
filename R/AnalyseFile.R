@@ -1598,8 +1598,8 @@ createList.trackUser <- function(config.var, gbl.var){
     cur.sample.biofeat <- i
     biofile <- split.biofeature.data.user.file[[1]]
     if (split.biofeature.data.user.type[[1]][cur.sample.biofeat] == "GeneRegion") {
-      gTrack <- GeneRegionTrack(range = biofile, genome = gbl$mydata.gen,
-                                name = "GeneRegion", chromosome = gbl$mydata.chr)
+      gTrack <- GeneRegionTrack(range = biofile, genome = gbl.var$mydata.gen,
+                                name = "GeneRegion", chromosome = gbl.var$mydata.chr)
       if(length(listtracks_gvizuser) == 0) {
         listtracks_gvizuser <- list(gTrack)
       } else {
@@ -1608,8 +1608,8 @@ createList.trackUser <- function(config.var, gbl.var){
     }
     
     if (split.biofeature.data.user.type[[1]][cur.sample.biofeat] == "Annotation") {
-      aTrack <- AnnotationTrack(range = biofile, genome = gbl$mydata.gen,
-                                name = "Annotation", chromosome = gbl$mydata.chr)
+      aTrack <- AnnotationTrack(range = biofile, genome = gbl.var$mydata.gen,
+                                name = "Annotation", chromosome = gbl.var$mydata.chr)
       if(length(listtracks_gvizuser) == 0) {
         listtracks_gvizuser <- list(aTrack)
       } else {
@@ -1619,8 +1619,8 @@ createList.trackUser <- function(config.var, gbl.var){
     
     if (split.biofeature.data.user.type[[1]][cur.sample.biofeat] == "Data"){
       typlePlot <- split.biofeature.data.user.type.plot[[1]][cur.sample.biofeat]
-      dTrack <- DataTrack(range = biofile, genome = gbl$mydata.gen, name = "Plot Data",
-                          type = typlePlot, chromosome = gbl$mydata.chr)
+      dTrack <- DataTrack(range = biofile, genome = gbl.var$mydata.gen, name = "Plot Data",
+                          type = typlePlot, chromosome = gbl.var$mydata.chr)
       
       if(length(listtracks_gvizuser) == 0) {
         listtracks_gvizuser <- list(dTrack)

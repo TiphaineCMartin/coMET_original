@@ -53,8 +53,14 @@ start <- 38290160
 end <- 38303219
 gen <- "hg19"
 
-tmp<-cpgIslandsUCSC(gen, chrom, start, end)
-plotTracks(tmp, from = start, to =end)
+if(interactive()) {
+  cpgIstrack<-cpgIslandsUCSC(gen, chrom, start, end)
+  plotTracks(cpgIstrack, from = start, to =end)
+}else {
+  data(cpgIslandtrack)
+  plotTracks(cpgIstrack, from = start, to =end)
+}
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

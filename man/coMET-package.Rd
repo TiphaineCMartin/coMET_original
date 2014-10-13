@@ -42,18 +42,36 @@ start <- 38290160
 end <- 38303219
 gen <- "hg19"
 
-genetrack <-genesENSEMBL(gen,chrom,start,end,showId=FALSE)
-snptrack <- snpBiomart(chrom, start, end, 
+if(interactive()){
+  genetrack <-genesENSEMBL(gen,chrom,start,end,showId=FALSE)
+  snptrack <- snpBiomart(chrom, start, end, 
                        dataset="hsapiens_snp_som",showId=FALSE)
-strutrack <- structureBiomart(chrom, start, end, 
+  strutrack <- structureBiomart(chrom, start, end, 
                               strand, dataset="hsapiens_structvar_som")
-clinVariant<-ClinVarMainTrack(gen,chrom,start,end)
-clinCNV<-ClinVarCnvTrack(gen,chrom,start,end)
-gwastrack <-GWASTrack(gen,chrom,start,end)
-geneRtrack <-GeneReviewsTrack(gen,chrom,start,end)
-
-listgviz <- list(genetrack,snptrack,strutrack,clinVariant,
+  clinVariant<-ClinVarMainTrack(gen,chrom,start,end)
+  clinCNV<-ClinVarCnvTrack(gen,chrom,start,end)
+  gwastrack <-GWASTrack(gen,chrom,start,end)
+  geneRtrack <-GeneReviewsTrack(gen,chrom,start,end)
+  
+  listgviz <- list(genetrack,snptrack,strutrack,clinVariant,
                  clinCNV,gwastrack,geneRtrack)
 comet(config.file=configfile,TRACKS.GVIZ=listgviz, 
       VERBOSE=FALSE, PRINT.IMAGE=FALSE,DISP.PVALUEPLOT=FALSE)
+      
+} else {
+  data(geneENSEMBLtrack)
+  data(snpBiomarttrack)
+  data(ISCAtrack)
+  data(strucBiomarttrack)
+  data(ClinVarCnvTrack)
+  data(clinVarMaintrack)
+  data(GWASTrack)
+  data(GeneReviewTrack)
+  
+  listgviz <- list(genetrack,snptrack,strutrack,clinVariant,
+                 clinCNV,gwastrack,geneRtrack)
+comet(config.file=configfile,TRACKS.GVIZ=listgviz, 
+      VERBOSE=FALSE, PRINT.IMAGE=FALSE,DISP.PVALUEPLOT=FALSE)
+}
+
 }

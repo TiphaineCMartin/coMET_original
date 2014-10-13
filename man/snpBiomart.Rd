@@ -58,8 +58,16 @@ gen <- "hg19"
 chr <- "chr2"
 start <- 38290160
 end <- 38303219
-tmp<-snpBiomart(chr,start,end,"hsapiens_snp_som")
-plotTracks(tmp, from = start, to =end) 
+
+if(interactive()){
+  snptrack <- snpBiomart(chrom, start, end, 
+                       dataset="hsapiens_snp_som",showId=FALSE)
+  plotTracks(snptrack, from = start, to =end) 
+} else {
+  data(snpBiomarttrack)
+  plotTracks(snptrack, from = start, to =end)
+}
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

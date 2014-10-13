@@ -55,8 +55,15 @@ gen2 <- "hg19"
 chrom2 <- "chr2"
 start2 <- 38290160
 end2 <- 38303219
-tmp<-GADTrack(gen=gen2 ,chr=chrom2 ,start=start2 ,end=end2)
-plotTracks(tmp, from = start2, to =end2) 
+
+if(interactive()) {
+  gadtrack<-GADTrack(gen=gen2 ,chr=chrom2 ,start=start2 ,end=end2)
+  plotTracks(gadtrack, from = start2, to =end2)
+} else {
+  data(gadtrack)
+   plotTracks(gadtrack, from = start2, to =end2)
+}
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

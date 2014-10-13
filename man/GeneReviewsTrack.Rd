@@ -52,12 +52,17 @@ Tiphaine Martin
 \examples{
 library("Gviz")
 gen <- "hg19"
-
 chr <- "chr2"
 start <- 38290160
 end <- 38303219
-tmp<-GeneReviewsTrack(gen,chr,start,end)
-plotTracks(tmp, from = start, to = end) 
+if(interactive()){
+  geneRtrack <-GeneReviewsTrack(gen,chrom,start,end)
+  plotTracks(geneRtrack, from = start, to = end)
+} else {
+  data(GeneReviewTrack)
+  plotTracks(geneRtrack, from = start, to = end)
+}
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

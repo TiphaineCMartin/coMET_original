@@ -61,17 +61,22 @@ Tiphaine Martin
 \examples{
 library("Gviz")
 gen <- "hg19"
-BROWSER.SESSION="UCSC"
-mySession <- browserSession(BROWSER.SESSION)
-genome(mySession) <- gen
-pattern1 <- "GM12878"
 chr <- "chr2"
 start <- 38290160
 end <- 38313219
 
-tmp<-HistoneAll(gen,chr,start,end,mySession, pattern=pattern1,track.name="Broad Histone")
-plotTracks(tmp, from = start, to =end)
+if(interactive()){
+  BROWSER.SESSION="UCSC"
+  mySession <- browserSession(BROWSER.SESSION)
+  genome(mySession) <- gen
+  pattern1 <- "GM12878"
 
+  histonalltrack<-HistoneAll(gen,chr,start,end,mySession, pattern=pattern1,track.name="Broad Histone")
+  plotTracks(histonalltrack, from = start, to =end)
+} else {
+  data(histonalltrack)
+  plotTracks(histonalltrack, from = start, to =end)
+}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

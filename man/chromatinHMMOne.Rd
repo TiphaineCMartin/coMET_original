@@ -57,18 +57,26 @@ Tiphaine Martin
 }
 \examples{
 library("Gviz")
-gen <- "hg19"
-BROWSER.SESSION="UCSC"
-mySession <- browserSession(BROWSER.SESSION)
-genome(mySession) <- gen
-track.name="Broad ChromHMM"
-tablestrack<-tableNames(ucscTableQuery(mySession, track=track.name))
-table.name<-tablestrack[1]
-chr <- "chr7"
-start <- 38290160
-end <- 38303219
-tmp<-chromatinHMMOne(gen,chr,start,end,mySession,track.name,table.name)
-plotTracks(tmp, from = start, to =end) 
+  gen <- "hg19"
+  chr <- "chr2"
+  start <- 38290160
+  end <- 38303219
+if(interactive()) {
+
+  BROWSER.SESSION="UCSC"
+  mySession <- browserSession(BROWSER.SESSION)
+  genome(mySession) <- gen
+  track.name="Broad ChromHMM"
+  tablestrack<-tableNames(ucscTableQuery(mySession, track=track.name))
+  table.name<-tablestrack[1]
+  chromhmmtrackone<-chromatinHMMOne(gen,chr,start,end,mySession,track.name,table.name)
+  plotTracks(chromhmmtrackone, from = start, to =end) 
+}else {
+
+  data(chromhmmtrackone)
+  plotTracks(chromhmmtrackone, from = start, to =end) 
+}
+
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

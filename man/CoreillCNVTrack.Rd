@@ -56,8 +56,15 @@ chrom <- "chr2"
 start <- 38290160
 end <- 38303219
 
-coreilVariant<-CoreillCNVTrack(gen,chrom,start,end)
-plotTracks(coreilVariant, from = start, to =end)
+if(interactive()){
+  coreilVariant<-CoreillCNVTrack(gen,chrom,start,end)
+  plotTracks(coreilVariant, from = start, to =end)
+} else {
+   data(coreilVarianttrack)
+  plotTracks(coreilVariant, from = start, to =end)
+}
+
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

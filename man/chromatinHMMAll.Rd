@@ -60,23 +60,34 @@ Tiphaine Martin
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-require("Gviz")
-gen <- "hg19"
-BROWSER.SESSION="UCSC"
-mySession <- browserSession(BROWSER.SESSION)
-genome(mySession) <- gen
-track.name="Broad ChromHMM"
-tablestrack<-tableNames(ucscTableQuery(mySession, track=track.name))
-table.name<-tablestrack[1]
-chr <- "chr7"
-start <- 38290160
-end <- 38313219
-PATTERN.REGULATION<-"GM12878"
-tmp<-chromatinHMMAll(gen,chr,start,end,mySession,track.name,PATTERN.REGULATION)
-plotTracks(tmp)
+library("Gviz")
+  gen <- "hg19"
+  chr <- "chr2"
+  start <- 38290160
+  end <- 38313219
+if(interactive()){
+  BROWSER.SESSION="UCSC"
+  mySession <- browserSession(BROWSER.SESSION)
+  genome(mySession) <- gen
+  track.name="Broad ChromHMM"
+  tablestrack<-tableNames(ucscTableQuery(mySession, track=track.name))
+  table.name<-tablestrack[1]
+  PATTERN.REGULATION<-"GM12878"
+  
+  chromhmmPattern<-chromatinHMMAll(gen,chr,start,end,mySession,track.name,PATTERN.REGULATION)
+  plotTracks(chromhmmPattern, from = start, to =end)
 
-tmp<-chromatinHMMAll(gen,chr,start,end,mySession,track.name)
-plotTracks(tmp, from = start, to =end)
+  chromhmmNoPattern<-chromatinHMMAll(gen,chr,start,end,mySession,track.name)
+  plotTracks(chromhmmNoPattern, from = start, to =end)
+} else {
+
+  data(chromhmmPattern)
+  plotTracks(chromhmmPattern, from = start, to =end)
+
+  data(chromhmmNoPattern)
+  plotTracks(chromhmmNoPattern, from = start, to =end)
+}
+
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

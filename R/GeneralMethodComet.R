@@ -1667,7 +1667,7 @@ create.color.list.large <- function(config.var,gbl.var) {
     }
   } else {
     if(gbl.var$large.mydata.samples <= 5) {
-      large.split.tmp.color.list <- list(head(large.tmp.color.list, gbl.var$large.mydata.samples))
+      large.split.tmp.color.list <- list(head(tmp.color.list, gbl.var$large.mydata.samples))
     } else {
       stop("coMET includes a default set of colors for 5 samples. For more samples, please specify COLOR.LIST.LARGE\n")
     }
@@ -1892,7 +1892,7 @@ draw.name.tracks.web <- function(config.var,gbl.var) {
                                             layout.pos.row = 5,
                                             layout.pos.col = 1,
                                             name = "name.tracks.vp.nocormatrixmap")
-  name.tracks.vp.nocormatrixmap.nopval <- viewport(height = 1,
+  name.tracks.vp.cormatrixmap.nopval <- viewport(height = 1,
                                             width = 1,
                                             layout.pos.row = 3,
                                             layout.pos.col = 1,
@@ -2187,9 +2187,9 @@ create.tracks.user <- function(config.var,gbl.var){
   if (config.var$VERBOSE)  cat("START CREATE.TRACKS.USER\n")
   
   if(!is.null(config.var$BIOFEAT.USER.FILE)){
-    split.biofeature.data.user.file <- gbl$split.biofeature.data.user.file
-    split.biofeature.data.user.type <- gbl$split.biofeature.data.user.type
-    split.biofeature.data.user.type.plot <- gbl$split.biofeature.data.user.type.plot
+    split.biofeature.data.user.file <- gbl.var$split.biofeature.data.user.file
+    split.biofeature.data.user.type <- gbl.var$split.biofeature.data.user.type
+    split.biofeature.data.user.type.plot <- gbl.var$split.biofeature.data.user.type.plot
     
     num.data=0
     listtracks_user <- list()
@@ -2296,7 +2296,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #--- Broad Histone
   if(has.key("BroadHistone",gbl.var$split.list.tracks)) {
-    chromatintrack <- HistoneHMMAll(config.var$GENOME,gbl.var$mydata.chr,
+    chromatintrack <- HistoneAll(config.var$GENOME,gbl.var$mydata.chr,
                                       gbl.var$min.x,gbl.var$max.x,
                                       gbl.var$mySession,track.name="Broad histone",
                                       pattern=config.var$PATTERN.REGULATION)

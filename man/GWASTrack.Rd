@@ -55,8 +55,15 @@ gen <- "hg19"
 chr <- "chr2"
 start <- 37949607
 end <- 37965207
-tmp<-GWASTrack(gen,chr,start,end)
-plotTracks(tmp, from = start, to =end) 
+
+if(interactive()) {
+  gwastrack <-GWASTrack(gen,chrom,start,end)
+  plotTracks(gwastrack, from = start, to =end) 
+} else {
+  data(GWASTrack)
+  plotTracks(gwastrack, from = start, to =end) 
+}
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
