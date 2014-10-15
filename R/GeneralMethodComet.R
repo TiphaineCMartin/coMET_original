@@ -703,9 +703,9 @@ draw.plot.annotation <- function(config.var, gbl.var) {
     l.g <- lapply(gbl.var$listtracks_ggbio, function(x){
       ggplotGrob(x)
     })
-    grid.rect(gp=gpar(col="blue"))
+   # grid.rect(gp=gpar(col="blue"))
     grid.arrange(do.call(arrangeGrob, c(l.g, list(nrow = size_ggbio/4, ncol = 1))),newpage=FALSE)
-    # tracks(gbl.var$listtracks_ggbio)
+    #tracks(gbl.var$listtracks_ggbio)
   }
   
   if(! (is.null(gbl.var$listtracks_trackviewer))){

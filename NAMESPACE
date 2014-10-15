@@ -1,20 +1,79 @@
-# Default NAMESPACE created by R
-# Remove the previous line if you edit this file
+## ============================================================
+## Import
+## ============================================================
+
+# Import all packages listed as Imports or Depends
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+### base packages
+###
+import(grid)
+import(grDevices)
+
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+### Non-bioconductor packages
+###
+importFrom("colortools",complementary, opposite)
+importFrom("gridExtra",arrangeGrob, grid.arrange)
+importClassesFrom("hash",hash)
+importMethodsFrom("hash",keys)
+importFrom("hash",hash)
+importFrom("hash",has.key)
+
+
+
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+### Bioconductor packages
+###
+import(GenomicRanges)
+import(biomaRt)
+import(Gviz)
+import(rtracklayer)
+import(BiocStyle)
+
+importFrom("trackViewer",viewTracks)
+importClassesFrom("trackViewer",track, trackList)
+importFrom("trackViewer", trackList)
+
+importFrom("ggplot2",ggplotGrob)
+importFrom("ggbio",tracks)
+
+
+## ============================================================
+## Export
+## ============================================================
 
 # Export all names
 #exportPattern("^[[:alpha:]]+")
-exportPattern("^[^\\.]") 
+#exportPattern("^[^\\.]") 
 
-# Import all packages listed as Imports or Depends
-import(
-  grid,
-  grDevices,
-  biomaRt,
-  Gviz,
-  ggbio,
-  rtracklayer,
-  trackViewer,
-  GenomicRanges,
-  colortools,
-  hash
-)
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+### Primary functions
+###
+export(comet,comet.web)
+
+
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+### pre-formatted tracks
+###
+export(chromatinHMMAll, chromatinHMMOne,
+       chrUCSC2ENSEMBL,
+       ClinVarCnvTrack, ClinVarMainTrack,
+       CoreillCNVTrack,
+       COSMICTrack,
+       cpgIslandsUCSC,
+       DNAseUCSC,
+       GADTrack,
+       gcContent,
+       GeneReviewsTrack,
+       genesENSEMBL,
+       genesNameENSEMBL,
+       GWASTrack,
+       HistoneAll, HistoneOne,
+       ISCATrack,
+       knownGenesUCSC,
+       regulationBiomart,
+       snpBiomart,
+       snpLocationsUCSC,
+       structureBiomart,
+       transcriptENSEMBL,
+       xenorefGenesUCSC)
