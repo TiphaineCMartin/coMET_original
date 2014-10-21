@@ -241,6 +241,9 @@ Tiphaine Martin
 \examples{
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
 configfile <- file.path(extdata, "config_cyp1b1_zoom_4comet.txt")
+myinfofile <- file.path(extdata, "cyp1b1_infofile.txt")
+myexpressfile <- file.path(extdata, "cyp1b1_infofile_exprGene_region.txt")
+mycorrelation <- file.path(extdata, "cyp1b1_res37_rawMatrix.txt")
 
 chrom <- "chr2"
 start <- 38290160
@@ -260,7 +263,8 @@ if(interactive()){
   geneRtrack <-GeneReviewsTrack(gen,chrom,start,end)
   listgviz <- list(genetrack,snptrack,strutrack,clinVariant,
                  clinCNV,gwastrack,geneRtrack)
-comet(config.file=configfile,TRACKS.GVIZ=listgviz, 
+comet(config.file=configfile, MYDATA.FILE=myinfofile, CORMATRIX.FILE=mycorrelation, 
+      MYDATA.LARGE.FILE=myexpressfile, TRACKS.GVIZ=listgviz, 
       VERBOSE=FALSE, PRINT.IMAGE=FALSE,DISP.PVALUEPLOT=FALSE)
       
 } else {
@@ -275,7 +279,8 @@ comet(config.file=configfile,TRACKS.GVIZ=listgviz,
   data(GeneReviewTrack)
   listgviz <- list(genetrack,snptrack,strutrack,clinVariant,
                  clinCNV,gwastrack,geneRtrack)
-comet(config.file=configfile,TRACKS.GVIZ=listgviz, 
+comet(config.file=configfile, MYDATA.FILE=myinfofile, CORMATRIX.FILE=mycorrelation, 
+      MYDATA.LARGE.FILE=myexpressfile, TRACKS.GVIZ=listgviz, 
       VERBOSE=FALSE, PRINT.IMAGE=FALSE,DISP.PVALUEPLOT=FALSE)
 }
 

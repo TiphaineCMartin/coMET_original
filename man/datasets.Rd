@@ -34,6 +34,7 @@ Some sample data sets used for the illustrative examples and the vignette.
 }
 
 \keyword{datasets}
+\keyword{ internal }
 
 
 

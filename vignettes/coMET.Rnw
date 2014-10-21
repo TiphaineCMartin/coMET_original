@@ -70,7 +70,7 @@ The structure of the plots builds on snp.plotter (Luna et al., 2007), with exten
 
 
 \section{Usage}
-CoMET requires the installation of R, the statistical computing software, freely available for Linux, Windows, or MacOS.CoMET can be downloaded from bioconductor. Packages can be installed using the install.packages command in R.  The coMET R package includes two major functions \emph{comet.web} and \emph{comet}. the function \emph{comet.web} generates output plot with the same settings of genomic annotation tracks as that of the webservice ( http://comet.epigen.kcl.ac.uk:3838/coMET/ or http://www.epigen.kcl.ac.uk/comet). the function \emph{comet} generates output plots with the customized annotation tracks defined by user. 
+CoMET requires the installation of R, the statistical computing software, freely available for Linux, Windows, or MacOS. CoMET can be downloaded from bioconductor. Packages can be installed using the install.packages command in R. The coMET R package includes two major functions \emph{comet.web} and \emph{comet}. The function \emph{comet.web} generates output plot with the same settings of genomic annotation tracks as that of the webservice ( http://comet.epigen.kcl.ac.uk:3838/coMET/ or http://www.epigen.kcl.ac.uk/comet). The function \emph{comet} generates output plots with the customized annotation tracks defined by user. 
 
 <<installPackages,eval=FALSE>>=
 source("http://bioconductor.org/biocLite.R")
@@ -105,7 +105,8 @@ source(file.path(rdir, "GeneralMethodComet.R"))
 library(coMET)
 @
 
-The configuration file ammends the options for the plot to be produced from comet. Example configuration and input files are also provided in the webervice (http://comet.epigen.kcl.ac.uk:3838/coMET/ and http://www.epigen.kcl.ac.uk/comet). Information about the package can viewed from within R using this command.
+The configuration file specifies the options for the coMET plot. Example configuration and input files
+are also provided on http://www.epigen.kcl.ac.uk/comet. Information about the package can viewed from within R using this command:
 
 <<findHel, eval=FALSE>>=
 ?comet
@@ -113,20 +114,17 @@ The configuration file ammends the options for the plot to be produced from come
 @
 
 
-\section{File Formats}
-4 formats (option CORMATRIX.FORMAT) describes tab-delimited correlation file 
-(option CORMATRIX.FILE): 
+\section{Files formats}
+There are five types of file that user should or can give to produce the plot: 
 \begin{enumerate}
-\item CORMATRIX: the data has already pre-computed by users; 
-\item RAW: The data is at raw format and can be computed by one of 3 methods 
-Spearman, Pearson, Kendall (option CORMATRIX.METHOD). ; 
-\item 2 other formats are when the association data and correlation matrix are in the 
-same file defined in the option DATA.FILE (region to visualize (option DATA.FILE) 
-Others describing the P-value and optionally the direction of association (for example gene expression, validation studies) (option DATA.FILE.LARGE)) 
+  \item info file is defined in the option DATA.FILE (mandatory)
+  \item correlation files is defined in the option CORMATRIX.FILE (mandatory)
+  \item extra info files are defined in the option DATA.FILE.LARGE.
+  \item Annotation info file is defined in the option BIOFEAT.USER.FILE.
 \end{enumerate}
 
 
-\subsection{Format of info file(mandatory):}
+\subsection{Format of info file (mandatory):}
 Info file can be a list of CpG sites with/without Beta value (or direction sign). If it is a site file then it is mandatory to have the 4 columns as shown below with headers in the same order. Beta can be the 5th column(optional) and it can be either a numeric value (positive or negative values) or only direction sign ("+", "-")
 
 <<Filedata>>=
@@ -139,7 +137,7 @@ data_info <-read.csv(infofile, header = TRUE,
 head(data_info)
 @
 
-Also it can be region with/without an end start of the base pair. If it is a region file then it is mandatory to have the 5 columns below with headers in this order. Beta can be the 6th column(optional).
+Alternatively, the info file can be region-based and if so, the region-based info file must have the 5 columns (see below) with headers in this order. The beta or direction can be included in the 6th column (optional).
 
 <<expMatrix>>=
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
@@ -151,8 +149,13 @@ data_infoexp <-read.csv(infoexp, header = TRUE,
 head(data_infoexp)
 @
 
-\subsection{Format of correlation matrix(mandatory):}
-The data can be either pre-calculated correlation matrix or raw data. If it is a raw data then you can select the type of correlation method (spearman ,kendall or pearson).
+\subsection{Format of correlation matrix (mandatory):}
+The path file of correlation matrix is described in the option CORMATRIX.FILE. This file is a tab-delimited correlation file.  
+There are 2 different format described in the option CORMATRIX.FORMAT :
+\begin{enumerate}
+\item CORMATRIX: pre-computed correlation matrix provided by the user; Dimension of matrix : CpG\_number X CpG\_number
+\item RAW: Raw data format. Correlations of these can be computed by one of 3 methods Spearman, Pearson, Kendall (option CORMATRIX.METHOD). Dimension of matrix :  sample\_size X CpG\_number ;
+\end{enumerate}
 
 <<corrMatrix>>=
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
@@ -165,16 +168,17 @@ data_cor[1:6,1:6]
 
 
 \subsection{Format of extra info file:}
+The path file of extra info files can be described in the option DATA.FILE.LARGE. Different extra info files are separated by a comma.
 
-This can be another type of info file (e.g Expression data or replication data) and it follows the same rules than the info file.
+This can be another type of info file (e.g expression or replication data) and should follow the same rules as the standard info file.
 
 \subsection{Format of annotation file}
-
-format accepted by Gviz such as BED, GTF, and GFF3 format
+The path of file is defined in the option BIOFEAT.USER.FILE and the format of file is the format accepted by GViz (BED, GTF, and GFF3).
 
 \subsection{Option of config.file}
 
-If you would like to make your own changes to the plot you can download the configuration file from this site. After you make the relative changes you can upload it to the server again and plot.
+If you would like to make your own changes to the plot you can download the configuration file, make
+changes to it, and upload it into R as shown in the example below.
 
  The important options of a coMET figure includes three components: 
 \begin{enumerate}
@@ -208,32 +212,45 @@ data_config <-read.csv(configfile, quote = "")
 data_config
 @
 
-\section{Creation plot like webservice:}
-It is possible to use simply the creation of plot with the function comet.web, for example the figure \ref{fig:cometweb_simple}.
+\section{Creating a plot like webservice:}
+It is possible to reproduce the web service plotting defaults by using the function comet.web, for example the figure \ref{fig:cometweb_simple}.
 
 <<cometwebPlotText, eval=FALSE, fig.keep='last' >>=
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
-configfile <- file.path(extdata, "config_cyp1b1_zoom.txt")
-comet.web(config.file=configfile,PRINT.IMAGE=FALSE,VERBOSE=FALSE)
+myinfofile <- file.path(extdata, "cyp1b1_infofile.txt")
+myexpressfile <- file.path(extdata, "cyp1b1_infofile_exprGene_region.txt")
+mycorrelation <- file.path(extdata, "cyp1b1_res37_rawMatrix.txt") 
+configfile <- file.path(extdata, "config_cyp1b1_zoom_4webserver.txt")
+comet.web(config.file=configfile, MYDATA.FILE=myinfofile, 
+          CORMATRIX.FILE=mycorrelation ,MYDATA.LARGE.FILE=myexpressfile, 
+          PRINT.IMAGE=FALSE,VERBOSE=FALSE)
 @
 
 \begin{figure}
 <<cometwebPlot, echo=FALSE, fig.keep='last' >>=
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
-configfile <- file.path(extdata, "config_cyp1b1_zoom.txt")
-comet.web(config.file=configfile,PRINT.IMAGE=FALSE,VERBOSE=FALSE)
+myinfofile <- file.path(extdata, "cyp1b1_infofile.txt")
+myexpressfile <- file.path(extdata, "cyp1b1_infofile_exprGene_region.txt")
+mycorrelation <- file.path(extdata, "cyp1b1_res37_rawMatrix.txt") 
+configfile <- file.path(extdata, "config_cyp1b1_zoom_4webserver.txt")
+comet.web(config.file=configfile, MYDATA.FILE=myinfofile, CORMATRIX.FILE=mycorrelation,
+          MYDATA.LARGE.FILE=myexpressfile, PRINT.IMAGE=FALSE,VERBOSE=FALSE)
 @
 \caption{Plot with comet.web function.\label{fig:cometweb_simple}}
 \end{figure}
 
-\section{Creation plot with the generic function: comet}
-It is possible to create the annotation tracks by Gviz, trackviewer or ggbio.
-Currently, the combinaison of annotation tracks from Gviz with the heatmap of correlation between genetics elements is better plot in coMET, for example the figure \ref{fig:cometPlot}.
+\section{Creating a plot with the generic function: comet}
+It is possible to create the annotation tracks by Gviz, trackviewer or ggbio, for example the figure \ref{fig:cometPlot}.
+Currently, the Gviz option for annotation tracks, in combination with the heatmap of correlation values between genetics elements, provides the most informative and easy to visualize graphics.
 
 \subsection{coMET plot: pvalue plot, annotation tracks, and correlation matrice}
 <<cometPlotText, eval=FALSE, fig.keep='last' >>=
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
 configfile <- file.path(extdata, "config_cyp1b1_zoom_4comet.txt")
+myinfofile <- file.path(extdata, "cyp1b1_infofile.txt")
+myexpressfile <- file.path(extdata, "cyp1b1_infofile_exprGene_region.txt")
+mycorrelation <- file.path(extdata, "cyp1b1_res37_rawMatrix.txt")
+
 chrom <- "chr2"
 start <- 38290160
 end <- 38303219
@@ -251,7 +268,10 @@ strutrack <- structureBiomart(chrom, start, end, strand,
 iscatrack <-ISCATrack(gen,chrom,start,end,mySession, table="iscaPathogenic")
 
 listgviz <- list(genetrack,snptrack,iscatrack)
-comet(config.file=configfile,TRACKS.GVIZ=listgviz, 
+
+
+comet(config.file=configfile, MYDATA.FILE=myinfofile, CORMATRIX.FILE=mycorrelation,
+      MYDATA.LARGE.FILE=myexpressfile, TRACKS.GVIZ=listgviz, 
       VERBOSE=FALSE, PRINT.IMAGE=FALSE)
 @
 
@@ -259,6 +279,10 @@ comet(config.file=configfile,TRACKS.GVIZ=listgviz,
 <<cometPlot, echo=FALSE, fig.keep='last' >>=
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
 configfile <- file.path(extdata, "config_cyp1b1_zoom_4comet.txt")
+myinfofile <- file.path(extdata, "cyp1b1_infofile.txt")
+myexpressfile <- file.path(extdata, "cyp1b1_infofile_exprGene_region.txt")
+mycorrelation <- file.path(extdata, "cyp1b1_res37_rawMatrix.txt")
+
 #configfile <- "../inst/extdata/config_cyp1b1_zoom_4comet.txt" 
 chrom <- "chr2"
 start <- 38290160
@@ -271,7 +295,8 @@ data(snpBiomarttrack)
 data(ISCAtrack)
 
 listgviz <- list(genetrack,snptrack,iscatrack)
-comet(config.file=configfile,TRACKS.GVIZ=listgviz, 
+comet(config.file=configfile, MYDATA.FILE=myinfofile, CORMATRIX.FILE=mycorrelation, 
+      MYDATA.LARGE.FILE=myexpressfile, TRACKS.GVIZ=listgviz, 
       VERBOSE=FALSE, PRINT.IMAGE=FALSE)
 @
 \caption{Plot with comet function.\label{fig:cometPlot}}
@@ -283,8 +308,11 @@ In this case, we need to use the option \texttt{DISP.PVALUEPLOT=FALSE}, for exam
 
 <<cometPlotNopvalText, eval=FALSE, fig.keep='last' >>=
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
-configfile <- file.path(extdata, "config_cyp1b1_zoom_4comet.txt")
+configfile <- file.path(extdata, "config_cyp1b1_zoom_4cometnopval.txt")
+myinfofile <- file.path(extdata, "cyp1b1_infofile.txt")
+mycorrelation <- file.path(extdata, "cyp1b1_res37_rawMatrix.txt")
 #configfile <- "../inst/extdata/config_cyp1b1_zoom_4comet.txt" 
+
 chrom <- "chr2"
 start <- 38290160
 end <- 38303219
@@ -302,15 +330,18 @@ geneRtrack <-GeneReviewsTrack(gen,chrom,start,end)
 
 listgviz <- list(genetrack,snptrack,strutrack,clinVariant,
                  clinCNV,gwastrack,geneRtrack)
-comet(config.file=configfile,TRACKS.GVIZ=listgviz, 
-      VERBOSE=FALSE, PRINT.IMAGE=FALSE,DISP.PVALUEPLOT=FALSE)
+comet(config.file=configfile, MYDATA.FILE=myinfofile, CORMATRIX.FILE=mycorrelation,
+      TRACKS.GVIZ=listgviz, VERBOSE=FALSE, PRINT.IMAGE=FALSE,DISP.PVALUEPLOT=FALSE)
 @
 
 \begin{figure}
-<<cometPlot_nopval, echo=FALSE, fig.keep='last' >>=
+<<cometPlot_nopval, echo=FALSE, fig.keep='last'' >>=
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
-configfile <- file.path(extdata, "config_cyp1b1_zoom_4comet.txt")
+configfile <- file.path(extdata, "config_cyp1b1_zoom_4cometnopval.txt")
 #configfile <- "../inst/extdata/config_cyp1b1_zoom_4comet.txt" 
+myinfofile <- file.path(extdata, "cyp1b1_infofile.txt")
+mycorrelation <- file.path(extdata, "cyp1b1_res37_rawMatrix.txt")
+
 chrom <- "chr2"
 start <- 38290160
 end <- 38303219
@@ -326,8 +357,8 @@ data(GeneReviewTrack)
 
 listgviz <- list(genetrack,snptrack,strutrack,clinVariant,
                  clinCNV,gwastrack,geneRtrack)
-comet(config.file=configfile,TRACKS.GVIZ=listgviz, 
-      VERBOSE=FALSE, PRINT.IMAGE=FALSE,DISP.PVALUEPLOT=FALSE)
+comet(config.file=configfile, MYDATA.FILE=myinfofile, CORMATRIX.FILE=mycorrelation,
+      TRACKS.GVIZ=listgviz, VERBOSE=FALSE, PRINT.IMAGE=FALSE,DISP.PVALUEPLOT=FALSE)
 @
 \caption{Plot with comet function without pvalue plot.\label{fig:cometPlot_nopval}}
 \end{figure}

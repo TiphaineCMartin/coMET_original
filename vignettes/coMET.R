@@ -81,9 +81,13 @@ data_config
 ### code chunk number 10: Creation plot with comet.web
 ###################################################
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
-configfile <- file.path(extdata, "config_cyp1b1_zoom.txt")
-#configfile <- "../inst/extdata/config_cyp1b1_zoom.txt" 
-comet.web(config.file=configfile,PRINT.IMAGE=FALSE,VERBOSE=FALSE)
+myinfofile <- file.path(extdata, "cyp1b1_infofile.txt")
+myexpressfile <- file.path(extdata, "cyp1b1_infofile_exprGene_region.txt")
+mycorrelation <- file.path(extdata, "cyp1b1_res37_rawMatrix.txt") 
+configfile <- file.path(extdata, "config_cyp1b1_zoom_4webserver.txt")
+comet.web(config.file=configfile, MYDATA.FILE=myinfofile, 
+          CORMATRIX.FILE=mycorrelation ,MYDATA.LARGE.FILE=myexpressfile, 
+          PRINT.IMAGE=FALSE,VERBOSE=FALSE)
 
 
 ###################################################
@@ -92,6 +96,9 @@ comet.web(config.file=configfile,PRINT.IMAGE=FALSE,VERBOSE=FALSE)
 library(Gviz)
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
 configfile <- file.path(extdata, "config_cyp1b1_zoom_4comet.txt")
+myinfofile <- file.path(extdata, "cyp1b1_infofile.txt")
+myexpressfile <- file.path(extdata, "cyp1b1_infofile_exprGene_region.txt")
+mycorrelation <- file.path(extdata, "cyp1b1_res37_rawMatrix.txt")
 #configfile <- "../inst/extdata/config_cyp1b1_zoom_4comet.txt" 
 chrom <- "chr2"
 start <- 38290160
@@ -111,16 +118,18 @@ if(interactive()) {
   iscatrack <-ISCATrack(gen,chrom,start,end,mySession, table="iscaPathogenic")
   
   listgviz <- list(genetrack,snptrack,iscatrack)
-  comet(config.file=configfile,TRACKS.GVIZ=listgviz, 
-        VERBOSE=FALSE, PRINT.IMAGE=FALSE)
+  comet(config.file=configfile, MYDATA.FILE=myinfofile, CORMATRIX.FILE=mycorrelation,
+      MYDATA.LARGE.FILE=myexpressfile, TRACKS.GVIZ=listgviz, 
+      VERBOSE=FALSE, PRINT.IMAGE=FALSE)
 } else {
   data(geneENSEMBLtrack)
   data(snpBiomarttrack)
   data(ISCAtrack)
   
   listgviz <- list(genetrack,snptrack,iscatrack)
-  comet(config.file=configfile,TRACKS.GVIZ=listgviz, 
-        VERBOSE=FALSE, PRINT.IMAGE=FALSE)
+  comet(config.file=configfile, MYDATA.FILE=myinfofile, CORMATRIX.FILE=mycorrelation, 
+      MYDATA.LARGE.FILE=myexpressfile, TRACKS.GVIZ=listgviz, 
+      VERBOSE=FALSE, PRINT.IMAGE=FALSE)
 }
 
 

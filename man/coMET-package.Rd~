@@ -12,8 +12,8 @@ coMET: Visualisation of pvalue and correlation between genomic data such as DNA 
 \tabular{ll}{
 Package: \tab coMET\cr
 Type: \tab Package\cr
-Version: \tab 0.99.0\cr
-Date: \tab 2014-09-26\cr
+Version: \tab 0.99.2\cr
+Date: \tab 2014-10-16\cr
 License: \tab GPL (>=2)\cr
 }
 coMET package that can generate the regional plot capturing the features of co-methylation patterns, EWAS results, and genomic information. A coMET figure includes plot of p-value from the EWAS result, provides customized annotation tracks, and a triangle heatmap plot which demonstrates the correlation structure of CpG sites in a genomic region, calculated by the pairwise Spearman s rank correlation method.Plots are created as PDF,EPS files.
@@ -34,27 +34,50 @@ Martin, T.C, Erte, I, Tsai, P-C, Bell, J.T.,coMET: an R plotting package to visu
  \code{\link[<coMET>:<coMET>-package]{<coMET>}}
 }
 \examples{
-library(coMET)
 library(Gviz)
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
 configfile <- file.path(extdata, "config_cyp1b1_zoom_4comet.txt") 
+myinfofile <- file.path(extdata, "cyp1b1_infofile.txt")
+myexpressfile <- file.path(extdata, "cyp1b1_infofile_exprGene_region.txt")
+mycorrelation <- file.path(extdata, "cyp1b1_res37_rawMatrix.txt")
+
 chrom <- "chr2"
 start <- 38290160
 end <- 38303219
 gen <- "hg19"
 
-genetrack <-genesENSEMBL(gen,chrom,start,end,showId=FALSE)
-snptrack <- snpBiomart(chrom, start, end, 
+if(interactive()){
+  genetrack <-genesENSEMBL(gen,chrom,start,end,showId=FALSE)
+  snptrack <- snpBiomart(chrom, start, end, 
                        dataset="hsapiens_snp_som",showId=FALSE)
-strutrack <- structureBiomart(chrom, start, end, 
+  strutrack <- structureBiomart(chrom, start, end, 
                               strand, dataset="hsapiens_structvar_som")
-clinVariant<-ClinVarMainTrack(gen,chrom,start,end)
-clinCNV<-ClinVarCnvTrack(gen,chrom,start,end)
-gwastrack <-GWASTrack(gen,chrom,start,end)
-geneRtrack <-GeneReviewsTrack(gen,chrom,start,end)
-
-listgviz <- list(genetrack,snptrack,strutrack,clinVariant,
+  clinVariant<-ClinVarMainTrack(gen,chrom,start,end)
+  clinCNV<-ClinVarCnvTrack(gen,chrom,start,end)
+  gwastrack <-GWASTrack(gen,chrom,start,end)
+  geneRtrack <-GeneReviewsTrack(gen,chrom,start,end)
+  
+  listgviz <- list(genetrack,snptrack,strutrack,clinVariant,
                  clinCNV,gwastrack,geneRtrack)
-comet(config.file=configfile,TRACKS.GVIZ=listgviz, 
+comet(config.file=configfile, MYDATA.FILE=myinfofile, CORMATRIX.FILE=mycorrelation, 
+      MYDATA.LARGE.FILE=myexpressfile, TRACKS.GVIZ=listgviz, 
       VERBOSE=FALSE, PRINT.IMAGE=FALSE,DISP.PVALUEPLOT=FALSE)
+      
+} else {
+  data(geneENSEMBLtrack)
+  data(snpBiomarttrack)
+  data(ISCAtrack)
+  data(strucBiomarttrack)
+  data(ClinVarCnvTrack)
+  data(clinVarMaintrack)
+  data(GWASTrack)
+  data(GeneReviewTrack)
+  
+  listgviz <- list(genetrack,snptrack,strutrack,clinVariant,
+                 clinCNV,gwastrack,geneRtrack)
+comet(config.file=configfile, MYDATA.FILE=myinfofile, CORMATRIX.FILE=mycorrelation, 
+      MYDATA.LARGE.FILE=myexpressfile, TRACKS.GVIZ=listgviz, 
+      VERBOSE=FALSE, PRINT.IMAGE=FALSE,DISP.PVALUEPLOT=FALSE)
+}
+
 }

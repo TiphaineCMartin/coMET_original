@@ -47,11 +47,23 @@ genesNameENSEMBL<-function(gen,chr,start,end,dataset){
     stop("Invalid in function genesENSEMB :gen null:\n")
   }
   chrEnsembl=chrUCSC2ENSEMBL(chr)
-  martENSEMBL=useMart("ensembl",dataset=dataset)
   
-  ens_ENSEMBL <- getBM(c("ensembl_gene_id","external_gene_id"),
-                       filters = c("chromosome_name","start","end"),
-                       values = list(chrEnsembl, start, end), mart=martENSEMBL) 
+  ens_ENSEMBL <- NULL
+  if(gen == "hg19" | gen == "grch37"){
+    martENSEMBL=useMart(host='grch37.ensembl.org', biomart='ENSEMBL_MART_ENSEMBL',
+                        dataset=dataset)
+    ens_ENSEMBL <- getBM(c("ensembl_gene_id","external_gene_id"),
+                         filters = c("chromosome_name","start","end"),
+                         values = list(chrEnsembl, start, end), mart=martENSEMBL) 
+  } else {
+    martENSEMBL=useMart("ensembl",dataset=dataset)
+    ens_ENSEMBL <- getBM(c("ensembl_gene_id","external_gene_name"),
+                         filters = c("chromosome_name","start","end"),
+                         values = list(chrEnsembl, start, end), mart=martENSEMBL) 
+  }
+  
+  
+
   if(nrow(ens_ENSEMBL) == 0) {
     ens_ENSEMBL <- NULL
   } 
@@ -73,7 +85,15 @@ genesENSEMBL<-function(gen,chr,start,end,showId=FALSE){
     stop("Invalid in function genesENSEMB :gen null:\n")
   }
   #cat("data",gen,"\t",chr,"\t",start,"\t",end,"\n")
-  biomTrack <- BiomartGeneRegionTrack(genome = gen, 
+  martENSEMBL=NULL
+  if(gen == "hg19" | gen == "grch37"){
+    martENSEMBL=useMart(host='grch37.ensembl.org', biomart='ENSEMBL_MART_ENSEMBL',
+                        dataset='hsapiens_gene_ensembl')
+  } else {
+    martENSEMBL=useMart("ensembl",dataset='hsapiens_gene_ensembl')
+  }
+  
+  biomTrack <- BiomartGeneRegionTrack(genome = gen, biomart=martENSEMBL,
                                       chromosome = chr, start = start, 
                                       end = end,  name = "ENSEMBL",
                                       fontcolor="black",showId=showId)
@@ -112,8 +132,17 @@ transcriptENSEMBL<-function(gen,chr,start,end,showId=FALSE){
   if(is.null(gen)){
     stop("Invalid in function genesENSEMB :gen null:\n")
   }
+  
+  martENSEMBL=NULL
+  if(gen == "hg19" | gen == "grch37"){
+    martENSEMBL=useMart(host='grch37.ensembl.org', biomart='ENSEMBL_MART_ENSEMBL',
+                        dataset='hsapiens_gene_ensembl')
+  } else {
+    martENSEMBL=useMart("ensembl",dataset='hsapiens_gene_ensembl')
+  }
+  
   #cat("data",gen,"\t",chr,"\t",start,"\t",end,"\n")
-  biomTrack <- BiomartGeneRegionTrack(genome = gen, 
+  biomTrack <- BiomartGeneRegionTrack(genome = gen, biomart=martENSEMBL,
                                       chromosome = chr, start = start, 
                                       end = end,  name = "ENSEMBL",
                                       fontcolor="black", groupAnnotation = "group",
@@ -722,7 +751,7 @@ COSMICTrack <-function(gen,chr,start,end,showId=FALSE){
             track="COSMIC", table="cosmic", 
             trackType = "AnnotationTrack", start = "chromStart", end = "chromEnd", 
             id = "name", feature = "func", strand = "*", shape = "box", 
-            stacking="squish", fill = "firebrick1", name = "COSMIC",showId=showId)
+            stacking="dense", fill = "firebrick1", name = "COSMIC",showId=showId)
 }
 
 #-------------------- CREATION track GAD from UCSC ------------------

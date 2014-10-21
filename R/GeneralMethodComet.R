@@ -325,7 +325,7 @@ draw.plot.linesconnection <- function(top.vp, config.var, gbl.var) {
   
   # if (config.var$VERBOSE)  cat("BUG HERE \n")
   
-  if (config.var$VERBOSE)  cat("BUGgg HERE \n")
+ # if (config.var$VERBOSE)  cat("BUGgg HERE \n")
   x.finish.pos <- gbl.var$equidis.pos +
     seq(1, length(gbl.var$equidis.pos) * abs(tmp.correction.factor), abs(tmp.correction.factor)) * config.var$CONNECTING.LINES.FLEX +
     gbl.var$total.dist * config.var$CONNECTING.LINES.ADJ
@@ -832,7 +832,7 @@ draw.plot.grid.mydata <- function(config.var, gbl.var) {
               
               if(!is.null(config.var$DISP.REGION)){
                 if(as.logical(gbl.var$split.region[[1]][gbl.var$cur.sample])  & (grepl("REGION", format)[1])){
-                  if (config.var$VERBOSE)  cat("format",format,"\n")
+                #  if (config.var$VERBOSE)  cat("format",format,"\n")
                   position.start <- gbl.var$mydata.hash.names.start[[name.test ]]
                   position.end <- gbl.var$mydata.hash.names.end[[name.test ]]
                   if(position.start < (gbl.var$min.x - 1)){
@@ -1013,8 +1013,8 @@ draw.plot.grid.mydata.large <- function(config.var, gbl.var) {
                                     fill = mycolor,
                                     lwd = gbl.var$line.width))
             }
-            if (config.var$VERBOSE)  cat("format ",format,"\n")
-            if (config.var$VERBOSE)  cat("Sample",gbl.var$cur.sample.large,"\n")
+          #  if (config.var$VERBOSE)  cat("format ",format,"\n")
+          #  if (config.var$VERBOSE)  cat("Sample",gbl.var$cur.sample.large,"\n")
             
             if(grepl("REGION", format)[1] ){
               if (config.var$VERBOSE)  cat("format ",format,"\n")
@@ -1837,7 +1837,7 @@ draw.name.genes.web <- function(config.var,gbl.var) {
     for(i in 1:nrow(name.genes)) {
       
       label.text <- name.genes[i,2]
-      if (config.var$VERBOSE)  cat("Gene",i,":", label.text,"\n")
+    #  if (config.var$VERBOSE)  cat("Gene",i,":", label.text,"\n")
       #Ensure that labels do not overlap by moving them
       
       y.pos <- 1.8 - 0.3 * ( i - 1) 

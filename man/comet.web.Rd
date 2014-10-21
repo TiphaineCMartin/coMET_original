@@ -160,8 +160,13 @@ Tiphaine Martin
 }
 \examples{
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
-configfile <- file.path(extdata, "config_cyp1b1_zoom.txt")
-comet.web(config.file=configfile,PRINT.IMAGE=FALSE,VERBOSE=FALSE)
+configfile <- file.path(extdata, "config_cyp1b1_zoom_4webserver.txt")
+myinfofile <- file.path(extdata, "cyp1b1_infofile.txt")
+myexpressfile <- file.path(extdata, "cyp1b1_infofile_exprGene_region.txt")
+mycorrelation <- file.path(extdata, "cyp1b1_res37_rawMatrix.txt")
+
+comet.web(config.file=configfile,  MYDATA.FILE=myinfofile, CORMATRIX.FILE=mycorrelation, 
+      MYDATA.LARGE.FILE=myexpressfile, PRINT.IMAGE=FALSE,VERBOSE=FALSE)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

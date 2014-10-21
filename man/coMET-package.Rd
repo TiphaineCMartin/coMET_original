@@ -12,8 +12,8 @@ coMET: Visualisation of pvalue and correlation between genomic data such as DNA 
 \tabular{ll}{
 Package: \tab coMET\cr
 Type: \tab Package\cr
-Version: \tab 0.99.0\cr
-Date: \tab 2014-09-26\cr
+Version: \tab 0.99.3\cr
+Date: \tab 2014-10-16\cr
 License: \tab GPL (>=2)\cr
 }
 coMET package that can generate the regional plot capturing the features of co-methylation patterns, EWAS results, and genomic information. A coMET figure includes plot of p-value from the EWAS result, provides customized annotation tracks, and a triangle heatmap plot which demonstrates the correlation structure of CpG sites in a genomic region, calculated by the pairwise Spearman s rank correlation method.Plots are created as PDF,EPS files.
@@ -31,12 +31,16 @@ Martin, T.C, Erte, I, Tsai, P-C, Bell, J.T.,coMET: an R plotting package to visu
 }
 \keyword{ package }
 \seealso{
- \code{\link[<coMET>:<coMET>-package]{<coMET>}}
+% \code{\link[<coMET>:<coMET>-package]{<coMET>}}
 }
 \examples{
 library(Gviz)
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
 configfile <- file.path(extdata, "config_cyp1b1_zoom_4comet.txt") 
+myinfofile <- file.path(extdata, "cyp1b1_infofile.txt")
+myexpressfile <- file.path(extdata, "cyp1b1_infofile_exprGene_region.txt")
+mycorrelation <- file.path(extdata, "cyp1b1_res37_rawMatrix.txt")
+
 chrom <- "chr2"
 start <- 38290160
 end <- 38303219
@@ -55,7 +59,8 @@ if(interactive()){
   
   listgviz <- list(genetrack,snptrack,strutrack,clinVariant,
                  clinCNV,gwastrack,geneRtrack)
-comet(config.file=configfile,TRACKS.GVIZ=listgviz, 
+comet(config.file=configfile, MYDATA.FILE=myinfofile, CORMATRIX.FILE=mycorrelation, 
+      MYDATA.LARGE.FILE=myexpressfile, TRACKS.GVIZ=listgviz, 
       VERBOSE=FALSE, PRINT.IMAGE=FALSE,DISP.PVALUEPLOT=FALSE)
       
 } else {
@@ -70,7 +75,8 @@ comet(config.file=configfile,TRACKS.GVIZ=listgviz,
   
   listgviz <- list(genetrack,snptrack,strutrack,clinVariant,
                  clinCNV,gwastrack,geneRtrack)
-comet(config.file=configfile,TRACKS.GVIZ=listgviz, 
+comet(config.file=configfile, MYDATA.FILE=myinfofile, CORMATRIX.FILE=mycorrelation, 
+      MYDATA.LARGE.FILE=myexpressfile, TRACKS.GVIZ=listgviz, 
       VERBOSE=FALSE, PRINT.IMAGE=FALSE,DISP.PVALUEPLOT=FALSE)
 }
 
