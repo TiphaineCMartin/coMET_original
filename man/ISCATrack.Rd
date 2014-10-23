@@ -5,7 +5,7 @@
 Create one track of the genomic positions of variants from ISCA
 }
 \description{
-Create one track of the genomic positions of variants from International Standards for Cytogenomic Arrays (ISCA) Consortium  in using the Gviz bioconductor package
+Create one track of the genomic positions of variants from International Standards for Cytogenomic Arrays (ISCA) Consortium using the Gviz bioconductor package
 }
 \usage{
 ISCATrack(gen, chr, start, end, mySession, table.name, showId=FALSE)
@@ -13,25 +13,25 @@ ISCATrack(gen, chr, start, end, mySession, table.name, showId=FALSE)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
  \item{gen}{
-the name of genome
+the name of the genome
 }
   \item{chr}{
 the chromosome of interest
 }
   \item{start}{
-the first position of region of interest (the smallest value)
+the first position in the region of interest (the smallest value)
 }
   \item{end}{
-the last position of region of interest (the biggest value)
+the last position in the region of interest (the largest value)
 }
  \item{mySession}{
 the object session from the function browserSession of rtracklayer
 }
   \item{table.name}{
-A table of ISCAT : iscaBenign, iscaCuratedBenign, iscaCuratedPathogenic, iscaLikelyBenign, iscaLikelyPathogenic, iscaPathGainCum, iscaPathLossCum, iscaPathogenic, iscaUncertain
+A table of ISCAT classifications: iscaBenign, iscaCuratedBenign, iscaCuratedPathogenic, iscaLikelyBenign, iscaLikelyPathogenic, iscaPathGainCum, iscaPathLossCum, iscaPathogenic, iscaUncertain
 }
  \item{showId}{
-Show Id of genetic elements
+Show the ID of the genetic elements
 }
 }
 \details{

@@ -2,10 +2,10 @@
 \alias{gcContent}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Create track GC content from UCSC
+Create one track of GC content from UCSC
 }
 \description{
-Create track GC content from UCSC in using the Gviz bioconductor package
+Create a track of GC content from UCSC using the Gviz bioconductor package
 }
 \usage{
 gcContent(gen, chr, start, end)
@@ -13,23 +13,23 @@ gcContent(gen, chr, start, end)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{gen}{
-the name of genome
+the name of the genome
 }
   \item{chr}{
 the chromosome of interest
 }
   \item{start}{
-the first position of region of interest (the smallest value)
+the first position in the region of interest (the smallest value)
 }
   \item{end}{
-the last position of region of interest (the biggest value)
+the last position in the region of interest (the largest value)
 }
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-An UcscTrack object of Gviz
+A UcscTrack object of Gviz
 }
 \references{
 %% ~put references to the literature/web site here ~

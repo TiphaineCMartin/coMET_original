@@ -2,10 +2,10 @@
 \alias{structureBiomart}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Create track Structural Variation from ENSEMBL
+Create a structural variation track from ENSEMBL
 }
 \description{
-Create track Structural Variation from ENSEMBL in using the Gviz bioconductor package
+Create a 'Structural Variation' track from ENSEMBL using the Gviz bioconductor package
 }
 \usage{
 structureBiomart(chr, start, end, strand, dataset, showId=FALSE, title = NULL)
@@ -16,23 +16,23 @@ structureBiomart(chr, start, end, strand, dataset, showId=FALSE, title = NULL)
 the chromosome of interest
 }
   \item{start}{
-the first position of region of interest (the smallest value)
+the first position in the region of interest (the smallest value)
 }
   \item{end}{
-the last position of region of interest (the biggest value)
+the last position in the region of interest (the largest value)
 }
   
   \item{strand}{
- the strand of genome to extract structure
+ the strand to extract structure data for
 }
   \item{dataset}{
- The name of database
+ The name of the database. Example "hsapiens_structvar_som"
 }
   \item{showId}{
-  Show the id of element or not
+  Show the the ID of the element
 }
   \item{title}{
- The name of annotation track
+ The name of the annotation track
 }
 }
 \details{

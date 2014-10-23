@@ -5,7 +5,7 @@
 Create one track of the genomic positions of variants from the ClinVar database (variants only)
 }
 \description{
-Create one track of the genomic positions of variants from the ClinVar database (Variants only, CNV excluded) in using the Gviz bioconductor package
+Create one track of the genomic positions of variants from the ClinVar database (Variants only, CNV excluded) using the Gviz bioconductor package
 }
 \usage{
 ClinVarMainTrack(gen, chr, start, end, showId=FALSE)
@@ -13,19 +13,19 @@ ClinVarMainTrack(gen, chr, start, end, showId=FALSE)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
  \item{gen}{
-the name of genome
+the name of the genome
 }
   \item{chr}{
 the chromosome of interest
 }
   \item{start}{
-the first position of region of interest (the smallest value)
+the first position in region of interest (the smallest value)
 }
   \item{end}{
-the last position of region of interest (the biggest value)
+the last position in region of interest (the biggest value)
 }
  \item{showId}{
-Show Id of genetic elements
+Show the ID of the genetic elements
 }
 }
 \details{

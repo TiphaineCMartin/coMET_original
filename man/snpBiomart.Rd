@@ -2,10 +2,10 @@
 \alias{snpBiomart}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Create track Short Variation from ENSEMBL
+Create a short variation track from ENSEMBL
 }
 \description{
-Create track Short Variation from ENSEMBL in using the Gviz bioconductor package
+Create a 'Short Variation' track from ENSEMBL using the Gviz bioconductor package
 }
 \usage{
 snpBiomart(chr, start, end, dataset, showId=FALSE, title = NULL)
@@ -16,19 +16,19 @@ snpBiomart(chr, start, end, dataset, showId=FALSE, title = NULL)
 the chromosome of interest
 }
   \item{start}{
-the first position of region of interest (the smallest value)
+the first position in the region of interest (the smallest value)
 }
   \item{end}{
-the last position of region of interest (the biggest value)
-} 
+the last position in the region of interest (the largest value)
+}
   \item{dataset}{
- The name of SNP database
+  The name of the database. Example "hsapiens_snp_som" 
 }
   \item{showId}{
-  Show the id of element or not
+  Show the the ID of element or not
 }
   \item{title}{
- The name of annotation track
+ The name of the annotation track
 }
 }
 \details{

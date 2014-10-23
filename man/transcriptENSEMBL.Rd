@@ -2,10 +2,10 @@
 \alias{transcriptENSEMBL}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Creation track for transcription sites
+Create a track of transcripts from ENSEMBL
 }
 \description{
-  Creation track for transcription sites in using the Gviz bioconductor package
+Create a track to visualize different transcripts from ENSEMBL using the Gviz bioconductor package
 }
 \usage{
 transcriptENSEMBL(gen, chr, start, end,showId = FALSE)
@@ -13,19 +13,19 @@ transcriptENSEMBL(gen, chr, start, end,showId = FALSE)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{gen}{
-the name of genome
+the name of the genome
 }
   \item{chr}{
 the chromosome of interest
 }
   \item{start}{
-the first position of region of interest (the smallest value)
+the first position in the region of interest (the smallest value)
 }
   \item{end}{
-the last position of region of interest (the biggest value)
+the last position in the region of interest (the largest value)
 }
   \item{showId}{
-  Show Id of genetic elements
+  Show the ID of the genetic elements
 }
 }
 \details{

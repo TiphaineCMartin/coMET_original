@@ -2,13 +2,13 @@
 \alias{regulationBiomart}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-create track Regulation from ENSEMBL
+Create a regulation track from ENSEMBL
 }
 \description{
-create track Regulation from ENSEMBL in using the Gviz bioconductor package
+Create a 'Regulation' track from ENSEMBL using the Gviz bioconductor package
 }
 \usage{
-regulationBiomart(chr, start, end, dataset)
+regulationBiomart(chr, start, end, dataset="hsapiens_feature_set")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -16,13 +16,13 @@ regulationBiomart(chr, start, end, dataset)
 the chromosome of interest
 }
   \item{start}{
-the first position of region of interest (the smallest value)
+the first position in the region of interest (the smallest value)
 }
   \item{end}{
-the last position of region of interest (the biggest value)
+the last position in the region of interest (the largest value)
 }
   \item{dataset}{
-  The name of database
+  The name of the database."hsapiens_feature_set"(default)
 }
 }
 \details{

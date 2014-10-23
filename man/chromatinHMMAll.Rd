@@ -2,13 +2,13 @@
 \alias{chromatinHMMAll}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Create multiple chromaHMM Broad tracks from UCSC's genome browser 
+Creating multiple chromHMM tracks from the UCSC genome browser 
 }
 \description{
-Create multiple chromaHMM Broad tracks from a connection to UCSC genome browser in using the GViz bioconductor package
+Create multiple chromHMM Broad tracks by connecting to the UCSC genome browser using the GViz bioconductor package
 }
 \usage{
-chromatinHMMAll(gen, chr, start, end, mySession, track.name = NULL, pattern = NULL,  table.name = NULL)
+chromatinHMMAll(gen, chr, start, end, mySession, track.name = "Broad ChromHMM", pattern = NULL,  table.name = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -19,22 +19,22 @@ the name of genome
 the chromosome of interest
 }
   \item{start}{
-the first position of region of interest (the smallest value)
+the first position in region of interest (the smallest value)
 }
   \item{end}{
-the last position of region of interest (the biggest value)
+the last position in region of interest (the biggest value)
 }
   \item{mySession}{
 the object session from the function browserSession of rtracklayer
 }
    \item{track.name}{
-the name of track, for example : Broad ChromHMM
+the name of the track, for example : Broad ChromHMM
 }
   \item{pattern}{
-the pattern of track to visualise
+the pattern of the track to visualise
 }
   \item{table.name}{
-the name of table from the track
+the name of the table from the track
 }
  
 }

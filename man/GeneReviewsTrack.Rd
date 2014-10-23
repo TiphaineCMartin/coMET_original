@@ -5,7 +5,7 @@
 Create one track of the genomic positions of variants from GeneReviews
 }
 \description{
-Create one track of the genomic positions of variants from GeneReviews in using the Gviz bioconductor package
+Create one track of the genomic positions of variants from GeneReviews using the Gviz bioconductor package
 }
 \usage{
 GeneReviewsTrack(gen, chr, start, end, showId=FALSE)
@@ -13,19 +13,19 @@ GeneReviewsTrack(gen, chr, start, end, showId=FALSE)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
  \item{gen}{
-the name of genome
+the name of the genome
 }
   \item{chr}{
 the chromosome of interest
 }
   \item{start}{
-the first position of region of interest (the smallest value)
+the first position in the region of interest (the smallest value)
 }
   \item{end}{
-the last position of region of interest (the biggest value)
+the last position in the region of interest (the largest value)
 }
  \item{showId}{
-Show Id of genetic elements
+Show the ID of the genetic elements
 }
 }
 \details{

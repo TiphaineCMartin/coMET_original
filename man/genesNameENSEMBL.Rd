@@ -2,10 +2,10 @@
 \alias{genesNameENSEMBL}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Get the name of genes in the genomic regions of interest from ENSEMBL
+Obtain the genes names in the genomic regions of interest from ENSEMBL
 }
 \description{
-Get the name of genes in the genomic regions of interest from ENSEMBL
+Obtain the genes names in the genomic regions of interest from ENSEMBL
 }
 \usage{
 genesNameENSEMBL(gen, chr, start, end, dataset)
@@ -13,19 +13,19 @@ genesNameENSEMBL(gen, chr, start, end, dataset)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
  \item{gen}{
-the name of genome
+the name of the genome
 }
   \item{chr}{
 the chromosome of interest
 }
   \item{start}{
-the first position of region of interest (the smallest value)
+the first position in the region of interest (the smallest value)
 }
   \item{end}{
-the last position of region of interest (the biggest value)
+the last position in the region of interest (the largest value)
 }
   \item{dataset}{
- Name of database to select genes
+ Name of the database to select genes
 }
 }
 \details{

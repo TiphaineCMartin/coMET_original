@@ -5,7 +5,7 @@
 create track CpG Island from UCSC
 }
 \description{
-create track CpG Island from UCSC in using the Gviz bioconductor package
+create track CpG Island from UCSC using the Gviz bioconductor package
 }
 \usage{
 cpgIslandsUCSC(gen, chr, start, end)
@@ -13,16 +13,16 @@ cpgIslandsUCSC(gen, chr, start, end)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
     \item{gen}{
-the name of genome
+the name of the genome
 }
   \item{chr}{
 the chromosome of interest
 }
   \item{start}{
-the first position of region of interest (the smallest value)
+the first position in the region of interest (the smallest value)
 }
   \item{end}{
-the last position of region of interest (the biggest value)
+the last position in the region of interest (the largest value)
 }
 }
 \details{

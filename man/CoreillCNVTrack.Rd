@@ -2,10 +2,10 @@
 \alias{CoreillCNVTrack}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Create one track of the genomic positions of copy-number variants (CNVs) in chromosomal aberration and inherited disorder cell lines from the NIGMS Human Genetic Cell Repository
+Create one track of the genomic positions of CNV in chromosomal aberration and inherited disorders from the NIGMS Human Genetic Cell Repository data
 }
 \description{
-Create one track of the genomic positions of copy-number variants (CNVs) in chromosomal aberration and inherited disorder cell lines from the NIGMS Human Genetic Cell Repository in using the Gviz bioconductor package
+Create one track of the genomic positions of copy-number variants (CNVs) in chromosomal aberration and inherited disorder cell lines from the NIGMS Human Genetic Cell Repository using the Gviz bioconductor package
 }
 \usage{
 CoreillCNVTrack(gen, chr, start, end, showId=FALSE)
@@ -13,19 +13,19 @@ CoreillCNVTrack(gen, chr, start, end, showId=FALSE)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
  \item{gen}{
-the name of genome
+the name of the genome
 }
   \item{chr}{
 the chromosome of interest
 }
   \item{start}{
-the first position of region of interest (the smallest value)
+the first position in the region of interest (the smallest value)
 }
   \item{end}{
-the last position of region of interest (the biggest value)
+the last position in the region of interest (the largest value)
 }
  \item{showId}{
-Show Id of genetic elements
+Show the ID of the genetic elements
 }
 }
 \details{

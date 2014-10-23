@@ -2,10 +2,10 @@
 \alias{chrUCSC2ENSEMBL}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Adding "chr" from the chromsome of UCSC to become ENSEMBL's chromosome
+Removing "chr" to the chromosome number from UCSC to transform it to ENSEMBL chromosome format
 }
 \description{
-Adding the letter chr in the beginning of the name of chromosome from UCSC
+Removing "chr" at the beginning of the chromosome number
 }
 \usage{
 chrUCSC2ENSEMBL(chr)
@@ -13,18 +13,14 @@ chrUCSC2ENSEMBL(chr)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
  \item{chr}{
-the name of chromosome at UCSC format 
+the chromosome number in UCSC format 
 }
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+ the number of chromosome at ENSEMBL format
 }
 \references{
 %% ~put references to the literature/web site here ~

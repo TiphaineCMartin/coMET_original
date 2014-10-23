@@ -8,30 +8,30 @@ Creation of an UCSC's DNase clusters track
 Creation of DNase cluster track from a connection to UCSC genome browser in using the GViz bioconductor package
 }
 \usage{
-DNAseUCSC(gen, chr, start, end, mySession, track.name = NULL, table.name = NULL)
+DNAseUCSC(gen, chr, start, end, mySession, track.name = "DNase Clusters", table.name = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{gen}{
-the name of genome
+the name of the genome
 }
   \item{chr}{
 the chromosome of interest
 }
   \item{start}{
-the first position of region of interest (the smallest value)
+the first position in the region of interest (the smallest value)
 }
   \item{end}{
-the last position of region of interest (the biggest value)
+the last position in the region of interest (the largest value)
 }
   \item{mySession}{
 the object session from the function browserSession of rtracklayer
 }
   \item{track.name}{
-the name of track DNAseUCSC
+the name of the track DNAseUCSC. "DNase Clusters"(default)
 }
   \item{table.name}{
-the name of table from the track
+the name of the table from the track
 }
 }
 \details{

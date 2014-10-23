@@ -2,10 +2,10 @@
 \alias{snpLocationsUCSC}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Create track SNPs from UCSC
+Create a SNP track from UCSC
 }
 \description{
-Create track SNPs from UCSC in using the Gviz bioconductor package
+Create a SNP track from UCSC using the Gviz bioconductor package
 }
 \usage{
 snpLocationsUCSC(gen, chr, start, end, track)
@@ -13,20 +13,20 @@ snpLocationsUCSC(gen, chr, start, end, track)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
  \item{gen}{
-the name of genome
+the name of the genome
 }
   \item{chr}{
 the chromosome of interest
 }
   \item{start}{
-the first position of region of interest (the smallest value)
+the first position in the region of interest (the smallest value)
 }
   \item{end}{
-the last position of region of interest (the biggest value)
+the last position in the region of interest (the largest value)
 }
  
   \item{track}{
- The name of database
+ The name of the database. Example "snp138"
 }
 }
 \details{

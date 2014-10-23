@@ -2,13 +2,13 @@
 \alias{chromatinHMMOne}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Create one track of chromaHMM Broad from UCSC's genome browser
+Creating one chromHMM track from the UCSC genome browser
 }
 \description{
-Creation of a track related to only one type of chromaHMM  Broad from UCSC in using the Gviz bioconductor package
+Create one track of only one type of chromHMM Broad element from the UCSC genome browser using the Gviz bioconductor package
 }
 \usage{
-chromatinHMMOne(gen, chr, start, end, mySession, track.name = NULL, table.name = NULL)
+chromatinHMMOne(gen, chr, start, end, mySession, track.name = "Broad ChromHMM", table.name = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -19,19 +19,19 @@ the name of genome
 the chromosome of interest
 }
   \item{start}{
-the first position of region of interest (the smallest value)
+the first position in region of interest (the smallest value)
 }
   \item{end}{
-the last position of region of interest (the biggest value)
+the last position in region of interest (the biggest value)
 }
   \item{mySession}{
 the object session from the function browserSession of rtracklayer
 }
   \item{track.name}{
-the name of track, for example : Broad ChromHMM
+the name of the track( Broad ChromHMM )
 }
   \item{table.name}{
-the name of table from the track
+the name of the table from the track
 }
 }
 \details{

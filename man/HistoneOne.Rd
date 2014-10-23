@@ -2,36 +2,36 @@
 \alias{HistoneOne}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Create track one type of Histone density from UCSC
+Create one track of one histone modification profile from the UCSC genome browser
 }
 \description{
-Create track one type of Histone density from UCSC (ENCODE/Broad) in using the Gviz bioconductor package
+Create one track of one histone modification profile from the UCSC genome browser (ENCODE/Broad) using the Gviz bioconductor package
 }
 \usage{
-HistoneOne(gen, chr, start, end, mySession, track.name = NULL, table.name = NULL)
+HistoneOne(gen, chr, start, end, mySession, track.name = "Broad Histone", table.name = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{gen}{
-the name of genome
+the name of the genome
 }
   \item{chr}{
 the chromosome of interest
 }
   \item{start}{
-the first position of region of interest (the smallest value)
+the first position in the region of interest (the smallest value)
 }
   \item{end}{
-the last position of region of interest (the biggest value)
+the last position in the region of interest (the largest value)
 }
   \item{mySession}{
 the object session from the function browserSession of rtracklayer
 }
  \item{track.name}{
-the name of track, for example : Histone
+the name of the track, for example: "Broad Histone"
 }
   \item{table.name}{
-the name of table from the track
+the name of the table from the track
 }
 }
 \details{

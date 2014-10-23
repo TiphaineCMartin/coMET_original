@@ -2,39 +2,39 @@
 \alias{HistoneAll}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Create multiple tracks of Histone from UCSC's genome browser
+Create multiple tracks of histone modifications from the UCSC genome browser
 }
 \description{
-Create multiple tracks of Histone from UCSC's genome browser (ENCODE/Broad) in using the Gviz bioconductor package
+Create multiple tracks of histone modifications from the UCSC genome browser (ENCODE/Broad) using the Gviz bioconductor package
 }
 \usage{
-HistoneAll(gen, chr, start, end, mySession, pattern = NULL, track.name = NULL, table.name = NULL)
+HistoneAll(gen, chr, start, end, mySession, pattern = NULL, track.name = "Broad Histone", table.name = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
  \item{gen}{
-the name of genome
+the name of the genome
 }
   \item{chr}{
 the chromosome of interest
 }
   \item{start}{
-the first position of region of interest (the smallest value)
+the first position in the region of interest (the smallest value)
 }
   \item{end}{
-the last position of region of interest (the biggest value)
+the last position in the region of interest (the largest value)
 }
   \item{mySession}{
 the object session from the function browserSession of rtracklayer
 }
   \item{pattern}{
-    The pattern of cell type
+    The cell type
 }
  \item{track.name}{
-the name of track, for example : Histone
+the name of the track, for example: "Broad Histone"
 }
   \item{table.name}{
-the name of table from the track
+the name of the table from the track
 }
 }
 \details{

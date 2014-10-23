@@ -3,10 +3,10 @@
 \alias{coMET}
 \docType{package}
 \title{
-coMET: Visualisation of pvalue and correlation between genomic data such as DNA methylation
+coMET: visualisation of regional epigenome-wide association scan (EWAS) results and DNA co-methylation patterns
 }
 \description{
- The coMET is a R package to visualize the EWAS (epigenome-wide association scans) results in a genomic region. coMET package generates the plots of association, comethylation patterns and a series of annotation tracks at genomic scale.
+coMET is an R package for visualising EWAS results in a genomic region. Along with phenotype-association plots, coMET also generates plots of co-methylation patterns and provides a series of annotation tracks.
 }
 \details{
 \tabular{ll}{
@@ -16,25 +16,24 @@ Version: \tab 0.99.3\cr
 Date: \tab 2014-10-16\cr
 License: \tab GPL (>=2)\cr
 }
-coMET package that can generate the regional plot capturing the features of co-methylation patterns, EWAS results, and genomic information. A coMET figure includes plot of p-value from the EWAS result, provides customized annotation tracks, and a triangle heatmap plot which demonstrates the correlation structure of CpG sites in a genomic region, calculated by the pairwise Spearman s rank correlation method.Plots are created as PDF,EPS files.
-
-A list containing two items: config.var and gbl.var, which includes the values of all significant variables used by coMET.
+coMET is an R package that can generate regional plots of EWAS results, DNA co-methylation patterns, and genomic information. A coMET figure includes 3 panels with a plot of P-values from EWAS, customized annotation tracks, and a triangle heatmap plot which demonstrates the correlation structure of DNA methylation at the CpG sites in the genomic region. Plots are created as PDF or EPS files.
 }
 \author{
 Tiphaine C. Martin, Idil Yet, Pei-Chien Tsai, Jordana T. Bell
 
 Maintainer: Tiphaine Martin <tiphaine.martin@kcl.ac.uk>
+
 Website: http://www.epigen.kcl.ac.uk/comet
 }
 \references{
-Martin, T.C, Erte, I, Tsai, P-C, Bell, J.T.,coMET: an R plotting package to visualize regional plots of epigenome-wide association scan results, QG14, 2014.
+Martin, T.C, Erte, I, Tsai, P-C, Bell, J.T., coMET: an R plotting package to visualize regional plots of epigenome-wide association scan results, QG14, 2014.
 }
 \keyword{ package }
 \seealso{
 % \code{\link[<coMET>:<coMET>-package]{<coMET>}}
 }
 \examples{
-library(Gviz)
+
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
 configfile <- file.path(extdata, "config_cyp1b1_zoom_4comet.txt") 
 myinfofile <- file.path(extdata, "cyp1b1_infofile.txt")

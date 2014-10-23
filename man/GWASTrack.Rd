@@ -2,10 +2,10 @@
 \alias{GWASTrack}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Create one track of the genomic positions of variants from GWAS catalog
+Create one track of the genomic positions of variants from the GWAS catalog
 }
 \description{
-Create one track of the genomic positions of variants from NHGRI Catalog of Published Genome-Wide Association Studies in using the Gviz bioconductor package
+Create one track of the genomic positions of variants from the NHGRI Catalog of Published Genome-Wide Association Studies using the Gviz bioconductor package
 }
 \usage{
 GWASTrack(gen, chr, start, end, showId=FALSE)
@@ -13,19 +13,19 @@ GWASTrack(gen, chr, start, end, showId=FALSE)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
  \item{gen}{
-the name of genome
+the name of the genome
 }
   \item{chr}{
 the chromosome of interest
 }
   \item{start}{
-the first position of region of interest (the smallest value)
+the first position in the region of interest (the smallest value)
 }
   \item{end}{
-the last position of region of interest (the biggest value)
+the last position in the region of interest (the largest value)
 }
  \item{showId}{
-Show Id of genetic elements
+Show the ID of the genetic elements
 }
 }
 \details{

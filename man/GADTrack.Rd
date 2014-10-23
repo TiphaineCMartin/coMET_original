@@ -2,10 +2,10 @@
 \alias{GADTrack}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Create one track of the genomic positions of variants from Genetic Association Database (GAD) 
+Create one track of the genomic positions of variants from the Genetic Association Database (GAD) 
 }
 \description{
-Create one track of the genomic positions of variants from Genetic Association Database (GAD) (archive of human genetic association studies of complex diseases and disorders) in using the Gviz bioconductor package
+Create one track of the genomic positions of variants from the Genetic Association Database (GAD) (archive of human genetic association studies of complex diseases and disorders) using the Gviz bioconductor package
 }
 \usage{
 GADTrack(gen, chr, start, end, showId=FALSE)
@@ -13,19 +13,19 @@ GADTrack(gen, chr, start, end, showId=FALSE)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
  \item{gen}{
-the name of genome
+the name of the genome
 }
   \item{chr}{
 the chromosome of interest
 }
   \item{start}{
-the first position of region of interest (the smallest value)
+the first position in the region of interest (the smallest value)
 }
   \item{end}{
-the last position of region of interest (the biggest value)
+the last position in the region of interest (the largest value)
 }
  \item{showId}{
-Show Id of genetic elements
+Show the ID of the genetic elements
 }
 }
 \details{
