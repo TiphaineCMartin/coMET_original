@@ -154,7 +154,7 @@ transcriptENSEMBL<-function(gen,chr,start,end,showId=FALSE){
 }
 
 #-------------------- CREATION track all type of chromatineHMM from UCSC ------------------
-chromatinHMMAll<-function(gen,chr,start,end,mySession,track.name=NULL,pattern=NULL,table.name=NULL){
+chromatinHMMAll<-function(gen,chr,start,end,mySession,track.name="Broad ChromHMM",pattern=NULL,table.name=NULL){
   if(is.null(chr)){
     stop("Invalid in function chromatinHMMAll :chr null:\n")
   }
@@ -167,7 +167,7 @@ chromatinHMMAll<-function(gen,chr,start,end,mySession,track.name=NULL,pattern=NU
   if(is.null(gen)){
     stop("Invalid in function chromatinHMMAll :gen null:\n")
   }
-  if(is.null(track.name) & gen == "hg19"){
+  if(is.null(track.name) & (gen == "hg19" | gen == "grch37")){
     track.name="Broad ChromHMM"
   }else if(is.null(track.name) & gen != "hg19"){
     stop("Invalid in function chromatinHMMAll :track.namenull:\n")
@@ -198,7 +198,7 @@ chromatinHMMAll<-function(gen,chr,start,end,mySession,track.name=NULL,pattern=NU
 }
 
 #-------------------- CREATION track one type of chromaHMM from UCSC ------------------
-chromatinHMMOne<-function(gen,chr,start,end,mySession,track.name=NULL,table.name=NULL){
+chromatinHMMOne<-function(gen,chr,start,end,mySession,track.name="Broad ChromHMM", table.name=NULL){
   if(is.null(chr)){
     stop("Invalid in function chromatinHMMOne :chr null:\n")
   }
@@ -261,7 +261,7 @@ chromatinHMMOne<-function(gen,chr,start,end,mySession,track.name=NULL,table.name
 }
 
 #-------------------- CREATION track all types of Histone density from UCSC ------------------
-HistoneAll<-function(gen,chr,start,end,mySession,pattern=NULL,track.name=NULL,table.name=NULL){
+HistoneAll<-function(gen,chr,start,end,mySession,pattern=NULL,track.name="Broad Histone",table.name=NULL){
   if(is.null(chr)){
     stop("Invalid in function HistoneAll :chr null:\n")
   }
@@ -274,7 +274,7 @@ HistoneAll<-function(gen,chr,start,end,mySession,pattern=NULL,track.name=NULL,ta
   if(is.null(gen)){
     stop("Invalid in function HistoneAll :gen null:\n")
   }
-  if(is.null(track.name) & gen == "hg19"){
+  if(is.null(track.name) & (gen == "hg19" | gen == "grch37"){
     track.name="Broad Histone"
   }else if(is.null(track.name) & gen != "hg19"){
     stop("Invalid in function HistoneAll :track.namenull:\n")
@@ -317,7 +317,7 @@ HistoneAll<-function(gen,chr,start,end,mySession,pattern=NULL,track.name=NULL,ta
 }
 
 #-------------------- CREATION track one type of Histone density from UCSC ------------------
-HistoneOne<-function(gen,chr,start,end,mySession,track.name=NULL,table.name=NULL){
+HistoneOne<-function(gen,chr,start,end,mySession,track.name="Broad Histone",table.name=NULL){
   if(is.null(chr)){
     stop("Invalid in function HistoneOne :chr null:\n")
   }
@@ -330,7 +330,7 @@ HistoneOne<-function(gen,chr,start,end,mySession,track.name=NULL,table.name=NULL
   if(is.null(gen)){
     stop("Invalid in function HistoneOne :gen null:\n")
   }
-  if(is.null(track.name) & gen == "hg19"){
+  if(is.null(track.name) & ( gen == "hg19" | gen == "grch37")){
     track.name="Broad Histone"
   }else if(is.null(track.name)){
     stop("Invalid in function HistoneOne :track.namenull:\n")
@@ -368,7 +368,7 @@ HistoneOne<-function(gen,chr,start,end,mySession,track.name=NULL,table.name=NULL
 }
 
 #-------------------- CREATION track DNA cluster from UCSC ------------------
-DNAseUCSC<-function(gen,chr,start,end,mySession,track.name=NULL,table.name=NULL){
+DNAseUCSC<-function(gen,chr,start,end,mySession,track.name="DNase Clusters",table.name=NULL){
   if(is.null(chr)){
     stop("Invalid in function DNAseUCS :chr null:\n")
   }
@@ -381,7 +381,7 @@ DNAseUCSC<-function(gen,chr,start,end,mySession,track.name=NULL,table.name=NULL)
   if(is.null(gen)){
     stop("Invalid in function DNAseUCS :gen null:\n")
   }
-  if(is.null(track.name) & gen == "hg19"){
+  if(is.null(track.name) & (gen == "hg19" | gen == "grch37")){
     track.name="DNase Clusters"
   }else if(is.null(track.name)){
     stop("Invalid in function DNAseUCS :track.namenull:\n")
@@ -515,7 +515,7 @@ snpLocationsUCSC <-function(gen,chr,start,end,track){
   if(is.null(gen)){
     stop("Invalid in function snpLocationsUCSC :gen null:\n")
   }
-  if(is.null(track) & gen== "hg19"){
+  if(is.null(track) & (gen== "hg19" | gen == "grch37")){
     track="snp138"
   }else if(is.null(track)){
     stop("Invalid in function snpLocationsUCSC :track null:\n")
@@ -527,7 +527,7 @@ snpLocationsUCSC <-function(gen,chr,start,end,track){
 }
 
 #-------------------- CREATION track Regulation from ENSEMBL ------------------
-regulationBiomart <- function(chr, start, end, dataset) {
+regulationBiomart <- function(chr, start, end, dataset="hsapiens_feature_set") {
   if(is.null(chr)){
     stop("Invalid in function regulationBiomart :chr null:\n")
   }
@@ -541,7 +541,7 @@ regulationBiomart <- function(chr, start, end, dataset) {
     stop("Invalid in function regulationBiomart :dataset null:\n")
   }
   chrEnsembl=chrUCSC2ENSEMBL(chr)
-  martfunc <- useMart("functional_genomics",dataset="hsapiens_feature_set")
+  martfunc <- useMart("functional_genomics",dataset=dataset)
   ensfunc <- getBM(c("regulatory_stable_id","seq_region_start_1057","seq_region_end_1057",
                      "feature_type_name_1057","display_label_1057"),
                    filters = c("reg_chromosome_name", "reg_start", "reg_end"),
@@ -835,7 +835,7 @@ ISCATrack <-function(gen,chr,start,end,mySession,table.name,showId=FALSE){
     stop("Invalid in function ISCA:gen null:\n")
   }
   
-  if((is.null(table.name) | ! exists(table.name))& gen== "hg19"){
+  if((is.null(table.name) | ! exists(table.name))& (gen== "hg19" | gen == "grch37")){
     table.name="iscaPathogenic"
   }else if(is.null(table.name)){
     stop("Invalid in function ISCA:table null (possible table : iscaBenign
