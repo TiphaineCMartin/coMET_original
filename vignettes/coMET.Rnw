@@ -115,7 +115,7 @@ are also provided on http://www.epigen.kcl.ac.uk/comet. Information about the pa
 
 
 \section{Files formats}
-There are five types of file that user should or can give to produce the plot: 
+There are four types of files that the user should or can give to produce the plot: 
 \begin{enumerate}
   \item info file is defined in the option DATA.FILE (mandatory)
   \item correlation files is defined in the option CORMATRIX.FILE (mandatory)
@@ -124,7 +124,7 @@ There are five types of file that user should or can give to produce the plot:
 \end{enumerate}
 
 
-\subsection{Format of info file (mandatory):}
+\subsection{Format of info file (mandatory)}
 Info file can be a list of CpG sites with/without Beta value (or direction sign). If it is a site file then it is mandatory to have the 4 columns as shown below with headers in the same order. Beta can be the 5th column(optional) and it can be either a numeric value (positive or negative values) or only direction sign ("+", "-")
 
 <<Filedata>>=
@@ -149,9 +149,8 @@ data_infoexp <-read.csv(infoexp, header = TRUE,
 head(data_infoexp)
 @
 
-\subsection{Format of correlation matrix (mandatory):}
-The path file of correlation matrix is described in the option CORMATRIX.FILE. This file is a tab-delimited correlation file.  
-There are 2 different format described in the option CORMATRIX.FORMAT :
+\subsection{Format of correlation matrix (mandatory)}
+The data file used for the correlation matrix is described in the option CORMATRIX.FILE. This tab-delimited file can take 2 formats described in the option CORMATRIX.FORMAT:
 \begin{enumerate}
 \item CORMATRIX: pre-computed correlation matrix provided by the user; Dimension of matrix : CpG\_number X CpG\_number
 \item RAW: Raw data format. Correlations of these can be computed by one of 3 methods Spearman, Pearson, Kendall (option CORMATRIX.METHOD). Dimension of matrix :  sample\_size X CpG\_number ;
@@ -167,7 +166,7 @@ data_cor[1:6,1:6]
 @
 
 
-\subsection{Format of extra info file:}
+\subsection{Format of extra info file}
 The path file of extra info files can be described in the option DATA.FILE.LARGE. Different extra info files are separated by a comma.
 
 This can be another type of info file (e.g expression or replication data) and should follow the same rules as the standard info file.
@@ -180,25 +179,26 @@ The path of file is defined in the option BIOFEAT.USER.FILE and the format of fi
 If you would like to make your own changes to the plot you can download the configuration file, make
 changes to it, and upload it into R as shown in the example below.
 
- The important options of a coMET figure includes three components: 
+ The important options of a coMET figure include three components:
 \begin{enumerate}
-  \item the upper plot shows the strength and extent of EWAS association signal;
+  \item The upper plot shows the strength and extent of EWAS association signal. 
    \begin{itemize}
-      \item PVAL.THRESHOLD : Threshold of the significance that is displayed as a red dash line
-      \item DISP.ASSOCIATION : Optional works only if MYDATA.FILE= SITE\_ASSOC or REGION\_ASSOC and so the file contains the effect directions. If it is FALSE (the default), the co-methylation pattern related to reference genomic reference (defined by the option MYDATA.REF) is shown in p-value plot; if it is True, the effect directions is shown on the plot
-      \item DISP.REGION : Optional works only if MYDATA.FILE= REGION or REGION\_ASSOC. If it is TRUE, the region of genomic element will be shown by a continuous line with the color of  genomic element, in addition to a symbole in center of region.
+      \item PVAL.THRESHOLD : Significance threshold to be displayed as a red dashed line
+      \item DISP.ASSOCIATION : Optional direction of association if MYDATA.FILE=SITE\_ASSOC or REGION\_ASSOC.
+The value can be TRUE or FALSE: if FALSE (default), the co-methylation pattern is shown in the p-value plot; if TRUE, the effect direction is shown
+      \item DISP.REGION : Optional if MYDATA.FILE=REGION or REGION\_ASSOC. The value can be TRUE or FALSE (default). If TRUE, the genomic element will be shown by a continuous line with the color of the element, in addition to the symbol at the center of the region
   \end{itemize}
   
-  \item the middle panel provides customized annotation tracks;
+  \item The middle panel provides customized annotation tracks; 
      \begin{itemize}
-     \item LIST.TRACKS (for \emph{comet.web} function): List of annotation tracks that is able to visualise  visualise :geneENSEMBL, CGI, ChromHMM, DNAse, RegENSEMBL, SNP, transcriptENSEMBL, SNPstoma, SNPstru, SNPstrustoma, ISCA, COSMIC, GAD, ClinVar, GeneReviews, GWAS, ClinVarCNV, GCcontent, genesUCSC, xenogenesUCSC. 
-     \item TRACKS.GVIZ, TRACKS.GGBIO, TRACKS.TRACKVIEWER (for \emph{comet} function): For each option, it is possible to give a list of annotation tracks that is created by Gviz, GGBio, TrackViewer bioconductor package.
+     \item LIST.TRACKS (for \emph{comet.web} function): List of annotation tracks that can be visualised: geneENSEMBL, CGI, ChromHMM, DNAse, RegENSEMBL, SNP, transcriptENSEMBL, SNPstoma, SNPstru, SNPstrustoma, ISCA, COSMIC, GAD, ClinVar, GeneReviews, GWAS, Clin- VarCNV, GCcontent, genesUCSC, xenogenesUCSC. 
+     \item TRACKS.GVIZ, TRACKS.GGBIO, TRACKS.TRACKVIEWER (for \emph{comet} function): For each option, it is possible to give a list of annotation tracks that is created by the Gviz, GGBio, and TrackViewer bioconductor packages. 
      \end{itemize}
 
-  \item the lower panel shows the correlation between selected CpG sites in the genomic region.
+  \item The lower panel shows the correlation between selected CpG sites in the genomic region.
     \begin{itemize}
-      \item CORMATRIX.FORMAT : Format of the input CORMATRIX.FILE: either raw data (option RAW) or correlation matrix (option CORMATRIX) 
-      \item CORMATRIX.METHOD : If data are raw, it will be necessary to produce the correlation matrix being able to use 3 methods (spearman, pearson and kendall).
+      \item CORMATRIX.FORMAT : Format of the input fie CORMATRIX.FILE: either raw data (option RAW) or correlation matrix (option CORMATRIX) 
+      \item CORMATRIX.METHOD : If raw data are provided it will be necessary to produce the correlation matrix using one of 3 methods (spearman, pearson and kendall). 
       \item CORMATRIX.COLOR.SCHEME : There are 5 colors (heat, bluewhitered, cm, topo, gray, bluetored)
    \end{itemize}
 
@@ -212,8 +212,9 @@ data_config <-read.csv(configfile, quote = "")
 data_config
 @
 
-\section{Creating a plot like webservice:}
-It is possible to reproduce the web service plotting defaults by using the function comet.web, for example the figure \ref{fig:cometweb_simple}.
+\section{Creating a plot like webservice}
+User can draw coMET via the coMET website (http://epigen.kcl.ac.uk/comet).
+It is possible to reproduce the web service plotting defaults by using the function comet.web, for example see Figure \ref{fig:cometweb_simple}.
 
 <<cometwebPlotText, eval=FALSE, fig.keep='last' >>=
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
@@ -240,10 +241,10 @@ comet.web(config.file=configfile, MYDATA.FILE=myinfofile, CORMATRIX.FILE=mycorre
 \end{figure}
 
 \section{Creating a plot with the generic function: comet}
-It is possible to create the annotation tracks by Gviz, trackviewer or ggbio, for example the figure \ref{fig:cometPlot}.
-Currently, the Gviz option for annotation tracks, in combination with the heatmap of correlation values between genetics elements, provides the most informative and easy to visualize graphics.
+It is possible to create the annotation tracks by Gviz, trackviewer or ggbio, for example see Figure \ref{fig:cometPlot}.
+Currently, the Gviz option for annotation tracks, in combination with the heatmap of correlation values between genetics elements, provides the most informative and easy approach to visualize graphics.
 
-\subsection{coMET plot: pvalue plot, annotation tracks, and correlation matrice}
+\subsection{coMET plot: pvalue plot, annotation tracks, and correlation matrix}
 <<cometPlotText, eval=FALSE, fig.keep='last' >>=
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
 configfile <- file.path(extdata, "config_cyp1b1_zoom_4comet.txt")
@@ -302,9 +303,9 @@ comet(config.file=configfile, MYDATA.FILE=myinfofile, CORMATRIX.FILE=mycorrelati
 \caption{Plot with comet function.\label{fig:cometPlot}}
 \end{figure}
 
-\subsection{coMET plot: annotation tracks and correlation matrice}  
+\subsection{coMET plot: annotation tracks and correlation matrix}  
 It is possible to visualise only annotation tracks and the correlation between genetic elements.
-In this case, we need to use the option \texttt{DISP.PVALUEPLOT=FALSE}, for example the figure \ref{fig:cometPlot_nopval}.
+In this case, we need to use the option \texttt{DISP.PVALUEPLOT=FALSE}, for example see Figure \ref{fig:cometPlot_nopval}.
 
 <<cometPlotNopvalText, eval=FALSE, fig.keep='last' >>=
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
@@ -335,7 +336,7 @@ comet(config.file=configfile, MYDATA.FILE=myinfofile, CORMATRIX.FILE=mycorrelati
 @
 
 \begin{figure}
-<<cometPlot_nopval, echo=FALSE, fig.keep='last'' >>=
+<<cometPlot_nopval, echo=FALSE, fig.keep='last' >>=
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
 configfile <- file.path(extdata, "config_cyp1b1_zoom_4cometnopval.txt")
 #configfile <- "../inst/extdata/config_cyp1b1_zoom_4comet.txt" 
