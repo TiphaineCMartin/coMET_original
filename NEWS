@@ -1,3 +1,21 @@
+COMET 0.99.3 - 2014-10-20
+-----------------------------
+- Update the manuel and the vignette
+- Update the function to create annotation tracks connecting to ENSEMBL mart (change of schema)
+
+
+COMET 0.99.2 - 2014-10-16
+-----------------------------
+
+- Update the manual comet.web file
+
+COMET 0.99.1 - 2014-10-16
+-----------------------------
+
+- Add the package "BiocStyle" in Suggests of DESCRIPTION file
+- Change the absolute path to relative path of files (info file, expression file, and correlation file) in vignette and manual
+
+
 COMET 0.99.0 - 2014-09-24
 -----------------------------
 

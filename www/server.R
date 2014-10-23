@@ -9,6 +9,8 @@ library("ggbio")
 library("colortools")
 library("hash")
 #Normally Need to load coMET package not like that !!!!
+## Need to wait that it accept in Bioconductor
+#library("coMET")
 source("/home/ubuntu/git_iop/comet/Rpackage/comet/R/cometWeb.R")
 source("/home/ubuntu/git_iop/comet/Rpackage/comet/R/AnalyseFile.R")
 source("/home/ubuntu/git_iop/comet/Rpackage/comet/R/BiofeatureGraphics.R")
@@ -578,15 +580,15 @@ shinyServer(function(input, output,session) {
     tagList(
       h1('Welcome to coMET help'),
       h3('Format of info file(mandatory):'),
-      p('Info file can be a list of CpG sites with/without Beta(or direction sign). If it is a site file then it is mandatory to have the 4 columns as shown below with headers in the same order. Beta can be the 5th column(optional).'),  
+      p('The info file can be a list of CpG sites with/without Beta (or direction sign). If it is a CpG-site file then it is mandatory to have 4 columns as shown below with headers in the same order. The beta or direction can be included in the 5th column (optional).'),  
       tableOutput("infoHelp"),
       
-      p('Also it can be region with/without an end start of the base pair. If it is a region file then it is mandatory to have the 5 columns below with headers in this order. Beta can be the 6th column(optional).'),
+      p('Alternatively, the info file can be region-based and if so, the region-based info file must have the 5 columns (see below) with headers in this order. The beta or direction can be included in the 6th column (optional).'),
       
       tableOutput("infoRegionHelp"),
       
       h3('Format of correlation matrix(mandatory):'),
-      p('The data can be either pre-calculated correlation matrix or raw data. If it is a raw data then you can select the type of correlation method (spearman ,kendall or pearson). '),
+      p('The correlation matrix dataset can either be a pre-calculated correlation matrix or the raw data. If it is a raw data then you can select the type of correlation method (spearman, kendall or pearson).'),
       tableOutput("corHelp"),
       
       h3('Format of extra info file:'),

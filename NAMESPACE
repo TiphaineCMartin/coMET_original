@@ -28,7 +28,6 @@ import(GenomicRanges)
 import(biomaRt)
 import(Gviz)
 import(rtracklayer)
-import(BiocStyle)
 
 importFrom("trackViewer",viewTracks)
 importClassesFrom("trackViewer",track, trackList)

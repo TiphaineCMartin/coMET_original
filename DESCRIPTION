@@ -1,8 +1,8 @@
 Package: coMET
 Type: Package
-Title: Visualization regional plots of (epigenome/transcritpome)genome-wide association scan results
-Version: 0.99.0
-Date: 2014-09-26
+Title: coMET: visualisation of regional epigenome-wide association scan (EWAS) results and DNA co-methylation patterns.
+Version: 0.99.3
+Date: 2014-10-17
 Author: Tiphaine C. Martin, Idil Yet, Pei-Chien Tsai, Jordana T. Bell
 Maintainer: Tiphaine Martin <tiphaine.martin@kcl.ac.uk>
 Description: Creates plots of p-values of CpG DNA methylation. Main features of the package include options to display a linkage disequilibrium (LD) plot. Images are created as either PDF/EPS files.
@@ -10,8 +10,8 @@ Depends: R (>= 3.1.0), grid,  biomaRt, Gviz,  rtracklayer, GenomicRanges
 Suggests: knitr, RUnit, BiocGenerics, BiocStyle
 Imports: colortools, hash, grDevices, gridExtra, ggbio, ggplot2, trackViewer
 License: GPL (>= 2)
-URL: http://comet.epigen.kcl.ac.uk:3838/coMET/ or http://epigen.kcl.ac.uk/comet
-biocViews: Software, DifferentialMethylation, Visualization, Sequencing
+URL:  http://epigen.kcl.ac.uk/comet
+biocViews: Software, DifferentialMethylation, Visualization, Sequencing, Genetics, FunctionalGenomics
 VignetteBuilder: knitr
 NeedsCompilation: no
 Repository: Bioconductor
