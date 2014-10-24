@@ -93,9 +93,6 @@ comet.web(MYDATA.FILE = NULL, MYDATA.FORMAT = c("SITE", "REGION", "SITE_ASSO", "
   \item{COLOR.LIST.LARGE}{
   List of colors for displaying the P-value symbols related to the data in MYDATA.LARGE.FILE
 }
-  \item{DISP.MYDATA}{
-  logical option TRUE or FALSE. TRUE (default).If TRUE, the P-value plot is shown; if FALSE the plot will be defined by GViz
-}
  \item{BIOFEAT.USER.FILE}{
   Name of data file to visualise in the tracks. File names should be comma-separated.
 }
@@ -122,12 +119,6 @@ comet.web(MYDATA.FILE = NULL, MYDATA.FORMAT = c("SITE", "REGION", "SITE_ASSO", "
 }
   \item{IMAGE.SIZE}{
   Default: 3.5 inches. Possible sizes : 3.5 or 7
-}
-  \item{FONT.FACTOR}{
-  Font size of the sample labels. Range: 0-1
-}
-  \item{SYMBOL.FACTOR}{
-  Size of the symbols. Range: 0-1
 }
    \item{PRINT.IMAGE}{
   Print image in file or not.
