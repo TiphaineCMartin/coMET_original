@@ -1038,7 +1038,7 @@ retrieve.data <- function(config.var, gbl.var) {
         mydata.large.hash.names.pos <- new.env(hash=TRUE)
         mydata.large.hash.pos.names <- new.env(hash=TRUE)
         for(p in 1:cur.mydata.large.num) {
-          localisation <- gbl.var$mydata.large.data$LOC
+          localisation <- gbl.var$mydata.large.data$LOC[p]
           if(!is.na(gbl.var$mydata.large.data$MYDATA.NAME[p]) | !is.na(gbl.var$mydata.large.data$LOC[p])) {
             mydata.large.hash.names.pos[[ as.character(gbl.var$mydata.large.data$MYDATA.NAME[p]) ]]<- localisation
             mydata.large.hash.pos.names[[as.character(localisation)]] <- gbl.var$mydata.large.data$MYDATA.NAME[p]
@@ -1508,6 +1508,7 @@ read.file.cormatrix <- function(config.var, gbl.var,split.cormatrix.file=NULL){
       matrix.data.raw_rot<- read.delim(split.cormatrix.file[[1]][1], header=TRUE, sep="\t", as.is=TRUE, blank.lines.skip = TRUE, fill=TRUE)
       matrix.data.raw <- matrix.data.raw_rot
       matrix.data.raw[match(gbl.var$mydata.data$MYDATA.NAME, matrix.data.raw[1,]),]
+      matrix.data.raw <-matrix.data.raw[,-1]
       gbl.var$matrix.data <-matrix.data.raw
       nr=nrow(matrix.data.raw)
       nr1=nrow(gbl.var$mydata.data)

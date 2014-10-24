@@ -1,0 +1,13 @@
+\contentsline {section}{\numberline {1}Citation}{1}{section.1}
+\contentsline {section}{\numberline {2}Introduction}{3}{section.2}
+\contentsline {section}{\numberline {3}Usage}{3}{section.3}
+\contentsline {section}{\numberline {4}Files formats}{4}{section.4}
+\contentsline {subsection}{\numberline {4.1}Format of info file (mandatory)}{4}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Format of correlation matrix (mandatory)}{5}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Format of extra info file}{6}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}Format of annotation file}{6}{subsection.4.4}
+\contentsline {subsection}{\numberline {4.5}Option of config.file}{6}{subsection.4.5}
+\contentsline {section}{\numberline {5}Creating a plot like webservice}{8}{section.5}
+\contentsline {section}{\numberline {6}Creating a plot with the generic function: comet}{8}{section.6}
+\contentsline {subsection}{\numberline {6.1}coMET plot: pvalue plot, annotation tracks, and correlation matrix}{8}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}coMET plot: annotation tracks and correlation matrix}{10}{subsection.6.2}

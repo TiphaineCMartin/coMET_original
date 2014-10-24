@@ -8,7 +8,7 @@ Visualize EWAS results in a genomic region of interest with predefined annotatio
    coMET is an R-based package to visualize EWAS (epigenome-wide association scans) results in a genomic region of interest. The main feature of coMET is to plot the the significance level of EWAS results in the selected region, along with correlation in DNA methylation values between CpG sites in the region. The coMET package generates plots of phenotype-association, co-methylation patterns, and a series of annotation tracks.
 }
 \usage{
-comet.web(MYDATA.FILE = NULL, MYDATA.FORMAT = c("SITE", "REGION", "SITE_ASSO", "REGION_ASSO"), MYDATA.LARGE.FILE = NULL, MYDATA.LARGE.FORMAT = c("SITE", "REGION", "SITE_ASSO", "REGION_ASSO"), CORMATRIX.FILE = NULL, CORMATRIX.METHOD = c("spearman", "pearson", "kendall"), CORMATRIX.FORMAT = c("CORMATRIX", "RAW"), CORMATRIX.COLOR.SCHEME = "heat", MYDATA.REF = NULL, START = NULL, END = NULL, ZOOM = FALSE, LAB.Y = "log", PVAL.THRESHOLD = 1e-07, DISP.PVAL.THRESHOLD = 1, DISP.ASSOCIATION = FALSE, DISP.ASSOCIATION.LARGE = FALSE, DISP.REGION = FALSE, DISP.REGION.LARGE = FALSE, SYMBOLS = "circle-fill", SYMBOLS.LARGE = NA, SAMPLE.LABELS = NULL, SAMPLE.LABELS.LARGE = NULL, USE.COLORS = TRUE, DISP.COLOR.REF = TRUE, COLOR.LIST = NULL, COLOR.LIST.LARGE = NULL, BIOFEAT.USER.FILE = NULL, BIOFEAT.USER.TYPE = c("GeneRegion", "Annotation", "Data"), BIOFEAT.USER.TYPE.PLOT = NULL, LIST.TRACKS = "geneENSEMBL,CGI,ChromHMM,DNAse,RegENSEMBL,SNP", PATTERN.REGULATION = "GM12878", IMAGE.TITLE = NULL, IMAGE.NAME = "coMET", IMAGE.TYPE = c("pdf", "eps"), IMAGE.SIZE = 3.5, PRINT.IMAGE = FALSE, config.file = NULL, VERBOSE = FALSE)
+comet.web(MYDATA.FILE = NULL, MYDATA.FORMAT = c("SITE", "REGION", "SITE_ASSO", "REGION_ASSO"), MYDATA.LARGE.FILE = NULL, MYDATA.LARGE.FORMAT = c("SITE", "REGION", "SITE_ASSO", "REGION_ASSO"), CORMATRIX.FILE = NULL, CORMATRIX.METHOD = c("spearman", "pearson", "kendall"), CORMATRIX.FORMAT = c("CORMATRIX", "RAW","RAW_REV"), CORMATRIX.COLOR.SCHEME = "heat", MYDATA.REF = NULL, START = NULL, END = NULL, ZOOM = FALSE, LAB.Y = "log", PVAL.THRESHOLD = 1e-07, DISP.PVAL.THRESHOLD = 1, DISP.ASSOCIATION = FALSE, DISP.ASSOCIATION.LARGE = FALSE, DISP.REGION = FALSE, DISP.REGION.LARGE = FALSE, SYMBOLS = "circle-fill", SYMBOLS.LARGE = NA, SAMPLE.LABELS = NULL, SAMPLE.LABELS.LARGE = NULL, USE.COLORS = TRUE, DISP.COLOR.REF = TRUE, COLOR.LIST = NULL, COLOR.LIST.LARGE = NULL, BIOFEAT.USER.FILE = NULL, BIOFEAT.USER.TYPE = c("GeneRegion", "Annotation", "Data"), BIOFEAT.USER.TYPE.PLOT = NULL, LIST.TRACKS = "geneENSEMBL,CGI,ChromHMM,DNAse,RegENSEMBL,SNP", PATTERN.REGULATION = "GM12878", IMAGE.TITLE = NULL, IMAGE.NAME = "coMET", IMAGE.TYPE = c("pdf", "eps"), IMAGE.SIZE = 3.5, PRINT.IMAGE = FALSE, config.file = NULL, VERBOSE = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -31,7 +31,7 @@ comet.web(MYDATA.FILE = NULL, MYDATA.FORMAT = c("SITE", "REGION", "SITE_ASSO", "
  Options for calculating the correlation matrix: spearman, pearson and kendall
 }
  \item{CORMATRIX.FORMAT}{
- Format of the input CORMATRIX.FILE. There are two options: raw file (RAW) and pre-computed correlation matrix (CORMATRIX)
+ Format of the input CORMATRIX.FILE. There are three options: raw file (RAW if CpG sites are by column and samples by row or RAW_REV if CpG site are by row and samples by column) and pre-computed correlation matrix (CORMATRIX)
 }
   \item{CORMATRIX.COLOR.SCHEME}{
   Color scheme options: heat, bluewhitered, cm, topo, gray, bluetored

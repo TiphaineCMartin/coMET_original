@@ -31,7 +31,7 @@ comet(MYDATA.FILE = NULL, MYDATA.FORMAT = "SITE", MYDATA.LARGE.FILE = NULL, MYDA
  Options for calculating the correlation matrix: spearman, pearson and kendall
 }
  \item{CORMATRIX.FORMAT}{
- Format of the input CORMATRIX.FILE. TThere are two options: raw file (RAW) and pre-computed correlation matrix (CORMATRIX)
+ Format of the input CORMATRIX.FILE. TThere are two options: raw file (RAW if CpG sites are by column and samples by row or RAW_REV if CpG site are by row and samples by column) and pre-computed correlation matrix (CORMATRIX)
 }
   \item{CORMATRIX.COLOR.SCHEME}{
   Color scheme options: heat, bluewhitered, cm, topo, gray, bluetored

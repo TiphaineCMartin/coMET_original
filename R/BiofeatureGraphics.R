@@ -274,7 +274,7 @@ HistoneAll<-function(gen,chr,start,end,mySession,pattern=NULL,track.name="Broad 
   if(is.null(gen)){
     stop("Invalid in function HistoneAll :gen null:\n")
   }
-  if(is.null(track.name) & (gen == "hg19" | gen == "grch37"){
+  if(is.null(track.name) & (gen == "hg19" | gen == "grch37")){
     track.name="Broad Histone"
   }else if(is.null(track.name) & gen != "hg19"){
     stop("Invalid in function HistoneAll :track.namenull:\n")
