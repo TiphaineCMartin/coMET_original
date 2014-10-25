@@ -34,9 +34,10 @@ comet.web <- function(MYDATA.FILE = NULL,
                       MYDATA.LARGE.FORMAT = c("SITE","REGION","SITE_ASSO","REGION_ASSO"),
                       CORMATRIX.FILE = NULL,
                       CORMATRIX.METHOD = c("spearman","pearson","kendall"),
-                      CORMATRIX.FORMAT= c("CORMATRIX","RAW"),
+                      CORMATRIX.FORMAT= c("CORMATRIX","RAW","RAW_REV"),
                       CORMATRIX.COLOR.SCHEME = "heat",
                       MYDATA.REF = NULL,
+                      GENOME="hg19",
                       START = NULL,
                       END = NULL,
                       ZOOM = FALSE,
@@ -265,8 +266,6 @@ comet.web <- function(MYDATA.FILE = NULL,
   #-------------------GLOBAL VARIABLES ENDS------------------
   
   #-------------------CONFIGURATION VARIABLES BEGINS---------
-  
-  #-------------------CONFIGURATION VARIABLES BEGINS---------
   DISP.CORMATRIXMAP = TRUE
   DISP.PVALUEPLOT = TRUE
   DISP.MYDATA.NAMES = TRUE
@@ -291,7 +290,6 @@ comet.web <- function(MYDATA.FILE = NULL,
   FONT.FACTOR = NULL
   COLOR.LIST = "red"
   SYMBOL.FACTOR = NULL
-  GENOME="hg19"
   DATASET.GENE = "hsapiens_gene_ensembl"
   DATASET.SNP="hsapiens_snp"
   VERSION.DBSNP="snp138"

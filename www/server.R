@@ -312,6 +312,10 @@ shinyServer(function(input, output,session) {
     if(!is.null(input$corcolor) & (input$definecorParm))
       corcolor <- input$corcolor
     
+    genomeCpG <- "hg19"
+    if(!is.null(input$genome) & (input$defineplotParm))
+      genomeCpG <- input$genome
+    
     startCpG <- NULL
     if(!is.null(input$startCpG) & (input$defineplotParm))
       startCpG <- input$startCpG
@@ -349,14 +353,26 @@ shinyServer(function(input, output,session) {
     if (is.null(configdatainFile)) {
       #plot(1,2)
       #comet.web(MYDATA.FILE=datainFile$datapath,MYDATA.FORMAT=as.character(input$dataformat))
-      comet.web(MYDATA.FILE=datainFile$datapath,MYDATA.FORMAT=dataformat,DISP.ASSOCIATION=dispAsso,DISP.REGION=dispReg, SAMPLE.LABELS=datalab, SYMBOLS=datasymb, COLOR.LIST=datacolor,CORMATRIX.FILE=cordatainFile$datapath,CORMATRIX.METHOD=cormethod, CORMATRIX.FORMAT=corformat,CORMATRIX.COLOR.SCHEME=corcolor,MYDATA.LARGE.FILE=largedatainFilepath,MYDATA.LARGE.FORMAT=datalargeformat,DISP.ASSOCIATION.LARGE=displargeAsso,DISP.REGION.LARGE=dispReglarge, SAMPLE.LABELS.LARGE=datalablarge, SYMBOLS.LARGE=datalargesymb, COLOR.LIST.LARGE=datalargecolor,START=startCpG,END=stopCpG,MYDATA.REF=myrefCpG,DISP.COLOR.REF=dispCpG,LIST.TRACKS=listTrack, BIOFEAT.USER.FILE=annotdatainFilepath, BIOFEAT.USER.TYPE=annotformat, BIOFEAT.USER.TYPE.PLOT=annotplot, IMAGE.TITLE=imagetitle, PRINT.IMAGE=FALSE, VERBOSE=TRUE)
+      comet.web(MYDATA.FILE=datainFile$datapath,MYDATA.FORMAT=dataformat,DISP.ASSOCIATION=dispAsso,
+                DISP.REGION=dispReg, SAMPLE.LABELS=datalab, SYMBOLS=datasymb, COLOR.LIST=datacolor,
+                CORMATRIX.FILE=cordatainFile$datapath,CORMATRIX.METHOD=cormethod, CORMATRIX.FORMAT=corformat,
+                CORMATRIX.COLOR.SCHEME=corcolor,MYDATA.LARGE.FILE=largedatainFilepath,
+                MYDATA.LARGE.FORMAT=datalargeformat,DISP.ASSOCIATION.LARGE=displargeAsso,
+                DISP.REGION.LARGE=dispReglarge, SAMPLE.LABELS.LARGE=datalablarge, 
+                SYMBOLS.LARGE=datalargesymb, COLOR.LIST.LARGE=datalargecolor,GENOME=genomeCpG,
+                START=startCpG,END=stopCpG,MYDATA.REF=myrefCpG,DISP.COLOR.REF=dispCpG,
+                LIST.TRACKS=listTrack, BIOFEAT.USER.FILE=annotdatainFilepath, 
+                BIOFEAT.USER.TYPE=annotformat, BIOFEAT.USER.TYPE.PLOT=annotplot, IMAGE.TITLE=imagetitle, 
+                PRINT.IMAGE=FALSE, VERBOSE=TRUE)
     } else {
       #plot(1,2)
       #MYDATA.LARGE.FILE=largedatainFilepath,
       #configFile="/home/tmartin/git_iop/comet/Rpackage/comet/data/smoking/config_cyp1b1_zoom_local.txt"
       #comet.web(config.file=configFile,MYDATA.FILE=datainFile$datapath,CORMATRIX.FILE=cordatainFile$datapath, PRINT.IMAGE=FALSE)
       
-      comet.web(config.file=configdatainFile$datapath, MYDATA.FILE=datainFile$datapath,CORMATRIX.FILE=cordatainFile$datapath, MYDATA.LARGE.FILE=largedatainFilepath, BIOFEAT.USER.FILE=annotdatainFilepath, PRINT.IMAGE=FALSE, VERBOSE=TRUE)
+      comet.web(config.file=configdatainFile$datapath, MYDATA.FILE=datainFile$datapath,
+                CORMATRIX.FILE=cordatainFile$datapath, MYDATA.LARGE.FILE=largedatainFilepath, 
+                BIOFEAT.USER.FILE=annotdatainFilepath, PRINT.IMAGE=FALSE, VERBOSE=TRUE)
     }
     
   }

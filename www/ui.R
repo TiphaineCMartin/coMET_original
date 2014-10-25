@@ -92,6 +92,11 @@ shinyUI(fluidPage(
       hr(),
       h5("Parameters for P-value plot"),
       checkboxInput(inputId="defineplotParm",label="Define parameter for plot", FALSE),
+			selectInput("genome", "Define the genome:",
+			            c(
+			              "Hg19" = "hg19",
+			              "GRCh37" = "grch37",
+			              "GRCh38" = "grch38")),
       conditionalPanel(condition = "input.defineplotParm", 
                        uiOutput("startCpG"),
                        uiOutput("stopCpG"),

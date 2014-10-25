@@ -61,14 +61,6 @@ comet <- function(MYDATA.FILE = NULL,
                   BIOFEAT.USER.TYPE.PLOT = NULL,
                   GENOME="hg19",
                   DATASET.GENE = "hsapiens_gene_ensembl",
-                  DATASET.SNP="hsapiens_snp",
-                  VERSION.DBSNP="snp138",
-                  DATASET.SNP.STOMA="hsapiens_snp_som",
-                  DATASET.REGULATION="hsapiens_feature_set",
-                  DATASET.STRU="hsapiens_structvar",
-                  DATASET.STRU.STOMA="hsapiens_structvar_som",
-                  PATTERN.REGULATION="GM12878",
-                  BROWSER.SESSION="UCSC",
                   TRACKS.GVIZ = NULL,
                   TRACKS.GGBIO = NULL,
                   TRACKS.TRACKVIEWER = NULL,
@@ -287,6 +279,15 @@ comet <- function(MYDATA.FILE = NULL,
   
   #-------------------CONFIGURATION VARIABLES BEGINS---------
   LIST.TRACKS <- NULL
+  DATASET.SNP="hsapiens_snp"
+  VERSION.DBSNP="snp138"
+  DATASET.SNP.STOMA="hsapiens_snp_som"
+  DATASET.REGULATION="hsapiens_feature_set"
+  DATASET.STRU="hsapiens_structvar"
+  DATASET.STRU.STOMA="hsapiens_structvar_som"
+  PATTERN.REGULATION="GM12878"
+  BROWSER.SESSION="UCSC"
+  
   #-------------------UPDATE CONFIGURATION VARIABLES---------
   config.var <- list(MYDATA.FILE = MYDATA.FILE,
                      MYDATA.FORMAT = MYDATA.FORMAT,

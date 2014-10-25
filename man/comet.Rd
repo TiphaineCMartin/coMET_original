@@ -8,7 +8,7 @@ Visualize EWAS results in a genomic region of interest
    coMET is an R-based package to visualize EWAS (epigenome-wide association scans) results in a genomic region of interest. The main feature of coMET is to plot the the significance level of EWAS results in the selected region, along with correlation in DNA methylation values between CpG sites in the region. The coMET package generates plots of phenotype-association, co-methylation patterns, and a series of annotation tracks.
 }
 \usage{
-comet(MYDATA.FILE = NULL, MYDATA.FORMAT = "SITE", MYDATA.LARGE.FILE = NULL, MYDATA.LARGE.FORMAT = "SITE", CORMATRIX.FILE = NULL, CORMATRIX.METHOD = "spearman", CORMATRIX.FORMAT = "RAW", CORMATRIX.COLOR.SCHEME = "bluewhitered", MYDATA.REF = NULL, START = NULL, END = NULL, ZOOM = FALSE, LAB.Y = "log", PVAL.THRESHOLD = 1e-05, DISP.PVAL.THRESHOLD = 1, DISP.ASSOCIATION = FALSE, DISP.ASSOCIATION.LARGE = FALSE, DISP.REGION = FALSE, DISP.REGION.LARGE = FALSE, SYMBOLS = "circle-fill", SYMBOLS.LARGE = NA, SAMPLE.LABELS = NULL, SAMPLE.LABELS.LARGE = NULL, USE.COLORS = TRUE , DISP.COLOR.REF = TRUE, COLOR.LIST = NULL, COLOR.LIST.LARGE = NULL, DISP.MYDATA = TRUE, BIOFEAT.USER.FILE = NULL, BIOFEAT.USER.TYPE = NULL, BIOFEAT.USER.TYPE.PLOT = NULL, GENOME = "hg19", DATASET.GENE = "hsapiens_gene_ensembl", DATASET.SNP = "hsapiens_snp", VERSION.DBSNP = "snp138", DATASET.SNP.STOMA = "hsapiens_snp_som", DATASET.REGULATION = "hsapiens_feature_set", DATASET.STRU = "hsapiens_structvar", DATASET.STRU.STOMA = "hsapiens_structvar_som", PATTERN.REGULATION = "GM12878", BROWSER.SESSION = "UCSC", TRACKS.GVIZ = NULL, TRACKS.GGBIO = NULL, TRACKS.TRACKVIEWER = NULL, DISP.MYDATA.NAMES = TRUE, DISP.COLOR.BAR = TRUE, DISP.PHYS.DIST = TRUE, DISP.LEGEND = TRUE, DISP.MARKER.LINES = TRUE, DISP.CORMATRIXMAP = TRUE, DISP.PVALUEPLOT =TRUE, DISP.TYPE = "symbol", DISP.MULT.LAB.X = FALSE, DISP.CONNECTING.LINES = TRUE, PALETTE.FILE = NULL, IMAGE.TITLE = NULL, IMAGE.NAME = "coMET", IMAGE.TYPE = NULL, IMAGE.SIZE = 3.5, FONT.FACTOR = NULL, SYMBOL.FACTOR = NULL, PRINT.IMAGE = TRUE, CONNECTING.LINES.FACTOR = 1.5, CONNECTING.LINES.ADJ = 0.01, CONNECTING.LINES.VERT.ADJ = -1, CONNECTING.LINES.FLEX = 0, config.file = NULL, VERBOSE = FALSE)
+comet(MYDATA.FILE = NULL, MYDATA.FORMAT = "SITE", MYDATA.LARGE.FILE = NULL, MYDATA.LARGE.FORMAT = "SITE", CORMATRIX.FILE = NULL, CORMATRIX.METHOD = "spearman", CORMATRIX.FORMAT = "RAW", CORMATRIX.COLOR.SCHEME = "bluewhitered", MYDATA.REF = NULL, START = NULL, END = NULL, ZOOM = FALSE, LAB.Y = "log", PVAL.THRESHOLD = 1e-05, DISP.PVAL.THRESHOLD = 1, DISP.ASSOCIATION = FALSE, DISP.ASSOCIATION.LARGE = FALSE, DISP.REGION = FALSE, DISP.REGION.LARGE = FALSE, SYMBOLS = "circle-fill", SYMBOLS.LARGE = NA, SAMPLE.LABELS = NULL, SAMPLE.LABELS.LARGE = NULL, USE.COLORS = TRUE , DISP.COLOR.REF = TRUE, COLOR.LIST = NULL, COLOR.LIST.LARGE = NULL, DISP.MYDATA = TRUE, BIOFEAT.USER.FILE = NULL, BIOFEAT.USER.TYPE = NULL, BIOFEAT.USER.TYPE.PLOT = NULL, GENOME = "hg19", DATASET.GENE = "hsapiens_gene_ensembl", TRACKS.GVIZ = NULL, TRACKS.GGBIO = NULL, TRACKS.TRACKVIEWER = NULL, DISP.MYDATA.NAMES = TRUE, DISP.COLOR.BAR = TRUE, DISP.PHYS.DIST = TRUE, DISP.LEGEND = TRUE, DISP.MARKER.LINES = TRUE, DISP.CORMATRIXMAP = TRUE, DISP.PVALUEPLOT =TRUE, DISP.TYPE = "symbol", DISP.MULT.LAB.X = FALSE, DISP.CONNECTING.LINES = TRUE, PALETTE.FILE = NULL, IMAGE.TITLE = NULL, IMAGE.NAME = "coMET", IMAGE.TYPE = NULL, IMAGE.SIZE = 3.5, FONT.FACTOR = NULL, SYMBOL.FACTOR = NULL, PRINT.IMAGE = TRUE, CONNECTING.LINES.FACTOR = 1.5, CONNECTING.LINES.ADJ = 0.01, CONNECTING.LINES.VERT.ADJ = -1, CONNECTING.LINES.FLEX = 0, config.file = NULL, VERBOSE = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -106,34 +106,10 @@ comet(MYDATA.FILE = NULL, MYDATA.FORMAT = "SITE", MYDATA.LARGE.FILE = NULL, MYDA
   Format of the plot if the data are shown with the Gviz's function called DataTrack (comma-separated)
 }
   \item{GENOME}{
-  The human genome reference file. e.g. "hg19" for Human genome 19 (NCBI 37), gr
+  The human genome reference file. e.g. "hg19" for Human genome 19 (NCBI 37), "grch37" (GRCh37),"grch38" (GRCh38)
 }
   \item{DATASET.GENE}{
   The gene names from ENSEMBL. e.g. hsapiens_gene
-}
-  \item{DATASET.SNP}{
-  Name of SNP database from ENSEMBL; Default: hsapiens_snp
-}
-  \item{VERSION.DBSNP}{
-  Name of dbSNP used; Default : snp138 version from DBSNP
-}
- \item{DATASET.SNP.STOMA}{
-  Optional. Name of somatic SNP database from ENSEMBL. Default : hsapiens_snp_som
-}
-  \item{DATASET.REGULATION}{
-  Optional. Name of regulation database from ENSEMBL. Default: hsapiens_feature_set
-}
-  \item{DATASET.STRU}{
-  Optional. Name of structural variation database from ENSEMBL. Default: hsapiens_structvar
-}
-  \item{DATASET.STRU.STOMA}{
-  Optional. Name of somatic structural variation database from ENSEMBL. Default: hsapiens_structvar_som
-}
-  \item{PATTERN.REGULATION}{
-  Name of cell type of DATASET.REGULATION. Default: GM12878
-}
-  \item{BROWSER.SESSION}{
-  Name of database for BioMART connection. Default: UCSC
 }
  \item{TRACKS.GVIZ}{
   list of tracks created by Gviz.

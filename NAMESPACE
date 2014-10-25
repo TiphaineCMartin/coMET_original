@@ -15,7 +15,7 @@ import(grDevices)
 importFrom("colortools",complementary, opposite)
 importFrom("gridExtra",arrangeGrob, grid.arrange)
 importClassesFrom("hash",hash)
-importMethodsFrom("hash",keys)
+#importMethodsFrom("hash",keys)
 importFrom("hash",hash)
 importFrom("hash",has.key)
 

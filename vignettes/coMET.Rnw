@@ -70,7 +70,7 @@ The structure of the plots builds on snp.plotter (Luna et al., 2007), with exten
 
 
 \section{Usage}
-CoMET requires the installation of R, the statistical computing software, freely available for Linux, Windows, or MacOS. CoMET can be downloaded from bioconductor. Packages can be installed using the install.packages command in R. The coMET R package includes two major functions \emph{comet.web} and \emph{comet}. The function \emph{comet.web} generates output plot with the same settings of genomic annotation tracks as that of the webservice ( http://comet.epigen.kcl.ac.uk:3838/coMET/ or http://www.epigen.kcl.ac.uk/comet). The function \emph{comet} generates output plots with the customized annotation tracks defined by user. 
+CoMET requires the installation of R, the statistical computing software, freely available for Linux, Windows, or MacOS. CoMET can be downloaded from bioconductor. Packages can be installed using the install.packages command in R. The coMET R package includes two major functions \emph{comet.web} and \emph{comet}. The function \emph{comet.web} generates output plot with the same settings of genomic annotation tracks as that of the webservice (http://www.epigen.kcl.ac.uk/comet). The function \emph{comet} generates output plots with the customized annotation tracks defined by user. 
 
 <<installPackages,eval=FALSE>>=
 source("http://bioconductor.org/biocLite.R")

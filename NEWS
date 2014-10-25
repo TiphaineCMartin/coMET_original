@@ -1,7 +1,9 @@
-COMET 0.99.3 - 2014-10-20
+COMET 0.99.3 - 2014-10-25
 -----------------------------
 - Update the manuel and the vignette
 - Update the function to create annotation tracks connecting to ENSEMBL mart (change of schema)
+- Fix little bug
+- Add the function to define the reference genome
 
 
 COMET 0.99.2 - 2014-10-16
