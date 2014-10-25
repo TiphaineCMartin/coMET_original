@@ -61,8 +61,9 @@ shinyUI(fluidPage(
                        selectInput("corformat", "Format of the correlation matrice:",
                                    c(" " = "NULL",
                                      "Correlation" = "CORMATRIX",
-                                     "Raw" = "RAW")),
-                       conditionalPanel(condition = "input.corformat == 'RAW'",
+                                     "Raw" = "RAW",
+                                     "inverse Raw" = "RAW_REV")),
+                       conditionalPanel(condition = "input.corformat == 'RAW' | input.corformat == 'RAW_REV'",
                                         selectInput("cormethod", "Method to compute the correlation:",
                                                     c(
                                                       "Spearman" = "spearman",
@@ -91,12 +92,12 @@ shinyUI(fluidPage(
       
       hr(),
       h5("Parameters for P-value plot"),
-      checkboxInput(inputId="defineplotParm",label="Define parameter for plot", FALSE),
-			selectInput("genome", "Define the genome:",
+      selectInput("genome", "Define the genome:",
 			            c(
 			              "Hg19" = "hg19",
 			              "GRCh37" = "grch37",
 			              "GRCh38" = "grch38")),
+      checkboxInput(inputId="defineplotParm",label="Define parameter for plot", FALSE),
       conditionalPanel(condition = "input.defineplotParm", 
                        uiOutput("startCpG"),
                        uiOutput("stopCpG"),

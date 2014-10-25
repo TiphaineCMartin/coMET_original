@@ -595,7 +595,7 @@ shinyServer(function(input, output,session) {
   output$help <- renderUI({
     tagList(
       h1('Welcome to coMET help'),
-      h3('Format of info file(mandatory):'),
+      h3('Format of info file(mandatory)'),
       p('The info file can be a list of CpG sites with/without Beta (or direction sign). If it is a CpG-site file then it is mandatory to have 4 columns as shown below with headers in the same order. The beta or direction can be included in the 5th column (optional).'),  
       tableOutput("infoHelp"),
       
@@ -603,11 +603,12 @@ shinyServer(function(input, output,session) {
       
       tableOutput("infoRegionHelp"),
       
-      h3('Format of correlation matrix(mandatory):'),
-      p('The correlation matrix dataset can either be a pre-calculated correlation matrix or the raw data. If it is a raw data then you can select the type of correlation method (spearman, kendall or pearson).'),
+      h3('Format of correlation matrix(mandatory)'),
+      p('The correlation matrix dataset can either be a pre-calculated correlation matrix or the raw data. There are two format for raw data. The format called RAW is put if the CpG sites/regions are by column and the samples are by row whereas the format called RAW_REV is put if the CpG sites/regions are by row and the samples are by column. If it is a raw data then you can select the type of correlation method (spearman, kendall or pearson).'),
+      p('Example of data at RAW format:'),
       tableOutput("corHelp"),
       
-      h3('Format of extra info file:'),
+      h3('Format of extra info file'),
       p('This can be another type of info file (e.g Expression data or replication data) and it follows the same rules than the info file.'),
       
       h3('Format of annotation file'),
