@@ -89,8 +89,8 @@ genesENSEMBL<-function(gen,chr,start,end,showId=FALSE){
   if(gen == "hg19" | gen == "grch37"){
     martENSEMBL=useMart(host='grch37.ensembl.org', biomart='ENSEMBL_MART_ENSEMBL',
                         dataset='hsapiens_gene_ensembl')
-  # fm <- Gviz:::.getBMFeatureMap()
-   # fm["symbol"] <- "external_gene_id"
+   # fm <- Gviz:::.getBMFeatureMap()
+    #fm["symbol"] <- "external_gene_id"
  #   biomTrack <- BiomartGeneRegionTrack(genome = gen, featureMap=fm, biomart=martENSEMBL,
 #                                        chromosome = chr, start = start, 
 #                                        end = end,  name = "ENSEMBL",
@@ -595,11 +595,11 @@ regulationBiomart <- function(gen, chr, start, end) {
   martfunc=NULL
   dataset="hsapiens_feature_set"
   if(gen == "hg19" | gen == "grch37"){
-    martfunc=useMart(host='grch37.ensembl.org', biomart='functional_genomics',
+    martfunc=useMart(host='grch37.ensembl.org', biomart='ENSEMBL_MART_FUNCGEN',
                         dataset='hsapiens_feature_set')
   } else {
     
-    martfunc <- useMart("functional_genomics",dataset='hsapiens_feature_set')
+    martfunc <- useMart('functional_genomics',dataset='hsapiens_feature_set')
   }
   ensfunc <- getBM(c("regulatory_stable_id","seq_region_start_1057","seq_region_end_1057",
                      "feature_type_name_1057","display_label_1057"),
