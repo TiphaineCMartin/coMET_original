@@ -1,9 +1,16 @@
+COMET 0.99.4 - 2014-11-05
+-----------------------------
+-Update the manual and the vignette
+-Fix little bugs
+-Update the annotation tracks using BiomartGeneRegionTrack of Gviz
+
+
 COMET 0.99.3 - 2014-10-25
 -----------------------------
 - Update the manuel and the vignette
 - Update the function to create annotation tracks connecting to ENSEMBL mart (change of schema)
 - Fix little bug
-- Add the function to define the reference genome
+- Add the function to define the reference genome (cf the change of schema of ENSEMBL mart)
 
 
 COMET 0.99.2 - 2014-10-16

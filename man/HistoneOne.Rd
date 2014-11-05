@@ -8,7 +8,8 @@ Create one track of one histone modification profile from the UCSC genome browse
 Create one track of one histone modification profile from the UCSC genome browser (ENCODE/Broad) using the Gviz bioconductor package
 }
 \usage{
-HistoneOne(gen, chr, start, end, mySession, track.name = "Broad Histone", table.name = NULL)
+HistoneOne(gen, chr, start, end, mySession, track.name = "Broad Histone", 
+            table.name = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

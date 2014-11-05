@@ -1016,9 +1016,9 @@ draw.plot.grid.mydata.large <- function(config.var, gbl.var) {
           #  if (config.var$VERBOSE)  cat("format ",format,"\n")
           #  if (config.var$VERBOSE)  cat("Sample",gbl.var$cur.sample.large,"\n")
             
-            if(grepl("REGION", format)[1] ){
-              if (config.var$VERBOSE)  cat("format ",format,"\n")
-            }
+           # if(grepl("REGION", format)[1] ){
+          #    if (config.var$VERBOSE)  cat("format ",format,"\n")
+           # }
             if (grepl("REGION", format)[1]){
               
               if(! is.null(config.var$DISP.REGION.LARGE))   {

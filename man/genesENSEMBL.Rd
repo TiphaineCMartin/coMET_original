@@ -52,7 +52,7 @@ Tiphaine Martin
 \examples{
 library("Gviz")
 gen <- "hg19"
-chr <- "chr2"
+chrom <- "chr2"
 start <- 38290160
 end <- 38303219
 if(interactive()) {

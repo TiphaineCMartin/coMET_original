@@ -1,14 +1,14 @@
-\name{GeneReviewsTrack}
-\alias{GeneReviewsTrack}
+\name{xenorefGenesUCSC}
+\alias{xenorefGenesUCSC}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Create one track of the genomic positions of variants from GeneReviews
+Create a track for xeno-reference genes from the UCSC genome browser
 }
 \description{
-Create one track of the genomic positions of variants from GeneReviews using the Gviz bioconductor package
+Create a track for xeno-reference genes from the UCSC genome browser using the Gviz bioconductor package
 }
 \usage{
-GeneReviewsTrack(gen, chr, start, end, showId=FALSE)
+xenorefGenesUCSC(gen, chr, start, end,showId=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -32,7 +32,7 @@ Show the ID of the genetic elements
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-An UcscTrack object of Gviz
+A UcscTrack object of Gviz
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -52,15 +52,16 @@ Tiphaine Martin
 \examples{
 library("Gviz")
 gen <- "hg19"
-chr <- "chr2"
+chr <- "chr7"
 start <- 38290160
 end <- 38303219
+
 if(interactive()){
-  geneRtrack <-GeneReviewsTrack(gen,chrom,start,end,showId=TRUE)
-  plotTracks(geneRtrack, from = start, to = end)
+  xenogenestrack<-xenorefGenesUCSC(gen,chr,start,end)
+  plotTracks(xenogenestrack, from = start, to =end) 
 } else {
-  data(GeneReviewTrack)
-  plotTracks(geneRtrack, from = start, to = end)
+  data(xenogenestrack)
+  plotTracks(xenogenestrack, from = start, to =end) 
 }
 
 }

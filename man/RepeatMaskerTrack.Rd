@@ -1,14 +1,14 @@
-\name{GeneReviewsTrack}
-\alias{GeneReviewsTrack}
+\name{RepeatMaskerTrack}
+\alias{RepeatMaskerTrack}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Create one track of the genomic positions of variants from GeneReviews
+Create one track of the genomic positions of regions from RepeatMaskerTrack
 }
 \description{
-Create one track of the genomic positions of variants from GeneReviews using the Gviz bioconductor package
+Create one track of the genomic positions of regions from RepeatMaskerTrack using the Gviz bioconductor package
 }
 \usage{
-GeneReviewsTrack(gen, chr, start, end, showId=FALSE)
+RepeatMaskerTrack(gen, chr, start, end, showId=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -56,11 +56,11 @@ chr <- "chr2"
 start <- 38290160
 end <- 38303219
 if(interactive()){
-  geneRtrack <-GeneReviewsTrack(gen,chrom,start,end,showId=TRUE)
+  rmtrack <-RepeatMaskerTrack(gen,chrom,start,end)
   plotTracks(geneRtrack, from = start, to = end)
 } else {
-  data(GeneReviewTrack)
-  plotTracks(geneRtrack, from = start, to = end)
+  data(RepeatMaskerTrack)
+  plotTracks(rmtrack, from = start, to = end)
 }
 
 }

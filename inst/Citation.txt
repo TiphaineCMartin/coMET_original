@@ -1,5 +1,5 @@
 citHeader("To cite COMET in publications use:")
-, Erte, I, Tsai, P-C, Bell, J.T.,coMET: an R plotting package to visualize regional plots of epigenome-wide association scan results, QG14, 2014.
+Martin, T., Erte, I, Tsai, P-C, Bell, J.T.,coMET: an R plotting package to visualize regional plots of epigenome-wide association scan results, QG14, 2014.
 citEntry(entry="Article",
          title = "",
          author = personList(as.person("Martin, T.C."),

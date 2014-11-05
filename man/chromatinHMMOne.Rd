@@ -8,12 +8,13 @@ Creating one chromHMM track from the UCSC genome browser
 Create one track of only one type of chromHMM Broad element from the UCSC genome browser using the Gviz bioconductor package
 }
 \usage{
-chromatinHMMOne(gen, chr, start, end, mySession, track.name = "Broad ChromHMM", table.name = NULL)
+chromatinHMMOne(gen, chr, start, end, mySession, track.name = "Broad ChromHMM", 
+                table.name = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
    \item{gen}{
-the name of genome
+the name of the genome
 }
   \item{chr}{
 the chromosome of interest

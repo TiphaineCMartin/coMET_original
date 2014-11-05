@@ -8,10 +8,13 @@ Create a regulation track from ENSEMBL
 Create a 'Regulation' track from ENSEMBL using the Gviz bioconductor package
 }
 \usage{
-regulationBiomart(chr, start, end, dataset="hsapiens_feature_set")
+regulationBiomart(gen, chr, start, end)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
+ \item{gen}{
+the name of the genome
+}
   \item{chr}{
 the chromosome of interest
 }
@@ -20,9 +23,6 @@ the first position in the region of interest (the smallest value)
 }
   \item{end}{
 the last position in the region of interest (the largest value)
-}
-  \item{dataset}{
-  The name of the database."hsapiens_feature_set"(default)
 }
 }
 \details{
@@ -54,7 +54,7 @@ start <- 38290160
 end <- 38303219
 
 if(interactive()){
-  regulationENSEMBLtrack<-regulationBiomart(chr,start,end,dataset="hsapiens_feature_set")
+  regulationENSEMBLtrack<-regulationBiomart(gen,chr,start,end)
   plotTracks(regulationENSEMBLtrack, from = start, to =end) 
 } else {
   data(regulationENSEMBLtrack)

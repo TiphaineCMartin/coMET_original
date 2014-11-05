@@ -8,12 +8,13 @@ Creating multiple chromHMM tracks from the UCSC genome browser
 Create multiple chromHMM Broad tracks by connecting to the UCSC genome browser using the GViz bioconductor package
 }
 \usage{
-chromatinHMMAll(gen, chr, start, end, mySession, track.name = "Broad ChromHMM", pattern = NULL,  table.name = NULL)
+chromatinHMMAll(gen, chr, start, end, mySession, track.name = "Broad ChromHMM", 
+              pattern = NULL,  table.name = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{gen}{
-the name of genome
+the name of the genome
 }
   \item{chr}{
 the chromosome of interest

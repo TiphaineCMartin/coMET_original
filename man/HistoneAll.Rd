@@ -8,7 +8,8 @@ Create multiple tracks of histone modifications from the UCSC genome browser
 Create multiple tracks of histone modifications from the UCSC genome browser (ENCODE/Broad) using the Gviz bioconductor package
 }
 \usage{
-HistoneAll(gen, chr, start, end, mySession, pattern = NULL, track.name = "Broad Histone", table.name = NULL)
+HistoneAll(gen, chr, start, end, mySession, pattern = NULL, 
+          track.name = "Broad Histone", table.name = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

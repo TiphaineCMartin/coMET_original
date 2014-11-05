@@ -862,14 +862,22 @@ retrieve.data <- function(config.var, gbl.var) {
     }
     
     #----------------- DEFINE VALUES OF X,Y and DISTANCE to position data
-    min.dist <- min(c(min.dist, gbl.var$mydata.data$LOC), na.rm = TRUE)
+    if(is.null(min.dist)){
+      min.dist <- gbl.var$mydata.data$LOC
+    }else {
+      min.dist <- min(c(min.dist, gbl.var$mydata.data$LOC), na.rm = TRUE)
+    }
     if(!is.null(config.var$START)) {
       min.dist <- min(c(min.dist,config.var$START), na.rm = TRUE)
       # min.dist <- config.var$START
     }
     gbl.var$min.user.x <- min.dist
     
-    max.dist <- max(c(max.dist, gbl.var$mydata.data$LOC), na.rm = TRUE)
+    if(is.null(max.dist)){
+      max.dist <-   gbl.var$mydata.data$LOC
+    }else {
+      max.dist <- max(c(max.dist, gbl.var$mydata.data$LOC), na.rm = TRUE)
+    }
     if(!is.null(config.var$END)){
       max.dist <- max(c(max.dist,config.var$END), na.rm = TRUE)  
       #max.dist <- config.var$END
@@ -886,15 +894,24 @@ retrieve.data <- function(config.var, gbl.var) {
     config.var <- fix.var$config.var
     gbl.var <- fix.var$gbl.var
     
+    if(is.null(gbl.var$min.x)){
+      gbl.var$min.x <-  gbl.var$mydata.data$LOC
+    }else {
+      gbl.var$min.x <- min(c(gbl.var$min.x, gbl.var$mydata.data$LOC), na.rm = TRUE)
+    }
     
-    gbl.var$min.x <- min(c(gbl.var$min.x, gbl.var$mydata.data$LOC), na.rm = TRUE)
     if(!is.null(config.var$START)) {
       gbl.var$min.x <- config.var$START 
     } else {
       gbl.var$min.x <- gbl.var$min.x - 500 
     }
     #  if (config.var$VERBOSE)  cat("gbl.var$min.x", gbl.var$min.x, "\n")
-    gbl.var$max.x <- max(c(gbl.var$max.x, gbl.var$mydata.data$LOC), na.rm = TRUE)
+    if(is.null(gbl.var$max.x)){
+      gbl.var$max.x <- gbl.var$mydata.data$LOC
+    }else {
+      gbl.var$max.x <- max(c(gbl.var$max.x, gbl.var$mydata.data$LOC), na.rm = TRUE)
+    }
+    
     if(!is.null(config.var$END)) {
       gbl.var$max.x <- config.var$END 
     } else {
@@ -1265,26 +1282,26 @@ check.format.mydata <- function(gbl.var,option,numfile){
       stop("Missing MYDATA data file column LOC\n")
     }
     if ((length(grep("^[a-zA-Z]",mydata.test$LOC)) > 0) ){
-      stop("Missing column LOC has not to be number\n")
+      stop("Missing column LOC has to be number\n")
     }
   } else if (format == "REGION" | format == "REGION_ASSO") {
     if(is.null(mydata.test$LOC.START)) {
       stop("Missing MYDATA data file column LOC.START\n")
     }
     if ((length(grep("^[a-zA-Z]",mydata.test$LOC.START)) > 0) ){
-      stop("Missing column LOC.START has not to be number\n")
+      stop("Missing column LOC.START has to be number\n")
     }
     if (is.null(mydata.test$LOC.END)) {
       stop("Missing MYDATA data file column LOC.END\n")
     } 
     if ((length(grep("^[a-zA-Z]",mydata.test$LOC.END)) > 0) ){
-      stop("Missing column LOC.END has not to be number\n")
+      stop("Missing column LOC.END has to be number\n")
     }
   } 
   if (is.null(mydata.test$MYDATA.PVAL)) {
     stop("Missing MYDATA data file column MYDATA.PVAL\n")
   }  else if (length(grep("^[a-zA-Z]",mydata.test$MYDATA.PVAL)) > 0){
-    stop("Missing column MYDATA.PVAL has not to be number\n")
+    stop("Missing column MYDATA.PVAL has to be number\n")
   } 
   if (format == "REGION_ASSO" | format == "DTR_ASSO" |  format == "SITE_ASSO") {
     if(is.null(mydata.test$MYDATA.ASSO) ) {
@@ -1293,7 +1310,7 @@ check.format.mydata <- function(gbl.var,option,numfile){
     #  if (gbl.var$verbose)  cat("BUG Association ",length(mydata.test$MYDATA.ASSO)," \n")
     # if (gbl.var$verbose)  cat("BUG Association ",length(grep("[0-9]",mydata.test$MYDATA.ASSO))," \n")
     if ((length(grep("[a-zA-Z]",mydata.test$MYDATA.ASSO)) > 0)){
-      stop("Missing column MYDATA.ASSO has not to be number\n")
+      stop("Missing column MYDATA.ASSO has to be number\n")
     } else if ((length(grep("[0-9|-|+]",mydata.test$MYDATA.ASSO)) == length(mydata.test$MYDATA.ASSO))){
       pos <- which(as.numeric(mydata.test$MYDATA.ASSO) > 0)
       neg <- which(as.numeric(mydata.test$MYDATA.ASSO) < 0)
@@ -1470,7 +1487,7 @@ read.file.cormatrix <- function(config.var, gbl.var,split.cormatrix.file=NULL){
     #  if (config.var$VERBOSE)  cat("CORMATRIX empty \n")
     stop("EMPTY CORMATRIX data file \n")
   } else {
-    #  if (config.var$VERBOSE)  cat("Format data",config.var$CORMATRIX.FORMAT,"\n")
+      if (config.var$VERBOSE)  cat("Format data",config.var$CORMATRIX.FORMAT,"\n")
     
     #----------- MYDATA table with pvalue
     if (config.var$CORMATRIX.FORMAT == "DTR_CORMATRIX") {
@@ -1487,24 +1504,8 @@ read.file.cormatrix <- function(config.var, gbl.var,split.cormatrix.file=NULL){
         stop("Invalid MYDATA data file: ", config.var$MYDATA.FILE, " and CORMATRIX ",split.cormatrix.file[[1]][1] ," do not have the same size\n")
       }
       
-    } else if (config.var$CORMATRIX.FORMAT == "RAW"){
-      matrix.data.raw_rot<- read.delim(split.cormatrix.file[[1]][1], header=TRUE, sep="\t", as.is=TRUE, blank.lines.skip = TRUE, fill=TRUE)
-      matrix.data.raw <- t(matrix.data.raw_rot)
-      matrix.data.raw[match(gbl.var$mydata.data$MYDATA.NAME, matrix.data.raw[1,]),]
-      gbl.var$matrix.data <-matrix.data.raw
-      nr=nrow(matrix.data.raw)
-      nr1=nrow(gbl.var$mydata.data)
-      # if (config.var$VERBOSE)  cat("Matrice size",nr,"\n")
-      # if (config.var$VERBOSE)  cat("Matrice size",nr1,"\n")
-      #--- Check the same size cormatrix and data
-      if(nrow(gbl.var$mydata.data) == nrow(matrix.data.raw) ){
-        gbl.var$matrix.data <-matrix.data.raw
-        gbl.var<-compute.cormatrix(config.var, gbl.var)
-      }else {
-        stop("Invalid MYDATA data file: ", config.var$MYDATA.FILE," value (" ,nr1,") and CORMATRIX ",split.cormatrix.file[[1]][1] ," value (" ,nr,") do not have the same size\n")
-      }
-      
     } else if (config.var$CORMATRIX.FORMAT == "RAW_REV"){
+      # if (config.var$VERBOSE)  cat("Format data",config.var$CORMATRIX.FORMAT,"\n")
       matrix.data.raw_rot<- read.delim(split.cormatrix.file[[1]][1], header=TRUE, sep="\t", as.is=TRUE, blank.lines.skip = TRUE, fill=TRUE)
       matrix.data.raw <- matrix.data.raw_rot
       matrix.data.raw[match(gbl.var$mydata.data$MYDATA.NAME, matrix.data.raw[1,]),]
@@ -1512,8 +1513,8 @@ read.file.cormatrix <- function(config.var, gbl.var,split.cormatrix.file=NULL){
       gbl.var$matrix.data <-matrix.data.raw
       nr=nrow(matrix.data.raw)
       nr1=nrow(gbl.var$mydata.data)
-      if (config.var$VERBOSE)  cat("Matrice size",nr,"\n")
-      if (config.var$VERBOSE)  cat("Matrice size",nr1,"\n")
+      #if (config.var$VERBOSE)  cat("Matrice size",nr,"\n")
+      #if (config.var$VERBOSE)  cat("Matrice size",nr1,"\n")
       #--- Check the same size cormatrix and data
       if(nrow(gbl.var$mydata.data) == nrow(matrix.data.raw) ){
         gbl.var$matrix.data <-matrix.data.raw
@@ -1522,7 +1523,24 @@ read.file.cormatrix <- function(config.var, gbl.var,split.cormatrix.file=NULL){
         stop("Invalid MYDATA data file: ", config.var$MYDATA.FILE," value (" ,nr1,") and CORMATRIX ",split.cormatrix.file[[1]][1] ," value (" ,nr,") do not have the same size\n")
       }
       
-    }else if (config.var$CORMATRIX.FORMAT == "DTR_RAW"){
+    }else if (config.var$CORMATRIX.FORMAT == "RAW"){
+      matrix.data.raw_rot<- read.delim(split.cormatrix.file[[1]][1], header=TRUE, sep="\t", as.is=TRUE, blank.lines.skip = TRUE, fill=TRUE)
+      matrix.data.raw <- t(matrix.data.raw_rot)
+      matrix.data.raw[match(gbl.var$mydata.data$MYDATA.NAME, matrix.data.raw[1,]),]
+      gbl.var$matrix.data <-matrix.data.raw
+      nr=nrow(matrix.data.raw)
+      nr1=nrow(gbl.var$mydata.data)
+       if (config.var$VERBOSE)  cat("Matrice size",nr,"\n")
+       if (config.var$VERBOSE)  cat("Matrice size",nr1,"\n")
+      #--- Check the same size cormatrix and data
+      if(nrow(gbl.var$mydata.data) == nrow(matrix.data.raw) ){
+        gbl.var$matrix.data <-matrix.data.raw
+        gbl.var<-compute.cormatrix(config.var, gbl.var)
+      }else {
+        stop("Invalid MYDATA data file: ", config.var$MYDATA.FILE," value (" ,nr1,") and CORMATRIX ",split.cormatrix.file[[1]][1] ," value (" ,nr,") do not have the same size\n")
+      }
+      
+    } else if (config.var$CORMATRIX.FORMAT == "DTR_RAW"){
       matrix.data.raw.tmp <- gbl.var$general.data[,-c(1:19)]
       nr=nrow(matrix.data.raw.tmp)
       nr1=nrow(gbl.var$mydata.data)
@@ -1541,6 +1559,11 @@ read.file.cormatrix <- function(config.var, gbl.var,split.cormatrix.file=NULL){
     num.mydata<-dim(gbl.var$mydata.data)[1]
     row.LD<-dim(gbl.var$cormatrix.data)[1]
     col.LD<-dim(gbl.var$cormatrix.data)[2]
+    
+    if (config.var$VERBOSE)  cat("Matrice size num.mydata",num.mydata,"\n")
+    if (config.var$VERBOSE)  cat("Matrice size row.LD",row.LD,"\n")
+    if (config.var$VERBOSE)  cat("Matrice size col.LD",col.LD,"\n")
+    
     if (row.LD != num.mydata | col.LD != num.mydata ) {
       stop("Not the same number of row or column between the correlation matrice and MYDATA data\n")
     }  
