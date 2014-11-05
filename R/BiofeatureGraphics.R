@@ -89,17 +89,13 @@ genesENSEMBL<-function(gen,chr,start,end,showId=FALSE){
   if(gen == "hg19" | gen == "grch37"){
     martENSEMBL=useMart(host='grch37.ensembl.org', biomart='ENSEMBL_MART_ENSEMBL',
                         dataset='hsapiens_gene_ensembl')
-   # fm <- Gviz:::.getBMFeatureMap()
+    #fm <- Gviz:::.getBMFeatureMap()
     #fm["symbol"] <- "external_gene_id"
- #   biomTrack <- BiomartGeneRegionTrack(genome = gen, featureMap=fm, biomart=martENSEMBL,
-#                                        chromosome = chr, start = start, 
-#                                        end = end,  name = "ENSEMBL",
-#                                        fontcolor="black",showId=showId)
-   biomTrack <- BiomartGeneRegionTrack(genome = gen, biomart=martENSEMBL,
-                                       chromosome = chr, start = start, 
-                                       end = end,  name = "ENSEMBL",
-                                       fontcolor="black",showId=showId)
-    
+    #featureMap=fm
+    biomTrack <- BiomartGeneRegionTrack(genome = gen, biomart=martENSEMBL,
+                                        chromosome = chr, start = start, 
+                                        end = end,  name = "ENSEMBL",
+                                        fontcolor="black",showId=showId)  
     
   } else {
     martENSEMBL=useMart("ensembl",dataset='hsapiens_gene_ensembl')
@@ -150,18 +146,14 @@ transcriptENSEMBL<-function(gen,chr,start,end,showId=FALSE){
   if(gen == "hg19" | gen == "grch37"){
     martENSEMBL=useMart(host='grch37.ensembl.org', biomart='ENSEMBL_MART_ENSEMBL',
                         dataset='hsapiens_gene_ensembl')
-   # fm <- Gviz:::.getBMFeatureMap()
-    #fm["symbol"] <- "external_gene_id"
-   # biomTrack <- BiomartGeneRegionTrack(genome = gen, featureMap=fm, biomart=martENSEMBL,
-   #                                     chromosome = chr, start = start, 
-    #                                    end = end,  name = "ENSEMBL",
-    #                                    fontcolor="black",groupAnnotation = "group",
-     #                                   just.group = "above",showId=showId)
+    #fm <- Gviz:::.getBMFeatureMap()
+   # fm["symbol"] <- "external_gene_id"
+    #, featureMap=fm
     biomTrack <- BiomartGeneRegionTrack(genome = gen, biomart=martENSEMBL,
-                                    chromosome = chr, start = start, 
-                                    end = end,  name = "ENSEMBL",
-                                    fontcolor="black",groupAnnotation = "group",
-                                    just.group = "above",showId=showId)
+                                        chromosome = chr, start = start, 
+                                        end = end,  name = "ENSEMBL",
+                                        fontcolor="black",groupAnnotation = "group",
+                                        just.group = "above",showId=showId)
   } else {
     martENSEMBL=useMart("ensembl",dataset='hsapiens_gene_ensembl')
     biomTrack <- BiomartGeneRegionTrack(genome = gen, biomart=martENSEMBL,
