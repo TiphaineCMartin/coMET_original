@@ -94,7 +94,7 @@ genesENSEMBL<-function(gen,chr,start,end,showId=FALSE){
     biomTrack <- BiomartGeneRegionTrack(genome = gen, featureMap=fm, biomart=martENSEMBL,
                                         chromosome = chr, start = start, 
                                         end = end,  name = "ENSEMBL",
-                                        ,groupAnnotation = "group",
+                                        groupAnnotation = "group",
                                         just.group = "above",
                                        fontcolor="black",showId=showId)
     
@@ -104,7 +104,7 @@ genesENSEMBL<-function(gen,chr,start,end,showId=FALSE){
     biomTrack <- BiomartGeneRegionTrack(genome = gen, biomart=martENSEMBL,
                                         chromosome = chr, start = start, 
                                         end = end,  name = "ENSEMBL",
-                                        ,groupAnnotation = "group",
+                                        groupAnnotation = "group",
                                         just.group = "above",
                                         fontcolor="black",showId=showId)
   }
