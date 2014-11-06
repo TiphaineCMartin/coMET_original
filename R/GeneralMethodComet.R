@@ -2331,8 +2331,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #---- Regulation
   if(has.key("RegENSEMBL",gbl.var$split.list.tracks)) {
-    regtrack<-regulationBiomart(gbl.var$mydata.chr,gbl.var$min.x,gbl.var$max.x,
-                                config.var$DATASET.REGULATION)
+    regtrack<-regulationBiomart(config.var$GENOME,gbl.var$mydata.chr,gbl.var$min.x,gbl.var$max.x)
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(regtrack)
     } else {

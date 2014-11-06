@@ -224,7 +224,14 @@ shinyUI(fluidPage(
       ),
       
       hr(),
-      h5("Submit the data:"),
+			h5("Save your image",style = "color:red"),
+			textInput('plotfilename', "Filename of your plot","coMET"),
+			selectInput("imageformat", "Define the format of plot:" , 
+			            choices = c("pdf","eps","png")),
+			selectInput("imagesize", "Define the size of plot:" , 
+			            choices = c("3.5","7")),
+      hr(),
+      h5("Submit the data:",style = "color:red"),
       p('You need to click on the plot button and go the coMET plot tab.'),
       p('The creation of plot takes time relative to the time to connect UCSC and ENSEMBL'),
       actionButton("goPlot", "Plot")

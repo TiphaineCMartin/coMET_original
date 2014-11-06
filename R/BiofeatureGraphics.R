@@ -49,7 +49,7 @@ genesNameENSEMBL<-function(gen,chr,start,end,dataset){
   chrEnsembl=chrUCSC2ENSEMBL(chr)
   
   ens_ENSEMBL <- NULL
-  if(gen == "hg19" | gen == "grch37"){
+  if(length(match(gen, tolower(c("hg19","grch37")))) > 0){
     martENSEMBL=useMart(host='grch37.ensembl.org', biomart='ENSEMBL_MART_ENSEMBL',
                         dataset=dataset)
     ens_ENSEMBL <- getBM(c("ensembl_gene_id","external_gene_id"),
@@ -86,18 +86,16 @@ genesENSEMBL<-function(gen,chr,start,end,showId=FALSE){
   }
   #cat("data",gen,"\t",chr,"\t",start,"\t",end,"\n")
   biomTrack=NULL
-  if(gen == "hg19" | gen == "grch37"){
+  if(length(match(gen, tolower(c("hg19","grch37")))) > 0){
     martENSEMBL=useMart(host='grch37.ensembl.org', biomart='ENSEMBL_MART_ENSEMBL',
                         dataset='hsapiens_gene_ensembl')
-   # fm <- Gviz:::.getBMFeatureMap()
-    #fm["symbol"] <- "external_gene_id"
- #   biomTrack <- BiomartGeneRegionTrack(genome = gen, featureMap=fm, biomart=martENSEMBL,
-#                                        chromosome = chr, start = start, 
-#                                        end = end,  name = "ENSEMBL",
-#                                        fontcolor="black",showId=showId)
-   biomTrack <- BiomartGeneRegionTrack(genome = gen, biomart=martENSEMBL,
-                                       chromosome = chr, start = start, 
-                                       end = end,  name = "ENSEMBL",
+    fm <- Gviz:::.getBMFeatureMap()
+    fm["symbol"] <- "external_gene_id"
+    biomTrack <- BiomartGeneRegionTrack(genome = gen, featureMap=fm, biomart=martENSEMBL,
+                                        chromosome = chr, start = start, 
+                                        end = end,  name = "ENSEMBL",
+                                        ,groupAnnotation = "group",
+                                        just.group = "above",
                                        fontcolor="black",showId=showId)
     
     
@@ -106,6 +104,8 @@ genesENSEMBL<-function(gen,chr,start,end,showId=FALSE){
     biomTrack <- BiomartGeneRegionTrack(genome = gen, biomart=martENSEMBL,
                                         chromosome = chr, start = start, 
                                         end = end,  name = "ENSEMBL",
+                                        ,groupAnnotation = "group",
+                                        just.group = "above",
                                         fontcolor="black",showId=showId)
   }
   
@@ -117,8 +117,8 @@ genesENSEMBL<-function(gen,chr,start,end,showId=FALSE){
     r <- split(ranges(biomTrack), gene(biomTrack))
     # cat("change elements1\n")
     rNew <-  endoapply(r, function(x){
-      rx <- reduce(x, with.mapping=TRUE) 
-      mcols(rx) <- mcols(x)[sapply(rx$mapping, head, 1),]
+      rx <- reduce(x, with.revmap=TRUE) 
+      mcols(rx) <- mcols(x)[sapply(rx$revmap, head, 1),]
       rx$transcript <- rx$gene
       rx
     })
@@ -147,21 +147,17 @@ transcriptENSEMBL<-function(gen,chr,start,end,showId=FALSE){
   }
   
   biomTrack=NULL
-  if(gen == "hg19" | gen == "grch37"){
+  if(length(match(gen, tolower(c("hg19","grch37")))) > 0){
     martENSEMBL=useMart(host='grch37.ensembl.org', biomart='ENSEMBL_MART_ENSEMBL',
                         dataset='hsapiens_gene_ensembl')
-   # fm <- Gviz:::.getBMFeatureMap()
-    #fm["symbol"] <- "external_gene_id"
-   # biomTrack <- BiomartGeneRegionTrack(genome = gen, featureMap=fm, biomart=martENSEMBL,
-   #                                     chromosome = chr, start = start, 
-    #                                    end = end,  name = "ENSEMBL",
-    #                                    fontcolor="black",groupAnnotation = "group",
-     #                                   just.group = "above",showId=showId)
-    biomTrack <- BiomartGeneRegionTrack(genome = gen, biomart=martENSEMBL,
-                                    chromosome = chr, start = start, 
-                                    end = end,  name = "ENSEMBL",
-                                    fontcolor="black",groupAnnotation = "group",
-                                    just.group = "above",showId=showId)
+    fm <- Gviz:::.getBMFeatureMap()
+    fm["symbol"] <- "external_gene_id"
+    biomTrack <- BiomartGeneRegionTrack(genome = gen, featureMap=fm, biomart=martENSEMBL,
+                                        chromosome = chr, start = start, 
+                                      end = end,  name = "ENSEMBL",
+                                        fontcolor="black",groupAnnotation = "group",
+                                       just.group = "above",showId=showId)
+    
   } else {
     martENSEMBL=useMart("ensembl",dataset='hsapiens_gene_ensembl')
     biomTrack <- BiomartGeneRegionTrack(genome = gen, biomart=martENSEMBL,
@@ -193,7 +189,7 @@ chromatinHMMAll<-function(gen,chr,start,end,mySession,track.name="Broad ChromHMM
   if(is.null(gen)){
     stop("Invalid in function chromatinHMMAll :gen null:\n")
   }
-  if(is.null(track.name) & (gen == "hg19" | gen == "grch37")){
+  if(is.null(track.name) & (length(match(gen, tolower(c("hg19","grch37")))) > 0)){
     track.name="Broad ChromHMM"
   }else if(is.null(track.name) & gen != "hg19"){
     stop("Invalid in function chromatinHMMAll :track.namenull:\n")
@@ -300,7 +296,7 @@ HistoneAll<-function(gen,chr,start,end,mySession,pattern=NULL,track.name="Broad 
   if(is.null(gen)){
     stop("Invalid in function HistoneAll :gen null:\n")
   }
-  if(is.null(track.name) & (gen == "hg19" | gen == "grch37")){
+  if(is.null(track.name) & (length(match(gen, tolower(c("hg19","grch37")))) > 0)){
     track.name="Broad Histone"
   }else if(is.null(track.name) & gen != "hg19"){
     stop("Invalid in function HistoneAll :track.namenull:\n")
@@ -356,7 +352,7 @@ HistoneOne<-function(gen,chr,start,end,mySession,track.name="Broad Histone",tabl
   if(is.null(gen)){
     stop("Invalid in function HistoneOne :gen null:\n")
   }
-  if(is.null(track.name) & ( gen == "hg19" | gen == "grch37")){
+  if(is.null(track.name) & ( length(match(gen, tolower(c("hg19","grch37")))) > 0)){
     track.name="Broad Histone"
   }else if(is.null(track.name)){
     stop("Invalid in function HistoneOne :track.namenull:\n")
@@ -407,7 +403,7 @@ DNAseUCSC<-function(gen,chr,start,end,mySession,track.name="DNase Clusters",tabl
   if(is.null(gen)){
     stop("Invalid in function DNAseUCS :gen null:\n")
   }
-  if(is.null(track.name) & (gen == "hg19" | gen == "grch37")){
+  if(is.null(track.name) & (length(match(gen, tolower(c("hg19","grch37")))) > 0)){
     track.name="DNase Clusters"
   }else if(is.null(track.name)){
     stop("Invalid in function DNAseUCS :track.namenull:\n")
@@ -467,7 +463,7 @@ gcContent <- function(gen,chr,start,end){
 }
 
 #-------------------- CREATION track Known genes from UCSC ------------------
-knownGenesUCSC<-function(gen,chr,start,end){
+knownGenesUCSC<-function(gen,chr,start,end,showId=TRUE){
   if(is.null(chr)){
     stop("Invalid in function knownGenesUCSC :chr null:\n")
   }
@@ -587,14 +583,11 @@ regulationBiomart <- function(gen, chr, start, end) {
   if(is.null(end)){
     stop("Invalid in function regulationBiomart :end null:\n")
   }
-  if(is.null(dataset)){
-    stop("Invalid in function regulationBiomart :dataset null:\n")
-  }
   
   chrEnsembl=chrUCSC2ENSEMBL(chr)
   martfunc=NULL
   dataset="hsapiens_feature_set"
-  if(gen == "hg19" | gen == "grch37"){
+  if(length(match(gen, tolower(c("hg19","grch37")))) > 0){
     martfunc=useMart(host='grch37.ensembl.org', biomart='ENSEMBL_MART_FUNCGEN',
                         dataset='hsapiens_feature_set')
   } else {
@@ -782,7 +775,7 @@ ClinVarCnvTrack <-function(gen,chr,start,end,showId=FALSE){
     stop("Invalid in function ClinVarCnv :gen null:\n")
   }
   
-  if(showID){
+  if(showId){
     UcscTrack(genome = gen, chromosome = chr, from = start, to = end,
               track="ClinVar Variants", table="clinvarCnv", 
               trackType = "AnnotationTrack", start = "chromStart", end = "chromEnd", 
