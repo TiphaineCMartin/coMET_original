@@ -96,7 +96,7 @@ genesENSEMBL<-function(gen,chr,start,end,showId=FALSE){
                                         end = end,  name = "ENSEMBL",
                                         groupAnnotation = "group",
                                         just.group = "above",
-                                       fontcolor="black",showId=showId)
+                                       fontcolor="black",showId=showId,size=2)
     
     
   } else {
@@ -106,7 +106,7 @@ genesENSEMBL<-function(gen,chr,start,end,showId=FALSE){
                                         end = end,  name = "ENSEMBL",
                                         groupAnnotation = "group",
                                         just.group = "above",
-                                        fontcolor="black",showId=showId)
+                                        fontcolor="black",showId=showId,size=2)
   }
   
  
@@ -156,7 +156,7 @@ transcriptENSEMBL<-function(gen,chr,start,end,showId=FALSE){
                                         chromosome = chr, start = start, 
                                       end = end,  name = "ENSEMBL",
                                         fontcolor="black",groupAnnotation = "group",
-                                       just.group = "above",showId=showId)
+                                       just.group = "above",showId=showId,size=2)
     
   } else {
     martENSEMBL=useMart("ensembl",dataset='hsapiens_gene_ensembl')
@@ -164,7 +164,7 @@ transcriptENSEMBL<-function(gen,chr,start,end,showId=FALSE){
                                         chromosome = chr, start = start, 
                                         end = end,  name = "ENSEMBL",
                                         fontcolor="black", groupAnnotation = "group",
-                                        just.group = "above",showId=showId )
+                                        just.group = "above",showId=showId,size=2 )
   }
   
   #cat("data",gen,"\t",chr,"\t",start,"\t",end,"\n")
@@ -482,12 +482,12 @@ knownGenesUCSC<-function(gen,chr,start,end,showId=TRUE){
               trackType = "GeneRegionTrack", rstarts = "exonStarts", rends = "exonEnds", 
               gene = "name", symbol = "name", transcript = "name", strand = "strand", 
               fill = "#8282d2", name = "UCSC Genes",stacking="squish", group="name",
-              groupAnnotation = "group", just.group = "above")
+              groupAnnotation = "group", just.group = "above",size=2)
   } else {
     UcscTrack(genome = gen, chromosome = chr,track = "knownGene", from = start, to = end, 
               trackType = "GeneRegionTrack", rstarts = "exonStarts", rends = "exonEnds", 
               gene = "name", symbol = "name", transcript = "name", strand = "strand", 
-              fill = "#8282d2", name = "UCSC Genes",stacking="squish")
+              fill = "#8282d2", name = "UCSC Genes",stacking="squish",size=2)
   }
 
 }

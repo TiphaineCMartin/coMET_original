@@ -126,7 +126,7 @@ draw.plot.grid.setup <- function(config.var, gbl.var) {
   }
   
   itrack <- IdeogramTrack(genome=gbl.var$mydata.gen, chromosome=gbl.var$mydata.chr)
-  plotTracks(itrack,from=gbl.var$min.x,to=gbl.var$max.x,panel.only=TRUE)
+  plotTracks(itrack,from=gbl.var$min.x,to=gbl.var$max.x,panel.only=TRUE, fontsize=5)
   
   #-------------------CONNECTOR VIEWPORT---------------------
   
@@ -693,7 +693,7 @@ draw.plot.annotation <- function(config.var, gbl.var) {
   if(! (is.null(gbl.var$listtracks_gviz))){
     seekViewport("annotviewport")
     pushViewport(gvizviewport)
-    plotTracks(gbl.var$listtracks_gviz, from=gbl.var$min.x, to=gbl.var$max.x,panel.only=TRUE,add=TRUE)
+    plotTracks(gbl.var$listtracks_gviz, from=gbl.var$min.x, to=gbl.var$max.x,panel.only=TRUE,add=TRUE, fontsize=5)
     
   }
   
@@ -717,7 +717,7 @@ draw.plot.annotation <- function(config.var, gbl.var) {
   if(! (is.null(gbl.var$listtracks_user))){
     seekViewport("annotviewport")
     pushViewport(gvizuserviewport)
-    plotTracks(gbl.var$listtracks_user, from=gbl.var$min.x, to=gbl.var$max.x,panel.only=TRUE,add=TRUE)
+    plotTracks(gbl.var$listtracks_user, from=gbl.var$min.x, to=gbl.var$max.x,panel.only=TRUE,add=TRUE, fontsize=5)
   }
   
   popViewport()
@@ -1921,7 +1921,7 @@ draw.name.tracks.web <- function(config.var,gbl.var) {
   if(config.var$IMAGE.SIZE == 3.5) {
     #All tracks cf order define via create.tracks.web
     # if (config.var$VERBOSE)  cat("All tracks \n")
-    y.label.pos <- c(1.25,-0.15,-0.75,-1.05,-1.65,-1.95)
+    y.label.pos <- c(1.25,-0.15,-0.75,-1.25,-1.65,-1.95)
   } else if(config.var$IMAGE.SIZE == 7) {
     y.label.pos <- c(1.25,-0.1, -0.7, -1.3, -1.7, -2.1)
   }
