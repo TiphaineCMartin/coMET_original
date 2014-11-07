@@ -618,17 +618,17 @@ draw.plot.annotation <- function(config.var, gbl.var) {
   
   popViewport()
   top.vp <- gbl.var$top.vp
-  annotation.vp.cormatrixmap <- viewport(height = 0.8,
+  annotation.vp.cormatrixmap <- viewport(height = 0.975,
                                          width = 1,
                                          layout.pos.row = 4,
                                          layout.pos.col = 2,
                                          name = "annotation.vp.cormatrixmap")
-  annotation.vp.nocormatrixmap <- viewport(height = 0.8,
+  annotation.vp.nocormatrixmap <- viewport(height = 0.975,
                                            width = 1,
                                            layout.pos.row = 5,
                                            layout.pos.col = 2,
                                            name = "annotation.vp.nocormatrixmap")
-  annotation.vp.cormatrixmap.nopval <- viewport(height = 0.8,
+  annotation.vp.cormatrixmap.nopval <- viewport(height = 0.97,
                                                 width = 1,
                                                 layout.pos.row = 3,
                                                 layout.pos.col = 2,

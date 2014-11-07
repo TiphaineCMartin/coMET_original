@@ -895,7 +895,7 @@ retrieve.data <- function(config.var, gbl.var) {
     gbl.var <- fix.var$gbl.var
     
     if(is.null(gbl.var$min.x)){
-      gbl.var$min.x <-  gbl.var$mydata.data$LOC
+      gbl.var$min.x <-  min(gbl.var$mydata.data$LOC)
     }else {
       gbl.var$min.x <- min(c(gbl.var$min.x, gbl.var$mydata.data$LOC), na.rm = TRUE)
     }
@@ -907,7 +907,7 @@ retrieve.data <- function(config.var, gbl.var) {
     }
     #  if (config.var$VERBOSE)  cat("gbl.var$min.x", gbl.var$min.x, "\n")
     if(is.null(gbl.var$max.x)){
-      gbl.var$max.x <- gbl.var$mydata.data$LOC
+      gbl.var$max.x <- max(gbl.var$mydata.data$LOC)
     }else {
       gbl.var$max.x <- max(c(gbl.var$max.x, gbl.var$mydata.data$LOC), na.rm = TRUE)
     }
@@ -951,6 +951,7 @@ retrieve.data <- function(config.var, gbl.var) {
     max.min.diff <- gbl.var$max.x - gbl.var$min.x
     exp.test <- TRUE
     
+    warning("max.min.diff", max.min.diff)
     while(exp.test) {
       if(max.min.diff > 10) {
         gbl.var$cur.exp <- gbl.var$cur.exp + 1
@@ -1695,9 +1696,11 @@ set.image.parameters <- function(config.var, gbl.var) {
     cex.factor <- 0.4 * sec.cex.factor
   } else if(gbl.var$mydata.num > 90 & gbl.var$mydata.num <= 120) {
     cex.factor <- 0.2 * sec.cex.factor
-  } else if(gbl.var$mydata.num > 150) {
+  } else if(gbl.var$mydata.num > 120) {
     cex.factor <- 0.1 * sec.cex.factor
     line.width <- 0.5
+  }else {
+    stop("Invalid image size: ", gbl.var$mydata.num, "\n")
   }
   
   #DEBUG STATEMENT

@@ -19,8 +19,8 @@
 \alias{histoneonetrack}
 \alias{iscatrack}
 \alias{regulationENSEMBLtrack}
-\alias{rmtrack}
 \alias{snptrack}
+\alias{rmtrack}
 \alias{snpUCSCtrack}
 \alias{strutrack}
 \alias{transENSMBLtrack}
