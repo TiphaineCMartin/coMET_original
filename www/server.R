@@ -218,6 +218,11 @@ shinyServer(function(input, output,session) {
   
   
   ##### DRAW THE PLOT
+  output$cometplot <- renderPlot(function() {
+    plotPrintInput()
+  })
+
+  
   filenameplot <- function() {
       filename = paste(input$plotfilename, "png", sep='.')
       filenameImagetmp <- tempfile(fileext=filename)
@@ -226,58 +231,19 @@ shinyServer(function(input, output,session) {
   output$cometplotImage <- renderImage({
     
     filenameImage <<- filenameplot()
-      if(input$imageformat == "pdf"){
-        pdf(encoding = "ISOLatin1.enc",
-            file = filenameImage,
-            onefile=FALSE,
-            width=as.numeric(input$imagesize),
-            height=as.numeric(input$imagesize),
-            paper="special")
-      } 
-      if(input$imageformat == "eps"){
-        postscript(encoding = "ISOLatin1.enc",
-                   file = filenameImage,
-                   horizontal=FALSE,
-                   onefile=FALSE,
-                   width=as.numeric(input$imagesize),
-                   height=as.numeric(input$imagesize),
-                   paper="special",
-                   pagecentre=TRUE,
-                   fonts=c("sans"))
-      }
-      if(input$imageformat == "png"){
         png(file = filenameImage,
                   width=as.numeric(input$imagesize),
                   height=as.numeric(input$imagesize),
                   fonts=c("sans"))
-      }
-      #cometplotPrint()
       plotPrintInput()
       dev.off()
     
     # Return a list containing the filename
-     listFile <- NULL
-    if(input$imageformat == "pdf"){
-      listFile <- list(src = filenameImage,
-           contentType = 'image/pdf',
-           width = as.numeric(input$imagesize),
-           height = as.numeric(input$imagesize),
-           alt = "This is alternate text")
-    }
-    if(input$imageformat == "eps"){
-      listFile <- list(src = filenameImage,
-           contentType = 'image/eps',
-           width = as.numeric(input$imagesize),
-           height = as.numeric(input$imagesize),
-           alt = "This is alternate text")
-    }
-    if(input$imageformat == "png"){
       listFile <- list(src = filenameImage,
            contentType = 'image/png',
            width = as.numeric(input$imagesize),
            height = as.numeric(input$imagesize),
            alt = "This is alternate text")
-    }
     listFile 
   }, deleteFile = FALSE)
   
@@ -467,39 +433,12 @@ shinyServer(function(input, output,session) {
             height=as.numeric(input$imagesize),
             fonts=c("sans"))
       }
-      lena = readImage(filenameImage)
-      display(lena)
-      dev.off()
-    }
-  )
-
-  output$downloadPlot1 <- downloadHandler(
-    
-    filename = function() { paste(input$plotfilename, input$imageformat, sep='.') },
-    content = function(filename) {
-      if(input$imageformat == "pdf"){
-        pdf(encoding = "ISOLatin1.enc",
-            file = filename,
-            onefile=FALSE,
-            width=as.numeric(input$imagesize),
-            height=as.numeric(input$imagesize),
-            paper="special")
-      } 
-      if(input$imageformat == "eps"){
-        postscript(encoding = "ISOLatin1.enc",
-                   file = filename,
-                   horizontal=FALSE,
-                   onefile=FALSE,
-                   width=as.numeric(input$imagesize),
-                   height=as.numeric(input$imagesize),
-                   paper="special",
-                   pagecentre=TRUE,
-                   fonts=c("sans"))
-      }
+      #lena = readImage(filenameImage)
+      #display(lena)
       cometplotPrint()
       dev.off()
     }
-  ) 
+  )
   
   
   observe({
@@ -524,8 +463,13 @@ shinyServer(function(input, output,session) {
             hr(),    
             imageOutput("cometplotImage"),
             hr(),    
-            h5("Download your image"),
-            textInput('plotfilename', "Filename of your plot","coMET"),
+            hr(),  
+            hr(),  
+            hr(),  
+            hr(),  
+            h5("Download your image",style = "color:red"),
+            selectInput("imageformat", "Define the format of plot:" , 
+                        choices = c("pdf","eps","png")),
             downloadButton('downloadPlot', 'Download')
           )
         })

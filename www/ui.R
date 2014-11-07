@@ -226,8 +226,6 @@ shinyUI(fluidPage(
       hr(),
 			h5("Save your image",style = "color:red"),
 			textInput('plotfilename', "Filename of your plot","coMET"),
-			selectInput("imageformat", "Define the format of plot:" , 
-			            choices = c("pdf","eps","png")),
 			selectInput("imagesize", "Define the size of plot:" , 
 			            choices = c("3.5","7")),
       hr(),
