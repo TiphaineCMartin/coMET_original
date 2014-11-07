@@ -618,17 +618,17 @@ draw.plot.annotation <- function(config.var, gbl.var) {
   
   popViewport()
   top.vp <- gbl.var$top.vp
-  annotation.vp.cormatrixmap <- viewport(height = 0.8,
+  annotation.vp.cormatrixmap <- viewport(height = 0.95,
                                          width = 1,
                                          layout.pos.row = 4,
                                          layout.pos.col = 2,
                                          name = "annotation.vp.cormatrixmap")
-  annotation.vp.nocormatrixmap <- viewport(height = 0.8,
+  annotation.vp.nocormatrixmap <- viewport(height = 0.95,
                                            width = 1,
                                            layout.pos.row = 5,
                                            layout.pos.col = 2,
                                            name = "annotation.vp.nocormatrixmap")
-  annotation.vp.cormatrixmap.nopval <- viewport(height = 0.8,
+  annotation.vp.cormatrixmap.nopval <- viewport(height = 0.95,
                                                 width = 1,
                                                 layout.pos.row = 3,
                                                 layout.pos.col = 2,
@@ -1921,7 +1921,7 @@ draw.name.tracks.web <- function(config.var,gbl.var) {
   if(config.var$IMAGE.SIZE == 3.5) {
     #All tracks cf order define via create.tracks.web
     # if (config.var$VERBOSE)  cat("All tracks \n")
-    y.label.pos <- c(1.25,-0.35,-0.85,-1.15,-1.45,-1.75)
+    y.label.pos <- c(1.25,-0.15,-0.75,-1.05,-1.65,-1.95)
   } else if(config.var$IMAGE.SIZE == 7) {
     y.label.pos <- c(1.25,-0.1, -0.7, -1.3, -1.7, -2.1)
   }
@@ -2250,7 +2250,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   #--- GENES ENSEMBL
   if(has.key("geneENSEMBL", gbl.var$split.list.tracks)) {
     ENSEMBLtrack <- genesENSEMBL(config.var$GENOME,gbl.var$mydata.chr,
-                                 gbl.var$min.x,gbl.var$max.x,showId=FALSE)
+                                 gbl.var$min.x,gbl.var$max.x,showId=TRUE)
     
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(ENSEMBLtrack)
@@ -2262,7 +2262,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   #--- transcript ENSEMBL
   if(has.key("transcriptENSEMBL",gbl.var$split.list.tracks)) {
     tENSEMBLtrack <- transcriptENSEMBL(config.var$GENOME,gbl.var$mydata.chr
-                                       ,gbl.var$min.x,gbl.var$max.x,showId=FALSE)
+                                       ,gbl.var$min.x,gbl.var$max.x,showId=TRUE)
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(tENSEMBLtrack)
     } else {
@@ -2321,7 +2321,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   #--- gene UCSC
   if(has.key("genesUCSC",gbl.var$split.list.tracks)) {
     dnasetrack<-knownGenesUCSC(config.var$GENOME,gbl.var$mydata.chr,gbl.var$min.x,
-                          gbl.var$max.x)
+                          gbl.var$max.x,showId=TRUE)
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(dnasetrack)
     } else {
