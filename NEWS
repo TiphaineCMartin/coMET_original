@@ -1,3 +1,7 @@
+COMET 0.99.5 - 2014-11-06
+-----------------------------
+- Update Gviz (version 1.11.2) => Update the annotation tracks using Gviz
+
 COMET 0.99.4 - 2014-11-05
 -----------------------------
 -Update the manual and the vignette

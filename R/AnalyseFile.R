@@ -838,7 +838,7 @@ retrieve.data <- function(config.var, gbl.var) {
     gbl.var$mydata.num <- length(gbl.var$sorted.mydata.names)
     
     #DEBUG STATEMENT
-    # if (config.var$VERBOSE)  cat("gbl.var$mydata.num ", gbl.var$mydata.num, "\n")
+     if (config.var$VERBOSE)  cat("gbl.var$mydata.num ", gbl.var$mydata.num, "\n")
     
     #------------- Define Format visualisation CpG data
     
@@ -863,7 +863,7 @@ retrieve.data <- function(config.var, gbl.var) {
     
     #----------------- DEFINE VALUES OF X,Y and DISTANCE to position data
     if(is.null(min.dist)){
-      min.dist <- gbl.var$mydata.data$LOC
+      min.dist <- min(gbl.var$mydata.data$LOC, na.rm = TRUE)
     }else {
       min.dist <- min(c(min.dist, gbl.var$mydata.data$LOC), na.rm = TRUE)
     }
@@ -874,7 +874,7 @@ retrieve.data <- function(config.var, gbl.var) {
     gbl.var$min.user.x <- min.dist
     
     if(is.null(max.dist)){
-      max.dist <-   gbl.var$mydata.data$LOC
+      max.dist <-   max(gbl.var$mydata.data$LOC, na.rm = TRUE)
     }else {
       max.dist <- max(c(max.dist, gbl.var$mydata.data$LOC), na.rm = TRUE)
     }
@@ -895,7 +895,7 @@ retrieve.data <- function(config.var, gbl.var) {
     gbl.var <- fix.var$gbl.var
     
     if(is.null(gbl.var$min.x)){
-      gbl.var$min.x <-  min(gbl.var$mydata.data$LOC)
+      gbl.var$min.x <-  min(gbl.var$mydata.data$LOC, na.rm = TRUE)f
     }else {
       gbl.var$min.x <- min(c(gbl.var$min.x, gbl.var$mydata.data$LOC), na.rm = TRUE)
     }
@@ -907,7 +907,7 @@ retrieve.data <- function(config.var, gbl.var) {
     }
     #  if (config.var$VERBOSE)  cat("gbl.var$min.x", gbl.var$min.x, "\n")
     if(is.null(gbl.var$max.x)){
-      gbl.var$max.x <- max(gbl.var$mydata.data$LOC)
+      gbl.var$max.x <- max(gbl.var$mydata.data$LOC, na.rm = TRUE)
     }else {
       gbl.var$max.x <- max(c(gbl.var$max.x, gbl.var$mydata.data$LOC), na.rm = TRUE)
     }
@@ -1699,7 +1699,7 @@ set.image.parameters <- function(config.var, gbl.var) {
   } else if(gbl.var$mydata.num > 120) {
     cex.factor <- 0.1 * sec.cex.factor
     line.width <- 0.5
-  }else {
+  } else {
     stop("Invalid image size: ", gbl.var$mydata.num, "\n")
   }
   

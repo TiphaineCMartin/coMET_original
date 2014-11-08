@@ -8,6 +8,7 @@ library("Gviz")
 library("ggbio")
 library("colortools")
 library("hash")
+library("EBImage")
 #Normally Need to load coMET package not like that !!!!
 ## Need to wait that it accept in Bioconductor
 #library("coMET")
@@ -26,6 +27,8 @@ options(shiny.maxRequestSize = 9*1024^2)
 
 
 shinyServer(function(input, output,session) {
+  filenameImage <- NULL
+  
   #### CREATE LIST OF ELEMENTS
   output$listCpG <- renderUI ({
     inFile1 <- input$datafile
@@ -218,6 +221,31 @@ shinyServer(function(input, output,session) {
   output$cometplot <- renderPlot(function() {
     plotPrintInput()
   })
+
+  
+  filenameplot <- function() {
+      filename = paste(input$plotfilename, "png", sep='.')
+      filenameImagetmp <- tempfile(fileext=filename)
+      filenameImagetmp
+  }
+  output$cometplotImage <- renderImage({
+    
+    filenameImage <<- filenameplot()
+        png(file = filenameImage,
+                  width=as.numeric(input$imagesize),
+                  height=as.numeric(input$imagesize),
+                  fonts=c("sans"))
+      plotPrintInput()
+      dev.off()
+    
+    # Return a list containing the filename
+      listFile <- list(src = filenameImage,
+           contentType = 'image/png',
+           width = as.numeric(input$imagesize),
+           height = as.numeric(input$imagesize),
+           alt = "This is alternate text")
+    listFile 
+  }, deleteFile = FALSE)
   
   cometplotPrint <- renderPrint({ plotPrintInput() })
   
@@ -378,12 +406,11 @@ shinyServer(function(input, output,session) {
   }
   
   output$downloadPlot <- downloadHandler(
-    
     filename = function() { paste(input$plotfilename, input$imageformat, sep='.') },
     content = function(filename) {
       if(input$imageformat == "pdf"){
         pdf(encoding = "ISOLatin1.enc",
-            file = filename,
+            file = filenameImage,
             onefile=FALSE,
             width=as.numeric(input$imagesize),
             height=as.numeric(input$imagesize),
@@ -391,7 +418,7 @@ shinyServer(function(input, output,session) {
       } 
       if(input$imageformat == "eps"){
         postscript(encoding = "ISOLatin1.enc",
-                   file = filename,
+                   file = filenameImage,
                    horizontal=FALSE,
                    onefile=FALSE,
                    width=as.numeric(input$imagesize),
@@ -400,10 +427,18 @@ shinyServer(function(input, output,session) {
                    pagecentre=TRUE,
                    fonts=c("sans"))
       }
+      if(input$imageformat == "png"){
+        png(file = filenameImage,
+            width=as.numeric(input$imagesize),
+            height=as.numeric(input$imagesize),
+            fonts=c("sans"))
+      }
+      #lena = readImage(filenameImage)
+      #display(lena)
       cometplotPrint()
       dev.off()
     }
-  ) 
+  )
   
   
   observe({
@@ -426,14 +461,15 @@ shinyServer(function(input, output,session) {
           tagList(
             p('your plot is running, please wait....'),
             hr(),    
-            plotOutput("cometplot"),
+            imageOutput("cometplotImage"),
             hr(),    
-            h5("Save your image"),
-            textInput('plotfilename', "Filename of your plot","coMET"),
+            hr(),  
+            hr(),  
+            hr(),  
+            hr(),  
+            h5("Download your image",style = "color:red"),
             selectInput("imageformat", "Define the format of plot:" , 
-                        choices = c("pdf","eps")),
-            selectInput("imagesize", "Define the size of plot:" , 
-                        choices = c("3.5","7")),
+                        choices = c("pdf","eps","png")),
             downloadButton('downloadPlot', 'Download')
           )
         })
