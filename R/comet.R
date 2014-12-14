@@ -385,11 +385,11 @@ comet <- function(MYDATA.FILE = NULL,
   }
   
   #------------- connection to database
-  if(!is.null(config.var$GENOME) & !is.null(config.var$BROWSER.SESSION)){
-    mySession <- browserSession(config.var$BROWSER.SESSION)
-    genome(mySession) <- config.var$GENOME
-    gbl.var$mySession <- mySession
-  }
+#  if(!is.null(config.var$GENOME) & !is.null(config.var$BROWSER.SESSION)){
+#    mySession <- browserSession(config.var$BROWSER.SESSION)
+#    genome(mySession) <- config.var$GENOME
+#    gbl.var$mySession <- mySession
+#  }
   
   #------------- READ DATA for ANNOTATION TRACKS
   if(!is.null(config.var$BIOFEAT.USER.FILE)){

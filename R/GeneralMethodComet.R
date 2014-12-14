@@ -623,13 +623,11 @@ draw.plot.annotation <- function(config.var, gbl.var) {
                                          layout.pos.row = 4,
                                          layout.pos.col = 2,
                                          name = "annotation.vp.cormatrixmap")
-
   annotation.vp.nocormatrixmap <- viewport(height = 0.95,
                                            width = 1,
                                            layout.pos.row = 5,
                                            layout.pos.col = 2,
                                            name = "annotation.vp.nocormatrixmap")
-
   annotation.vp.cormatrixmap.nopval <- viewport(height = 0.95,
                                                 width = 1,
                                                 layout.pos.row = 3,

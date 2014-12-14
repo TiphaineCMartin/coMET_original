@@ -96,7 +96,9 @@ genesENSEMBL<-function(gen,chr,start,end,showId=FALSE){
                                         end = end,  name = "ENSEMBL",
                                         groupAnnotation = "group",
                                         just.group = "above",
-                                       fontcolor="black",showId=showId,size=2)    
+                                       fontcolor="black",showId=showId,size=2)
+    
+    
   } else {
     martENSEMBL=useMart("ensembl",dataset='hsapiens_gene_ensembl')
     biomTrack <- BiomartGeneRegionTrack(genome = gen, biomart=martENSEMBL,

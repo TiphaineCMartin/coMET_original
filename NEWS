@@ -1,12 +1,18 @@
+COMET 0.99.6 - 2014-11-25
+-----------------------------
+- add in "import IRanges and S4Vectors" in NAMESPACE
+- Fix mistakes in the vignette
+
+
 COMET 0.99.5 - 2014-11-06
 -----------------------------
-- Update Gviz (version 1.11.2) => Update the annotation tracks using Gviz
+- Update the annotation tracks using Gviz because of the update of Gviz (version 1.11.2)
 
 COMET 0.99.4 - 2014-11-05
 -----------------------------
--Update the manual and the vignette
--Fix little bugs
--Update the annotation tracks using BiomartGeneRegionTrack of Gviz
+- Update the manual and the vignette
+- Fix little bugs
+- Update the annotation tracks using BiomartGeneRegionTrack of Gviz
 
 
 COMET 0.99.3 - 2014-10-25

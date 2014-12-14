@@ -862,26 +862,39 @@ retrieve.data <- function(config.var, gbl.var) {
     }
     
     #----------------- DEFINE VALUES OF X,Y and DISTANCE to position data
-    if(is.null(min.dist)){
-      min.dist <- min(gbl.var$mydata.data$LOC, na.rm = TRUE)
-    }else {
-      min.dist <- min(c(min.dist, gbl.var$mydata.data$LOC), na.rm = TRUE)
-    }
     if(!is.null(config.var$START)) {
-      min.dist <- min(c(min.dist,config.var$START), na.rm = TRUE)
-      # min.dist <- config.var$START
+        min.dist <- config.var$START
+    } else {
+      if(is.null(min.dist)){
+        if(!is.null(gbl.var$mydata.data$LOC)) {
+          stop("No value for LOC (min.dist)",gbl.var$mydata.data$LOC)
+        }
+        min.dist <- min(gbl.var$mydata.data$LOC, na.rm=TRUE)
+      }else {
+        min.dist <- min(c(min.dist, gbl.var$mydata.data$LOC), na.rm = TRUE)
+      }
+      min.dist <- min.dist - 500
     }
+    
+    
     gbl.var$min.user.x <- min.dist
     
+    if(!is.null(config.var$END)){
+      max.dist <- config.var$END 
+      #max.dist <- config.var$END
+    } else {
+      
     if(is.null(max.dist)){
-      max.dist <-   max(gbl.var$mydata.data$LOC, na.rm = TRUE)
+      if(is.null(gbl.var$mydata.data$LOC)){
+        stop("NO value for LOC (max.dist)", gbl.var$mydata.data$LOC)
+      }
+        max.dist <-   max(gbl.var$mydata.data$LOC, na.rm = TRUE)
     }else {
       max.dist <- max(c(max.dist, gbl.var$mydata.data$LOC), na.rm = TRUE)
     }
-    if(!is.null(config.var$END)){
-      max.dist <- max(c(max.dist,config.var$END), na.rm = TRUE)  
-      #max.dist <- config.var$END
+      max.dist <- max.dist + 500
     }
+    
     gbl.var$max.user.x <- max.dist
     
     gbl.var$total.dist <- max.dist - min.dist
@@ -894,27 +907,33 @@ retrieve.data <- function(config.var, gbl.var) {
     config.var <- fix.var$config.var
     gbl.var <- fix.var$gbl.var
     
-    if(is.null(gbl.var$min.x)){
-      gbl.var$min.x <-  min(gbl.var$mydata.data$LOC, na.rm = TRUE)f
-    }else {
-      gbl.var$min.x <- min(c(gbl.var$min.x, gbl.var$mydata.data$LOC), na.rm = TRUE)
-    }
-    
     if(!is.null(config.var$START)) {
       gbl.var$min.x <- config.var$START 
     } else {
+      if(is.null(gbl.var$mydata.data$LOC)){
+        stop("NULL value for min.x", gbl.var$mydata.data$LOC)
+      }
+      if(is.null(gbl.var$min.x)){
+        gbl.var$min.x <-  min(gbl.var$mydata.data$LOC, na.rm = TRUE)
+      }else {
+        gbl.var$min.x <- min(c(gbl.var$min.x, gbl.var$mydata.data$LOC), na.rm = TRUE)
+      }
       gbl.var$min.x <- gbl.var$min.x - 500 
     }
     #  if (config.var$VERBOSE)  cat("gbl.var$min.x", gbl.var$min.x, "\n")
-    if(is.null(gbl.var$max.x)){
-      gbl.var$max.x <- max(gbl.var$mydata.data$LOC, na.rm = TRUE)
-    }else {
-      gbl.var$max.x <- max(c(gbl.var$max.x, gbl.var$mydata.data$LOC), na.rm = TRUE)
-    }
+    
     
     if(!is.null(config.var$END)) {
       gbl.var$max.x <- config.var$END 
     } else {
+      if(is.null(gbl.var$mydata.data$LOC)){
+        stop("NULL value for max.x", gbl.var$mydata.data$LOC)
+      }
+      if(is.null(gbl.var$max.x)){
+      gbl.var$max.x <- max(gbl.var$mydata.data$LOC, na.rm = TRUE)
+    }else {
+      gbl.var$max.x <- max(c(gbl.var$max.x, gbl.var$mydata.data$LOC), na.rm = TRUE)
+    }
       gbl.var$max.x <- gbl.var$max.x + 500
     }
     #   if (config.var$VERBOSE)  cat("gbl.var$max.x", gbl.var$max.x, "\n")
@@ -951,7 +970,6 @@ retrieve.data <- function(config.var, gbl.var) {
     max.min.diff <- gbl.var$max.x - gbl.var$min.x
     exp.test <- TRUE
     
-    warning("max.min.diff", max.min.diff)
     while(exp.test) {
       if(max.min.diff > 10) {
         gbl.var$cur.exp <- gbl.var$cur.exp + 1
