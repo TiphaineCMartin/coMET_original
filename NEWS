@@ -1,3 +1,8 @@
+COMET 0.99.7 - 2014-12-19
+-----------------------------
+- Update the function "genesENSEMBL", "genesNameENSEMBL", "transcriptENSEMBL", and "regulationBiomart" because ENSEMBL mart changed the names of field in GChr37
+
+
 COMET 0.99.6 - 2014-11-25
 -----------------------------
 - add in "import IRanges and S4Vectors" in NAMESPACE

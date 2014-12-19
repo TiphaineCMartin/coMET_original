@@ -52,7 +52,7 @@ genesNameENSEMBL<-function(gen,chr,start,end,dataset){
   if(length(match(gen, tolower(c("hg19","grch37")))) > 0){
     martENSEMBL=useMart(host='grch37.ensembl.org', biomart='ENSEMBL_MART_ENSEMBL',
                         dataset=dataset)
-    ens_ENSEMBL <- getBM(c("ensembl_gene_id","external_gene_id"),
+    ens_ENSEMBL <- getBM(c("ensembl_gene_id","external_gene_name"),
                          filters = c("chromosome_name","start","end"),
                          values = list(chrEnsembl, start, end), mart=martENSEMBL) 
   } else {
@@ -89,14 +89,20 @@ genesENSEMBL<-function(gen,chr,start,end,showId=FALSE){
   if(length(match(gen, tolower(c("hg19","grch37")))) > 0){
     martENSEMBL=useMart(host='grch37.ensembl.org', biomart='ENSEMBL_MART_ENSEMBL',
                         dataset='hsapiens_gene_ensembl')
-    fm <- Gviz:::.getBMFeatureMap()
-    fm["symbol"] <- "external_gene_id"
-    biomTrack <- BiomartGeneRegionTrack(genome = gen, featureMap=fm, biomart=martENSEMBL,
-                                        chromosome = chr, start = start, 
-                                        end = end,  name = "ENSEMBL",
-                                        groupAnnotation = "group",
-                                        just.group = "above",
-                                       fontcolor="black",showId=showId,size=2)
+  #  fm <- Gviz:::.getBMFeatureMap()
+  #  fm["symbol"] <- "external_gene_id"
+  #  biomTrack <- BiomartGeneRegionTrack(genome = gen, featureMap=fm, biomart=martENSEMBL,
+  #                                      chromosome = chr, start = start, 
+  #                                      end = end,  name = "ENSEMBL",
+  #                                      groupAnnotation = "group",
+  #                                      just.group = "above",
+  #                                     fontcolor="black",showId=showId,size=2)
+  biomTrack <- BiomartGeneRegionTrack(genome = gen, biomart=martENSEMBL,
+                                     chromosome = chr, start = start, 
+                                     end = end,  name = "ENSEMBL",
+                                     groupAnnotation = "group",
+                                     just.group = "above",
+                                     fontcolor="black",showId=showId,size=2)
     
     
   } else {
@@ -150,13 +156,18 @@ transcriptENSEMBL<-function(gen,chr,start,end,showId=FALSE){
   if(length(match(gen, tolower(c("hg19","grch37")))) > 0){
     martENSEMBL=useMart(host='grch37.ensembl.org', biomart='ENSEMBL_MART_ENSEMBL',
                         dataset='hsapiens_gene_ensembl')
-    fm <- Gviz:::.getBMFeatureMap()
-    fm["symbol"] <- "external_gene_id"
-    biomTrack <- BiomartGeneRegionTrack(genome = gen, featureMap=fm, biomart=martENSEMBL,
-                                        chromosome = chr, start = start, 
-                                      end = end,  name = "ENSEMBL",
-                                        fontcolor="black",groupAnnotation = "group",
-                                       just.group = "above",showId=showId,size=2)
+  #  fm <- Gviz:::.getBMFeatureMap()
+  #  fm["symbol"] <- "external_gene_id"
+  #  biomTrack <- BiomartGeneRegionTrack(genome = gen, featureMap=fm, biomart=martENSEMBL,
+  #                                      chromosome = chr, start = start, 
+  #                                    end = end,  name = "ENSEMBL",
+  #                                      fontcolor="black",groupAnnotation = "group",
+  #                                     just.group = "above",showId=showId,size=2)
+   biomTrack <- BiomartGeneRegionTrack(genome = gen, biomart=martENSEMBL,
+                                     chromosome = chr, start = start, 
+                                     end = end,  name = "ENSEMBL",
+                                     fontcolor="black",groupAnnotation = "group",
+                                     just.group = "above",showId=showId,size=2)
     
   } else {
     martENSEMBL=useMart("ensembl",dataset='hsapiens_gene_ensembl')
@@ -596,8 +607,8 @@ regulationBiomart <- function(gen, chr, start, end) {
   }
   ensfunc <- getBM(c("regulatory_stable_id","seq_region_start_1057","seq_region_end_1057",
                      "feature_type_name_1057","display_label_1057"),
-                   filters = c("reg_chromosome_name", "reg_start", "reg_end"),
-                   values = list(chrEnsembl, start, end), mart=martfunc) 
+                   filters = c("reg_chromosomal_region"),
+                   values = paste(chrEnsembl, start, end,sep=":"), mart=martfunc) 
   
   data_trackfunc <- AnnotationTrack()
   if(nrow(ensfunc) > 0) {
