@@ -3,17 +3,18 @@
 \alias{coMET}
 \docType{package}
 \title{
-visualisation of regional epigenome-wide association scan (EWAS) results and DNA co-methylation patterns
+visualisation of regional epigenome-wide association scan (EWAS) results and DNA co-methylation patterns (and also for other omic-WAS)
 }
 \description{
-coMET is an R package for visualising EWAS results in a genomic region. Along with phenotype-association plots, coMET also generates plots of co-methylation patterns and provides a series of annotation tracks.
+coMET is an R package for visualising EWAS results in a genomic region. Along with phenotype-association plots, coMET also generates plots of co-methylation patterns and provides a series of annotation tracks. The software is designed for epigenetic data, but can also be applied to genomic and functional genomic datasets (other omic-WAS results) in any species.
 }
+
 \details{
 \tabular{ll}{
 Package: \tab coMET\cr
 Type: \tab Package\cr
-Version: \tab 0.99.7\cr
-Date: \tab 2014-12-18\cr
+Version: \tab 0.99.8\cr
+Date: \tab 2015-02-15\cr
 License: \tab GPL (>=2)\cr
 }
 coMET is an R package that can generate regional plots of EWAS results, DNA co-methylation patterns, and genomic information. A coMET figure includes 3 panels with a plot of P-values from EWAS, customized annotation tracks, and a triangle heatmap plot which demonstrates the correlation structure of DNA methylation at the CpG sites in the genomic region. Plots are created as PDF or EPS files.

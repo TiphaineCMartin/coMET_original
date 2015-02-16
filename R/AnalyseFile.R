@@ -1513,12 +1513,16 @@ read.file.cormatrix <- function(config.var, gbl.var,split.cormatrix.file=NULL){
       gbl.var<-compute.cormatrix(config.var, gbl.var)
       
     } else if (config.var$CORMATRIX.FORMAT == "CORMATRIX") {
-      cormatrix.data.raw<- read.delim(split.cormatrix.file[[1]][1], sep="\t", as.is=TRUE, blank.lines.skip = TRUE, fill=TRUE)
+      cormatrix.data.raw<- read.delim(split.cormatrix.file[[1]][1], sep="\t", header=TRUE, as.is=TRUE, blank.lines.skip = TRUE, fill=TRUE)
       #--- Check the same size cormatrix and data
       if((nrow(gbl.var$mydata.data) == nrow(cormatrix.data.raw)) & (nrow(gbl.var$mydata.data) == ncol(cormatrix.data.raw))){
-        cormatrix.data.raw[match(gbl.var$mydata.data$MYDATA.NAME, cormatrix.data.raw[1,]),]
-        cormatrix.data.raw[gbl.var$mydata.data$MYDATA.NAME]
-        gbl.var$cormatrix.data <-cormatrix.data.raw[-1,-1]
+       # cormatrix.data.raw[match(gbl.var$mydata.data$MYDATA.NAME, colnames(cormatrix.data.raw)),]
+       #  cormatrix.data.raw[gbl.var$mydata.data$MYDATA.NAME,]
+        if(identical(as.vector(gbl.var$mydata.data$MYDATA.NAME),as.vector(colnames(cormatrix.data.raw)))) {
+          gbl.var$cormatrix.data <-as.matrix(cormatrix.data.raw)
+        } else {
+          stop("Invalid MYDATA data file: ", config.var$MYDATA.FILE, " and CORMATRIX ",split.cormatrix.file[[1]][1] ," do not have the same omic sites/regions or not in the same order, need to put the ascendant order of their start position in the two files.\n Error: ",all.equal(as.vector(gbl.var$mydata.data$MYDATA.NAME),as.vector(colnames(cormatrix.data.raw))),"\n")
+        }
       }else {
         stop("Invalid MYDATA data file: ", config.var$MYDATA.FILE, " and CORMATRIX ",split.cormatrix.file[[1]][1] ," do not have the same size\n")
       }
@@ -1579,9 +1583,9 @@ read.file.cormatrix <- function(config.var, gbl.var,split.cormatrix.file=NULL){
     row.LD<-dim(gbl.var$cormatrix.data)[1]
     col.LD<-dim(gbl.var$cormatrix.data)[2]
     
-    if (config.var$VERBOSE)  cat("Matrice size num.mydata",num.mydata,"\n")
-    if (config.var$VERBOSE)  cat("Matrice size row.LD",row.LD,"\n")
-    if (config.var$VERBOSE)  cat("Matrice size col.LD",col.LD,"\n")
+    if (config.var$VERBOSE)  cat("Matrice size num.mydat a",num.mydata,"\n")
+    if (config.var$VERBOSE)  cat("Matrice size row.LD ",row.LD,"\n")
+    if (config.var$VERBOSE)  cat("Matrice size col.LD ",col.LD,"\n")
     
     if (row.LD != num.mydata | col.LD != num.mydata ) {
       stop("Not the same number of row or column between the correlation matrice and MYDATA data\n")

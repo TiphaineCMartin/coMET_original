@@ -102,7 +102,8 @@ genesENSEMBL<-function(gen,chr,start,end,showId=FALSE){
                                      end = end,  name = "ENSEMBL",
                                      groupAnnotation = "group",
                                      just.group = "above",
-                                     fontcolor="black",showId=showId,size=2)
+                                     fontcolor="black",showId=showId,size=2,
+                                     col.line = NULL, col = NULL)
     
     
   } else {
@@ -112,7 +113,8 @@ genesENSEMBL<-function(gen,chr,start,end,showId=FALSE){
                                         end = end,  name = "ENSEMBL",
                                         groupAnnotation = "group",
                                         just.group = "above",
-                                        fontcolor="black",showId=showId,size=2)
+                                        fontcolor="black",showId=showId,size=2,
+                                        col.line = NULL, col = NULL)
   }
   
  
@@ -167,7 +169,8 @@ transcriptENSEMBL<-function(gen,chr,start,end,showId=FALSE){
                                      chromosome = chr, start = start, 
                                      end = end,  name = "ENSEMBL",
                                      fontcolor="black",groupAnnotation = "group",
-                                     just.group = "above",showId=showId,size=2)
+                                     just.group = "above",showId=showId,size=2,
+                                     col.line = NULL, col = NULL)
     
   } else {
     martENSEMBL=useMart("ensembl",dataset='hsapiens_gene_ensembl')
@@ -175,7 +178,8 @@ transcriptENSEMBL<-function(gen,chr,start,end,showId=FALSE){
                                         chromosome = chr, start = start, 
                                         end = end,  name = "ENSEMBL",
                                         fontcolor="black", groupAnnotation = "group",
-                                        just.group = "above",showId=showId,size=2 )
+                                        just.group = "above",showId=showId,size=2,
+                                        col.line = NULL, col = NULL)
   }
   
   #cat("data",gen,"\t",chr,"\t",start,"\t",end,"\n")
@@ -264,7 +268,7 @@ chromatinHMMOne<-function(gen,chr,start,end,mySession,track.name="Broad ChromHMM
                                       start=dataUCSC[,"chromStart"],end=dataUCSC[,"chromEnd"],
                                       feature=dataUCSC[,"name"],group=dataUCSC[,"name"],
                                       id=dataUCSC[,"name"], name = "Broad chromatinHMM",
-                                      stacking="dense")
+                                      stacking="dense", col.line = NULL, col = NULL)
     chromosome(data_trackfunc) <- chr
     
     displayPars(data_trackfunc) <- list(
@@ -384,7 +388,7 @@ HistoneOne<-function(gen,chr,start,end,mySession,track.name="Broad Histone",tabl
                                       start=dataUCSC[,"chromStart"],end=dataUCSC[,"chromEnd"],
                                       feature=dataUCSC[,"score"],group=dataUCSC[,"name"],
                                       id=dataUCSC[,"name"], name = "Broad Histone"
-                                      ,stacking="dense")
+                                      ,stacking="dense", col.line = NULL, col = NULL)
     chromosome(data_trackfunc) <- chr
     a<-0:1000
     b<-gray(0:1000 /1000)
@@ -434,7 +438,7 @@ DNAseUCSC<-function(gen,chr,start,end,mySession,track.name="DNase Clusters",tabl
                                       start=dataUCSC[,"chromStart"],end=dataUCSC[,"chromEnd"],
                                       feature=dataUCSC[,"score"],group=dataUCSC[,"name"],
                                       id=dataUCSC[,"name"], name = "DNA cluster",
-                                      stacking = "dense")
+                                      stacking = "dense", col.line = NULL, col = NULL)
     chromosome(data_trackfunc) <- chr
     if(nrow(dataUCSC) > 0) {
       a<-0:1000
@@ -470,7 +474,7 @@ gcContent <- function(gen,chr,start,end){
             from = start,	to = end, trackType = "DataTrack", start = "start", 
             end = "end", data = "score", type = "hist", window = -1,	windowSize = 1500, 
             fill.histogram = "black",	col.histogram = "red", ylim = c(30, 70), 
-            name = "GC Percent")
+            name = "GC Percent", col.line = NULL, col = NULL)
 }
 
 #-------------------- CREATION track Known genes from UCSC ------------------
@@ -493,12 +497,14 @@ knownGenesUCSC<-function(gen,chr,start,end,showId=TRUE){
               trackType = "GeneRegionTrack", rstarts = "exonStarts", rends = "exonEnds", 
               gene = "name", symbol = "name", transcript = "name", strand = "strand", 
               fill = "#8282d2", name = "UCSC Genes",stacking="squish", group="name",
-              groupAnnotation = "group", just.group = "above",size=2)
+              fontcolor="black", groupAnnotation = "group", just.group = "above",
+              size=2, showId=TRUE,col.line = NULL, col = NULL)
   } else {
     UcscTrack(genome = gen, chromosome = chr,track = "knownGene", from = start, to = end, 
               trackType = "GeneRegionTrack", rstarts = "exonStarts", rends = "exonEnds", 
               gene = "name", symbol = "name", transcript = "name", strand = "strand", 
-              fill = "#8282d2", name = "UCSC Genes",stacking="squish",size=2)
+              fill = "#8282d2", name = "UCSC Genes",stacking="dense",size=2,
+              col.line = NULL, col = NULL)
   }
 
 }
@@ -524,13 +530,15 @@ xenorefGenesUCSC<-function(gen,chr,start,end,showId=FALSE){
               rstarts = "exonStarts", rends = "exonEnds", gene = "name", 
               symbol = "name2", transcript = "name", strand = "strand", 
               fill = "#8282d2", stacking="squish", name = "Other RefSeq", group="name",
-              groupAnnotation = "group", just.group = "above")
+              groupAnnotation = "group", just.group = "above", showId=TRUE,
+              col.line = NULL, col = NULL, fontcolor="black")
   }else {
     UcscTrack(genome = gen, chromosome = chr, track = "xenoRefGene", 
               from = start, to = end, trackType = "GeneRegionTrack", 
               rstarts = "exonStarts", rends = "exonEnds", gene = "name", 
               symbol = "name2", transcript = "name", strand = "strand", 
-              fill = "#8282d2", stacking="squish", name = "Other RefSeq")
+              fill = "#8282d2", stacking="dense", name = "Other RefSeq", 
+              col.line = NULL, col = NULL)
   }
 
 }
@@ -552,7 +560,8 @@ cpgIslandsUCSC <-function(gen,chr,start,end){
   UcscTrack(genome = gen, chromosome = chr, track = "cpgIslandExt", 
             from = start, to = end, trackType = "AnnotationTrack", 
             start = "chromStart", end = "chromEnd", id = "name", shape = "box",
-            fill = "#006400", name = "CpG Islands UCSC",stacking="dense")
+            fill = "#006400", name = "CpG Islands UCSC",stacking="dense",
+            col.line = NULL, col = NULL)
 }
 
 #-------------------- CREATION track SNPs from UCSC ------------------
@@ -577,7 +586,8 @@ snpLocationsUCSC <-function(gen,chr,start,end,track){
   UcscTrack(genome = gen, chromosome = chr, track = track, from = start, to = end, 
             trackType = "AnnotationTrack", start = "chromStart", end = "chromEnd", 
             id = "name", feature = "func", strand = "strand", shape = "box", 
-            stacking="dense", fill = "black", name = "SNPs UCSC")
+            stacking="dense", fill = "black", name = "SNPs UCSC",  
+            col.line = NULL, col = NULL)
 }
 
 #-------------------- CREATION track Regulation from ENSEMBL ------------------
@@ -615,14 +625,15 @@ regulationBiomart <- function(gen, chr, start, end) {
     data_trackfunc <- AnnotationTrack(chromosome=chrEnsembl,strand ="*",start=ensfunc[,2],
                                       end=ensfunc[,3],
                                       feature=ensfunc[,4],group=ensfunc[,1],id=ensfunc[,1], 
-                                      name = "Regulation ENSEMBL",stacking="dense")
+                                      name = "Regulation ENSEMBL",stacking="dense", 
+                                      col.line = NULL, col = NULL)
     displayPars(data_trackfunc) <- list(
       "Promoter Associated"="darkolivegreen",
       "CTCF Binding Site" = "cadetblue1",
       "Gene Associated" = "coral",
-      "Non-gene Associated" = "darkgoldenrod1",
+      "Non-Gene Associated" = "darkgoldenrod1",
       "Predicted Transcribed Region" = "greenyellow",
-      "Polymerase III Associated" = "purple",
+      "PolIII Transcription Associated" = "purple",
       "Enhancer" = "gold",
       "Transcription Factor Binding Site" = "darkorchid1",
       "Predicted Weak enhancer/Cis-reg element" = "yellow",
@@ -671,7 +682,7 @@ snpBiomart <- function(chr, start, end, dataset, showId=FALSE, title=NULL) {
     data_tracksnp <- AnnotationTrack(chromosome=ens_snp[,4],strand =ens_snp[,3],start=ens_snp[,2],
                                      end=ens_snp[,2],feature="snp",group=ens_snp[,1],
                                      id=ens_snp[,1], name = title,stacking="dense",
-                                     showId=showId)
+                                     showId=showId,  col.line = NULL, col = NULL)
     displayPars(data_tracksnp) <- list(snp="red",
                                        insertion ="blueviolet",
                                        deletion = "orange",
@@ -717,7 +728,8 @@ structureBiomart <- function(chr, start, end, strand, dataset,showId=FALSE,title
   if(nrow(ens) > 0) {
     data_track <- AnnotationTrack(chromosome=chr,strand ="*",start=ens[,2],end=ens[,3],
                                   feature=ens[,6],group=ens[,1],id=ens[,1], 
-                                  name = "Structural variation",stacking="squish",showId=showId)
+                                  name = "Structural variation",stacking="squish",
+                                  showId=showId,  col.line = NULL, col = NULL)
     displayPars(data_track) <- list(copy_number_variation="cornsilk",
                                     inversion="darkolivegreen",
                                     translocation="cyan",
@@ -758,14 +770,16 @@ ClinVarMainTrack <-function(gen,chr,start,end,showId=FALSE){
               track="ClinVar Variants", table="clinvarMain", 
               trackType = "AnnotationTrack", start = "chromStart", end = "chromEnd", 
               id = "name", feature = "func", strand = "*", shape = "box", 
-              stacking="dense", fill = "black", name = "ClinVar Variants", group="name",
-              groupAnnotation = "group", just.group = "above")
+              stacking="squish", fill = "black", name = "ClinVar Variants", group="name",
+              groupAnnotation = "group", just.group = "above",  showId=TRUE,
+              col.line = NULL, col = NULL)
   } else {
     UcscTrack(genome = gen, chromosome = chr, from = start, to = end,
               track="ClinVar Variants", table="clinvarMain", 
               trackType = "AnnotationTrack", start = "chromStart", end = "chromEnd", 
               id = "name", feature = "func", strand = "*", shape = "box", 
-              stacking="dense", fill = "black", name = "ClinVar Variants")
+              stacking="dense", fill = "black", name = "ClinVar Variants", 
+              col.line = NULL, col = NULL)
   }
 
 }
@@ -792,13 +806,15 @@ ClinVarCnvTrack <-function(gen,chr,start,end,showId=FALSE){
               trackType = "AnnotationTrack", start = "chromStart", end = "chromEnd", 
               id = "name", feature = "func", strand = "*", shape = "box", 
               stacking="squish", fill = "black", name = "ClinVar Variants", group="name",
-              groupAnnotation = "group", just.group = "above")
+              groupAnnotation = "group", just.group = "above",  showId=TRUE,
+              col.line = NULL, col = NULL)
   } else {
     UcscTrack(genome = gen, chromosome = chr, from = start, to = end,
               track="ClinVar Variants", table="clinvarCnv", 
               trackType = "AnnotationTrack", start = "chromStart", end = "chromEnd", 
               id = "name", feature = "func", strand = "*", shape = "box", 
-              stacking="squish", fill = "black", name = "ClinVar Variants")
+              stacking="dense", fill = "black", name = "ClinVar Variants", 
+              col.line = NULL, col = NULL)
   }
 
 }
@@ -824,14 +840,16 @@ CoreillCNVTrack <-function(gen,chr,start,end,showId=FALSE){
               trackType = "AnnotationTrack", start = "chromStart", end = "chromEnd", 
               id = "name", feature = "func", strand = "*", shape = "box", 
               stacking="squish", fill = "blue", name = "Coriell CNVs", group="name",
-              groupAnnotation = "group", just.group = "above")
+              groupAnnotation = "group", just.group = "above",  showId=TRUE,
+              col.line = NULL, col = NULL)
     
   }else {
     UcscTrack(genome = gen, chromosome = chr, from = start, to = end,
               track="Coriell CNVs", table="coriellDelDup", 
               trackType = "AnnotationTrack", start = "chromStart", end = "chromEnd", 
               id = "name", feature = "func", strand = "*", shape = "box", 
-              stacking="squish", fill = "blue", name = "Coriell CNVs")
+              stacking="dense", fill = "blue", name = "Coriell CNVs", 
+              col.line = NULL, col = NULL)
   }
 
 }
@@ -856,14 +874,16 @@ COSMICTrack <-function(gen,chr,start,end,showId=FALSE){
               track="COSMIC", table="cosmic", 
               trackType = "AnnotationTrack", start = "chromStart", end = "chromEnd", 
               id = "name", feature = "func", strand = "*", shape = "box", 
-              stacking="dense", fill = "firebrick1", name = "COSMIC", group="name",
-              groupAnnotation = "group", just.group = "above")
+              stacking="squish", fill = "firebrick1", name = "COSMIC", group="name",
+              groupAnnotation = "group", just.group = "above",  showId=TRUE,
+              col.line = NULL, col = NULL)
   } else {
     UcscTrack(genome = gen, chromosome = chr, from = start, to = end,
               track="COSMIC", table="cosmic", 
               trackType = "AnnotationTrack", start = "chromStart", end = "chromEnd", 
               id = "name", feature = "func", strand = "*", shape = "box", 
-              stacking="dense", fill = "firebrick1", name = "COSMIC")
+              stacking="dense", fill = "firebrick1", name = "COSMIC", 
+              col.line = NULL, col = NULL)
   }
 
 }
@@ -889,13 +909,14 @@ GADTrack <-function(gen,chr,start,end,showId=FALSE){
               trackType = "AnnotationTrack", start = "chromStart", end = "chromEnd", 
               id = "name", group ="name", feature = "func", strand = "*", shape = "box", 
               stacking="squish", fill = "darkslategray1", name = "GAD",groupAnnotation = "group",
-              just.group = "above")
+              just.group = "above", showId=TRUE, col.line = NULL, col = NULL)
   } else {
     UcscTrack(genome = gen, chromosome = chr, from = start, to = end,
               track="GAD View", table="gad", 
               trackType = "AnnotationTrack", start = "chromStart", end = "chromEnd", 
               id = "name", feature = "func", strand = "*", shape = "box", 
-              stacking="squish", fill = "darkslategray1", name = "GAD")
+              stacking="dense", fill = "darkslategray1", name = "GAD", 
+              col.line = NULL, col = NULL)
   }
 
 }
@@ -921,13 +942,13 @@ GWASTrack <-function(gen,chr,start,end,showId=FALSE){
               trackType = "AnnotationTrack", start = "chromStart", end = "chromEnd", 
               id = "name", group="name", feature = "func", strand = "*", shape = "box", 
               stacking="squish", fill = "black", name = "GWAS Catalog",groupAnnotation = "group",
-              just.group = "above")
+              just.group = "above",  col.line = NULL, col = NULL, showId=TRUE)
   }else {
     UcscTrack(genome = gen, chromosome = chr, from = start, to = end,
               track="GWAS Catalog", table="gwasCatalog", 
               trackType = "AnnotationTrack", start = "chromStart", end = "chromEnd", 
               id = "name", feature = "func", strand = "*", shape = "box", 
-              stacking="squish", fill = "black", name = "GWAS Catalog")
+              stacking="dense", fill = "black", name = "GWAS Catalog",  col.line = NULL, col = NULL)
   }
 
 }
@@ -952,13 +973,14 @@ GeneReviewsTrack <-function(gen,chr,start,end,showId=FALSE){
               track="GeneReviews", table="geneReviews", 
               trackType = "AnnotationTrack", start = "chromStart", end = "chromEnd", 
               id = "name", group="name", feature = "func", strand = "*", shape = "box", 
-              stacking="squish", fill = "red", name = "GeneReviews",groupAnnotation = "group",just.group = "above")
+              stacking="squish", fill = "red", name = "GeneReviews",
+              groupAnnotation = "group",just.group = "above", showId=TRUE)
   }else {
     UcscTrack(genome = gen, chromosome = chr, from = start, to = end,
               track="GeneReviews", table="geneReviews", 
               trackType = "AnnotationTrack", start = "chromStart", end = "chromEnd", 
               id = "name", feature = "func", strand = "*", shape = "box", 
-              stacking="squish", fill = "red", name = "GeneReviews")
+              stacking="dense", fill = "red", name = "GeneReviews")
   }
 
 }
@@ -1003,7 +1025,9 @@ ISCATrack <-function(gen,chr,start,end,mySession,table.name,showId=FALSE){
                                       start=dataUCSC[,"chromStart"],end=dataUCSC[,"chromEnd"],
                                       feature=dataUCSC[,"score"],group=dataUCSC[,"name"],
                                       id=dataUCSC[,"name"], name = "ISCA",
-                                      stacking = "squish")
+                                      stacking = "squish", showId=TRUE,
+                                      groupAnnotation = "group",just.group = "above",
+                                      col.line = NULL, col = NULL)
     chromosome(data_trackfunc) <- chr
     
     
@@ -1062,6 +1086,8 @@ RepeatMaskerTrack <-function(gen,chr,start,end,showId=FALSE){
   UcscTrack(genome = gen, chromosome = chr, from = start, to = end,
             track="RepeatMasker", table="rmsk", 
             trackType = "AnnotationTrack", start = "genoStart", end = "genoEnd", 
-            id = "repName", group="repName", feature = "repClass", strand = "*", shape = "box", 
-            stacking="full", fill = "grey", name = "RepeatMasker",groupAnnotation = "group",just.group = "above")
+            id = "repName", group="repName", feature = "repClass", strand = "*", 
+            shape = "box", stacking="full", fill = "grey", name = "RepeatMasker",
+            groupAnnotation = "group",just.group = "above", 
+            showId=TRUE, col.line = NULL, col = NULL)
 }

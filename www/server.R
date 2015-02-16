@@ -11,12 +11,12 @@ library("hash")
 library("EBImage")
 #Normally Need to load coMET package not like that !!!!
 ## Need to wait that it accept in Bioconductor
-#library("coMET")
-source("/home/ubuntu/git_iop/comet/Rpackage/comet/R/cometWeb.R")
-source("/home/ubuntu/git_iop/comet/Rpackage/comet/R/AnalyseFile.R")
-source("/home/ubuntu/git_iop/comet/Rpackage/comet/R/BiofeatureGraphics.R")
-source("/home/ubuntu/git_iop/comet/Rpackage/comet/R/DrawPlot.R")
-source("/home/ubuntu/git_iop/comet/Rpackage/comet/R/GeneralMethodComet.R")
+library("coMET")
+#source("/home/ubuntu/git_iop/comet/Rpackage/comet/R/cometWeb.R")
+#source("/home/ubuntu/git_iop/comet/Rpackage/comet/R/AnalyseFile.R")
+#source("/home/ubuntu/git_iop/comet/Rpackage/comet/R/BiofeatureGraphics.R")
+#source("/home/ubuntu/git_iop/comet/Rpackage/comet/R/DrawPlot.R")
+#source("/home/ubuntu/git_iop/comet/Rpackage/comet/R/GeneralMethodComet.R")
 
 
 # By default, the file size limit is 5MB. It can be changed by

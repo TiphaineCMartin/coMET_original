@@ -2,14 +2,15 @@ coMET
 =====
 
 ##Overview
-The coMET package is a web-based plotting tool and R-based package to visualize different genome-wide association scans such as EWAS (epigenome-wide association scan) results in a genomic region of interest. coMET provides a plot of the EWAS association signal and visualisation of the methylation correlation between CpG sites (co-methylation). The coMET package also provides the option to annotate the region using functional genomic information, including both user-defined features and pre-selected features based on the Encode project. The plot can be customized with different parameters, such as plot labels, colours, symbols, heatmap colour scheme, significance thresholds, and including reference CpG sites. Finally, the tool can also be applied to display the correlation patterns of other genomic data, e.g. gene expression array data. 
+The coMET package is a web-based plotting tool and R-based package to visualize different genome-wide association scans such as EWAS (epigenome-wide association scan) results in a genomic region of interest. coMET provides a plot of the EWAS association signal and visualisation of the methylation correlation between CpG sites (co-methylation). The coMET package also provides the option to annotate the region using functional genomic information, including both user-defined features and pre-selected features based on the Encode project. The plot can be customized with different parameters, such as plot labels, colours, symbols, heatmap colour scheme, significance thresholds, and including reference CpG sites. Finally, the tool can also be applied to display the correlation patterns of other genomic data and any species, e.g. gene expression array data. 
 
 
 ##coMET webservice
 
 The webservice is the pre-formated web service of coMET with a reduction of parameters availlable.
 
-Go to : http://comet.epigen.kcl.ac.uk:3838/coMET/
+Go to : http://www.epigen.kcl.ac.uk/comet
+or directly one of instance: http://comet.epigen.kcl.ac.uk:3838/coMET/
 
 ##Developpers
 

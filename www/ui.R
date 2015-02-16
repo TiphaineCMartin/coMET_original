@@ -1,5 +1,5 @@
 library(shiny)
-#library(coMET)
+library(coMET)
 
 shinyUI(fluidPage(
   

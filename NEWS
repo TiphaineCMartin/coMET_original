@@ -1,3 +1,12 @@
+COMET 0.99.8 - 2015-02-15
+-----------------------------
+- No run genesNameENSEMBL if no ENSEMBL gene in the region of interest 
+- Correction the error related to the loading of correlation matrice
+- Update the visualisation of Chromosome with the name of band (related to an update of Gviz)
+- Remove the visualisation of border for genes and transcripts to help the visualisation of different exons
+- Update the vignette about comet's Shiny website and colors of tracks
+- Update the annotation tracks as Gviz was updated and now coMET can work on Gviz (version 1.10.9, current version)
+
 COMET 0.99.7 - 2014-12-19
 -----------------------------
 - Update the function "genesENSEMBL", "genesNameENSEMBL", "transcriptENSEMBL", and "regulationBiomart" because ENSEMBL mart changed the names of field in GChr37
@@ -11,7 +20,7 @@ COMET 0.99.6 - 2014-11-25
 
 COMET 0.99.5 - 2014-11-06
 -----------------------------
-- Update the annotation tracks using Gviz because of the update of Gviz (version 1.11.2)
+- Update the annotation tracks using Gviz because of the update of Gviz (version 1.11.2, development version)
 
 COMET 0.99.4 - 2014-11-05
 -----------------------------

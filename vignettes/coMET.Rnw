@@ -58,7 +58,7 @@ citation(package='coMET')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
-The CoMET package is a web-based plotting tool and R-based package to visualize EWAS (epigenome-wide association scan) results in a genomic region of interest. CoMET provides a plot of the EWAS association signal and visualisation of the methylation correlation between CpG sites (co-methylation). The CoMET package also provides the option to annotate the region using functional genomic information, including both user-defined features and pre-selected features based on the Encode project. The plot can be customized with different parameters, such as plot labels, colours, symbols, heatmap colour scheme, significance thresholds, and including reference CpG sites. Finally, the tool can also be applied to display the correlation patterns of other genomic data, e.g. gene expression array data.
+The CoMET package is a web-based plotting tool and R-based package to visualize EWAS (epigenome-wide association scan) results in a genomic region of interest. CoMET provides a plot of the EWAS association signal and visualisation of the methylation correlation between CpG sites (co-methylation). The CoMET package also provides the option to annotate the region using functional genomic information, including both user-defined features and pre-selected features based on the Encode project. The plot can be customized with different parameters, such as plot labels, colours, symbols, heatmap colour scheme, significance thresholds, and including reference CpG sites. Finally, the tool can also be applied to display the correlation patterns of other genomic data in any species, e.g. gene expression array data.
 
 coMET generates a multi-panel plot to visualize EWAS results, co-methylation patterns, and annotation tracks in a genomic region of interest. A coMET figure (cf. Fig. 1) includes three components: 
 \begin{enumerate}
@@ -70,7 +70,7 @@ The structure of the plots builds on snp.plotter (Luna et al., 2007), with exten
 
 
 \section{Usage}
-CoMET requires the installation of R, the statistical computing software, freely available for Linux, Windows, or MacOS. CoMET can be downloaded from bioconductor. Packages can be installed using the install.packages command in R. The coMET R package includes two major functions \emph{comet.web} and \emph{comet}. The function \emph{comet.web} generates output plot with the same settings of genomic annotation tracks as that of the webservice (http://www.epigen.kcl.ac.uk/comet or direclyhttp://comet.epigen.kcl.ac.uk:3838/coMET/). The function \emph{comet} generates output plots with the customized annotation tracks defined by user. 
+CoMET requires the installation of R, the statistical computing software, freely available for Linux, Windows, or MacOS. CoMET can be downloaded from bioconductor. Packages can be installed using the install.packages command in R. The coMET R package includes two major functions \emph{comet.web} and \emph{comet}. The function \emph{comet.web} generates output plot with the same settings of genomic annotation tracks as that of the webservice (\url{http://www.epigen.kcl.ac.uk/comet} or direcly \url{http://comet.epigen.kcl.ac.uk:3838/coMET/}). The function \emph{comet} generates output plots with the customized annotation tracks defined by user. 
 
 <<installPackages,eval=FALSE>>=
 source("http://bioconductor.org/biocLite.R")
@@ -106,7 +106,7 @@ library(coMET)
 @
 
 The configuration file specifies the options for the coMET plot. Example configuration and input files
-are also provided on http://www.epigen.kcl.ac.uk/comet. Information about the package can viewed from within R using this command:
+are also provided on \url{http://www.epigen.kcl.ac.uk/comet}. Information about the package can viewed from within R using this command:
 
 <<findHel, eval=FALSE>>=
 ?comet
@@ -117,15 +117,15 @@ are also provided on http://www.epigen.kcl.ac.uk/comet. Information about the pa
 \section{Files formats}
 There are four types of files that the user should or can give to produce the plot: 
 \begin{enumerate}
-  \item info file is defined in the option DATA.FILE (mandatory)
-  \item correlation file is defined in the option CORMATRIX.FILE (mandatory)
-  \item extra info files are defined in the option DATA.FILE.LARGE.
+  \item info file is defined in the option DATA.FILE. \textcolor{red}{It is mandatory and has to be a file in tabular format with an header}.
+  \item correlation file is defined in the option CORMATRIX.FILE. \textcolor{red}{It is mandatory and has to be a file in tabular format with an header}.
+  \item extra info files are defined in the option DATA.FILE.LARGE. \textcolor{red}{It is not mandatory, but if you add it, it has to be a file in tabular format with an header}.
   \item Annotation info file is defined in the option BIOFEAT.USER.FILE.
 \end{enumerate}
 
 
 \subsection{Format of info file (mandatory)}
-Info file can be a list of CpG sites with/without Beta value (DNA methylation level) or direction sign. If it is a site file then it is mandatory to have the 4 columns as shown below with headers in the same order. Beta can be the 5th column(optional) and it can be either a numeric value (positive or negative values) or only direction sign ("+", "-")
+\textcolor{red}{It is mandatory and has to be a file in tabular format with an header}. Info file can be a list of CpG sites with/without Beta value (DNA methylation level) or direction sign. If it is a site file then it is mandatory to have the 4 columns as shown below with headers in the same order. Beta can be the 5th column(optional) and it can be either a numeric value (positive or negative values) or only direction sign ("+", "-")
 
 <<Filedata>>=
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
@@ -150,7 +150,7 @@ head(data_infoexp)
 @
 
 \subsection{Format of correlation matrix (mandatory)}
-The data file used for the correlation matrix is described in the option CORMATRIX.FILE. This tab-delimited file can take 3 formats described in the option CORMATRIX.FORMAT:
+\textcolor{red}{It is mandatory and has to be a file in tabular format with an header}. The data file used for the correlation matrix is described in the option CORMATRIX.FILE. This tab-delimited file can take 3 formats described in the option CORMATRIX.FORMAT:
 \begin{enumerate}
 \item CORMATRIX: pre-computed correlation matrix provided by the user; Dimension of matrix : CpG\_number X CpG\_number. Need to put the CpG sites/regions in the ascending order of positions and to have a header with the name of CpG sites/regions;
 \item RAW: Raw data format. Correlations of these can be computed by one of 3 methods Spearman, Pearson, Kendall (option CORMATRIX.METHOD). Dimension of matrix :  sample\_size X CpG\_number. Need to have a header with the name of CpG sites/regions ;
@@ -168,6 +168,7 @@ data_cor[1:6,1:6]
 
 
 \subsection{Format of extra info file}
+\textcolor{red}{It is optional file and if you add one, it has to be a file in tabular format with an header}.
 The extra info files can be described in the option DATA.FILE.LARGE. Different extra info files are separated by a comma.
 
 This can be another type of info file (e.g expression or replication data) and should follow the same rules as the standard info file.
@@ -176,9 +177,8 @@ This can be another type of info file (e.g expression or replication data) and s
 The file is defined in the option BIOFEAT.USER.FILE and the format of file is the format accepted by GViz (BED, GTF, and GFF3).
 
 \subsection{Option of config.file}
-
-If you would like to make your own changes to the plot you can download the configuration file, make
-changes to it, and upload it into R as shown in the example below.
+\textcolor{red}{It is a file where each line is one option. The name of option is in capital and is separated to its value by "=". If there are multiple values such as for the option LIST.TRACKS or the options for exta data}.
+If you would like to make your own changes to the plot you can download the configuration file, make changes to it, and upload it into R as shown in the example below.
 
  The important options of a coMET figure include three components:
 \begin{enumerate}
@@ -191,7 +191,7 @@ changes to it, and upload it into R as shown in the example below.
   
   \item The middle panel provides customized annotation tracks; 
      \begin{itemize}
-     \item LIST.TRACKS (for \emph{comet.web} function): List of annotation tracks that can be visualised: geneENSEMBL, CGI, ChromHMM, DNAse, RegENSEMBL, SNP, transcriptENSEMBL, SNPstoma, SNPstru, SNPstrustoma, ISCA, COSMIC, GAD, ClinVar, GeneReviews, GWAS, Clin- VarCNV, GCcontent, genesUCSC, xenogenesUCSC. 
+     \item LIST.TRACKS (for \emph{comet.web} function): List of annotation tracks that can be visualised: geneENSEMBL, CGI, ChromHMM, DNAse, RegENSEMBL, SNP, transcriptENSEMBL, SNPstoma, SNPstru, SNPstrustoma, ISCA, COSMIC, GAD, ClinVar, GeneReviews, GWAS, ClinVarCNV, GCcontent, genesUCSC, xenogenesUCSC. The elements are separated by a comma.
      \item TRACKS.GVIZ, TRACKS.GGBIO, TRACKS.TRACKVIEWER (for \emph{comet} function): For each option, it is possible to give a list of annotation tracks that is created by the Gviz, GGBio, and TrackViewer bioconductor packages. 
      \end{itemize}
 
@@ -204,16 +204,17 @@ changes to it, and upload it into R as shown in the example below.
 
 \end{enumerate}
 
+
 <<configMatrix>>=
 extdata <- system.file("extdata", package="coMET",mustWork=TRUE)
 configfile <- file.path(extdata, "config_cyp1b1_zoom_4webserver.txt")
 
-data_config <-read.csv(configfile, quote = "")
+data_config <-read.csv(configfile, quote = "", sep="\t", header=FALSE)
 data_config
 @
 
-\section{Creating a plot like the webservice}
-User can draw coMET via the coMET website (http://epigen.kcl.ac.uk/comet).
+\section{Creating a plot like the webservice: comet.web}
+User can draw coMET via the coMET website (\url{http://epigen.kcl.ac.uk/comet}).
 It is possible to reproduce the web service plotting defaults by using the function comet.web, for example see Figure \ref{fig:cometweb_simple}.
 
 <<cometwebPlotText, eval=FALSE, fig.keep='last' >>=
@@ -363,9 +364,105 @@ comet(config.file=configfile, MYDATA.FILE=myinfofile, CORMATRIX.FILE=mycorrelati
 \caption{Plot with comet function without pvalue plot.\label{fig:cometPlot_nopval}}
 \end{figure}
 
+\section{Extra information about annotation tracks}
+\subsection{Genes and transcripts from ENSEMBL and UCSC}
+The color of genetic elements are defined by the R package Gviz.
+
+\subsection{Regulatory elements from ENSEMBL}
+The color of regulatory elements from ENSEMBL are defined from the same criteria of ENSEMBL done in 2014. The colors and the list of features can be updated in ENSEMBL and not yet in coMET. Please to contact us if you see some difference.
+
+Currently the colors are :
+
+\begin{tabular}{ll}
+feature & color \\
+Promoter Associated  & darkolivegreen\\
+CTCF Binding Site & cadetblue1\\
+Gene Associated & coral\\
+Non-Gene Associated & darkgoldenrod1\\
+Predicted Transcribed Region & greenyellow\\
+PolIII Transcription Associated & purple\\
+Enhancer & gold\\
+Transcription Factor Binding Site & darkorchid1\\
+Predicted Weak enhancer/Cis-reg element & yellow\\
+Heterochromatin & wheat4\\
+Open Chromatin & snow3\\
+Promoter Flank & tomato\\
+Repressed/Low Activity  & snow4\\
+Unclassified & aquamarine\\
+\end{tabular}
+
+\subsection{ChromHMM from UCSC}
+The color of regulatory regions from UCSC are defined from the same criteria of UCSC done in 2014. The colors and the list of features can be updated in UCSC and not yet in coMET. Please to contact us if you see some difference.
+
+Currently the colors are :
+
+\begin{tabular}{ll}
+feature & color \\
+1\_Active\_Promoter  & firebrick1 \\
+2\_Weak\_Promoter  & darksalmon  \\
+3\_Poised\_Promoter  & blueviolet \\
+4\_Strong\_Enhancer  & Orange \\
+5\_Strong\_Enhancer  & coral \\
+6\_Weak\_Enhancer  & yellow \\
+7\_Weak\_Enhancer  & gold \\
+8\_Insulator  & cornflowerblue \\
+9\_Txn\_Transition  & darkolivegreen \\
+10\_Txn\_Elongation  & forestgreen \\
+11\_Weak\_Txn  & darkseagreen1 \\
+12\_Repressed  & gainsboro \\
+13\_Heterochrom/lo  & gray74 \\
+14\_Repetitive/CNV  & gray77 \\
+15\_Repetitive/CNV  & gray86 \\
+\end{tabular}
+
+\section{coMET: Shiny web-service}
+\subsection{How to use coMET's Shiny web-service}
+If you want to use coMET via its webservice, you will go to \url{http://www.epigen.kcl.ac.uk/comet} and select one of different instances or direcly one of instance such as \url{http://comet.epigen.kcl.ac.uk:3838/coMET/}. We have created different instances of coMET because we did not have the pro version of Shiny. Nevertheless, it uses the same version of coMET.
+
+If you use coMET from a Shiny webservice, you do not need to install coMET package on you computer and to know the command lines to run on R. It is easy to use it, you have just to load different files and configurate your plot. The creation of coMET's plot can take a time because it makes a connexion to UCSC or/and ENSEMBL for the annotation tracks. First, the plot is created on the webpage, you can save the picture. But if you want to have better quality, you need to push the button download and the plot would be recreated in a file at pdf or eps format.
+
+
+\subsection{How to install coMET's Shiny web-service}
+These are different steps to install coMET on your Shiny web-service. You need to be root of your server to install it.
+\begin{enumerate}
+  \item You can install on your server an instance of Shiny \url{http://shiny.rstudio.com/}.
+  \item You need also to install R, Bioconductor and, of course, the package coMET.
+  \item In the Shiny's folder (e.g. /var/shiny-server/www), you can create a folder called "COMET".
+  \item Following this, you can install the two scripts of coMET that you find in the folder www of coMET package in the new folder.
+  \item you need change owner and the permission to access this folder. Only the user called Shiny can access.
+  \item You need now to update the configuration file of Shiny (e.g. /etc/shiny-server/shiny-server.conf). 
+  \item In this end, you can restart the service Shiny via the command line: sudo restart shiny-server
+\end{enumerate}
+
+Your Shiny's configuration file:
+\begin{verbatim}
+run_as shiny;
+# Define a top-level server which will listen on a port
+server {
+ # Instruct this server to listen on port 3838
+listen 3838;
+ # Define the location available at the base URL
+ location / {
+  # Run this location in 'site_dir' mode, which hosts the entire directory
+  # tree at '/srv/shiny-server'
+  site_dir /var/shiny-server/www;
+
+  # Define where we should put the log files for this location
+  log_dir /var/shiny-server/log;
+
+  # Should we list the contents of a (non-Shiny-App) directory when the user
+  # visits the corresponding URL?
+  directory_index off;
+
+ #   app_init_timeout 3600;
+ #   app_idle_timeout 3600;
+ }
+
+}
+\end{verbatim}
 
 \clearpage
-\section*{SessionInfo}
+\section{SessionInfo}
 The following is the session info that generated this vignette:
 <<session-info, results="asis">>=
 toLatex(sessionInfo())
