@@ -12,13 +12,17 @@ draw.name.genes.web(config.var, gbl.var)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{config.var}{
+\item{config.var}{
 list of all variables defined in configuration file or via options of
 comet function
 }
-  \item{gbl.var}{
+\item{gbl.var}{
 list of internal variables
 }
+}
+
+\value{
+Updated gbl.var with the list of names of genes found the region of interest. This function is called only in comet.web
 }
 
 \author{

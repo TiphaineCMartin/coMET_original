@@ -31,26 +31,30 @@ the last position in the region of interest (the largest value)
  The name of the annotation track
 }
 }
-\details{
+%%\details{
 %%  ~~ If necessary, more details than the description above ~~
-}
+%%}
 \value{
 An AnnotationTrack object of Gviz
 }
 \references{
-%% ~put references to the literature/web site here ~
+Go to ENSEMBL Biomart
+
+http://bioconductor.org/packages/release/bioc/html/Gviz.html
 }
 \author{
 Tiphaine Martin
 }
-\note{
+%%\note{
 %%  ~~further notes~~
-}
+%%}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+ \code{\link{snpLocationsUCSC}},  \code{\link{structureBiomart}},  \code{\link{COSMICTrack}}, 
+  \code{\link{CoreillCNVTrack}}, \code{\link{ClinVarMainTrack}}, 
+  \code{\link{ClinVarCnvTrack}}, 
 }
 \examples{
 library("Gviz")
@@ -60,12 +64,12 @@ start <- 38290160
 end <- 38303219
 
 if(interactive()){
-  snptrack <- snpBiomart(chrom, start, end, 
+  snptrack <- snpBiomart(chr, start, end, 
                        dataset="hsapiens_snp_som",showId=FALSE)
-  plotTracks(snptrack, from = start, to =end) 
+  plotTracks(snptrack, from=start, to=end) 
 } else {
   data(snpBiomarttrack)
-  plotTracks(snptrack, from = start, to =end)
+  plotTracks(snptrack, from=start, to=end)
 }
 
 }

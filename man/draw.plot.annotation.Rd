@@ -17,11 +17,14 @@ draw.plot.annotation(config.var, gbl.var)
 list of all variables defined in configuration file or via options of
 comet function
 }
-  \item{gbl.var}{
+\item{gbl.var}{
 list of internal variables
 }
 }
 
+\value{
+Updated the plot with annotation tracks directly.
+}
 \author{
 Tiphaine Martin
 }

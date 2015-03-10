@@ -12,15 +12,17 @@ read.config(config.file, config.var)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{config.file}{
-   Configuration file
+\item{config.file}{
+Configuration file
 }
-  \item{config.var}{
+\item{config.var}{
 list of all variables defined in configuration file or via options of
 comet function
 }
 }
-
+\value{
+Return config.var updated with the different values of options found in the configuration file
+}
 \author{
 Tiphaine Martin
 }

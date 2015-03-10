@@ -28,26 +28,27 @@ the last position in the region of interest (the largest value)
 Show the ID of the genetic elements
 }
 }
-\details{
+%%\details{
 %%  ~~ If necessary, more details than the description above ~~
-}
+%%}
 \value{
 A UcscTrack object of Gviz
 }
 \references{
-%% ~put references to the literature/web site here ~
+http://bioconductor.org/packages/release/bioc/html/Gviz.html
 }
 \author{
 Tiphaine Martin
 }
-\note{
+%%\note{
 %%  ~~further notes~~
-}
+%%}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+ \code{\link{ISCATrack}},  \code{\link{GWASTrack}}, \code{\link{knownGenesUCSC}}, 
+ \code{\link{genesNameENSEMBL}},  \code{\link{GeneReviewsTrack}}, \code{\link{GADTrack}},  \code{\link{genesENSEMBL}},\code{\link{transcriptENSEMBL}},
 }
 \examples{
 library("Gviz")
@@ -57,11 +58,11 @@ start <- 38290160
 end <- 38303219
 
 if(interactive()){
-  xenogenestrack<-xenorefGenesUCSC(gen,chr,start,end)
-  plotTracks(xenogenestrack, from = start, to =end) 
+  xenogenestrack<-xenorefGenesUCSC(gen,chr,start,end,showId=TRUE)
+  plotTracks(xenogenestrack, from=start, to=end) 
 } else {
   data(xenogenestrack)
-  plotTracks(xenogenestrack, from = start, to =end) 
+  plotTracks(xenogenestrack, from=start, to=end) 
 }
 
 }

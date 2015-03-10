@@ -28,26 +28,29 @@ the last position in the region of interest (the largest value)
 Show the ID of the genetic elements
 }
 }
-\details{
+%%\details{
 %%  ~~ If necessary, more details than the description above ~~
-}
+%%}
 \value{
 An UcscTrack object of Gviz
 }
 \references{
-%% ~put references to the literature/web site here ~
+http://genome-euro.ucsc.edu/cgi-bin/hgTrackUi?hgsid=202839739_2hYQ1BAOuBMAR620GjrtdrFAy6dn&c=chr6&g=knownGene
+
+http://bioconductor.org/packages/release/bioc/html/Gviz.html
 }
 \author{
 Tiphaine Martin
 }
-\note{
+%% \note{
 %%  ~~further notes~~
-}
+%% }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+ \code{\link{ISCATrack}}, \code{\link{GWASTrack}}, \code{\link{genesNameENSEMBL}}, 
+ \code{\link{GeneReviewsTrack}},  \code{\link{GADTrack}}, \code{\link{genesENSEMBL}},  \code{\link{xenorefGenesUCSC}}, \code{\link{transcriptENSEMBL}},
 }
 \examples{
 library("Gviz")

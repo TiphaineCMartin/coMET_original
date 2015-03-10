@@ -12,18 +12,21 @@ draw.plot.axis.data(top.vp, config.var, gbl.var)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
- \item{top.vp}{
-  The viewport related to top of plot
+\item{top.vp}{
+The viewport related to top of plot
 }
-  \item{config.var}{
- list of all variables defined in configuration file or via options of
+\item{config.var}{
+list of all variables defined in configuration file or via options of
 comet function
 }
-  \item{gbl.var}{
- list of internal variables
+\item{gbl.var}{
+list of internal variables
 }
 }
 
+\value{
+Updated the plot with the different axis of pvalue plot
+}
 \author{
 Tiphaine Martin
 }

@@ -25,27 +25,29 @@ the first position in the region of interest (the smallest value)
 the last position in the region of interest (the largest value)
 }
 }
-\details{
+%% \details{
 %%  ~~ If necessary, more details than the description above ~~
-}
+%% }
 \value{
 An AnnotationTrack object of Gviz
 }
 \references{
-%% ~put references to the literature/web site here ~
+http://bioconductor.org/packages/release/bioc/html/Gviz.html
+
+Got to ENSEMBLregulation biomart 
 }
 \author{
 Tiphaine Martin
 }
-\note{
+%% \note{
 %%  ~~further notes~~
-}
+%% }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
+%% \seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+%% }
 \examples{
 library("Gviz")
 gen <- "hg19"

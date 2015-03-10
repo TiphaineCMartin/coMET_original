@@ -12,6 +12,7 @@ import(grDevices)
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### Non-bioconductor packages
 ###
+importFrom("psych",corr.test)
 importFrom("colortools",complementary, opposite)
 importFrom("gridExtra",arrangeGrob, grid.arrange)
 importClassesFrom("hash",hash)
@@ -24,6 +25,8 @@ importFrom("hash",has.key)
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### Bioconductor packages
 ###
+import(IRanges)
+import(S4Vectors)
 import(GenomicRanges)
 import(biomaRt)
 import(Gviz)
@@ -48,7 +51,7 @@ importFrom("ggbio",tracks)
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### Primary functions
 ###
-export(comet,comet.web)
+export(comet,comet.web,comet.list)
 
 
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -75,4 +78,5 @@ export(chromatinHMMAll, chromatinHMMOne,
        snpLocationsUCSC,
        structureBiomart,
        transcriptENSEMBL,
-       xenorefGenesUCSC)
+       xenorefGenesUCSC,
+       RepeatMaskerTrack)

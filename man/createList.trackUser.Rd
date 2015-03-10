@@ -12,13 +12,16 @@ createList.trackUser(config.var, gbl.var)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{config.var}{
+    \item{config.var}{
 list of all variables defined in configuration file or via options of
 comet function
 }
-  \item{gbl.var}{
+    \item{gbl.var}{
 list of internal variables
 }
+}
+\value{
+Update the object listtracks_user of gbl.var from the user data if the user gives some data for the annotation tracks.
 }
 
 \author{

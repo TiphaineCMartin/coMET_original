@@ -12,15 +12,17 @@ create.tracks.web(config.var, gbl.var)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-   \item{config.var}{
+    \item{config.var}{
 list of all variables defined in configuration file or via options of
 comet function
 }
-  \item{gbl.var}{
+    \item{gbl.var}{
 list of internal variables
 }
 }
-
+\value{
+Update the object listtracks_gviz of gbl.var with different annotation tracks selected with comet.web
+}
 \author{
 Tiphaine Martin
 }

@@ -12,15 +12,17 @@ draw.plot.grid.mydata.large(config.var, gbl.var)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
- \item{config.var}{
+\item{config.var}{
 list of all variables defined in configuration file or via options of
 comet function
 }
-  \item{gbl.var}{
+\item{gbl.var}{
 list of internal variables
 }
 }
-
+\value{
+Update the upper plot (omic-WAS result plot) with the pvalues from extra data
+}
 \author{
 Tiphaine Martin
 }
