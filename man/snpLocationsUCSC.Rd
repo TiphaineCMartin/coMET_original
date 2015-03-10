@@ -29,26 +29,30 @@ the last position in the region of interest (the largest value)
  The name of the database. Example "snp138"
 }
 }
-\details{
+%%\details{
 %%  ~~ If necessary, more details than the description above ~~
-}
+%%}
 \value{
 An UcscTrack object of Gviz
 }
 \references{
-%% ~put references to the literature/web site here ~
+http://genome-euro.ucsc.edu/cgi-bin/hgTrackUi?hgsid=202839739_2hYQ1BAOuBMAR620GjrtdrFAy6dn&c=chr6&g=snp141
+
+http://bioconductor.org/packages/release/bioc/html/Gviz.html
 }
 \author{
 Tiphaine Martin
 }
-\note{
+%%\note{
 %%  ~~further notes~~
-}
+%%}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+ \code{\link{snpLocationsUCSC}},  \code{\link{structureBiomart}},  \code{\link{COSMICTrack}}, 
+  \code{\link{CoreillCNVTrack}}, \code{\link{ClinVarMainTrack}}, 
+  \code{\link{ClinVarCnvTrack}}, 
 }
 \examples{
 library("Gviz")

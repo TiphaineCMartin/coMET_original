@@ -1,5 +1,5 @@
 #Load library
-library(shiny)
+library("shiny")
 library("grid")
 library("grDevices")
 library("rtracklayer")
@@ -9,9 +9,11 @@ library("ggbio")
 library("colortools")
 library("hash")
 library("EBImage")
+library("psych")
+library("coMET")
+
 #Normally Need to load coMET package not like that !!!!
 ## Need to wait that it accept in Bioconductor
-library("coMET")
 #source("/home/ubuntu/git_iop/comet/Rpackage/comet/R/cometWeb.R")
 #source("/home/ubuntu/git_iop/comet/Rpackage/comet/R/AnalyseFile.R")
 #source("/home/ubuntu/git_iop/comet/Rpackage/comet/R/BiofeatureGraphics.R")
@@ -22,8 +24,6 @@ library("coMET")
 # By default, the file size limit is 5MB. It can be changed by
 # setting this option. Here we'll raise limit to 9MB.
 options(shiny.maxRequestSize = 9*1024^2)
-
-
 
 
 shinyServer(function(input, output,session) {
@@ -62,7 +62,7 @@ shinyServer(function(input, output,session) {
     } else {
       dataInput <- read.csv(inFile1$datapath, header = TRUE,
                             sep = "\t",quote="")
-      if (input$dataformat == 'REGION' | input$dataformat == 'REGION_ASSO') {
+      if (input$dataformat == 'region' | input$dataformat == 'region_asso') {
         startCpG <- min(dataInput[,3])
       } else  {
         startCpG <- min(dataInput[,3])
@@ -81,7 +81,7 @@ shinyServer(function(input, output,session) {
     } else {
       dataInput <- read.csv(inFile1$datapath, header = TRUE,
                             sep = "\t",quote="")
-      if (input$dataformat == 'REGION' | input$dataformat == 'REGION_ASSO') {
+      if (input$dataformat == 'region' | input$dataformat == 'region_asso') {
         stopCpG <- max(dataInput[,4])
       } else  {
         stopCpG <- max(dataInput[,3])
@@ -122,7 +122,7 @@ shinyServer(function(input, output,session) {
   })
   
   ## INFO DATA for help,region format
-  output$infoRegionHelp <- renderTable({
+  output$inforegionHelp <- renderTable({
     infohelp <- "/var/shiny-server/www/coMET/cyp1b1info_expr_reduce_region.txt" 
     
     if (is.null(infohelp))
@@ -218,22 +218,20 @@ shinyServer(function(input, output,session) {
   
   
   ##### DRAW THE PLOT
-  output$cometplot <- renderPlot(function() {
-    plotPrintInput()
-  })
-
-  
+  #Define the name of file
   filenameplot <- function() {
       filename = paste(input$plotfilename, "png", sep='.')
       filenameImagetmp <- tempfile(fileext=filename)
       filenameImagetmp
   }
+
+  #Create the png
   output$cometplotImage <- renderImage({
-    
-    filenameImage <<- filenameplot()
+    isize <- as.numeric(input$imagesize) * 100
+    filenameImage <- filenameplot()
         png(file = filenameImage,
-                  width=as.numeric(input$imagesize),
-                  height=as.numeric(input$imagesize),
+                  width=isize,
+                  height=isize,
                   fonts=c("sans"))
       plotPrintInput()
       dev.off()
@@ -241,8 +239,8 @@ shinyServer(function(input, output,session) {
     # Return a list containing the filename
       listFile <- list(src = filenameImage,
            contentType = 'image/png',
-           width = as.numeric(input$imagesize),
-           height = as.numeric(input$imagesize),
+           width = isize,
+           height = isize,
            alt = "This is alternate text")
     listFile 
   }, deleteFile = FALSE)
@@ -332,9 +330,21 @@ shinyServer(function(input, output,session) {
     if(!is.null(input$cormethod) & (input$definecorParm))
       cormethod <- input$cormethod
     
-    corformat <- "RAW"
+    corformat <- "raw"
     if(!is.null(input$corformat) & (input$definecorParm))
       corformat <- input$corformat
+    
+    coralphaCI <- 0.05
+    if(!is.null(input$coralphaCI) & (input$definecorParm))
+      coralphaCI <- input$coralphaCI
+    
+    copvalThres <- 0.05
+    if(!is.null(input$corpvalThres) & (input$definecorParm))
+      corpvalThres <- input$corpvalThres
+    
+    coradjmethod <- "none"
+    if(!is.null(input$coradjmethod) & (input$definecorParm))
+      coradjmethod <- input$coradjmethod
     
     corcolor <- "bluewhitered"
     if(!is.null(input$corcolor) & (input$definecorParm))
@@ -380,27 +390,29 @@ shinyServer(function(input, output,session) {
     
     if (is.null(configdatainFile)) {
       #plot(1,2)
-      #comet.web(MYDATA.FILE=datainFile$datapath,MYDATA.FORMAT=as.character(input$dataformat))
-      comet.web(MYDATA.FILE=datainFile$datapath,MYDATA.FORMAT=dataformat,DISP.ASSOCIATION=dispAsso,
-                DISP.REGION=dispReg, SAMPLE.LABELS=datalab, SYMBOLS=datasymb, COLOR.LIST=datacolor,
-                CORMATRIX.FILE=cordatainFile$datapath,CORMATRIX.METHOD=cormethod, CORMATRIX.FORMAT=corformat,
-                CORMATRIX.COLOR.SCHEME=corcolor,MYDATA.LARGE.FILE=largedatainFilepath,
-                MYDATA.LARGE.FORMAT=datalargeformat,DISP.ASSOCIATION.LARGE=displargeAsso,
-                DISP.REGION.LARGE=dispReglarge, SAMPLE.LABELS.LARGE=datalablarge, 
-                SYMBOLS.LARGE=datalargesymb, COLOR.LIST.LARGE=datalargecolor,GENOME=genomeCpG,
-                START=startCpG,END=stopCpG,MYDATA.REF=myrefCpG,DISP.COLOR.REF=dispCpG,
-                LIST.TRACKS=listTrack, BIOFEAT.USER.FILE=annotdatainFilepath, 
-                BIOFEAT.USER.TYPE=annotformat, BIOFEAT.USER.TYPE.PLOT=annotplot, IMAGE.TITLE=imagetitle, 
-                PRINT.IMAGE=FALSE, VERBOSE=TRUE)
+      #comet.web(mydata.file=datainFile$datapath,mydata.format=as.character(input$dataformat))
+      comet.web(mydata.file=datainFile$datapath,mydata.format=dataformat,disp.association=dispAsso,
+                disp.region=dispReg, sample.labels=datalab, symbols=datasymb, color.list=datacolor,
+                cormatrix.file=cordatainFile$datapath,cormatrix.method=cormethod, 
+                cormatrix.format=corformat, cormatrix.adjust=coradjmethod,
+                cormatrix.conf.level=coralphaCI, cormatrix.sig.level=corpvalThres,
+                cormatrix.color.scheme=corcolor,mydata.large.file=largedatainFilepath,
+                mydata.large.format=datalargeformat,disp.association.large=displargeAsso,
+                disp.region.large=dispReglarge, sample.labels.large=datalablarge, 
+                symbols.large=datalargesymb, color.list.large=datalargecolor,genome=genomeCpG,
+                start=startCpG,end=stopCpG,mydata.ref=myrefCpG,disp.color.ref=dispCpG,
+                list.tracks=listTrack, biofeat.user.file=annotdatainFilepath, 
+                biofeat.user.type=annotformat, biofeat.user.type.plot=annotplot, image.title=imagetitle, 
+                print.image=FALSE, verbose=TRUE)
     } else {
       #plot(1,2)
-      #MYDATA.LARGE.FILE=largedatainFilepath,
+      #mydata.large.file=largedatainFilepath,
       #configFile="/home/tmartin/git_iop/comet/Rpackage/comet/data/smoking/config_cyp1b1_zoom_local.txt"
-      #comet.web(config.file=configFile,MYDATA.FILE=datainFile$datapath,CORMATRIX.FILE=cordatainFile$datapath, PRINT.IMAGE=FALSE)
+      #comet.web(config.file=configFile,mydata.file=datainFile$datapath,cormatrix.file=cordatainFile$datapath, print.image=FALSE)
       
-      comet.web(config.file=configdatainFile$datapath, MYDATA.FILE=datainFile$datapath,
-                CORMATRIX.FILE=cordatainFile$datapath, MYDATA.LARGE.FILE=largedatainFilepath, 
-                BIOFEAT.USER.FILE=annotdatainFilepath, PRINT.IMAGE=FALSE, VERBOSE=TRUE)
+      comet.web(config.file=configdatainFile$datapath, mydata.file=datainFile$datapath,
+                cormatrix.file=cordatainFile$datapath, mydata.large.file=largedatainFilepath, 
+                biofeat.user.file=annotdatainFilepath, print.image=FALSE, verbose=TRUE)
     }
     
   }
@@ -460,6 +472,7 @@ shinyServer(function(input, output,session) {
           
           tagList(
             p('your plot is running, please wait....'),
+            p('Connexion to UCSC and Ensembl'),
             hr(),    
             imageOutput("cometplotImage"),
             hr(),    
@@ -467,7 +480,18 @@ shinyServer(function(input, output,session) {
             hr(),  
             hr(),  
             hr(),  
+            hr(),
+            hr(),
+            hr(),    
+            hr(),  
+            hr(),  
+            hr(),  
+            hr(),  
+            hr(),
+            hr(),
             h5("Download your image",style = "color:red"),
+            p('Click on the image and save the image in png or redo in pdf or eps'),
+            p('It is going to take time because it need to rerun coMET and need to connect to UCSC and ENSEMBL'),
             selectInput("imageformat", "Define the format of plot:" , 
                         choices = c("pdf","eps","png")),
             downloadButton('downloadPlot', 'Download')
@@ -606,6 +630,8 @@ shinyServer(function(input, output,session) {
       ),
       h3('coMET webservice'),
       p('The webservice is the pre-formated web service of coMET with a reduction of parameters availlable.'),
+      p('Only 100 omic features can be visualised in the correlation matrix.'),
+      p('If the region is large or ENSEMBL and UCSC is busy, the creation of plot can take time.'),
       h3('Developpers'),
       p('coMET is developed by Tiphaine C. Martin in collaboration with Idil Yet, Pei-Chien Tsai, Jordana T.Bell, Department of Twin Research, Kings College London.'),
       h3('Cite'),
@@ -631,27 +657,33 @@ shinyServer(function(input, output,session) {
   output$help <- renderUI({
     tagList(
       h1('Welcome to coMET help'),
-      h3('Format of info file(mandatory)'),
+      h3('Format of info file (mandatory)'),
+      p('It is mandatory and has to be a file in tabular format with an header.'),
       p('The info file can be a list of CpG sites with/without Beta (or direction sign). If it is a CpG-site file then it is mandatory to have 4 columns as shown below with headers in the same order. The beta or direction can be included in the 5th column (optional).'),  
       tableOutput("infoHelp"),
       
       p('Alternatively, the info file can be region-based and if so, the region-based info file must have the 5 columns (see below) with headers in this order. The beta or direction can be included in the 6th column (optional).'),
       
-      tableOutput("infoRegionHelp"),
+      tableOutput("inforegionHelp"),
       
-      h3('Format of correlation matrix(mandatory)'),
-      p('The correlation matrix dataset can either be a pre-calculated correlation matrix or the raw data. There are two format for raw data. The format called RAW is put if the CpG sites/regions are by column and the samples are by row whereas the format called RAW_REV is put if the CpG sites/regions are by row and the samples are by column. If it is a raw data then you can select the type of correlation method (spearman, kendall or pearson).'),
+      p('There are 4 different options for mydata.format: site (4 columns), region (5 columns), site_asso (5 columns), region_asso (6 columns).'),
+      
+      h3('Format of correlation matrix (mandatory)'),
+      p('It is mandatory and has to be a file in tabular format with an header.'),
+      p('The correlation matrix dataset can either be a pre-calculated correlation matrix or the raw data. There are two format for raw data. The format called RAW is put if the CpG sites/regions are by column and the samples are by row whereas the format called raw_rev is put if the CpG sites/regions are by row and the samples are by column. If it is a raw data then you can select the type of correlation method (spearman, kendall or pearson).'),
       p('Example of data at RAW format:'),
       tableOutput("corHelp"),
       
       h3('Format of extra info file'),
+      p('It is optional file or list of files separatated by comma. Files should be in tabular format with an header'),
       p('This can be another type of info file (e.g Expression data or replication data) and it follows the same rules than the info file.'),
       
       h3('Format of annotation file'),
-      p('format accepted by GViz such as BED, GTF, and GFF3 format'),
+      p('format accepted by GViz such as BED, GTF, and GFF3 format. It is optional file.'),
       
       h3('Option of config.file'),
       p('If you would like to make your own changes to the plot you can download the configuration file from this site. After you make the relative changes you can upload it to the server again and plot.'),
+      p('It is a file where each line is one option. The name of option is in capital and is separated to its value by "=". If there are multiple values such as for the option list.tracks or the options for exta data.'),
       tableOutput("configFileHelp"),
       
       

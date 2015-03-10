@@ -12,16 +12,20 @@ check.format.mydata(gbl.var, option, numfile)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-   \item{gbl.var}{
+    \item{gbl.var}{
 list of internal variables
 }
-  
-  \item{option}{
+
+    \item{option}{
  option that say if the data to check are main or supplementary data
 }
-  \item{numfile}{
+    \item{numfile}{
  the order of file to check from the list of main or supplementary data
 }
+}
+
+\value{
+gbl.var updated or error message
 }
 
 \author{
@@ -30,5 +34,5 @@ Tiphaine Martin
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ internal }
+\keyword{internal}
 

@@ -25,27 +25,29 @@ the first position in the region of interest (the smallest value)
 the last position in the region of interest (the largest value)
 }
 }
-\details{
+%%\details{
 %%  ~~ If necessary, more details than the description above ~~
-}
+%%}
 \value{
 A UcscTrack object of Gviz
 }
 \references{
-%% ~put references to the literature/web site here ~
+http://bioconductor.org/packages/release/bioc/html/Gviz.html
+
+http://genome-euro.ucsc.edu/cgi-bin/hgTrackUi?hgsid=202839739_2hYQ1BAOuBMAR620GjrtdrFAy6dn&c=chr6&g=gc5Base
 }
 \author{
 Tiphaine Martin
 }
-\note{
+%%\note{
 %%  ~~further notes~~
-}
+%%}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
+%%\seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+%%}
 \examples{
 library("Gviz")
 gen <- "hg19"

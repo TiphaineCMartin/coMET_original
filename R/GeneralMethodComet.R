@@ -20,17 +20,17 @@
 # Email: tiphaine.martin@kcl.ac.uk
 # Purpose: coMET allows the display of p-values from association
 #           with a correlation heatmap.
-# Version : 0.99.0
+# Version : 0.99.9
 ###########################################################################
 
 #-------------------DRAW PLOT GRID----------------------------
 draw.plot.grid.setup <- function(config.var, gbl.var) {
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("START DRAW.PLOT.GRID.SETUP\n")
+  if (config.var$verbose)  cat("START DRAW.PLOT.GRID.SETUP\n")
   
   #set y-axis initial value
-  if(config.var$DISP.PVAL.THRESHOLD != -1) {
-    gbl.var$r.y[1] <- config.var$DISP.PVAL.THRESHOLD
+  if(config.var$disp.pval.threshold != -1) {
+    gbl.var$r.y[1] <- config.var$disp.pval.threshold
     gbl.var$axis.y <- seq(floor(gbl.var$r.y[1]), max(gbl.var$axis.y))
   } else {
     gbl.var$r.y[1] <- 0
@@ -52,8 +52,8 @@ draw.plot.grid.setup <- function(config.var, gbl.var) {
   top.vp.cormatrixmap.nopval <- viewport(layout = grid.layout(6, 3, widths = c(0.18, 0.6875, 0.1325),
                                                               heights = c(.05, .025, .42, .001, .5, .05)),
                                          name = "top.vp.cormatrixmap.nopval")
-  if(config.var$DISP.PVALUEPLOT){
-    if(config.var$DISP.CORMATRIXMAP) {
+  if(config.var$disp.pvalueplot){
+    if(config.var$disp.cormatrixmap) {
       gbl.var$top.vp <- top.vp.cormatrixmap
     }
     else {
@@ -79,8 +79,8 @@ draw.plot.grid.setup <- function(config.var, gbl.var) {
                                            layout.pos.row = 1,
                                            layout.pos.col = 2,
                                            name = "title.vp.cormatrixmap.nopval")
-  if(config.var$DISP.PVALUEPLOT){
-    if(config.var$DISP.CORMATRIXMAP) {
+  if(config.var$disp.pvalueplot){
+    if(config.var$disp.cormatrixmap) {
       pushViewport(vpTree(top.vp.cormatrixmap, vpList(title.vp.cormatrixmap )))
     }
     else {
@@ -89,7 +89,7 @@ draw.plot.grid.setup <- function(config.var, gbl.var) {
   }else{
     pushViewport(vpTree(top.vp.cormatrixmap.nopval, vpList(title.vp.cormatrixmap.nopval)))
   }
-  image.title.text <- textGrob(config.var$IMAGE.TITLE, x = 0.5, y = 0.5, just = c("center"),
+  image.title.text <- textGrob(config.var$image.title, x = 0.5, y = 0.5, just = c("center"),
                                default.units = "native", gp = gpar(fontsize = gbl.var$font.size + 4, fontface = "bold"))
   image.title <- gTree(children=gList(image.title.text), vp=title.vp.cormatrixmap, name="image.title")
   
@@ -114,8 +114,8 @@ draw.plot.grid.setup <- function(config.var, gbl.var) {
                                                 layout.pos.col = 2,
                                                 name = "chromosome.vp.cormatrixmap.nopval")
   
-  if(config.var$DISP.PVALUEPLOT){
-    if(config.var$DISP.CORMATRIXMAP) {
+  if(config.var$disp.pvalueplot){
+    if(config.var$disp.cormatrixmap) {
       pushViewport(vpTree(top.vp.cormatrixmap, vpList(chromosome.vp.cormatrixmap )))
     }
     else {
@@ -130,8 +130,8 @@ draw.plot.grid.setup <- function(config.var, gbl.var) {
   
   #-------------------CONNECTOR VIEWPORT---------------------
   
-  if(config.var$DISP.CORMATRIXMAP) {
-    if(config.var$DISP.PVALUEPLOT){
+  if(config.var$disp.cormatrixmap) {
+    if(config.var$disp.pvalueplot){
       draw.plot.linesconnection(top.vp.cormatrixmap, config.var, gbl.var)
       
     } else {
@@ -144,11 +144,11 @@ draw.plot.grid.setup <- function(config.var, gbl.var) {
   
   #-------------------DATA VIEWPORT---------------------
   
-  if(config.var$DISP.CORMATRIXMAP & config.var$DISP.PVALUEPLOT) {
+  if(config.var$disp.cormatrixmap & config.var$disp.pvalueplot) {
     draw.plot.axis.data(top.vp.cormatrixmap, config.var, gbl.var)
   }
   else {
-    if(config.var$DISP.CORMATRIXMAP==FALSE & config.var$DISP.PVALUEPLOT){
+    if(config.var$disp.cormatrixmap==FALSE & config.var$disp.pvalueplot){
       draw.plot.axis.data(top.vp.nocormatrixmap, config.var, gbl.var)
     } else {
       popViewport()
@@ -158,7 +158,7 @@ draw.plot.grid.setup <- function(config.var, gbl.var) {
   
   #--------------------- POSITION of LEGEND PHYSICAL DISTANCE ------------------------
   #display the physical distance on plots without LD maps
-  if(config.var$DISP.PHYS.DIST & !config.var$DISP.CORMATRIXMAP) {
+  if(config.var$disp.phys.dist & !config.var$disp.cormatrixmap) {
     
     if(gbl.var$total.dist > 1000) {
       grid.text(paste("Physical Distance: ", round(gbl.var$total.dist/1000, 1), " kb", sep=""),
@@ -178,7 +178,7 @@ draw.plot.grid.setup <- function(config.var, gbl.var) {
   
   
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("FINISH DRAW.PLOT.GRID.SETUP\n")
+  if (config.var$verbose)  cat("FINISH DRAW.PLOT.GRID.SETUP\n")
   
   return(gbl.var)
 }
@@ -186,13 +186,13 @@ draw.plot.grid.setup <- function(config.var, gbl.var) {
 #------------------- DRAW CONNECTOR -----------------------
 draw.plot.linesconnection <- function(top.vp, config.var, gbl.var) { 
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("START DRAW.PLOT.LINESCONNECTION\n")
+  if (config.var$verbose)  cat("START DRAW.PLOT.LINESCONNECTION\n")
   
   popViewport()
-  # if (config.var$VERBOSE)  cat("gbl.var$r.x[1]", gbl.var$r.x[1], "\n")
-  # if (config.var$VERBOSE)  cat("gbl.var$r.y[2]", gbl.var$r.y[2], "\n")
-  # if (config.var$VERBOSE)  cat("gbl.var$axis.x[length(gbl.var$axis.x)]", gbl.var$axis.x[length(gbl.var$axis.x)], "\n")
-  # if (config.var$VERBOSE)  cat("gbl.var$axis.y[1]", gbl.var$axis.y[1], "\n")
+  # if (config.var$verbose)  cat("gbl.var$r.x[1]", gbl.var$r.x[1], "\n")
+  # if (config.var$verbose)  cat("gbl.var$r.y[2]", gbl.var$r.y[2], "\n")
+  # if (config.var$verbose)  cat("gbl.var$axis.x[length(gbl.var$axis.x)]", gbl.var$axis.x[length(gbl.var$axis.x)], "\n")
+  # if (config.var$verbose)  cat("gbl.var$axis.y[1]", gbl.var$axis.y[1], "\n")
   #-------------------CONNECTOR VIEWPORT---------------------
   connector.vp.cormatrixmap <- viewport(xscale = c(gbl.var$r.x[1], gbl.var$axis.x[length(gbl.var$axis.x)]),
                                         yscale = c(gbl.var$axis.y[1], gbl.var$r.y[2]),
@@ -209,8 +209,8 @@ draw.plot.linesconnection <- function(top.vp, config.var, gbl.var) {
                                                layout.pos.row = 4,
                                                layout.pos.col = 2,
                                                name = "data.vp.cormatrixmap.nopval")
-  if(config.var$DISP.CORMATRIXMAP) {
-    if(config.var$DISP.PVALUEPLOT) {
+  if(config.var$disp.cormatrixmap) {
+    if(config.var$disp.pvalueplot) {
       pushViewport(vpTree(top.vp, vpList(connector.vp.cormatrixmap)))
     } else{
       pushViewport(vpTree(top.vp, vpList(connector.vp.cormatrixmap.nopval)))
@@ -219,12 +219,12 @@ draw.plot.linesconnection <- function(top.vp, config.var, gbl.var) {
   
   
   #-------------------AXIS BEGINS------------------
-  # if (config.var$VERBOSE)  cat("axis\n")
+  # if (config.var$verbose)  cat("axis\n")
   grid.lines(x = gbl.var$axis.x, y = 0, default.units = "native", gp = gpar(lty = 1, lwd = gbl.var$line.width))
   
   #----------------------- X-AXIS --------------------------
-  # if (config.var$VERBOSE)  cat("x-axis\n")
-  if(config.var$DISP.MULT.LAB.X) {
+  # if (config.var$verbose)  cat("x-axis\n")
+  if(config.var$disp.mult.lab.X) {
     #Truncate the number of X-axis labels
     if(length(gbl.var$axis.x) > 5) {
       increment <- ceiling(length(gbl.var$axis.x) / 5)
@@ -245,17 +245,17 @@ draw.plot.linesconnection <- function(top.vp, config.var, gbl.var) {
   }
   
   #DEBUG STATEMENT
-  # if (config.var$VERBOSE)  cat("cormatrixmap\n")
-  # if (config.var$VERBOSE)  cat("List",gbl.var$sorted.mydata.pos,"\n")
-  # if (config.var$VERBOSE)  cat("gbl.var$sorted.mydata.pos.zoom ", gbl.var$sorted.mydata.pos.zoom, "\n")
-  # if (config.var$VERBOSE)  cat("List zoom",gbl.var$sorted.mydata.pos.zoom,"\n")
+  # if (config.var$verbose)  cat("cormatrixmap\n")
+  # if (config.var$verbose)  cat("List",gbl.var$sorted.mydata.pos,"\n")
+  # if (config.var$verbose)  cat("gbl.var$sorted.mydata.pos.zoom ", gbl.var$sorted.mydata.pos.zoom, "\n")
+  # if (config.var$verbose)  cat("List zoom",gbl.var$sorted.mydata.pos.zoom,"\n")
   
   grid.xaxis(at = axis.x.labels, label = FALSE, gp = gpar(cex = gbl.var$cex.factor), name = "axis.x.labels")
   grid.xaxis(at = gbl.var$sorted.mydata.pos.zoom, label = FALSE, gp = gpar(cex = gbl.var$cex.factor, lwd = gbl.var$line.width))
   grid.text(axis.x.labels[1], x = -0.025, y = -0.1, just = "right", gp = gpar(fontsize = (gbl.var$font.size * 0.75)))
   grid.text(axis.x.labels[2], x = 1.015, y = -0.1, just = "left", gp = gpar(fontsize = (gbl.var$font.size * 0.75)))
   
-  if(config.var$DISP.COLOR.REF) {
+  if(config.var$disp.color.ref) {
     #Color darkorchid1 the reference
     grid.xaxis(at = gbl.var$mydata.ref.pos, label = FALSE, gp = gpar(cex = gbl.var$cex.factor, lwd = gbl.var$line.width,col="darkorchid1")) 
   }
@@ -267,12 +267,12 @@ draw.plot.linesconnection <- function(top.vp, config.var, gbl.var) {
   
   #------------------ X-AXIS -----------------------
   #-------------------EQUIDISPOS COORDINATE BEGINS-------------
-  # if (config.var$VERBOSE)  cat("equidistance\n")
+  # if (config.var$verbose)  cat("equidistance\n")
   gbl.var$equidis.pos <- NULL
   
   #DEBUG STATEMENT
-  # if (config.var$VERBOSE)  cat("length(gbl.var$equidis.pos) ", length(gbl.var$equidis.pos), "\n")
-  # if (config.var$VERBOSE)  cat("length(gbl.var$mydata.num) ", length(gbl.var$mydata.pos), "\n")
+  # if (config.var$verbose)  cat("length(gbl.var$equidis.pos) ", length(gbl.var$equidis.pos), "\n")
+  # if (config.var$verbose)  cat("length(gbl.var$mydata.num) ", length(gbl.var$mydata.pos), "\n")
   
   gbl.var$mydata.num <- length(gbl.var$sorted.mydata.pos)
   
@@ -287,48 +287,48 @@ draw.plot.linesconnection <- function(top.vp, config.var, gbl.var) {
   }
   #-------------------CONNECTING LINES BEGINS-------------
   
-  if(config.var$CONNECTING.LINES.ADJ == -1) {
-    stop("CONNECTING.LINES.ADJ may not equal: -1")
+  if(config.var$connecting.lines.adj == -1) {
+    stop("connecting.lines.adj may not equal: -1")
   }
   
-  tmp.correction.factor <- gbl.var$equidis.pos[1] * 10^(gbl.var$cur.exp - 9)  * (1 + config.var$CONNECTING.LINES.ADJ)
+  tmp.correction.factor <- gbl.var$equidis.pos[1] * 10^(gbl.var$cur.exp - 9)  * (1 + config.var$connecting.lines.adj)
   
   #DEBUG STATEMENT
-  # if (config.var$VERBOSE)  cat("tmp.correction.factor ", tmp.correction.factor, "\n")
-  # if (config.var$VERBOSE)  cat("length(gbl.var$sorted.mydata.pos) ", length(gbl.var$sorted.mydata.pos), "\n")
-  # if (config.var$VERBOSE)  cat("length(gbl.var$equidis.pos) ", length(gbl.var$equidis.pos), "\n")
-  # if (config.var$VERBOSE)  cat("gbl.var$equidis.pos[1] ", gbl.var$equidis.pos[1], "\n")
-  # if (config.var$VERBOSE)  cat("gbl.var$cur.exp ", gbl.var$cur.exp, "\n")
-  # if (config.var$VERBOSE)  cat("config.var$CONNECTING.LINES.ADJ ", config.var$CONNECTING.LINES.ADJ, "\n")
+  # if (config.var$verbose)  cat("tmp.correction.factor ", tmp.correction.factor, "\n")
+  # if (config.var$verbose)  cat("length(gbl.var$sorted.mydata.pos) ", length(gbl.var$sorted.mydata.pos), "\n")
+  # if (config.var$verbose)  cat("length(gbl.var$equidis.pos) ", length(gbl.var$equidis.pos), "\n")
+  # if (config.var$verbose)  cat("gbl.var$equidis.pos[1] ", gbl.var$equidis.pos[1], "\n")
+  # if (config.var$verbose)  cat("gbl.var$cur.exp ", gbl.var$cur.exp, "\n")
+  # if (config.var$verbose)  cat("config.var$connecting.lines.adj ", config.var$connecting.lines.adj, "\n")
   
   length.sorted.mydata.pos.zoom <- length(gbl.var$sorted.mydata.pos.zoom)
   
-  if(config.var$IMAGE.SIZE == 3.5) {
-    y.finish.pos <- rep(-0.9, length.sorted.mydata.pos.zoom * config.var$CONNECTING.LINES.FACTOR)
-  } else if(config.var$IMAGE.SIZE == 7) {
-    y.finish.pos <- rep(-1.8, length.sorted.mydata.pos.zoom * config.var$CONNECTING.LINES.FACTOR)
+  if(config.var$image.size == 3.5) {
+    y.finish.pos <- rep(-0.9, length.sorted.mydata.pos.zoom * config.var$connecting.lines.factor)
+  } else if(config.var$image.size == 7) {
+    y.finish.pos <- rep(-1.8, length.sorted.mydata.pos.zoom * config.var$connecting.lines.factor)
   }
   
   #DEBUG STATEMENT
-  # if (config.var$VERBOSE)  cat("gbl.var$axis.y[1] ", gbl.var$axis.y[1], "\n")
-  # if (config.var$VERBOSE)  cat("y.finish.pos ", y.finish.pos, "\n")
+  # if (config.var$verbose)  cat("gbl.var$axis.y[1] ", gbl.var$axis.y[1], "\n")
+  # if (config.var$verbose)  cat("y.finish.pos ", y.finish.pos, "\n")
   
-  if(config.var$CONNECTING.LINES.VERT.ADJ != -1) {
-    y.start.pos <- config.var$CONNECTING.LINES.VERT.ADJ
-  } else if (config.var$IMAGE.SIZE == 3.5) {
+  if(config.var$connecting.lines.vert.adj != -1) {
+    y.start.pos <- config.var$connecting.lines.vert.adj
+  } else if (config.var$image.size == 3.5) {
     y.start.pos <- -0.5
-  } else if (config.var$IMAGE.SIZE == 7) {
+  } else if (config.var$image.size == 7) {
     y.start.pos <- -0.7
   }else  {
-    stop("Invalid image size: ", config.var$IMAGE.SIZE, "\n")
+    stop("Invalid image size: ", config.var$image.size, "\n")
   }
   
-  # if (config.var$VERBOSE)  cat("BUG HERE \n")
+  # if (config.var$verbose)  cat("BUG HERE \n")
   
-  # if (config.var$VERBOSE)  cat("BUGgg HERE \n")
+  # if (config.var$verbose)  cat("BUGgg HERE \n")
   x.finish.pos <- gbl.var$equidis.pos +
-    seq(1, length(gbl.var$equidis.pos) * abs(tmp.correction.factor), abs(tmp.correction.factor)) * config.var$CONNECTING.LINES.FLEX +
-    gbl.var$total.dist * config.var$CONNECTING.LINES.ADJ
+    seq(1, length(gbl.var$equidis.pos) * abs(tmp.correction.factor), abs(tmp.correction.factor)) * config.var$connecting.lines.flex +
+    gbl.var$total.dist * config.var$connecting.lines.adj
   
   #for reference sequence
   ref.position <- which(gbl.var$sorted.mydata.pos == gbl.var$mydata.ref.pos)
@@ -343,16 +343,16 @@ draw.plot.linesconnection <- function(top.vp, config.var, gbl.var) {
     x.finish.pos.zoom <- x.finish.pos
   }
   
-  # if (config.var$VERBOSE)  cat("y.finish.pos ", y.finish.pos, "\n")
-  # if (config.var$VERBOSE)  cat("y.start.pos ", y.start.pos, "\n")
-  # if (config.var$VERBOSE)  cat("gbl.var$min.x ", gbl.var$min.x, "\n")
-  # if (config.var$VERBOSE)  cat("gbl.var$max.x ", gbl.var$max.x, "\n")
-  # if (config.var$VERBOSE)  cat("x.finish.pos", x.finish.pos, "\n")
-  # if (config.var$VERBOSE)  cat("remove.position", remove.position, "\n")
-  # if (config.var$VERBOSE)  cat("x.finish.pos.zoom ", x.finish.pos.zoom, "\n")
-  # if (config.var$VERBOSE)  cat("gbl.var$sorted.mydata.pos.zoom ", gbl.var$sorted.mydata.pos.zoom, "\n")
+  # if (config.var$verbose)  cat("y.finish.pos ", y.finish.pos, "\n")
+  # if (config.var$verbose)  cat("y.start.pos ", y.start.pos, "\n")
+  # if (config.var$verbose)  cat("gbl.var$min.x ", gbl.var$min.x, "\n")
+  # if (config.var$verbose)  cat("gbl.var$max.x ", gbl.var$max.x, "\n")
+  # if (config.var$verbose)  cat("x.finish.pos", x.finish.pos, "\n")
+  # if (config.var$verbose)  cat("remove.position", remove.position, "\n")
+  # if (config.var$verbose)  cat("x.finish.pos.zoom ", x.finish.pos.zoom, "\n")
+  # if (config.var$verbose)  cat("gbl.var$sorted.mydata.pos.zoom ", gbl.var$sorted.mydata.pos.zoom, "\n")
   
-  if(config.var$IMAGE.SIZE == 3.5) {
+  if(config.var$image.size == 3.5) {
     connecting.lines <- segmentsGrob(x0 = x.finish.pos.zoom,
                                      x1 = gbl.var$sorted.mydata.pos.zoom,
                                      y0 = unit(y.finish.pos, "char"),
@@ -361,7 +361,7 @@ draw.plot.linesconnection <- function(top.vp, config.var, gbl.var) {
                                      gp = gpar(lwd = gbl.var$line.width))
     
     ######ref
-    if(config.var$DISP.COLOR.REF) {
+    if(config.var$disp.color.ref) {
       ######ref
       if(gbl.var$mydata.ref.pos > gbl.var$min.x & gbl.var$mydata.ref.pos < gbl.var$max.x){
         connecting.lines.ref <- segmentsGrob(x0 = x.finish.pos.zoom.ref,
@@ -373,14 +373,14 @@ draw.plot.linesconnection <- function(top.vp, config.var, gbl.var) {
       }
     }
     
-  } else if(config.var$IMAGE.SIZE == 7) {
+  } else if(config.var$image.size == 7) {
     connecting.lines <- segmentsGrob(x0 = x.finish.pos.zoom,
                                      x1 = gbl.var$sorted.mydata.pos.zoom,
                                      y0 = unit(y.finish.pos, "char"),
                                      y1 = unit(y.start.pos,"char"),
                                      default.units = "native",
                                      gp = gpar(lwd = gbl.var$line.width))
-    if(config.var$DISP.COLOR.REF) {
+    if(config.var$disp.color.ref) {
       ######ref
       if(gbl.var$mydata.ref.pos > gbl.var$min.x & gbl.var$mydata.ref.pos < gbl.var$max.x){
         connecting.lines.ref <- segmentsGrob(x0 = x.finish.pos.zoom.ref,
@@ -392,35 +392,35 @@ draw.plot.linesconnection <- function(top.vp, config.var, gbl.var) {
       }
     }
   } else {
-    stop("Invalid image size: ", config.var$IMAGE.SIZE, "\n")
+    stop("Invalid image size: ", config.var$image.size, "\n")
   }
   
   
-  # if (config.var$VERBOSE)  cat("BUGG HERE \n")
+  # if (config.var$verbose)  cat("BUGG HERE \n")
   #DEBUG STATEMENT
-  #    if (config.var$VERBOSE)  cat("y.finish.pos ", y.finish.pos, "\n")
-  #    if (config.var$VERBOSE)  cat("connecting.lines ", is.null(connecting.lines), "\n")
+  #    if (config.var$verbose)  cat("y.finish.pos ", y.finish.pos, "\n")
+  #    if (config.var$verbose)  cat("connecting.lines ", is.null(connecting.lines), "\n")
   #   cat(is.null(connecting.lines), "\n")
   #   cat(x.finish.pos, "\n")
   #   cat(gbl.var$sorted.mydata.pos, "\n")
   #----------------------- X-AXIS --------------------------
   grid.lines(x = gbl.var$axis.x, y = 0, default.units = "native", gp = gpar(lty = 1, lwd = gbl.var$line.width, col="gray80"))
   
-  if(config.var$DISP.CONNECTING.LINES) {
+  if(config.var$disp.connecting.lines) {
     grid.draw(connecting.lines)
-    if(config.var$DISP.COLOR.REF) {
+    if(config.var$disp.color.ref) {
       grid.draw(connecting.lines.ref)
     }
   }
   
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("FINISH DRAW.PLOT.LINECONNECTION\n")
+  if (config.var$verbose)  cat("FINISH DRAW.PLOT.LINECONNECTION\n")
 }
 
 #------------------- DRAW AXIS DATA -----------------------
 draw.plot.axis.data <- function(top.vp, config.var, gbl.var) { 
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("START DRAW.PLOT.AXIS.DATA\n")
+  if (config.var$verbose)  cat("START DRAW.PLOT.AXIS.DATA\n")
   
   popViewport()
   
@@ -439,7 +439,7 @@ draw.plot.axis.data <- function(top.vp, config.var, gbl.var) {
                                      layout.pos.row = 3,
                                      layout.pos.col = 2,
                                      name = "data.vp.nocormatrixmap")
-  if(config.var$DISP.CORMATRIXMAP) {
+  if(config.var$disp.cormatrixmap) {
     pushViewport(vpTree(top.vp, vpList(data.vp.cormatrixmap)))
   }
   else {
@@ -452,7 +452,7 @@ draw.plot.axis.data <- function(top.vp, config.var, gbl.var) {
   
   
   #----------------------- X-AXIS --------------------------
-  if(config.var$DISP.MULT.LAB.X) {
+  if(config.var$disp.mult.lab.X) {
     #Truncate the number of X-axis labels
     if(length(gbl.var$axis.x) > 5) {
       increment <- ceiling(length(gbl.var$axis.x) / 5)
@@ -473,8 +473,8 @@ draw.plot.axis.data <- function(top.vp, config.var, gbl.var) {
   }
   
   
-  if(config.var$DISP.CORMATRIXMAP) {
-    if(! is.null(config.var$MYDATA.LARGE.FILE)){
+  if(config.var$disp.cormatrixmap) {
+    if(! is.null(config.var$mydata.large.file)){
       grid.xaxis(at = gbl.var$sorted.mydata.large.pos.zoom, label = FALSE, gp = gpar(col="grey", cex = gbl.var$cex.factor, lwd = gbl.var$line.width))
     }
     grid.xaxis(at = axis.x.labels, label = FALSE, gp = gpar(cex = gbl.var$cex.factor), name = "axis.x.labels")
@@ -482,7 +482,7 @@ draw.plot.axis.data <- function(top.vp, config.var, gbl.var) {
     grid.text(axis.x.labels[1], x = -0.025, y = -0.1, just = "right", gp = gpar(fontsize = (gbl.var$font.size * 0.75)))
     grid.text(axis.x.labels[2], x = 1.015, y = -0.1, just = "left", gp = gpar(fontsize = (gbl.var$font.size * 0.75)))
     
-    if(config.var$DISP.COLOR.REF) {
+    if(config.var$disp.color.ref) {
       #Color red the reference
       grid.xaxis(at = gbl.var$mydata.ref.pos, label = FALSE, gp = gpar(cex = gbl.var$cex.factor, lwd = gbl.var$line.width, col="darkorchid1"))
     }
@@ -492,7 +492,7 @@ draw.plot.axis.data <- function(top.vp, config.var, gbl.var) {
     
   }
   else {
-    if(! is.null(config.var$MYDATA.LARGE.FILE)){
+    if(! is.null(config.var$mydata.large.file)){
       grid.xaxis(at = gbl.var$sorted.mydata.large.pos.zoom, label = FALSE, gp = gpar(col="grey", cex = gbl.var$cex.factor, lwd = gbl.var$line.width))
     }
     
@@ -501,7 +501,7 @@ draw.plot.axis.data <- function(top.vp, config.var, gbl.var) {
     grid.text(axis.x.labels[1], x = -0.025, y = -0.09, just = "right", gp = gpar(fontsize = (gbl.var$font.size * 0.75)))
     grid.text(axis.x.labels[2], x = 1.015, y = -0.09, just = "left", gp = gpar(fontsize = (gbl.var$font.size * 0.75)))
     
-    if(config.var$DISP.COLOR.REF) {
+    if(config.var$disp.color.ref) {
       #Color red the reference
       grid.xaxis(at = gbl.var$mydata.ref.pos, label = FALSE, gp = gpar(cex = gbl.var$cex.factor, lwd = gbl.var$line.width, col="darkorchid1")) 
     }
@@ -517,12 +517,12 @@ draw.plot.axis.data <- function(top.vp, config.var, gbl.var) {
   gbl.var$equidis.pos <- NULL
   
   #DEBUG STATEMENT
-  # if (config.var$VERBOSE)  cat("length(gbl.var$equidis.pos) ", length(gbl.var$equidis.pos), "\n")
-  # if (config.var$VERBOSE)  cat("length(gbl.var$mydata.num) ", length(gbl.var$mydata.pos), "\n")
+  # if (config.var$verbose)  cat("length(gbl.var$equidis.pos) ", length(gbl.var$equidis.pos), "\n")
+  # if (config.var$verbose)  cat("length(gbl.var$mydata.num) ", length(gbl.var$mydata.pos), "\n")
   
   gbl.var$mydata.num <- length(gbl.var$sorted.mydata.pos)
   
-  if(config.var$DISP.CORMATRIXMAP) {
+  if(config.var$disp.cormatrixmap) {
     pos.increment <- (gbl.var$max.x - gbl.var$min.x) / gbl.var$mydata.num
     
     #Attempt to center the MYDATA labels
@@ -543,8 +543,8 @@ draw.plot.axis.data <- function(top.vp, config.var, gbl.var) {
   }
   
   #----------------- Y-AXIS --------------------
-  if(config.var$LAB.Y == "ln") {
-    if(config.var$DISP.MARKER.LINES) {
+  if(config.var$lab.Y == "ln") {
+    if(config.var$disp.marker.lines) {
       
       initial.abline <- 0.1
       
@@ -552,20 +552,20 @@ draw.plot.axis.data <- function(top.vp, config.var, gbl.var) {
         initial.abline <- initial.abline / 10
         
         #DEBUG STATEMENT
-        if (config.var$VERBOSE)  cat("initial.abline 1", initial.abline, "\n")
+        if (config.var$verbose)  cat("initial.abline 1", initial.abline, "\n")
       }
       
       while(-log(initial.abline) < max(gbl.var$axis.y)) {
         
         #DEBUG STATEMENT
-        if (config.var$VERBOSE)  cat("initial.abline 2", initial.abline, "\n")
+        if (config.var$verbose)  cat("initial.abline 2", initial.abline, "\n")
         
         grid.lines(x = gbl.var$axis.x, y = -log(initial.abline), default.units = "native", gp = gpar(lty = "dashed", lwd = gbl.var$line.width, col="gainsboro"))
         initial.abline <- initial.abline / 10
       }
     }
   } else {
-    if(config.var$DISP.MARKER.LINES) {     
+    if(config.var$disp.marker.lines) {     
       initial.abline <- 0.1
       
       while(-log10(initial.abline) < gbl.var$axis.y[1]) {
@@ -580,8 +580,8 @@ draw.plot.axis.data <- function(top.vp, config.var, gbl.var) {
   }
   
   #----------- X-AXIS of THRESHOLD
-  if(config.var$PVAL.THRESHOLD != 0 & config.var$PVAL.THRESHOLD > config.var$DISP.PVAL.THRESHOLD){
-    grid.lines(x = gbl.var$axis.x, y = config.var$PVAL.THRESHOLD, default.units = "native", gp = gpar(lty = "dashed", lwd = gbl.var$line.width , col="red"))
+  if(config.var$pval.threshold != 0 & config.var$pval.threshold > config.var$disp.pval.threshold){
+    grid.lines(x = gbl.var$axis.x, y = config.var$pval.threshold, default.units = "native", gp = gpar(lty = "dashed", lwd = gbl.var$line.width , col="red"))
     
   }
   #----------- X-AXIS of base
@@ -589,7 +589,7 @@ draw.plot.axis.data <- function(top.vp, config.var, gbl.var) {
   
   grid.yaxis(at = gbl.var$axis.y, label = gbl.var$axis.y, gp = gpar(fontsize = gbl.var$font.size, lwd = gbl.var$line.width))
   #----------- WRITE LABEL for Y-AXIS
-  if(config.var$LAB.Y == "ln") {
+  if(config.var$lab.Y == "ln") {
     grid.text("-ln(p-value)",
               x = -0.1,
               y = 0.5,
@@ -607,14 +607,14 @@ draw.plot.axis.data <- function(top.vp, config.var, gbl.var) {
   
   
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("FINISH DRAW.PLOT.AXIS.DATA\n")
+  if (config.var$verbose)  cat("FINISH DRAW.PLOT.AXIS.DATA\n")
 }
 
 
 #------------------- DRAW ANNOTATION -----------------------
 draw.plot.annotation <- function(config.var, gbl.var) { 
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("START DRAW.PLOT.ANNOTATION\n")
+  if (config.var$verbose)  cat("START DRAW.PLOT.ANNOTATION\n")
   
   popViewport()
   top.vp <- gbl.var$top.vp
@@ -634,8 +634,8 @@ draw.plot.annotation <- function(config.var, gbl.var) {
                                                 layout.pos.col = 2,
                                                 name = "annotation.vp.cormatrixmap.nopval")
   
-  if(config.var$DISP.CORMATRIXMAP) {
-    if(config.var$DISP.PVALUEPLOT) {
+  if(config.var$disp.cormatrixmap) {
+    if(config.var$disp.pvalueplot) {
       pushViewport(vpTree(top.vp, vpList(annotation.vp.cormatrixmap)))
       pushViewport(annotation.vp.cormatrixmap)
     } else {
@@ -655,7 +655,7 @@ draw.plot.annotation <- function(config.var, gbl.var) {
   }
   
   size_gviz_user <- 0
-  if(!is.null(config.var$BIOFEAT.USER.FILE)){
+  if(!is.null(config.var$biofeat.user.file)){
     #   gbl.var <- create.tracks.user(config.var,gbl.var)
     size_gviz_user <- length(gbl.var$listtracks_user) 
   }
@@ -670,7 +670,7 @@ draw.plot.annotation <- function(config.var, gbl.var) {
   }
   total_tracks <-  size_gviz + size_trackviewer + size_ggbio
   
-  if (config.var$VERBOSE)  cat("Number of track", total_tracks, "GVIZ",  size_gviz,"\n")
+  if (config.var$verbose)  cat("Number of track", total_tracks, "GVIZ",  size_gviz,"\n")
   
   annotvp <-viewport(layout=grid.layout(4, 1, heights=unit(c(size_gviz,size_ggbio,size_trackviewer,size_gviz_user),"null")),name = "annotviewport")
   gvizviewport <- viewport(layout.pos.col = 1, layout.pos.row = 1, name = "gvizviewport")
@@ -678,8 +678,8 @@ draw.plot.annotation <- function(config.var, gbl.var) {
   trackviewerviewport <- viewport(layout.pos.col = 1, layout.pos.row = 3, name = "trackviewerviewport")
   gvizuserviewport <- viewport(layout.pos.col = 1, layout.pos.row = 4, name = "gvizuserviewport")
   
-  if(config.var$DISP.CORMATRIXMAP) {
-    if(config.var$DISP.PVALUEPLOT) {
+  if(config.var$disp.cormatrixmap) {
+    if(config.var$disp.pvalueplot) {
       pushViewport(vpTree(annotation.vp.cormatrixmap, vpList(gvizviewport, ggbioviewport, trackviewerviewport,gvizuserviewport)))
     } else {
       pushViewport(vpTree(annotation.vp.cormatrixmap.nopval, vpList(gvizviewport, ggbioviewport, trackviewerviewport,gvizuserviewport)))
@@ -722,17 +722,17 @@ draw.plot.annotation <- function(config.var, gbl.var) {
   
   popViewport()
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("FINISH DRAW.PLOT.ANNOTATION\n")
+  if (config.var$verbose)  cat("FINISH DRAW.PLOT.ANNOTATION\n")
 }
 
 
 #------------------- DRAW DATA via GGBIO -----------------------
 draw.plot.mydata.ggbio <- function(config.var, gbl.var,numfile) { 
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("START DRAW.PLOT.MYDATA\n")
+  if (config.var$verbose)  cat("START DRAW.PLOT.MYDATA\n")
   split.mydata.file <- gbl.var$split.mydata.file
   gbl.var <-read.file.mydata(split.mydata.file[[1]],config.var, gbl.var,numfile)
-  # if (config.var$VERBOSE)  cat("READ ",i," MYDATA file \n")
+  # if (config.var$verbose)  cat("READ ",i," MYDATA file \n")
   mydata.data <- gbl.var$mydata.data
   mydata.pv <- log(mydata.data[,4])
   startlist<-mydata.data[,3]
@@ -749,20 +749,20 @@ draw.plot.mydata.ggbio <- function(config.var, gbl.var,numfile) {
   
   return(list(data,namedata_track))
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("FINISH DRAW.PLOT.MYDATA\n")
+  if (config.var$verbose)  cat("FINISH DRAW.PLOT.MYDATA\n")
 }
 
 #-------------------DRAW SINGLE MYDATA------------------
 draw.plot.grid.mydata <- function(config.var, gbl.var) {
   
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("START DRAW.PLOT.GRID.MYDATA\n")
+  if (config.var$verbose)  cat("START DRAW.PLOT.GRID.MYDATA\n")
   
   # Grab from configuration is available
-  if(is.null(config.var$SYMBOL.FACTOR)) {
+  if(is.null(config.var$symbol.factor)) {
     tmp.cex.factor.symbol = gbl.var$cex.factor.symbol
   } else {
-    tmp.cex.factor.symbol = config.var$SYMBOL.FACTOR
+    tmp.cex.factor.symbol = config.var$symbol.factor
   }
   
   
@@ -772,8 +772,8 @@ draw.plot.grid.mydata <- function(config.var, gbl.var) {
   #z<-color.cut[,mydata.num]
   #  gbl.var$fill.list[gbl.var$cur.sample]
   format <- as.character(gbl.var$split.format[[1]][gbl.var$cur.sample])
-  if(config.var$DISP.MYDATA) {
-    if(config.var$DISP.TYPE == "symbol") {
+  if(config.var$disp.mydata) {
+    if(config.var$disp.type == "symbol") {
       if(gbl.var$cur.sample == 1) {
         
         #------------- DATA of INTERET
@@ -781,14 +781,14 @@ draw.plot.grid.mydata <- function(config.var, gbl.var) {
           name.test <-gbl.var$mydata.data$MYDATA.NAME[i]
           position <- gbl.var$mydata.hash.names.pos[[name.test ]]
           #cat ("color",i, " ", color.cut.ref[i],"\n")
-          if ((gbl.var$mydata.data$MYDATA.PVAL[i] > config.var$DISP.PVAL.THRESHOLD) & 
+          if ((gbl.var$mydata.data$MYDATA.PVAL[i] > config.var$disp.pval.threshold) & 
                 (gbl.var$mydata.data$MYDATA.PVAL[i] != 0) &
                 (position > (gbl.var$min.x - 1)) &
                 (position < (gbl.var$max.x + 1)) ) {
             
             #---- ASSOCIATION COLOR
             mycolor <- color.cut.ref[i]
-            if(! is.null(config.var$DISP.ASSOCIATION)){
+            if(! is.null(config.var$disp.association)){
               if(as.logical(gbl.var$split.association[[1]][gbl.var$cur.sample]) & (grepl("ASSO", format)[1])) {
                 mycolor <- gbl.var$fill.list[gbl.var$cur.sample]
                 mycolor <- gbl.var$fill.list[gbl.var$cur.sample]
@@ -803,16 +803,16 @@ draw.plot.grid.mydata <- function(config.var, gbl.var) {
             }
             
             
-            # if (config.var$VERBOSE)  cat("config.var$MYDATA.REF",config.var$MYDATA.REF,"\n")
-            # if (config.var$VERBOSE)  cat("gbl.var$mydata.data$MYDATA.NAME[i]",gbl.var$mydata.data$MYDATA.NAME[i],"\n")
-            # if (config.var$VERBOSE)  cat("My data",i,"vs my ref", gbl.var$mydata.best.position,"\n")
+            # if (config.var$verbose)  cat("config.var$mydata.ref",config.var$mydata.ref,"\n")
+            # if (config.var$verbose)  cat("gbl.var$mydata.data$MYDATA.NAME[i]",gbl.var$mydata.data$MYDATA.NAME[i],"\n")
+            # if (config.var$verbose)  cat("My data",i,"vs my ref", gbl.var$mydata.best.position,"\n")
             ref.print <- "FALSE"
             
-            if (exists("config.var$MYDATA.REF") & !is.null(config.var$MYDATA.REF) ) {
-              if (length(config.var$MYDATA.REF) > 0 & (gbl.var$mydata.data$MYDATA.NAME[i] == config.var$MYDATA.REF)){
+            if (exists("config.var$mydata.ref") & !is.null(config.var$mydata.ref) ) {
+              if (length(config.var$mydata.ref) > 0 & (gbl.var$mydata.data$MYDATA.NAME[i] == config.var$mydata.ref)){
                 ref.print <- "TRUE"
               }
-            } else if ( (length(config.var$MYDATA.REF) > 0 ) & (i == gbl.var$mydata.best.position)){
+            } else if ( (length(config.var$mydata.ref) > 0 ) & (i == gbl.var$mydata.best.position)){
               ref.print <- "TRUE"	
             }
             
@@ -830,9 +830,9 @@ draw.plot.grid.mydata <- function(config.var, gbl.var) {
                                     fill = "black" ,
                                     lwd = gbl.var$line.width))
               
-              if(!is.null(config.var$DISP.REGION)){
-                if(as.logical(gbl.var$split.region[[1]][gbl.var$cur.sample])  & (grepl("REGION", format)[1])){
-                  #  if (config.var$VERBOSE)  cat("format",format,"\n")
+              if(!is.null(config.var$disp.region)){
+                if(as.logical(gbl.var$split.region[[1]][gbl.var$cur.sample])  & (grepl("region", format)[1])){
+                  #  if (config.var$verbose)  cat("format",format,"\n")
                   position.start <- gbl.var$mydata.hash.names.start[[name.test ]]
                   position.end <- gbl.var$mydata.hash.names.end[[name.test ]]
                   if(position.start < (gbl.var$min.x - 1)){
@@ -855,8 +855,8 @@ draw.plot.grid.mydata <- function(config.var, gbl.var) {
                                     fill = mycolor ,
                                     lwd = gbl.var$line.width))
               
-              if(!is.null(config.var$DISP.REGION)){
-                if(as.logical(gbl.var$split.region[[1]][gbl.var$cur.sample])  & (grepl("REGION", format)[1] )){
+              if(!is.null(config.var$disp.region)){
+                if(as.logical(gbl.var$split.region[[1]][gbl.var$cur.sample])  & (grepl("region", format)[1] )){
                   position.start <- gbl.var$mydata.hash.names.start[[name.test ]]
                   position.end <- gbl.var$mydata.hash.names.end[[name.test ]]
                   if(position.start < (gbl.var$min.x - 1)){
@@ -879,14 +879,14 @@ draw.plot.grid.mydata <- function(config.var, gbl.var) {
         for (i in 1:nrow(gbl.var$mydata.data)) {
           name.test <-gbl.var$mydata.data$MYDATA.NAME[i]
           position <- gbl.var$mydata.hash.names.pos[[name.test ]]
-          if ((gbl.var$mydata.data$MYDATA.PVAL[i] > config.var$DISP.PVAL.THRESHOLD) & 
+          if ((gbl.var$mydata.data$MYDATA.PVAL[i] > config.var$disp.pval.threshold) & 
                 (gbl.var$mydata.data$MYDATA.PVAL[i] != 0) &
                 (position > (gbl.var$min.x - 1)) &
                 (position < (gbl.var$max.x + 1)) ) {
             
             #---- ASSOCIATION COLOR
             mycolor <- color.cut.ref[i]
-            if(! is.null(config.var$DISP.ASSOCIATION)){
+            if(! is.null(config.var$disp.association)){
               if(gbl.var$split.association[[1]][gbl.var$cur.sample] & (grepl("ASSO", format)[1]) & (grepl("ASSO", format)[1])) {
                 mycolor <- gbl.var$fill.list[gbl.var$cur.sample]
                 if  (gbl.var$mydata.data$MYDATA.ASSO[i] == "-") {
@@ -920,8 +920,8 @@ draw.plot.grid.mydata <- function(config.var, gbl.var) {
                                     lwd = gbl.var$line.width))
             }
             
-            if(! is.null(config.var$DISP.REGION)){
-              if(as.logical(gbl.var$split.region[[1]][gbl.var$cur.sample])  & (grepl("REGION", format)[1] )){
+            if(! is.null(config.var$disp.region)){
+              if(as.logical(gbl.var$split.region[[1]][gbl.var$cur.sample])  & (grepl("region", format)[1] )){
                 position.start <- gbl.var$mydata.hash.names.start[[name.test ]]
                 position.end <- gbl.var$mydata.hash.names.end[[name.test ]]
                 if(position.start < (gbl.var$min.x - 1)){
@@ -941,39 +941,39 @@ draw.plot.grid.mydata <- function(config.var, gbl.var) {
       }
     }
     else {
-      stop("Invalid display type: ", config.var$DISP.TYPE, "\n")
+      stop("Invalid display type: ", config.var$disp.type, "\n")
     }
   }
   
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("FINISH DRAW.PLOT.GRID.MYDATA\n")
+  if (config.var$verbose)  cat("FINISH DRAW.PLOT.GRID.MYDATA\n")
 }
 
 #-------------------DRAW LARGE MYDATA------------------
 draw.plot.grid.mydata.large <- function(config.var, gbl.var) {
   
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("START DRAW.PLOT.GRID.MYDATA.LARGE\n")
+  if (config.var$verbose)  cat("START DRAW.PLOT.GRID.MYDATA.large\n")
   
   # Grab from configuration is available
-  if(is.null(config.var$SYMBOL.FACTOR)) {
+  if(is.null(config.var$symbol.factor)) {
     tmp.cex.factor.symbol = gbl.var$cex.factor.symbol
   } else {
-    tmp.cex.factor.symbol = config.var$SYMBOL.FACTOR
+    tmp.cex.factor.symbol = config.var$symbol.factor
   }
   format <- as.character(gbl.var$large.split.format[[1]][gbl.var$cur.sample.large])
-  if(config.var$DISP.MYDATA) {
-    if(config.var$DISP.TYPE == "symbol") {
+  if(config.var$disp.mydata) {
+    if(config.var$disp.type == "symbol") {
       #------------- DATA LARGE
-      if(! is.null(config.var$MYDATA.LARGE.FILE)) {
+      if(! is.null(config.var$mydata.large.file)) {
         for (i in 1:nrow(gbl.var$mydata.large.data)) {
           
           #---- ASSOCIATION COLOR
           mycolor <- gbl.var$large.fill.list[gbl.var$cur.sample.large]
           
-          if(!is.null(config.var$DISP.ASSOCIATION.LARGE)){
+          if(!is.null(config.var$disp.association.large)){
             if(as.logical(gbl.var$large.split.association[[1]][gbl.var$cur.sample.large]) & (grepl("ASSO", format)[1])) {
-              # if (config.var$VERBOSE)  cat("Association ",gbl.var$mydata.large.data$MYDATA.ASSO[i]," \n") 
+              # if (config.var$verbose)  cat("Association ",gbl.var$mydata.large.data$MYDATA.ASSO[i]," \n") 
               if  (gbl.var$mydata.large.data$MYDATA.ASSO[i] == "-") {
                 mycolor.fill.tmp <- opposite(mycolor,plot=FALSE)[2]
                 mycolor <- mycolor.fill.tmp
@@ -986,16 +986,16 @@ draw.plot.grid.mydata.large <- function(config.var, gbl.var) {
           
           name.test <-gbl.var$mydata.large.data$MYDATA.NAME[i]
           position <- gbl.var$mydata.large.hash.names.pos[[name.test]]
-          # if (config.var$VERBOSE)  cat("position",position)
-          if ((gbl.var$mydata.large.data$MYDATA.PVAL[i] > config.var$DISP.PVAL.THRESHOLD) & 
+          # if (config.var$verbose)  cat("position",position)
+          if ((gbl.var$mydata.large.data$MYDATA.PVAL[i] > config.var$disp.pval.threshold) & 
                 (gbl.var$mydata.large.data$MYDATA.PVAL[i] != 0) &
                 (position > (gbl.var$min.x - 1)) &
                 (position < (gbl.var$max.x + 1)) & 
                 (gbl.var$mydata.large.data$MYDATA.PVAL[i] > (gbl.var$min.y - 1)) &
                 (gbl.var$mydata.large.data$MYDATA.PVAL[i] < (gbl.var$max.y + 1)) ) {
             
-            # if (config.var$VERBOSE)  cat("config.var$MYDATA.REF",config.var$MYDATA.REF,"\n")
-            # if (config.var$VERBOSE)  cat("gbl.var$mydata.data$MYDATA.NAME[i]",gbl.var$mydata.data$MYDATA.NAME[i],"\n")
+            # if (config.var$verbose)  cat("config.var$mydata.ref",config.var$mydata.ref,"\n")
+            # if (config.var$verbose)  cat("gbl.var$mydata.data$MYDATA.NAME[i]",gbl.var$mydata.data$MYDATA.NAME[i],"\n")
             if (is.na(gbl.var$large.symbol.list[gbl.var$cur.sample.large])) {
               grid.points(position,
                           gbl.var$mydata.large.data$MYDATA.PVAL[i],
@@ -1013,17 +1013,17 @@ draw.plot.grid.mydata.large <- function(config.var, gbl.var) {
                                     fill = mycolor,
                                     lwd = gbl.var$line.width))
             }
-            #  if (config.var$VERBOSE)  cat("format ",format,"\n")
-            #  if (config.var$VERBOSE)  cat("Sample",gbl.var$cur.sample.large,"\n")
+            #  if (config.var$verbose)  cat("format ",format,"\n")
+            #  if (config.var$verbose)  cat("Sample",gbl.var$cur.sample.large,"\n")
             
-            # if(grepl("REGION", format)[1] ){
-            #    if (config.var$VERBOSE)  cat("format ",format,"\n")
+            # if(grepl("region", format)[1] ){
+            #    if (config.var$verbose)  cat("format ",format,"\n")
             # }
-            if (grepl("REGION", format)[1]){
+            if (grepl("region", format)[1]){
               
-              if(! is.null(config.var$DISP.REGION.LARGE))   {
+              if(! is.null(config.var$disp.region.large))   {
                 region.print <- "FALSE"
-                if(! is.null(config.var$DISP.REGION.LARGE)){
+                if(! is.null(config.var$disp.region.large)){
                   # if(exists("gbl.var$large.split.region[[1]][gbl.var$cur.sample.large])"){
                   #if(!is.null(gbl.var$large.split.region[[1]][gbl.var$cur.sample.large])){
                   if(as.logical(gbl.var$large.split.region[[1]][gbl.var$cur.sample.large])){
@@ -1031,7 +1031,7 @@ draw.plot.grid.mydata.large <- function(config.var, gbl.var) {
                   }
                   
                   if(as.logical(region.print) ){
-                    if (config.var$VERBOSE)  cat("Region",gbl.var$large.split.region[[1]][gbl.var$cur.sample.large],"\n")
+                    if (config.var$verbose)  cat("region",gbl.var$large.split.region[[1]][gbl.var$cur.sample.large],"\n")
                     position.start <- gbl.var$mydata.large.hash.names.start[[name.test]]
                     position.end <- gbl.var$mydata.large.hash.names.end[[name.test]]
                     if(position.start < (gbl.var$min.x - 1)){
@@ -1040,10 +1040,10 @@ draw.plot.grid.mydata.large <- function(config.var, gbl.var) {
                     if(position.end  > (gbl.var$max.x + 1)){
                       position.end <- (gbl.var$max.x + 1)
                     }
-                    if (config.var$VERBOSE)  cat("position.start ",position.start,"\n")
-                    if (config.var$VERBOSE)  cat("position.end ",position.end,"\n")
-                    if (config.var$VERBOSE)  cat("y",gbl.var$mydata.large.data$MYDATA.PVAL[i],"\n")
-                    if (config.var$VERBOSE)  cat("axis.x ", gbl.var$axis.x,"\n")
+                    if (config.var$verbose)  cat("position.start ",position.start,"\n")
+                    if (config.var$verbose)  cat("position.end ",position.end,"\n")
+                    if (config.var$verbose)  cat("y",gbl.var$mydata.large.data$MYDATA.PVAL[i],"\n")
+                    if (config.var$verbose)  cat("axis.x ", gbl.var$axis.x,"\n")
                     grid.lines(x = c(position.start,position.end),
                                y = c(gbl.var$mydata.large.data$MYDATA.PVAL[i],gbl.var$mydata.large.data$MYDATA.PVAL[i]), 
                                default.units = "native", gp = gpar(lty = "solid", lwd = gbl.var$line.width, col=mycolor)) 
@@ -1056,12 +1056,12 @@ draw.plot.grid.mydata.large <- function(config.var, gbl.var) {
       }
     }
     else {
-      stop("Invalid display type: ", config.var$DISP.TYPE, "\n")
+      stop("Invalid display type: ", config.var$disp.type, "\n")
     }
   }
   
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("FINISH DRAW.PLOT.GRID.MYDATA.LARGE\n")
+  if (config.var$verbose)  cat("FINISH DRAW.PLOT.GRID.MYDATA.large\n")
 }
 
 
@@ -1071,7 +1071,7 @@ draw.plot.grid.mydata.large <- function(config.var, gbl.var) {
 draw.plot.cormatrix.plot <- function(config.var, gbl.var) {
   
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("START DRAW.PLOT.CORMATRIX.PLOT\n")
+  if (config.var$verbose)  cat("START DRAW.PLOT.CORMATRIX.PLOT\n")
   
   cormatrix.matrix <- gbl.var$cormatrix.data
   
@@ -1125,13 +1125,13 @@ draw.plot.cormatrix.plot <- function(config.var, gbl.var) {
   mydata.names.pos.x <- (1:gbl.var$mydata.num)/gbl.var$mydata.num
   mydata.names.pos.y <- ((1:gbl.var$mydata.num)/gbl.var$mydata.num - 1/gbl.var$mydata.num)
   
-  if(is.null(config.var$FONT.FACTOR)) {
+  if(is.null(config.var$font.factor)) {
     tmp.font.factor = (gbl.var$cex.factor - 0.5)
   } else {
-    tmp.font.factor = config.var$FONT.FACTOR
+    tmp.font.factor = config.var$font.factor
   }
   
-  if (config.var$DISP.MYDATA.NAMES) {
+  if (config.var$disp.mydata.names) {
     if( length(gbl.var$sorted.mydata.names) < 30) {
       list.name <- paste("   ",gbl.var$sorted.mydata.names)
       name.ref <- paste("   ",gbl.var$sorted.mydata.names[gbl.var$mydata.ref.pos])
@@ -1141,7 +1141,7 @@ draw.plot.cormatrix.plot <- function(config.var, gbl.var) {
     }
     
     rot.name <- -45
-    #if (config.var$CORMATRIX.FORMAT == "RAW") {
+    #if (config.var$cormatrix.format == "raw") {
     # rot.name <- 135
     #}
     mydata.names.cormatrix.sec <- textGrob(rev(list.name),
@@ -1151,7 +1151,7 @@ draw.plot.cormatrix.plot <- function(config.var, gbl.var) {
                                            gp=gpar(cex = tmp.font.factor),
                                            just =  c("left"),
                                            name="mydata.names.cormatrix.sec")
-    if(config.var$DISP.COLOR.REF) {
+    if(config.var$disp.color.ref) {
       #REFERENCE
       mydata.names.cormatrix.sec.ref <- textGrob(rev(name.ref),
                                                  x = seq.x.names[gbl.var$mydata.ref.pos],
@@ -1175,8 +1175,8 @@ draw.plot.cormatrix.plot <- function(config.var, gbl.var) {
                                angle = 67.5,
                                just = c("center", "center"),
                                name = "cormatrix.map.vp")
-  if (config.var$DISP.MYDATA.NAMES) {
-    if(config.var$DISP.COLOR.REF) {
+  if (config.var$disp.mydata.names) {
+    if(config.var$disp.color.ref) {
       cormatrix.map <- gTree(children=gList(image.rect, mydata.names.cormatrix.sec, mydata.names.cormatrix.sec.ref), just=c("center", "bottom"), vp=cormatrix.map.vp, name="cormatrix.map")
     } else {
       cormatrix.map <- gTree(children=gList(image.rect, mydata.names.cormatrix.sec), just=c("center", "bottom"), vp=cormatrix.map.vp, name="cormatrix.map")
@@ -1198,9 +1198,9 @@ draw.plot.cormatrix.plot <- function(config.var, gbl.var) {
   
   grid.draw(gene.map)
   
-  if(config.var$DISP.COLOR.BAR) {
+  if(config.var$disp.color.bar) {
     #DEBUG STATEMENT
-    # if (config.var$VERBOSE)  cat("is.null(cormatrix.key) ", is.null(cormatrix.key), "\n")
+    # if (config.var$verbose)  cat("is.null(cormatrix.key) ", is.null(cormatrix.key), "\n")
     
     grid.draw(cormatrix.key)
   }
@@ -1208,18 +1208,18 @@ draw.plot.cormatrix.plot <- function(config.var, gbl.var) {
   popViewport()
   
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("FINISH DRAW.PLOT.CORMATRIX.PLOT\n")
+  if (config.var$verbose)  cat("FINISH DRAW.PLOT.CORMATRIX.PLOT\n")
 }
 
 #-------------------DRAW LEGEND----------------------------
 draw.legend <- function(config.var, gbl.var) {
   
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("START DRAW.LEGEND\n")
+  if (config.var$verbose)  cat("START DRAW.LEGEND\n")
   
   #DEBUG STATEMENT
-  # if (config.var$VERBOSE)  cat("gbl.var$font.size ", gbl.var$font.size, "\n")
-  if(config.var$DISP.CORMATRIXMAP) {
+  # if (config.var$verbose)  cat("gbl.var$font.size ", gbl.var$font.size, "\n")
+  if(config.var$disp.cormatrixmap) {
     legend.vp <- viewport(x = 0.5, y = -2, height = 1, width = 1, name = "legend.vp")
   }
   else {
@@ -1245,10 +1245,10 @@ draw.legend <- function(config.var, gbl.var) {
     
     
     #--------------- LEGEND FOR REFERENCE
-    #  if (config.var$VERBOSE)  cat("Reference \n")
+    #  if (config.var$verbose)  cat("Reference \n")
     
     #Ensure that labels do not overlap by moving them
-    if(config.var$DISP.CORMATRIXMAP) {
+    if(config.var$disp.cormatrixmap) {
       y.pos <- .8 
       x.pos <- 0.75 
       
@@ -1279,7 +1279,7 @@ draw.legend <- function(config.var, gbl.var) {
     legend.samples.list[[(length(legend.samples.list) + 1)]] <- label.sample.symbol
     
     #All samples
-    # if (config.var$VERBOSE)  cat("All samples \n")
+    # if (config.var$verbose)  cat("All samples \n")
     for(i in 1:samples) {
       if(i > 3) {
         x.pos.sec.row.correction <- -1.5
@@ -1290,7 +1290,7 @@ draw.legend <- function(config.var, gbl.var) {
       label.text <- gbl.var$split.sample.labels[[1]][i]
       
       #Ensure that labels do not overlap by moving them
-      if(config.var$DISP.CORMATRIXMAP) {
+      if(config.var$disp.cormatrixmap) {
         y.pos <- .8 + 0.1 * i  
         x.pos <- 0.75
         
@@ -1324,7 +1324,7 @@ draw.legend <- function(config.var, gbl.var) {
     }
     
     #--------------- LEGEND LARGE DATA
-    if(! is.null(config.var$MYDATA.LARGE.FILE)){
+    if(! is.null(config.var$mydata.large.file)){
       large.samples <- gbl.var$large.samples
       for(i in 1:large.samples) {
         if((samples + i) > 3) {
@@ -1336,7 +1336,7 @@ draw.legend <- function(config.var, gbl.var) {
         label.text <- gbl.var$large.split.sample.labels[[1]][i]
         
         #Ensure that labels do not overlap by moving them
-        if(config.var$DISP.CORMATRIXMAP) {
+        if(config.var$disp.cormatrixmap) {
           y.pos <- .8 + 0.1 * (samples + i ) 
           x.pos <- 0.75
           
@@ -1385,7 +1385,7 @@ draw.legend <- function(config.var, gbl.var) {
   popViewport()
   
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("FINISH DRAW.LEGEND\n")
+  if (config.var$verbose)  cat("FINISH DRAW.LEGEND\n")
 }
 
 #-------------------DRAW MYDATA NAME----------------------------
@@ -1394,17 +1394,17 @@ draw.legend <- function(config.var, gbl.var) {
 draw.plot.grid.mydata.names <- function(config.var, gbl.var) {
   
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("START DRAW.PLOT.GRID.MYDATA.NAMES\n")
+  if (config.var$verbose)  cat("START DRAW.PLOT.GRID.MYDATA.NAMES\n")
   
-  tmp.correction.factor <- gbl.var$equidis.pos[1] * 10^(gbl.var$cur.exp - 9)	* (1 + config.var$CONNECTING.LINES.ADJ)
+  tmp.correction.factor <- gbl.var$equidis.pos[1] * 10^(gbl.var$cur.exp - 9)	* (1 + config.var$connecting.lines.adj)
   
   #DEBUG STATEMENT
-  # if (config.var$VERBOSE)  cat("config.var$DISP.CORMATRIXMAP ", config.var$DISP.CORMATRIXMAP, "\n")
-  if (config.var$VERBOSE)  cat("length(gbl.var$sorted.mydata.names) ", length(gbl.var$sorted.mydata.names), "\n")
-  # if (config.var$VERBOSE)  cat("tmp.correction.factor ", tmp.correction.factor, "\n")
-  # if (config.var$VERBOSE)  cat("gbl.var$axis.y[1] ", gbl.var$axis.y[1], "\n")
+  # if (config.var$verbose)  cat("config.var$disp.cormatrixmap ", config.var$disp.cormatrixmap, "\n")
+  if (config.var$verbose)  cat("length(gbl.var$sorted.mydata.names) ", length(gbl.var$sorted.mydata.names), "\n")
+  # if (config.var$verbose)  cat("tmp.correction.factor ", tmp.correction.factor, "\n")
+  # if (config.var$verbose)  cat("gbl.var$axis.y[1] ", gbl.var$axis.y[1], "\n")
   
-  if(!config.var$DISP.CORMATRIXMAP) {
+  if(!config.var$disp.cormatrixmap) {
     if( length(gbl.var$sorted.mydata.names) < 30) {
       list.name <- paste("   ",gbl.var$sorted.mydata.names)
       name.ref <- paste("   ",gbl.var$sorted.mydata.names[gbl.var$mydata.ref.pos])
@@ -1414,16 +1414,16 @@ draw.plot.grid.mydata.names <- function(config.var, gbl.var) {
     }
     
     rot.name <- 90
-    if (config.var$CORMATRIX.FORMAT == "RAW") {
+    if (config.var$cormatrix.format == "raw") {
       rot.name <- -90
     }
-    if(config.var$IMAGE.SIZE == 3.5) {
+    if(config.var$image.size == 3.5) {
       if( length(list.name) < 30) {
         mydata.names.grob <- textGrob(list.name, x = gbl.var$equidis.pos, y = unit(-8, "char"),
                                       rot=rot.name, default.units = "native",
                                       gp=gpar(fontsize = (gbl.var$font.size - 1)), just=c("left"), name="mydata.names")
         
-        if(config.var$DISP.COLOR.REF) {
+        if(config.var$disp.color.ref) {
           #Ref
           mydata.names.grob.ref <- textGrob(name.ref, x = gbl.var$equidis.pos[gbl.var$mydata.ref.pos], y = unit(-8, "char"),
                                             rot=rot.name, default.units = "native",
@@ -1433,7 +1433,7 @@ draw.plot.grid.mydata.names <- function(config.var, gbl.var) {
         mydata.names.grob <- textGrob(list.name, x = gbl.var$equidis.pos, y = unit(-15, "char"),
                                       rot=rot.name, default.units = "native",
                                       gp=gpar(fontsize = (gbl.var$font.size - 1)), just=c("left"), name="mydata.names")
-        if(config.var$DISP.COLOR.REF) {
+        if(config.var$disp.color.ref) {
           #Ref
           mydata.names.grob.ref <- textGrob(name.ref, x = gbl.var$equidis.pos[gbl.var$mydata.ref.pos], y = unit(-15, "char"),
                                             rot=rot.name, default.units = "native",
@@ -1441,13 +1441,13 @@ draw.plot.grid.mydata.names <- function(config.var, gbl.var) {
         }
       }
       
-    } else if (config.var$IMAGE.SIZE == 7) {
+    } else if (config.var$image.size == 7) {
       if( length(gbl.var$sorted.mydata.names) < 30) {
         mydata.names.grob <- textGrob(list.name, x = gbl.var$equidis.pos, y = unit(-8, "char"),
                                       rot=rot.name, default.units = "native",
                                       gp=gpar(fontsize = (gbl.var$font.size - 2)), just=c("left"), name="mydata.names")
         
-        if(config.var$DISP.COLOR.REF) {        
+        if(config.var$disp.color.ref) {        
           #Ref
           mydata.names.grob.ref <- textGrob(name.ref, x = gbl.var$equidis.pos[gbl.var$mydata.ref.pos], y = unit(-8, "char"),
                                             rot=rot.name, default.units = "native",
@@ -1458,7 +1458,7 @@ draw.plot.grid.mydata.names <- function(config.var, gbl.var) {
                                       rot=rot.name, default.units = "native",
                                       gp=gpar(fontsize = (gbl.var$font.size - 2)), just=c("left"), name="mydata.names")
         
-        if(config.var$DISP.COLOR.REF) {        
+        if(config.var$disp.color.ref) {        
           #Ref
           mydata.names.grob.ref <- textGrob(name.ref, x = gbl.var$equidis.pos[gbl.var$mydata.ref.pos], y = unit(-15, "char"),
                                             rot=rot.name, default.units = "native",
@@ -1468,16 +1468,16 @@ draw.plot.grid.mydata.names <- function(config.var, gbl.var) {
     }
     
     
-    if(config.var$DISP.MYDATA.NAMES) {
+    if(config.var$disp.mydata.names) {
       grid.draw(mydata.names.grob)
-      if(config.var$DISP.COLOR.REF) {
+      if(config.var$disp.color.ref) {
         grid.draw(mydata.names.grob.ref)
       }
     }
   }
   
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("FINISH DRAW.PLOT.GRID.MYDATA.NAMES\n")
+  if (config.var$verbose)  cat("FINISH DRAW.PLOT.GRID.MYDATA.NAMES\n")
 }
 
 #------------------------------------------------------
@@ -1486,37 +1486,39 @@ draw.plot.grid.mydata.names <- function(config.var, gbl.var) {
 #------------- CREATE COLOR BAR ------------------------
 create.color.bar <- function(config.var, gbl.var) {
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("START CREATE COLOR BAR\n")
+  if (config.var$verbose)  cat("START CREATE COLOR BAR\n")
+  
   cormatrix.matrix.ref <-  gbl.var$ref
   cormatrix.matrix <- gbl.var$cormatrix.data
-  if(config.var$USE.COLORS) {
-    if(config.var$CORMATRIX.COLOR.SCHEME == "heat") {
+  cormatrix.pvalue.matrix <- gbl.var$cormatrix.pvalue.data.full
+  if(config.var$use.colors) {
+    if(config.var$cormatrix.color.scheme == "heat") {
       cormatrix.colors <- heat.colors(gbl.var$palette.size)
-    } else if(config.var$CORMATRIX.COLOR.SCHEME == "cm") {
+    } else if(config.var$cormatrix.color.scheme == "cm") {
       cormatrix.colors <- cm.colors(gbl.var$palette.size)
-    } else if(config.var$CORMATRIX.COLOR.SCHEME == "custom") {
-      if(!is.null(config.var$PALETTE.FILE)) {
-        tmp.colors <- read.table(config.var$PALETTE.FILE, as.is=TRUE, header=FALSE, blank.lines.skip = TRUE, fill=TRUE)
+    } else if(config.var$cormatrix.color.scheme == "custom") {
+      if(!is.null(config.var$palette.file)) {
+        tmp.colors <- read.table(config.var$palette.file, as.is=TRUE, header=FALSE, blank.lines.skip = TRUE, fill=TRUE)
         gbl.var$palette.size <- length(tmp.colors$V1)
         custom.colors <- paste("#", tmp.colors$V1, sep="")
         cormatrix.colors <- rev(custom.colors)
       }
       else {
-        stop("PALETTE.FILE must be specified\n")
+        stop("palette.file must be specified\n")
       }
     }
-    else if(config.var$CORMATRIX.COLOR.SCHEME == "topo") {
+    else if(config.var$cormatrix.color.scheme == "topo") {
       cormatrix.colors <- topo.colors(gbl.var$palette.size)
     }
-    else if(config.var$CORMATRIX.COLOR.SCHEME == "gray") {
+    else if(config.var$cormatrix.color.scheme == "gray") {
       cormatrix.colors <- gray.colors(gbl.var$palette.size)
-    } else if(config.var$CORMATRIX.COLOR.SCHEME == "bluetored"){
+    } else if(config.var$cormatrix.color.scheme == "bluetored"){
       cormatrix.colors <- colorRampPalette(c("blue","red"))(gbl.var$mydata.num)
-    } else if(config.var$CORMATRIX.COLOR.SCHEME == "bluewhitered"){
+    } else if(config.var$cormatrix.color.scheme == "bluewhitered"){
       cormatrix.colors <- colorRampPalette(c("blue","white","red"))(gbl.var$mydata.num)
     }
     else {
-      stop("Invalid color scheme: ", config.var$CORMATRIX.COLOR.SCHEME, "\n")
+      stop("Invalid color scheme: ", config.var$cormatrix.color.scheme, "\n")
     }
   }
   else {
@@ -1526,7 +1528,7 @@ create.color.bar <- function(config.var, gbl.var) {
   color.bar.colors <- c(rep(NA, gbl.var$palette.size), cormatrix.colors[gbl.var$palette.size:1])
   
   #DEBUG STATEMENT
-  # if (config.var$VERBOSE)  cat("color.bar.colors ", color.bar.colors, "\n")
+  # if (config.var$verbose)  cat("color.bar.colors ", color.bar.colors, "\n")
   #height=0.125
   color.bar <- rectGrob(x=rep(seq(1:gbl.var$palette.size)/gbl.var$palette.size, 2),
                         y=rep(seq(1:2)/2, each=gbl.var$palette.size),
@@ -1545,7 +1547,7 @@ create.color.bar <- function(config.var, gbl.var) {
   cormatrix.key.vp <- viewport(x=0.2, y=-0.03, width = 0.25, height = 0.25)
   cormatrix.key <- gTree(children=gList(color.bar, color.bar.labels), name = "cormatrix.key", vp=cormatrix.key.vp)
   
-  if(config.var$DISP.PHYS.DIST) {
+  if(config.var$disp.phys.dist) {
     if(gbl.var$total.dist > 1000) {
       map.label.text.distance <- paste("Physical Distance: ", round(gbl.var$total.dist/1000, 1), " kb", sep="")
     } else {
@@ -1555,14 +1557,14 @@ create.color.bar <- function(config.var, gbl.var) {
     map.label.text.distance <- " "
   }
   
-  if (config.var$CORMATRIX.METHOD == "spearman") {
-    map.label.text.ldtype <- "Correlation Matrix Map Type: spearman"
-  } else if (config.var$CORMATRIX.METHOD == "pearson") {
-    map.label.text.ldtype <- "Correlation Matrix Map Type: pearson"
-  } else if (config.var$CORMATRIX.METHOD == "kendall") {
-    map.label.text.ldtype <- "Correlation Matrix Map Type: kendall"
+  if (config.var$cormatrix.method == "spearman") {
+    map.label.text.ldtype <- "Correlation Matrix Map Type: Spearman"
+  } else if (config.var$cormatrix.method == "pearson") {
+    map.label.text.ldtype <- "Correlation Matrix Map Type: Pearson"
+  } else if (config.var$cormatrix.method == "kendall") {
+    map.label.text.ldtype <- "Correlation Matrix Map Type: Kendall"
   } else {
-    stop("Invalid CORMATRIX metric : ", config.var$CORMATRIX.METHOD, "\n")
+    stop("Invalid CORMATRIX metric : ", config.var$cormatrix.method, "\n")
   }
   
   map.label.distance <- textGrob(map.label.text.distance,
@@ -1586,25 +1588,57 @@ create.color.bar <- function(config.var, gbl.var) {
   color.intervals <- seq(-1,1,by=intervals)
   # cat(length(color.intervals),"\n")
   # cat(length(cormatrix.colors),"\n")
+  #Create the color of correlation matrix
   tmp.color.cut <- as.character(cut(cormatrix.matrix, color.intervals, labels=as.character(cormatrix.colors)))
   color.cut.ref <- as.character(cut(cormatrix.matrix.ref, color.intervals, labels=as.character(cormatrix.colors)))
   
   
   tmp.vector <- NULL
-  
   for(i in seq(0, matrix.rows - 1)) {
     for(j in seq(matrix.rows, 1, by =-1)) {
       tmp.vector <- c(tmp.vector, (matrix.rows*j-i))
     }
   }
   
+  #List of case to put white
+  blank.vector <- NULL
+  for(i in seq(0, matrix.rows -1)) {
+    for(j in seq(1, (matrix.rows-i + 1), by =1)) {
+      blank.vector <- c(blank.vector, (matrix.rows*j-i))
+    }
+  }
+  
   color.cut <- rep(NULL, matrix.rows^2)
   
   for(i in 1:matrix.rows^2) {
-    color.cut[i] <- tmp.color.cut[tmp.vector[i]]
+    if(config.var$cormatrix.format == "raw" | 
+         config.var$cormatrix.format == "raw_rev" |
+         config.var$cormatrix.format == "DTR_RAW") {
+      #Define row and colunm number from i
+      r <- (as.integer(i/matrix.rows))
+      r.tmp <- i/matrix.rows
+      if(r.tmp%%1==0){
+        if (config.var$verbose)  cat("integer")
+      } else {
+        r <- r + 1
+      }
+      c <- i - (r-1)*matrix.rows
+      v<- cormatrix.pvalue.matrix[r,c]
+      if (config.var$verbose)  cat ("Pvalue in ",i,":",r,"-",c," is ",v,"\n")
+      if( cormatrix.pvalue.matrix[r,c] <= config.var$cormatrix.sig.level) {
+        color.cut[i] <- tmp.color.cut[tmp.vector[i]]
+      } else if(tmp.vector[i] %in% blank.vector){
+        #it is blank value
+        color.cut[i] <- tmp.color.cut[tmp.vector[i]]
+      } else {
+        color.cut[i] <- "ghostwhite"
+      }
+    } else {
+      color.cut[i] <- tmp.color.cut[tmp.vector[i]]
+    }
   }
   
-  if (config.var$VERBOSE)  cat("FINISH CREATE.COLOR.BAR\n")
+  if (config.var$verbose)  cat("FINISH CREATE.COLOR.BAR\n")
   
   return(list(color.cut = color.cut, color.cut.ref =color.cut.ref, cormatrix.key = cormatrix.key, map.label.ldtype = map.label.ldtype, map.label.distance = map.label.distance))
 }
@@ -1615,17 +1649,17 @@ create.color.bar <- function(config.var, gbl.var) {
 create.color.list <- function(config.var,gbl.var) {
   
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("START CREATE.COLOR.LIST\n")
+  if (config.var$verbose)  cat("START CREATE.color.list\n")
   
-  if(config.var$USE.COLORS) {
+  if(config.var$use.colors) {
     tmp.color.list <-  c("red", "blue", "green", "black", "orange")
   }
   else {
     tmp.color.list <-  c("grey0", "grey20", "grey40", "grey60", "grey80")
   }
   
-  if(!is.null(config.var$COLOR.LIST)) {
-    split.tmp.color.list <- strsplit(config.var$COLOR.LIST, ",")
+  if(!is.null(config.var$color.list)) {
+    split.tmp.color.list <- strsplit(config.var$color.list, ",")
     
     if(gbl.var$mydata.samples != length(split.tmp.color.list[[1]])) {
       stop("The color list must have ", gbl.var$mydata.samples, " colors separated by commas without spaces.\n")
@@ -1634,12 +1668,12 @@ create.color.list <- function(config.var,gbl.var) {
     if(gbl.var$mydata.samples <= 5) {
       split.tmp.color.list <- list(head(tmp.color.list, gbl.var$mydata.samples))
     } else {
-      stop("coMET includes a default set of colors for 5 samples. For more samples, please specify COLOR.LIST\n")
+      stop("coMET includes a default set of colors for 5 samples. For more samples, please specify color.list\n")
     }
   }
   
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("FINISH CREATE.COLOR.LIST\n")
+  if (config.var$verbose)  cat("FINISH CREATE.color.list\n")
   
   return(split.tmp.color.list)
 }
@@ -1650,18 +1684,17 @@ create.color.list <- function(config.var,gbl.var) {
 create.color.list.large <- function(config.var,gbl.var) {
   
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("START CREATE.COLOR.LIST.LARGE\n")
+  if (config.var$verbose)  cat("START CREATE.color.list.large\n")
   
-  if(config.var$USE.COLORS) {
+  if(config.var$use.colors) {
     tmp.color.list <-  c("red", "blue", "green", "black", "orange")
   }
   else {
     tmp.color.list <-  c("grey0", "grey20", "grey40", "grey60", "grey80")
   }
   
-  if(!is.null(config.var$COLOR.LIST.LARGE)) {
-    large.split.tmp.color.list <- strsplit(config.var$COLOR.LIST.LARGE, ",")
-    
+  if(!is.null(config.var$color.list.large)) {
+    large.split.tmp.color.list <- strsplit(config.var$color.list.large, ",")
     if(gbl.var$large.mydata.samples != length(large.split.tmp.color.list[[1]])) {
       stop("The color list must have ", gbl.var$large.mydata.samples, " colors separated by commas without spaces.\n")
     }
@@ -1669,12 +1702,12 @@ create.color.list.large <- function(config.var,gbl.var) {
     if(gbl.var$large.mydata.samples <= 5) {
       large.split.tmp.color.list <- list(head(tmp.color.list, gbl.var$large.mydata.samples))
     } else {
-      stop("coMET includes a default set of colors for 5 samples. For more samples, please specify COLOR.LIST.LARGE\n")
+      stop("coMET includes a default set of colors for 5 samples. For more samples, please specify color.list.large\n")
     }
   }
   
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("FINISH CREATE.COLOR.LIST.LARGE\n")
+  if (config.var$verbose)  cat("FINISH CREATE.color.list.large\n")
   
   return(large.split.tmp.color.list)
 }
@@ -1684,12 +1717,12 @@ create.color.list.large <- function(config.var,gbl.var) {
 create.symbol.list <- function(config.var, split.color.list, gbl.var) {
   
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("START CREATE.SYMBOL.LIST\n")
+  if (config.var$verbose)  cat("START CREATE.SYMBOL.LIST\n")
   
   tmp.symbol.list <- c("circle-fill", "square-fill", "diamond-fill", "triangle-fill", "circle")
   
-  if(!is.na(config.var$SYMBOLS)) {
-    split.tmp.symbol.list <- strsplit(config.var$SYMBOLS, ",")
+  if(!is.na(config.var$symbols)) {
+    split.tmp.symbol.list <- strsplit(config.var$symbols, ",")
     
     if(gbl.var$mydata.samples != length(split.tmp.symbol.list[[1]])) {
       stop("The symbol list must have ", gbl.var$mydata.samples, " symbol(s) separated by commas without spaces.\n")
@@ -1698,7 +1731,7 @@ create.symbol.list <- function(config.var, split.color.list, gbl.var) {
     if(gbl.var$mydata.samples <= 5) {
       split.tmp.symbol.list <- list(head(tmp.symbol.list, gbl.var$mydata.samples))
     } else {
-      stop("coMET includes a default set of colors for 5 samples. For more samples, please specify SYMBOLS\n")
+      stop("coMET includes a default set of colors for 5 samples. For more samples, please specify symbols\n")
     }
   }
   
@@ -1725,12 +1758,12 @@ create.symbol.list <- function(config.var, split.color.list, gbl.var) {
   fill.pos <- grep("fill", split.tmp.symbol.list[[1]], ignore.case = TRUE)
   
   #DEBUG STATEMENT
-  # if (config.var$VERBOSE)  cat("fill.pos ", fill.pos, "\n")
+  # if (config.var$verbose)  cat("fill.pos ", fill.pos, "\n")
   
   split.fill.list[[1]][fill.pos] <- split.color.list[[1]][fill.pos]
   
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("FINISH CREATE.SYMBOL.LIST\n")
+  if (config.var$verbose)  cat("FINISH CREATE.SYMBOL.LIST\n")
   
   return(list(split.symbol.list = split.symbol.list, split.fill.list = split.fill.list))
 }
@@ -1740,12 +1773,12 @@ create.symbol.list <- function(config.var, split.color.list, gbl.var) {
 create.symbol.list.large <- function(config.var, large.split.color.list, gbl.var) {
   
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("START CREATE.SYMBOL.LIST.LARGE\n")
+  if (config.var$verbose)  cat("START CREATE.SYMBOL.LIST.large\n")
   
   large.tmp.symbol.list <- c("circle-fill", "square-fill", "diamond-fill", "triangle-fill", "circle")
   
-  if(!is.na(config.var$SYMBOLS.LARGE)) {
-    large.split.tmp.symbol.list <- strsplit(config.var$SYMBOLS.LARGE, ",")
+  if(!is.na(config.var$symbols.large)) {
+    large.split.tmp.symbol.list <- strsplit(config.var$symbols.large, ",")
     
     if(gbl.var$large.mydata.samples != length(large.split.tmp.symbol.list[[1]])) {
       stop("The symbol list must have ", gbl.var$large.mydata.samples, " symbol(s) separated by commas without spaces.\n")
@@ -1754,7 +1787,7 @@ create.symbol.list.large <- function(config.var, large.split.color.list, gbl.var
     if(gbl.var$large.mydata.samples <= 5) {
       large.split.tmp.symbol.list <- list(head(large.tmp.symbol.list, gbl.var$large.mydata.samples))
     } else {
-      stop("coMET includes a default set of colors for 5 samples. For more samples, please specify SYMBOLS\n")
+      stop("coMET includes a default set of colors for 5 samples. For more samples, please specify symbols\n")
     }
   }
   
@@ -1781,12 +1814,12 @@ create.symbol.list.large <- function(config.var, large.split.color.list, gbl.var
   large.fill.pos <- grep("fill", large.split.tmp.symbol.list[[1]], ignore.case = TRUE)
   
   #DEBUG STATEMENT
-  # if (config.var$VERBOSE)  cat("large.fill.pos ", large.fill.pos, "\n")
+  # if (config.var$verbose)  cat("large.fill.pos ", large.fill.pos, "\n")
   
   large.split.fill.list[[1]][large.fill.pos] <- large.split.color.list[[1]][large.fill.pos]
   
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("FINISH CREATE.SYMBOL.LIST.LARGE\n")
+  if (config.var$verbose)  cat("FINISH CREATE.SYMBOL.LIST.large\n")
   
   return(list(large.split.symbol.list = large.split.symbol.list, large.split.fill.list = large.split.fill.list))
 }
@@ -1795,10 +1828,10 @@ create.symbol.list.large <- function(config.var, large.split.color.list, gbl.var
 #-------------------DRAW GENES NAMES for WEB PAGE----------------------------
 draw.name.genes.web <- function(config.var,gbl.var) {
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("START DRAW.NAME.GENES.WEB\n")
+  if (config.var$verbose)  cat("START DRAW.NAME.GENES.WEB\n")
   
   #DEBUG STATEMENT
-  # if (config.var$VERBOSE)  cat("gbl.var$font.size ", gbl.var$font.size, "\n")
+  # if (config.var$verbose)  cat("gbl.var$font.size ", gbl.var$font.size, "\n")
   
   popViewport()
   top.vp <- gbl.var$top.vp
@@ -1815,7 +1848,7 @@ draw.name.genes.web <- function(config.var,gbl.var) {
                                           just=c("left", "top"),
                                           name = "gene.namen.vp.nocormatrixmap")
   
-  if(config.var$DISP.CORMATRIXMAP) {
+  if(config.var$disp.cormatrixmap) {
     pushViewport(vpTree(top.vp, vpList(gene.name.vp.cormatrixmap)))
     gene.name.vp <- gene.name.vp.cormatrixmap
   }
@@ -1826,7 +1859,7 @@ draw.name.genes.web <- function(config.var,gbl.var) {
   
   #-------------------NAME of GENES BEGINS-----------------------
   
-  name.genes <- genesNameENSEMBL(config.var$GENOME,gbl.var$mydata.chr,gbl.var$min.x,gbl.var$max.x,config.var$DATASET.GENE)
+  name.genes <- genesNameENSEMBL(config.var$genome,gbl.var$mydata.chr,gbl.var$min.x,gbl.var$max.x,config.var$dataset.gene)
   
   legend.name.genes.list <- NULL
   if( !is.null(name.genes)) {
@@ -1834,11 +1867,11 @@ draw.name.genes.web <- function(config.var,gbl.var) {
     if(nrow(name.genes) <= 10) {
       
       #All name.genes
-      # if (config.var$VERBOSE)  cat("All name.genes \n")
+      # if (config.var$verbose)  cat("All name.genes \n")
       for(i in 1:nrow(name.genes)) {
         
         label.text <- name.genes[i,2]
-        #  if (config.var$VERBOSE)  cat("Gene",i,":", label.text,"\n")
+        #  if (config.var$verbose)  cat("Gene",i,":", label.text,"\n")
         #Ensure that labels do not overlap by moving them
         
         y.pos <- 1.8 - 0.3 * ( i - 1) 
@@ -1868,7 +1901,7 @@ draw.name.genes.web <- function(config.var,gbl.var) {
     popViewport()
   }
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("FINISH DRAW.NAME.GENES.WEB\n")
+  if (config.var$verbose)  cat("FINISH DRAW.NAME.GENES.WEB\n")
   
   return(gbl.var)
 }
@@ -1876,10 +1909,10 @@ draw.name.genes.web <- function(config.var,gbl.var) {
 #-------------------DRAW NAMES OF TRACKS for WEB PAGE----------------------------
 draw.name.tracks.web <- function(config.var,gbl.var) {
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("START CREATE.NAME.TRACKS.WEB\n")
+  if (config.var$verbose)  cat("START CREATE.NAME.TRACKS.WEB\n")
   
   #DEBUG STATEMENT
-  # if (config.var$VERBOSE)  cat("gbl.var$font.size ", gbl.var$font.size, "\n")
+  # if (config.var$verbose)  cat("gbl.var$font.size ", gbl.var$font.size, "\n")
   
   popViewport()
   top.vp <- gbl.var$top.vp
@@ -1899,8 +1932,8 @@ draw.name.tracks.web <- function(config.var,gbl.var) {
                                                  layout.pos.col = 1,
                                                  name = "name.tracks.vp.nocormatrixmap.nopval")
   
-  if(config.var$DISP.CORMATRIXMAP) {
-    if(config.var$DISP.PVALUEPLOT) {
+  if(config.var$disp.cormatrixmap) {
+    if(config.var$disp.pvalueplot) {
       pushViewport(vpTree(top.vp, vpList(name.tracks.vp.cormatrixmap)))
       name.tracks.vp <- name.tracks.vp.cormatrixmap
     } else {
@@ -1919,11 +1952,11 @@ draw.name.tracks.web <- function(config.var,gbl.var) {
   
   y.label.pos <- c(1.25,0, -0.35,-0.85,-1.15,-1.45,-1.75)
   num.tracks <- 1
-  if(config.var$IMAGE.SIZE == 3.5) {
+  if(config.var$image.size == 3.5) {
     #All tracks cf order define via create.tracks.web
-    # if (config.var$VERBOSE)  cat("All tracks \n")
+    # if (config.var$verbose)  cat("All tracks \n")
     y.label.pos <- c(1.25,0.15, -0.15,-0.75,-1.25,-1.65,-1.95)
-  } else if(config.var$IMAGE.SIZE == 7) {
+  } else if(config.var$image.size == 7) {
     y.label.pos <- c(1.25,0,30, -0.1, -0.7, -1.3, -1.7, -2.1)
   }
   #--- GENES ENSEMBL 
@@ -2174,7 +2207,7 @@ draw.name.tracks.web <- function(config.var,gbl.var) {
     num.tracks <- num.tracks + 1
   }
   
-
+  
   
   class(legend.tracks.list) <- c("gList")
   
@@ -2189,7 +2222,7 @@ draw.name.tracks.web <- function(config.var,gbl.var) {
   popViewport()
   
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("FINISH DRAW.NAME.TRACKS.WEB\n")
+  if (config.var$verbose)  cat("FINISH DRAW.NAME.TRACKS.WEB\n")
   
   return(gbl.var)
 }
@@ -2197,9 +2230,9 @@ draw.name.tracks.web <- function(config.var,gbl.var) {
 #------------------ CREATE TRACKS for USER ------------------------------
 create.tracks.user <- function(config.var,gbl.var){
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("START CREATE.TRACKS.USER\n")
+  if (config.var$verbose)  cat("START CREATE.TRACKS.USER\n")
   
-  if(!is.null(config.var$BIOFEAT.USER.FILE)){
+  if(!is.null(config.var$biofeat.user.file)){
     split.biofeature.data.user.file <- gbl.var$split.biofeature.data.user.file
     split.biofeature.data.user.type <- gbl.var$split.biofeature.data.user.type
     split.biofeature.data.user.type.plot <- gbl.var$split.biofeature.data.user.type.plot
@@ -2213,13 +2246,13 @@ create.tracks.user <- function(config.var,gbl.var){
       cur.biofeat.data <- split.biofeature.data.user.file[[1]][i]
       cur.biofeat.type <- split.biofeature.data.user.type[[1]][i]
       if(cur.biofeat.type == "GeneRegion"){
-        track.biofeat <-  GeneRegionTrack(range=cur.biofeat.data, genome=config.var$GENOME, chromosome=gbl.var$mydata.chr)
+        track.biofeat <-  GeneRegionTrack(range=cur.biofeat.data, genome=config.var$genome, chromosome=gbl.var$mydata.chr)
       }else if (cur.biofeat.type == "Annotation") {
-        track.biofeat <-  AnnotationTrack(range=cur.biofeat.data, genome=config.var$GENOME, chromosome=gbl.var$mydata.chr)
+        track.biofeat <-  AnnotationTrack(range=cur.biofeat.data, genome=config.var$genome, chromosome=gbl.var$mydata.chr)
       }else if (cur.biofeat.type == "DATA") {
         num.data <- num.data + 1
         cur.biofeat.type.plot <- split.biofeature.data.user.type.plot[[1]][num.data]
-        track.biofeat <-  DataTrack(range=cur.biofeat.data, genome=config.var$GENOME, type=cur.biofeat.type.plot, chromosome=gbl.var$mydata.chr)
+        track.biofeat <-  DataTrack(range=cur.biofeat.data, genome=config.var$genome, type=cur.biofeat.type.plot, chromosome=gbl.var$mydata.chr)
       }else {
         stop("TYPE of TRACK UNKNOWN \n")
       }
@@ -2234,7 +2267,7 @@ create.tracks.user <- function(config.var,gbl.var){
   }
   
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("FINISH CREATE.TRACKS.USER\n")
+  if (config.var$verbose)  cat("FINISH CREATE.TRACKS.USER\n")
   
   return(gbl.var)
   
@@ -2244,12 +2277,12 @@ create.tracks.user <- function(config.var,gbl.var){
 #-------------------CREATE TRACKS for WEB PAGE----------------------------
 create.tracks.web <- function(config.var,gbl.var) {
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("START CREATE.TRACKS.WEB\n")
+  if (config.var$verbose)  cat("START CREATE.TRACKS.WEB\n")
   
   
   listtracks_gviz <-list()
-  # if (config.var$VERBOSE)  cat("test",is.hash(gbl.var$split.list.tracks))
-  #---- Genome Axis 
+  # if (config.var$verbose)  cat("test",is.hash(gbl.var$split.list.tracks))
+  #---- genome Axis 
   if(has.key("genomeAxis", gbl.var$split.list.tracks)) {
     gtrack <- GenomeAxisTrack()
     
@@ -2262,7 +2295,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #--- GENES ENSEMBL
   if(has.key("geneENSEMBL", gbl.var$split.list.tracks)) {
-    ENSEMBLtrack <- genesENSEMBL(config.var$GENOME,gbl.var$mydata.chr,
+    ENSEMBLtrack <- genesENSEMBL(config.var$genome,gbl.var$mydata.chr,
                                  gbl.var$min.x,gbl.var$max.x,showId=TRUE)
     
     if(length(listtracks_gviz) == 0) {
@@ -2274,7 +2307,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #--- transcript ENSEMBL
   if(has.key("transcriptENSEMBL",gbl.var$split.list.tracks)) {
-    tENSEMBLtrack <- transcriptENSEMBL(config.var$GENOME,gbl.var$mydata.chr
+    tENSEMBLtrack <- transcriptENSEMBL(config.var$genome,gbl.var$mydata.chr
                                        ,gbl.var$min.x,gbl.var$max.x,showId=TRUE)
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(tENSEMBLtrack)
@@ -2285,7 +2318,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #--- gene UCSC
   if(has.key("genesUCSC",gbl.var$split.list.tracks)) {
-    dnasetrack<-knownGenesUCSC(config.var$GENOME,gbl.var$mydata.chr,gbl.var$min.x,
+    dnasetrack<-knownGenesUCSC(config.var$genome,gbl.var$mydata.chr,gbl.var$min.x,
                                gbl.var$max.x,showId=TRUE)
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(dnasetrack)
@@ -2296,7 +2329,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #------ xeno ref
   if(has.key("xenogenesUCSC",gbl.var$split.list.tracks) ){
-    gctrack <-xenorefGenesUCSC(config.var$GENOME,gbl.var$mydata.chr,gbl.var$min.x,
+    gctrack <-xenorefGenesUCSC(config.var$genome,gbl.var$mydata.chr,gbl.var$min.x,
                                gbl.var$max.x,showId=TRUE)
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(gctrack)
@@ -2307,7 +2340,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #--- CG Island
   if(has.key("CGI",gbl.var$split.list.tracks)) {
-    cgitrack<-cpgIslandsUCSC(config.var$GENOME,gbl.var$mydata.chr,gbl.var$min.x,gbl.var$max.x)
+    cgitrack<-cpgIslandsUCSC(config.var$genome,gbl.var$mydata.chr,gbl.var$min.x,gbl.var$max.x)
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(cgitrack)
     } else {
@@ -2317,10 +2350,10 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #--- ChromatinHMM
   if(has.key("ChromHMM",gbl.var$split.list.tracks)) {
-    chromatintrack <- chromatinHMMAll(config.var$GENOME,gbl.var$mydata.chr,
+    chromatintrack <- chromatinHMMAll(config.var$genome,gbl.var$mydata.chr,
                                       gbl.var$min.x,gbl.var$max.x,
                                       gbl.var$mySession,track.name="Broad ChromHMM",
-                                      pattern=config.var$PATTERN.REGULATION)
+                                      pattern=config.var$pattern.regulation)
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(chromatintrack)
     } else {
@@ -2330,10 +2363,10 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #--- Broad Histone
   if(has.key("BroadHistone",gbl.var$split.list.tracks)) {
-    chromatintrack <- HistoneAll(config.var$GENOME,gbl.var$mydata.chr,
+    chromatintrack <- HistoneAll(config.var$genome,gbl.var$mydata.chr,
                                  gbl.var$min.x,gbl.var$max.x,
                                  gbl.var$mySession,track.name="Broad histone",
-                                 pattern=config.var$PATTERN.REGULATION)
+                                 pattern=config.var$pattern.regulation)
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(chromatintrack)
     } else {
@@ -2343,7 +2376,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #--- DNAse
   if(has.key("DNAse",gbl.var$split.list.tracks)) {
-    dnasetrack<-DNAseUCSC(config.var$GENOME,gbl.var$mydata.chr,gbl.var$min.x,
+    dnasetrack<-DNAseUCSC(config.var$genome,gbl.var$mydata.chr,gbl.var$min.x,
                           gbl.var$max.x,gbl.var$mySession)
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(dnasetrack)
@@ -2355,7 +2388,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #---- Regulation
   if(has.key("RegENSEMBL",gbl.var$split.list.tracks)) {
-    regtrack<-regulationBiomart(config.var$GENOME,gbl.var$mydata.chr,gbl.var$min.x,gbl.var$max.x)
+    regtrack<-regulationBiomart(config.var$genome,gbl.var$mydata.chr,gbl.var$min.x,gbl.var$max.x)
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(regtrack)
     } else {
@@ -2399,7 +2432,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #---- SNP
   if(has.key("SNP",gbl.var$split.list.tracks) ){
-    snptrack <- snpLocationsUCSC(config.var$GENOME,gbl.var$mydata.chr,gbl.var$min.x,
+    snptrack <- snpLocationsUCSC(config.var$genome,gbl.var$mydata.chr,gbl.var$min.x,
                                  gbl.var$max.x,config.var$VERSION.DBSNP)
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(snptrack)
@@ -2410,7 +2443,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #------ ISCA
   if(has.key("ISCA",gbl.var$split.list.tracks) ){
-    iscatrack <-ISCATrack(config.var$GENOME,gbl.var$mydata.chr,gbl.var$min.x,gbl.var$max.x,
+    iscatrack <-ISCATrack(config.var$genome,gbl.var$mydata.chr,gbl.var$min.x,gbl.var$max.x,
                           gbl.var$mySession, table.name="iscaPathogenic",showId=FALSE)
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(iscatrack)
@@ -2422,7 +2455,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #------ COSMIC
   if(has.key("COSMIC",gbl.var$split.list.tracks) ){
-    cosmictrack <-COSMICTrack(config.var$GENOME,gbl.var$mydata.chr,
+    cosmictrack <-COSMICTrack(config.var$genome,gbl.var$mydata.chr,
                               gbl.var$min.x,gbl.var$max.x,showId=FALSE)
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(cosmictrack)
@@ -2433,7 +2466,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #------ GAD
   if(has.key("GAD",gbl.var$split.list.tracks) ){
-    iscatrack <-GADTrack(config.var$GENOME,gbl.var$mydata.chr,gbl.var$min.x,gbl.var$max.x,
+    iscatrack <-GADTrack(config.var$genome,gbl.var$mydata.chr,gbl.var$min.x,gbl.var$max.x,
                          showId=FALSE)
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(iscatrack)
@@ -2444,7 +2477,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #------ clinic Variant
   if(has.key("ClinVar",gbl.var$split.list.tracks) ){
-    clinVariant<-ClinVarMainTrack(config.var$GENOME,gbl.var$mydata.chr,gbl.var$min.x,
+    clinVariant<-ClinVarMainTrack(config.var$genome,gbl.var$mydata.chr,gbl.var$min.x,
                                   gbl.var$max.x)
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(clinVariant)
@@ -2454,7 +2487,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   }
   
   if(has.key("ClinVarCNV",gbl.var$split.list.tracks) ){
-    clinCNV<-ClinVarCnvTrack(config.var$GENOME,gbl.var$mydata.chr,gbl.var$min.x,gbl.var$max.x)
+    clinCNV<-ClinVarCnvTrack(config.var$genome,gbl.var$mydata.chr,gbl.var$min.x,gbl.var$max.x)
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(clinCNV)
     } else {
@@ -2464,7 +2497,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #------ GWAS Variant
   if(has.key("GWAS",gbl.var$split.list.tracks) ){
-    gwastrack <-GWASTrack(config.var$GENOME,gbl.var$mydata.chr,gbl.var$min.x,gbl.var$max.x)
+    gwastrack <-GWASTrack(config.var$genome,gbl.var$mydata.chr,gbl.var$min.x,gbl.var$max.x)
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(gwastrack)
     } else {
@@ -2474,7 +2507,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #------ GeneReviews
   if(has.key("GeneReviews",gbl.var$split.list.tracks) ){
-    geneRtrack <-GeneReviewsTrack(config.var$GENOME,gbl.var$mydata.chr,gbl.var$min.x,
+    geneRtrack <-GeneReviewsTrack(config.var$genome,gbl.var$mydata.chr,gbl.var$min.x,
                                   gbl.var$max.x)
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(geneRtrack)
@@ -2485,7 +2518,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #------ GC content
   if(has.key("GCcontent",gbl.var$split.list.tracks) ){
-    gctrack <-gcContent(config.var$GENOME,gbl.var$mydata.chr,gbl.var$min.x,
+    gctrack <-gcContent(config.var$genome,gbl.var$mydata.chr,gbl.var$min.x,
                         gbl.var$max.x)
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(gctrack)
@@ -2497,7 +2530,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   
   #------ BioUSER
-  if(!is.null(config.var$BIOFEAT.USER.FILE)){
+  if(!is.null(config.var$biofeat.user.file)){
     if(length(gbl.var$listtracks_user) == 0) {
       listtracks_gviz <- gbl.var$listtracks_user
     } else {
@@ -2507,8 +2540,8 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #------ Repeat element 
   if(has.key("RepeatElt",gbl.var$split.list.tracks) ){
-    reptrack <-RepeatMaskerTrack(config.var$GENOME,gbl.var$mydata.chr,gbl.var$min.x,
-                        gbl.var$max.x,showId=TRUE)
+    reptrack <-RepeatMaskerTrack(config.var$genome,gbl.var$mydata.chr,gbl.var$min.x,
+                                 gbl.var$max.x,showId=TRUE)
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(reptrack)
     } else {
@@ -2517,7 +2550,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   }
   
   
-  #   if (config.var$ZOOM) {
+  #   if (config.var$zoom) {
   #     listtracks_gviz=c(list(tENSEMBLtrack,cgitrack),chromatintrack,dnasetrack,regtrack,snptrack)
   #   }else {
   #     listtracks_gviz=c(list(ENSEMBLtrack,cgitrack),chromatintrack,dnasetrack,regtrack,snptrack)
@@ -2527,7 +2560,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   gbl.var$listtracks_gviz <- listtracks_gviz
   
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("FINISH CREATE.TRACKS.WEB\n")
+  if (config.var$verbose)  cat("FINISH CREATE.TRACKS.WEB\n")
   
   return(gbl.var)
   

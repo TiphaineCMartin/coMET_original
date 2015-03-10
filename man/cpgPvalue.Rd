@@ -12,27 +12,31 @@ cpgPvalue(cprange, data, chr, start, end, typefunction, title)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-\item{cprange}{
+    \item{cprange}{
 Range to visualise
 }
-  \item{data}{
+    \item{data}{
 data to analyse
 }
- \item{chr}{
+    \item{chr}{
 the chromosome of interest
 }
-  \item{start}{
+    \item{start}{
 the first position of region of interest (the smallest value)
 }
-  \item{end}{
+    \item{end}{
 the last position of region of interest (the biggest value)
 }
-  \item{typefunction}{
+    \item{typefunction}{
     Type of function to visualise the data
 }
-  \item{title}{
- Name of tracks
+    \item{title}{
+    Name of tracks
 }
+}
+
+\value{
+the object DataTrack of Gviz
 }
 
 \author{

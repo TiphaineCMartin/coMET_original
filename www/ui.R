@@ -11,7 +11,7 @@ shinyUI(fluidPage(
       p(span("You need to load a file", style = "color:red")),
       p("Example file:",a(href="http://comet.epigen.kcl.ac.uk:3838/cyp1b1_infofile.txt", "cyp1b1_infofile.txt", target="_blank")),
    
-      fileInput('datafile', 'Choose info file to upload (mandatory) :',
+      fileInput('datafile', 'Choose info file to upload (mandatory, max 100 omic features) :',
                 accept=c('text/csv', 
                          'text/comma-separated-values,
 		text/plain', 
@@ -23,18 +23,18 @@ shinyUI(fluidPage(
                        p(span("You need to define your format", style = "color:red")),
                        selectInput("dataformat", "Format of data file:",
                                    c(" "="NULL",
-                                     "Site" = "SITE",
-                                     "Region" = "REGION",
-                                     "Site with direction values" = "SITE_ASSO",
-                                     "Region with directions values" = "REGION_ASSO")),
+                                     "site" = "site",
+                                     "region" = "region",
+                                     "Site with direction values" = "site_asso",
+                                     "Region with directions values" = "region_asso")),
                        
-                       conditionalPanel(condition = "input.dataformat == 'SITE_ASSO' | input.dataformat == 'REGION_ASSO' ",
+                       conditionalPanel(condition = "input.dataformat == 'site_asso' | input.dataformat == 'region_asso' ",
                                         checkboxInput(inputId="dispAsso",label="Display the direction of association", TRUE),
                                         conditionalPanel(condition = "input.dispAsso",
                                                          textInput("datacolor", "Give a color:", "red")
                                         )
                        ),
-                       conditionalPanel(condition = "input.dataformat == 'REGION' | input.dataformat == 'REGION_ASSO' ",
+                       conditionalPanel(condition = "input.dataformat == 'region' | input.dataformat == 'region_asso' ",
                                         checkboxInput(inputId="dispReg",label="Display the region ", TRUE)
                        ),
                        
@@ -60,15 +60,29 @@ shinyUI(fluidPage(
                        p(span("You need to define your format", style = "color:red")),
                        selectInput("corformat", "Format of the correlation matrice:",
                                    c(" " = "NULL",
-                                     "Correlation" = "CORMATRIX",
-                                     "Raw" = "RAW",
-                                     "inverse Raw" = "RAW_REV")),
-                       conditionalPanel(condition = "input.corformat == 'RAW' | input.corformat == 'RAW_REV'",
+                                     "Correlation" = "cormatrix",
+                                     "raw" = "raw",
+                                     "inverse Raw" = "raw_rev")),
+                       conditionalPanel(condition = "input.corformat == 'raw' | input.corformat == 'raw_rev'",
                                         selectInput("cormethod", "Method to compute the correlation:",
                                                     c(
                                                       "Spearman" = "spearman",
                                                       "Pearson" = "pearson",
-                                                      "Kendall" = "kendall"))
+                                                      "Kendall" = "kendall")),
+                                        numericInput("coralphaCI", "alpha value of confidence level (for example 0.05):",0.05),
+                                        numericInput("corpvalThres", " higher P-value threshold displayed (for example 0.05):", 0.05),
+                                        selectInput("coradjmethod", "Method to adjust for multiple test:",
+                                                    c(
+                                                      "none" = "none",
+                                                      "Holm" = "holm",
+                                                      "Hochberg" = "hochberg",
+                                                      "Hommel" = "hommel",
+                                                      "Bonferroni" = "bonferroni",
+                                                      "Benjamini-Hochberg" = "BH",
+                                                      "Benjamini–Hochberg–Yekutieli" = "BY",
+                                                      "FDR" = "fdr"
+                                                      )
+                                                    )
                        ),
 			selectInput("corcolor", "Define the color scheme of correlation matrix:",
                                                     c(
@@ -83,7 +97,7 @@ shinyUI(fluidPage(
       
       hr(),
       h5("Configuration file"),
-      p('If you do not want to define the parameters of coMET via the interface, you can download the example configuration file and modify according to your data. But you have to modify at least 3 parameters (', span("MYDATA.FORMAT (format of info file), CORMATRIX.FORMAT ( format of raw or correlation matrice), CORMATRIX.METHOD (method to analyse the raw data if it is raw format)", style = "color:red"),')'),
+      p('If you do not want to define the parameters of coMET via the interface, you can download the example configuration file and modify according to your data. But you have to modify at least 3 parameters (', span("mydata.format (format of info file), CORMATRIX.FORMAT ( format of raw or correlation matrice), cormatrix.method (method to analyse the raw data if it is raw format)", style = "color:red"),')'),
       p("Example file:",a(href="http://comet.epigen.kcl.ac.uk:3838/config_cyp1b1_zoom_4webserver.txt", target="_blank", 
                           "config_cyp1b1_zoom_4webserver.txt")),
       fileInput('configfile', 'Choose configuration file to upload:',
@@ -121,7 +135,7 @@ shinyUI(fluidPage(
       
       
       hr(),
-      h5("Info file for the second set of data (e.g.= gene expression, validation data) (optional)"),
+      h5("Info file for the second set of data (e.g.= gene expression, validation data) (optional, no limitation)"),
       p("Example file:",a(href="http://comet.epigen.kcl.ac.uk:3838/cyp1b1_infofile_exprGene_region.txt", target="_blank", 
                           "cyp1b1_infofile_exprGene_region.txt")),
       fileInput('datalargefile', 'Choose other data file to upload',
@@ -135,18 +149,18 @@ shinyUI(fluidPage(
       conditionalPanel(condition = "input.defineextraParm", 
                        selectInput("datalargeformat", "Format of data file:",
                                    c(" " = "NULL",
-                                     "Site" = "SITE",
-                                     "Region" = "REGION",
-                                     "Site with direction values" = "SITE_ASSO",
-                                     "Region with directions values" = "REGION_ASSO")),
+                                     "site" = "site",
+                                     "region" = "region",
+                                     "site with direction values" = "site_asso",
+                                     "region with directions values" = "region_asso")),
                        
-                       conditionalPanel(condition = "input.datalargeformat == 'SITE_ASSO' | input.datalargeformat == 'REGION_ASSO' ",
+                       conditionalPanel(condition = "input.datalargeformat == 'site_asso' | input.datalargeformat == 'region_asso' ",
                                         checkboxInput(inputId="dispAssolarge",label="Display the direction of association", TRUE),
                                         conditionalPanel(condition = "input.dispAssolarge",
                                                          textInput("datalargecolor", "Give a color:", "green")
                                         )
                        ),
-                       conditionalPanel(condition = "input.datalargeformat == 'REGION' | input.datalargeformat == 'REGION_ASSO' ",
+                       conditionalPanel(condition = "input.datalargeformat == 'region' | input.datalargeformat == 'region_asso' ",
                                         checkboxInput(inputId="dispReglarge",label="Display the region ", TRUE)
                        ),
                        
@@ -168,7 +182,7 @@ shinyUI(fluidPage(
                                      "ChromHMM Broad (UCSC)" = "ChromHMM",
                                      "DNAse (UCSC)" = "DNAse",
                                      "Regulation (ENSEMBL)" = "RegENSEMBL",
-                                     "SNP (version dbSNP 138)" = "SNP",
+                                     "SNP (version dbSNP 142)" = "SNP",
                                      "ISCA" = "ISCA",
                                      "ClinVar Main" = "ClinVar",
                                      "ClinVar CNV" = "ClinVarCNV",
@@ -195,7 +209,7 @@ shinyUI(fluidPage(
                                         
                                         selectInput("annotformat", "Format of your annotation track:",
                                                     c(" " = "NULL",
-                                                      "Gene track" = "GeneRegion",
+                                                      "Gene track" = "Generegion",
                                                       "Annotation track" = "Annotation",
                                                       "Data track" = "Data")),
                                         
@@ -227,7 +241,7 @@ shinyUI(fluidPage(
 			h5("Save your image",style = "color:red"),
 			textInput('plotfilename', "Filename of your plot","coMET"),
 			selectInput("imagesize", "Define the size of plot:" , 
-			            choices = c("3.5","7")),
+			            choices = c("7","3.5")),
       hr(),
       h5("Submit the data:",style = "color:red"),
       p('You need to click on the plot button and go the coMET plot tab.'),

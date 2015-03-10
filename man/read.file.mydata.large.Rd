@@ -12,21 +12,23 @@ read.file.mydata.large(large.split.mydata.file, config.var, gbl.var, numfile.lar
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
- \item{large.split.mydata.file}{
-  List of supplementary files to check format
+\item{large.split.mydata.file}{
+List of supplementary files to check format
 }
- \item{config.var}{
+\item{config.var}{
 list of all variables defined in configuration file or via options of
 comet function
 }
-  \item{gbl.var}{
+\item{gbl.var}{
 list of internal variables
 }
-  \item{numfile.large}{
-  The number of file to check in the list
+\item{numfile.large}{
+The number of file to check in the list
 }
 }
-
+\value{
+Return gbl.var updated after reading the extra data 
+}
 \author{
 Tiphaine Martin
 }

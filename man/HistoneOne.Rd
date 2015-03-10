@@ -35,26 +35,28 @@ the name of the track, for example: "Broad Histone"
 the name of the table from the track
 }
 }
-\details{
+%%\details{
 %%  ~~ If necessary, more details than the description above ~~
-}
+%%}
 \value{
 An AnnotationTrack object of Gviz
 }
 \references{
-%% ~put references to the literature/web site here ~
+http://genome-euro.ucsc.edu/cgi-bin/hgTrackUi?hgsid=202839739_2hYQ1BAOuBMAR620GjrtdrFAy6dn&c=chr6&g=wgEncodeHistoneSuper
+
+http://bioconductor.org/packages/release/bioc/html/Gviz.html
 }
 \author{
 Tiphaine Martin
 }
-\note{
+%%\note{
 %%  ~~further notes~~
-}
+%%}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+ \code{\link{HistoneAll}}
 }
 \examples{
 library("Gviz")

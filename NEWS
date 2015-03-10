@@ -1,6 +1,15 @@
+COMET 0.99.9 - 2015-03-10
+-------------------------
+- Update snpBiomart and structureBiomart functions and the pre-computed data associated because ENSEMBL has recently updated their schema in Biomart for these data.
+- Update the documentations (man and vignette)
+- Add the function compute.pvalue.cormatrix and allow the visualisation of only correlation under a significant level. (use the library psych)
+- Add the function comet.list to list the correlations between omic features
+- Replace capital letter by low letter
+- Update Shiny-based web application according to new functions
+
 COMET 0.99.8 - 2015-02-15
 -----------------------------
-- No run genesNameENSEMBL if no ENSEMBL gene in the region of interest 
+- Correction genesNameENSEMBL in order not to run if no ENSEMBL gene in the region of interest 
 - Correction the error related to the loading of correlation matrice
 - Update the visualisation of Chromosome with the name of band (related to an update of Gviz)
 - Remove the visualisation of border for genes and transcripts to help the visualisation of different exons

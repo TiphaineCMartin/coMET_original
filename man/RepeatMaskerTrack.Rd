@@ -28,27 +28,29 @@ the last position in the region of interest (the largest value)
 Show the ID of the genetic elements
 }
 }
-\details{
+%%\details{
 %%  ~~ If necessary, more details than the description above ~~
-}
+%%}
 \value{
 An UcscTrack object of Gviz
 }
 \references{
-%% ~put references to the literature/web site here ~
+http://bioconductor.org/packages/release/bioc/html/Gviz.html
+
+http://genome-euro.ucsc.edu/cgi-bin/hgTrackUi?hgsid=202839739_2hYQ1BAOuBMAR620GjrtdrFAy6dn&c=chr6&g=rmsk
 }
 \author{
 Tiphaine Martin
 }
-\note{
+%%\note{
 %%  ~~further notes~~
-}
+%%}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
+%% \seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+%% }
 \examples{
 library("Gviz")
 gen <- "hg19"
@@ -56,8 +58,8 @@ chr <- "chr2"
 start <- 38290160
 end <- 38303219
 if(interactive()){
-  rmtrack <-RepeatMaskerTrack(gen,chrom,start,end)
-  plotTracks(geneRtrack, from = start, to = end)
+  rmtrack <-RepeatMaskerTrack(gen,chr,start,end,showId=TRUE)
+  plotTracks(rmtrack, from = start, to = end)
 } else {
   data(RepeatMaskerTrack)
   plotTracks(rmtrack, from = start, to = end)

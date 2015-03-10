@@ -12,13 +12,17 @@ create.color.list(config.var, gbl.var)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{config.var}{
+    \item{config.var}{
 list of all variables defined in configuration file or via options of
 comet function
 }
-  \item{gbl.var}{
+    \item{gbl.var}{
 list of internal variables
 }
+}
+
+\value{
+Return a list called split.tmp.color.list which contains the list of color for the info data
 }
 
 \author{

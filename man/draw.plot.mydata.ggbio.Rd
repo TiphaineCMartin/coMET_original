@@ -16,15 +16,17 @@ draw.plot.mydata.ggbio(config.var, gbl.var, numfile)
 list of all variables defined in configuration file or via options of
 comet function
 }
-  \item{gbl.var}{
+\item{gbl.var}{
 list of internal variables
 }
   
-  \item{numfile}{
-  the number of file to visualise
+\item{numfile}{
+the number of file to visualise
 }
 }
-
+\value{
+Return on the plot the annotation tracks created with the functions of ggbio package
+}
 \author{
 Tiphaine Martin
 }

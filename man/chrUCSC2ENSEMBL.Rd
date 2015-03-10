@@ -12,35 +12,28 @@ chrUCSC2ENSEMBL(chr)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
- \item{chr}{
+    \item{chr}{
 the chromosome number in UCSC format 
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+
 \value{
- the number of chromosome at ENSEMBL format
+    the number of chromosome at ENSEMBL format
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{
 Tiphaine Martin
 }
-\note{
-%%  ~~further notes~~
-}
+
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
+%%\seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+%%}
 \examples{
-chr<-"chr7"
-chrUCSC2ENSEMBL(chr)
-
+    chr<-"chr7"
+    chrUCSC2ENSEMBL(chr)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

@@ -2,29 +2,30 @@
 \alias{read.file.cormatrix}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Read and extract the values from correlation matrix file
+Read, compute and extract the values from correlation matrix file
 }
 \description{
-Read and extract the values from correlation matrix file
+Read, compute and extract the values from correlation matrix file
 }
 \usage{
 read.file.cormatrix(config.var, gbl.var, split.cormatrix.file = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-   \item{config.var}{
+\item{config.var}{
 list of all variables defined in configuration file or via options of
 comet function
 }
-  \item{gbl.var}{
+\item{gbl.var}{
 list of internal variables
 }
-  
-  \item{split.cormatrix.file}{
- File of correlation matrix 
+\item{split.cormatrix.file}{
+File of correlation matrix 
 }
 }
-
+\value{
+Return gbl.var updated with the raw data of the correlation matrix and the correlation matrix computed
+}
 \author{
 Tiphaine Martin
 }

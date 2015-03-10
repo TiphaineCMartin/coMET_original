@@ -18,13 +18,16 @@ draw.plot.comet(config.var, gbl.var, newpage = TRUE)
 list of all variables defined in configuration file or via options of
 comet function
 }
-  \item{gbl.var}{
+\item{gbl.var}{
 list of internal variables
 }
- 
-  \item{newpage}{
+\item{newpage}{
 Option to ask if the plot should create on new page or not
 }
+}
+
+\value{
+Return gbl.var updated with the creation of elements composing the plot produced by the function comet
 }
 
 \author{

@@ -15,37 +15,39 @@ cpgIslandsUCSC(gen, chr, start, end)
     \item{gen}{
 the name of the genome
 }
-  \item{chr}{
+    \item{chr}{
 the chromosome of interest
 }
-  \item{start}{
+    \item{start}{
 the first position in the region of interest (the smallest value)
 }
-  \item{end}{
+    \item{end}{
 the last position in the region of interest (the largest value)
 }
 }
-\details{
+%%\details{
 %%  ~~ If necessary, more details than the description above ~~
-}
+%%}
 \value{
 An UcscTrack object of Gviz
 }
 \references{
-%% ~put references to the literature/web site here ~
+http://bioconductor.org/packages/release/bioc/html/Gviz.html
+
+http://genome-euro.ucsc.edu/cgi-bin/hgTrackUi?hgsid=202839739_2hYQ1BAOuBMAR620GjrtdrFAy6dn&c=chr6&g=cpgIslandSuper
 }
 \author{
 Tiphaine Martin
 }
-\note{
+%%\note{
 %%  ~~further notes~~
-}
+%%}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
+%%\seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+%%}
 \examples{
 library("Gviz")
 chrom <- "chr2"
@@ -54,11 +56,11 @@ end <- 38303219
 gen <- "hg19"
 
 if(interactive()) {
-  cpgIstrack<-cpgIslandsUCSC(gen, chrom, start, end)
-  plotTracks(cpgIstrack, from = start, to =end)
+    cpgIstrack<-cpgIslandsUCSC(gen, chrom, start, end)
+    plotTracks(cpgIstrack, from = start, to =end)
 }else {
-  data(cpgIslandtrack)
-  plotTracks(cpgIstrack, from = start, to =end)
+    data(cpgIslandtrack)
+    plotTracks(cpgIstrack, from = start, to =end)
 }
 
 }

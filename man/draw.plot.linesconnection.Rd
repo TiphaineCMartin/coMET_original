@@ -12,18 +12,20 @@ draw.plot.linesconnection(top.vp, config.var, gbl.var)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
- \item{top.vp}{
-  panel of grid to visualise connector lines
+\item{top.vp}{
+panel of grid to visualise connector lines
 }
-  \item{config.var}{
+\item{config.var}{
 list of all variables defined in configuration file or via options of
 comet function
 }
-  \item{gbl.var}{
+\item{gbl.var}{
 list of internal variables
 }
 }
-
+\value{
+Updated the plot with the connection lines between the genomic position and the position on the correlation matrix
+}
 \author{
 Tiphaine Martin
 }

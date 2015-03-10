@@ -1,4 +1,3 @@
-
 ##########################################################################
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,78 +20,84 @@
 # Email: Tiphaine.Martin@kcl.ac.uk
 # Purpose: coMET allows the display of p-values from association
 #           with a correlation heatmap.
-# Version : 0.99.0
+# Version : 0.99.9
 ###########################################################################
 
 #coMET allows the display of p-values from association with a correlation heatmap. 
 #This version coMET.web is used for web site.
 
 # The values given such as attributes of function erase ones of configuration file.
-comet <- function(MYDATA.FILE = NULL,
-                  MYDATA.FORMAT = "SITE",
-                  MYDATA.LARGE.FILE = NULL,
-                  MYDATA.LARGE.FORMAT = "SITE",
-                  CORMATRIX.FILE = NULL,
-                  CORMATRIX.METHOD = "spearman",
-                  CORMATRIX.FORMAT= "RAW",
-                  CORMATRIX.COLOR.SCHEME = "bluewhitered",
-                  MYDATA.REF = NULL,
-                  START = NULL,
-                  END = NULL,
-                  ZOOM = FALSE,
-                  LAB.Y = "log",
-                  PVAL.THRESHOLD = 10e-6,
-                  DISP.PVAL.THRESHOLD = 1 ,
-                  DISP.ASSOCIATION = FALSE,
-                  DISP.ASSOCIATION.LARGE = FALSE,
-                  DISP.REGION = FALSE,
-                  DISP.REGION.LARGE = FALSE,
-                  SYMBOLS = "circle-fill",
-                  SYMBOLS.LARGE = NA,
-                  SAMPLE.LABELS = NULL,
-                  SAMPLE.LABELS.LARGE = NULL,
-                  USE.COLORS = TRUE,
-                  DISP.COLOR.REF = TRUE,
-                  COLOR.LIST = NULL,
-                  COLOR.LIST.LARGE = NULL,
-                  DISP.MYDATA = TRUE,
-                  BIOFEAT.USER.FILE = NULL,
-                  BIOFEAT.USER.TYPE = NULL,
-                  BIOFEAT.USER.TYPE.PLOT = NULL,
-                  GENOME="hg19",
-                  DATASET.GENE = "hsapiens_gene_ensembl",
-                  TRACKS.GVIZ = NULL,
-                  TRACKS.GGBIO = NULL,
-                  TRACKS.TRACKVIEWER = NULL,
-                  DISP.MYDATA.NAMES = TRUE,
-                  DISP.COLOR.BAR = TRUE,
-                  DISP.PHYS.DIST = TRUE,
-                  DISP.LEGEND = TRUE,
-                  DISP.MARKER.LINES = TRUE,
-                  DISP.CORMATRIXMAP = TRUE,
-                  DISP.PVALUEPLOT = TRUE,
-                  DISP.TYPE = "symbol",
-                  DISP.MULT.LAB.X = FALSE,
-                  DISP.CONNECTING.LINES = TRUE,
-                  PALETTE.FILE = NULL,
-                  IMAGE.TITLE = NULL,
-                  IMAGE.NAME = "coMET",
-                  IMAGE.TYPE = NULL,
-                  IMAGE.SIZE = 3.5,
-                  FONT.FACTOR = NULL,
-                  SYMBOL.FACTOR = NULL,
-                  PRINT.IMAGE = TRUE,
-                  CONNECTING.LINES.FACTOR = 1.5,
-                  CONNECTING.LINES.ADJ = 0.01,
-                  CONNECTING.LINES.VERT.ADJ = -1,
-                  CONNECTING.LINES.FLEX = 0,
+comet <- function(mydata.file = NULL,
+                  mydata.format = "site",
+                  mydata.type = "file",
+                  mydata.large.file = NULL,
+                  mydata.large.format = "site",
+                  mydata.large.type = "listfile",
+                  cormatrix.file = NULL,
+                  cormatrix.method = "spearman",
+                  cormatrix.format= "raw",
+                  cormatrix.color.scheme = "bluewhitered",
+                  cormatrix.conf.level=0.05,
+                  cormatrix.sig.level= 1,
+                  cormatrix.adjust="none",
+                  cormatrix.type = "listfile",
+                  mydata.ref = NULL,
+                  start = NULL,
+                  end = NULL,
+                  zoom = FALSE,
+                  lab.Y = "log",
+                  pval.threshold = 10e-6,
+                  disp.pval.threshold = 1 ,
+                  disp.association = FALSE,
+                  disp.association.large = FALSE,
+                  disp.region = FALSE,
+                  disp.region.large = FALSE,
+                  symbols = "circle-fill",
+                  symbols.large = NA,
+                  sample.labels = NULL,
+                  sample.labels.large = NULL,
+                  use.colors = TRUE,
+                  disp.color.ref = TRUE,
+                  color.list = NULL,
+                  color.list.large = NULL,
+                  disp.mydata = TRUE,
+                  biofeat.user.file = NULL,
+                  biofeat.user.type = NULL,
+                  biofeat.user.type.plot = NULL,
+                  genome="hg19",
+                  dataset.gene = "hsapiens_gene_ensembl",
+                  tracks.gviz = NULL,
+                  tracks.ggbio = NULL,
+                  tracks.trackviewer = NULL,
+                  disp.mydata.names = TRUE,
+                  disp.color.bar = TRUE,
+                  disp.phys.dist = TRUE,
+                  disp.legend = TRUE,
+                  disp.marker.lines = TRUE,
+                  disp.cormatrixmap = TRUE,
+                  disp.pvalueplot = TRUE,
+                  disp.type = "symbol",
+                  disp.mult.lab.X = FALSE,
+                  disp.connecting.lines = TRUE,
+                  palette.file = NULL,
+                  image.title = NULL,
+                  image.name = "coMET",
+                  image.type = NULL,
+                  image.size = 3.5,
+                  font.factor = NULL,
+                  symbol.factor = NULL,
+                  print.image = TRUE,
+                  connecting.lines.factor = 1.5,
+                  connecting.lines.adj = 0.01,
+                  connecting.lines.vert.adj = -1,
+                  connecting.lines.flex = 0,
                   config.file = NULL,
-                  VERBOSE = FALSE) {
+                  verbose = FALSE) {
   
   #-------------------MAIN FUNCTION----------------------------
   
   #DEBUG STATEMENT
-  if (VERBOSE) cat("START COMET VERSION GENERIC\n")
+  if (verbose) cat("START COMET VERSION GENERIC\n")
   
   #-------------------GLOBAL VARIABLES BEGINS------------------
   
@@ -102,6 +107,7 @@ comet <- function(MYDATA.FILE = NULL,
   gbl.var <- NULL
   
   #DATA VARIABLES
+  presence.mydata<- 0 # 0 presence of omic-WAS results (object mydata), 1 no presence of data
   general.data <- NULL
   split.biofeature.data.user.file <- NULL
   split.biofeature.data.user.type <- NULL
@@ -171,6 +177,7 @@ comet <- function(MYDATA.FILE = NULL,
   split.format <- NULL
   split.association <- NULL
   split.region <- NULL
+  split.type <- NULL
   
   large.split.sample.labels <- NULL
   large.split.color.list <- NULL
@@ -180,9 +187,9 @@ comet <- function(MYDATA.FILE = NULL,
   large.split.format <- NULL
   large.split.association <- NULL
   large.split.region <- NULL
+  large.split.type <- NULL
   ref <- NULL
   samples <- NULL
-  
   
   palette.size <- NULL
   cex.factor <- 0.5
@@ -191,27 +198,33 @@ comet <- function(MYDATA.FILE = NULL,
   line.width <- 0.5
   
   cormatrix.data <- NULL
+  split.cormatrix.type <- NULL
   matrix.data <- NULL
   cormatrix.data.full <- NULL
+  cormatrix.pvalue.data <- NULL
+  cormatrix.pvalue.data.full <- NULL
+  cormatrix.CI.data <- NULL
   
   mySession <- NULL
   listtracks_user <- NULL
   listtracks_gviz <- NULL
   listtracks_ggbio <- NULL
   listtracks_trackviewer <- NULL
-  verbose <- FALSE
   
   gbl.var <- list(mydata.data = mydata.data,
                   general.data = general.data,
+                  presence.mydata=presence.mydata,
                   split.mydata.file = split.mydata.file,
-                  split.biofeature.data.user.file = split.biofeature.data.user.file,
-                  split.biofeature.data.user.type = split.biofeature.data.user.type,
-                  large.split.format = large.split.format,
-                  large.split.association =  large.split.association,
-                  large.split.region = large.split.region,
                   split.format = split.format,
                   split.association =  split.association,
                   split.region = split.region,
+                  split.type = split.type,
+                  split.biofeature.data.user.file = split.biofeature.data.user.file,
+                  split.biofeature.data.user.type = split.biofeature.data.user.type,
+                  large.split.format = large.split.format,
+                  large.split.type = large.split.type,
+                  large.split.association =  large.split.association,
+                  large.split.region = large.split.region,
                   mySession = mySession,
                   listtracks_gviz = listtracks_gviz,
                   listtracks_ggbio = listtracks_ggbio,
@@ -237,9 +250,13 @@ comet <- function(MYDATA.FILE = NULL,
                   mydata.large.hash.names.start = mydata.large.hash.names.start,
                   mydata.large.hash.names.end = mydata.large.hash.names.end,
                   cormatrix.data = cormatrix.data,
+                  split.cormatrix.type = split.cormatrix.type,
                   split.cormatrix.file = split.cormatrix.file,
+                  cormatrix.pvalue.data = cormatrix.pvalue.data,
+                  cormatrix.pvalue.data.full = cormatrix.pvalue.data.full,
                   matrix.data = matrix.data,
                   cormatrix.data.full = cormatrix.data.full,
+                  cormatrix.CI.data = cormatrix.CI.data,
                   samples = samples,
                   pval.flag = pval.flag,
                   cur.exp = cur.exp,
@@ -278,149 +295,191 @@ comet <- function(MYDATA.FILE = NULL,
   #-------------------GLOBAL VARIABLES ENDS------------------
   
   #-------------------CONFIGURATION VARIABLES BEGINS---------
-  LIST.TRACKS <- NULL
+  list.tracks <- NULL
   DATASET.SNP="hsapiens_snp"
   VERSION.DBSNP="snp138"
   DATASET.SNP.STOMA="hsapiens_snp_som"
   DATASET.REGULATION="hsapiens_feature_set"
   DATASET.STRU="hsapiens_structvar"
   DATASET.STRU.STOMA="hsapiens_structvar_som"
-  PATTERN.REGULATION="GM12878"
+  pattern.regulation="GM12878"
   BROWSER.SESSION="UCSC"
   
   #-------------------UPDATE CONFIGURATION VARIABLES---------
-  config.var <- list(MYDATA.FILE = MYDATA.FILE,
-                     MYDATA.FORMAT = MYDATA.FORMAT,
-                     MYDATA.LARGE.FILE = MYDATA.LARGE.FILE,
-                     MYDATA.LARGE.FORMAT = MYDATA.LARGE.FORMAT,
-                     CORMATRIX.FILE = CORMATRIX.FILE,
-                     CORMATRIX.METHOD = CORMATRIX.METHOD,
-                     CORMATRIX.FORMAT = CORMATRIX.FORMAT,
-                     CORMATRIX.COLOR.SCHEME = CORMATRIX.COLOR.SCHEME,
-                     MYDATA.REF = MYDATA.REF,
-                     COLOR.LIST = COLOR.LIST,
-                     USE.COLORS = USE.COLORS,
-                     DISP.COLOR.REF = DISP.COLOR.REF,
-                     BIOFEAT.USER.FILE = BIOFEAT.USER.FILE,
-                     BIOFEAT.USER.TYPE = BIOFEAT.USER.TYPE,
-                     BIOFEAT.USER.TYPE.PLOT = BIOFEAT.USER.TYPE.PLOT,
-                     START = START,
-                     END = END,
-                     ZOOM = ZOOM,
-                     LAB.Y = LAB.Y,
-                     DISP.PVAL.THRESHOLD = DISP.PVAL.THRESHOLD,
-                     PVAL.THRESHOLD = PVAL.THRESHOLD,
-                     DISP.TYPE = DISP.TYPE,
-                     DISP.CORMATRIXMAP = DISP.CORMATRIXMAP,
-                     DISP.PVALUEPLOT = DISP.PVALUEPLOT,
-                     DISP.MYDATA = DISP.MYDATA,
-                     DISP.ASSOCIATION = DISP.ASSOCIATION,
-                     DISP.ASSOCIATION.LARGE = DISP.ASSOCIATION.LARGE,
-                     DISP.REGION = DISP.REGION,
-                     DISP.REGION.LARGE = DISP.REGION.LARGE,
-                     SAMPLE.LABELS = SAMPLE.LABELS,
-                     SAMPLE.LABELS.LARGE = SAMPLE.LABELS.LARGE,
-                     SYMBOLS = SYMBOLS,
-                     SYMBOLS.LARGE = SYMBOLS.LARGE,
-                     GENOME = GENOME,
-                     DATASET.GENE = DATASET.GENE,
+  config.var <- list(mydata.file = mydata.file,
+                     mydata.format = mydata.format,
+                     mydata.type = mydata.type,
+                     mydata.large.file = mydata.large.file,
+                     mydata.large.format = mydata.large.format,
+                     mydata.large.type = mydata.large.type,
+                     cormatrix.file = cormatrix.file,
+                     cormatrix.method = cormatrix.method,
+                     cormatrix.format = cormatrix.format,
+                     cormatrix.color.scheme = cormatrix.color.scheme,
+                     cormatrix.conf.level = cormatrix.conf.level,
+                     cormatrix.sig.level = cormatrix.sig.level,
+                     cormatrix.adjust = cormatrix.adjust, 
+                     cormatrix.type = cormatrix.type,
+                     mydata.ref = mydata.ref,
+                     color.list = color.list,
+                     use.colors = use.colors,
+                     disp.color.ref = disp.color.ref,
+                     biofeat.user.file = biofeat.user.file,
+                     biofeat.user.type = biofeat.user.type,
+                     biofeat.user.type.plot = biofeat.user.type.plot,
+                     start = start,
+                     end = end,
+                     zoom = zoom,
+                     lab.Y = lab.Y,
+                     disp.pval.threshold = disp.pval.threshold,
+                     pval.threshold = pval.threshold,
+                     disp.type = disp.type,
+                     disp.cormatrixmap = disp.cormatrixmap,
+                     disp.pvalueplot = disp.pvalueplot,
+                     disp.mydata = disp.mydata,
+                     disp.association = disp.association,
+                     disp.association.large = disp.association.large,
+                     disp.region = disp.region,
+                     disp.region.large = disp.region.large,
+                     sample.labels = sample.labels,
+                     sample.labels.large = sample.labels.large,
+                     symbols = symbols,
+                     symbols.large = symbols.large,
+                     genome = genome,
+                     dataset.gene = dataset.gene,
                      DATASET.SNP = DATASET.SNP,
                      DATASET.SNP.STOMA = DATASET.SNP.STOMA,
                      DATASET.REGULATION = DATASET.REGULATION,
                      DATASET.STRU = DATASET.STRU,
                      DATASET.STRU.STOMA = DATASET.STRU.STOMA,
                      VERSION.DBSNP = VERSION.DBSNP,
-                     PATTERN.REGULATION = PATTERN.REGULATION, 
+                     pattern.regulation = pattern.regulation, 
                      BROWSER.SESSION = BROWSER.SESSION,
-                     TRACKS.GVIZ = TRACKS.GVIZ,
-                     TRACKS.GGBIO = TRACKS.GGBIO,
-                     TRACKS.TRACKVIEWER = TRACKS.TRACKVIEWER,
-                     LIST.TRACKS = LIST.TRACKS,
-                     DISP.MYDATA.NAMES = DISP.MYDATA.NAMES,
-                     DISP.MARKER.LINES = DISP.MARKER.LINES,
-                     DISP.CONNECTING.LINES = DISP.CONNECTING.LINES,
-                     DISP.COLOR.BAR = DISP.COLOR.BAR,
-                     DISP.PHYS.DIST = DISP.PHYS.DIST,
-                     IMAGE.TITLE = IMAGE.TITLE,
-                     DISP.LEGEND = DISP.LEGEND,
-                     PALETTE.FILE = PALETTE.FILE,
-                     IMAGE.TYPE = IMAGE.TYPE,
-                     IMAGE.SIZE = IMAGE.SIZE,
-                     DISP.MULT.LAB.X = DISP.MULT.LAB.X,
-                     IMAGE.NAME = IMAGE.NAME,
-                     PRINT.IMAGE = PRINT.IMAGE,
-                     CONNECTING.LINES.FACTOR = CONNECTING.LINES.FACTOR,
-                     CONNECTING.LINES.ADJ = CONNECTING.LINES.ADJ,
-                     CONNECTING.LINES.VERT.ADJ = CONNECTING.LINES.VERT.ADJ,
-                     CONNECTING.LINES.FLEX = CONNECTING.LINES.FLEX,
-                     FONT.FACTOR = FONT.FACTOR,
-                     SYMBOL.FACTOR = SYMBOL.FACTOR,
-                     VERBOSE = VERBOSE)
+                     tracks.gviz = tracks.gviz,
+                     tracks.ggbio = tracks.ggbio,
+                     tracks.trackviewer = tracks.trackviewer,
+                     list.tracks = list.tracks,
+                     disp.mydata.names = disp.mydata.names,
+                     disp.marker.lines = disp.marker.lines,
+                     disp.connecting.lines = disp.connecting.lines,
+                     disp.color.bar = disp.color.bar,
+                     disp.phys.dist = disp.phys.dist,
+                     image.title = image.title,
+                     disp.legend = disp.legend,
+                     palette.file = palette.file,
+                     image.type = image.type,
+                     image.size = image.size,
+                     disp.mult.lab.X = disp.mult.lab.X,
+                     image.name = image.name,
+                     print.image = print.image,
+                     connecting.lines.factor = connecting.lines.factor,
+                     connecting.lines.adj = connecting.lines.adj,
+                     connecting.lines.vert.adj = connecting.lines.vert.adj,
+                     connecting.lines.flex = connecting.lines.flex,
+                     font.factor = font.factor,
+                     symbol.factor = symbol.factor,
+                     verbose = verbose)
   
   #-------------------CONFIGURATION VARIABLES BEGINS from config file---------
-  gbl.var$verbose <- config.var$VERBOSE
+  gbl.var$verbose <- config.var$verbose
   
   if(!is.null(config.file)) {
     config.var <- read.config(config.file, config.var)
   }
   
   #-------------- CHECK if all parameters have values -----------------
-  if(is.null(config.var$MYDATA.FILE)) {
-    stop("Invalid MYDATA data file: ", config.var$MYDATA.FILE, "\n")
+  if(is.null(config.var$mydata.file)) {
+    stop("Invalid MYDATA data file: ", config.var$mydata.file, "\n")
   } 
   check.configVar(config.var)
   
   
   #------------- Track define outside
-  if(!is.null(TRACKS.GVIZ) ){
-    gbl.var$listtracks_gviz <- TRACKS.GVIZ
+  if(!is.null(tracks.gviz) ){
+    gbl.var$listtracks_gviz <- tracks.gviz
   }
   
-  if(!is.null(TRACKS.GGBIO) ){
-    gbl.var$listtracks_ggbio <- TRACKS.GGBIO
+  if(!is.null(tracks.ggbio) ){
+    gbl.var$listtracks_ggbio <- tracks.ggbio
   }
   
-  if(!is.null(TRACKS.TRACKVIEWER) ){
-    gbl.var$listtracks_trackviewer <- TRACKS.TRACKVIEWER
+  if(!is.null(tracks.trackviewer) ){
+    gbl.var$listtracks_trackviewer <- tracks.trackviewer
   }
   
   #------------- connection to database
-#  if(!is.null(config.var$GENOME) & !is.null(config.var$BROWSER.SESSION)){
-#    mySession <- browserSession(config.var$BROWSER.SESSION)
-#    genome(mySession) <- config.var$GENOME
-#    gbl.var$mySession <- mySession
-#  }
+  #  if(!is.null(config.var$genome) & !is.null(config.var$BROWSER.SESSION)){
+  #    mySession <- browserSession(config.var$BROWSER.SESSION)
+  #    genome(mySession) <- config.var$genome
+  #    gbl.var$mySession <- mySession
+  #  }
   
   #------------- READ DATA for ANNOTATION TRACKS
-  if(!is.null(config.var$BIOFEAT.USER.FILE)){
-    split.biofeature.data.user.file <- strsplit(config.var$BIOFEAT.USER.FILE, ",")
-    split.biofeature.data.user.type <- strsplit(config.var$BIOFEAT.USER.TYPE, ",")
+  if(!is.null(config.var$biofeat.user.file)){
+    split.biofeature.data.user.file <- strsplit(config.var$biofeat.user.file, ",")
+    split.biofeature.data.user.type <- strsplit(config.var$biofeat.user.type, ",")
     
     gbl.var$split.biofeature.data.user.file <- split.biofeature.data.user.file
     gbl.var$split.biofeature.data.user.type <- split.biofeature.data.user.type
     
-    if(!is.null(config.var$BIOFEAT.USER.TYPE.PLOT)){
-      split.biofeature.data.user.type.plot <- strsplit(config.var$BIOFEAT.USER.TYPE.PLOT, ",")
+    if(!is.null(config.var$biofeat.user.type.plot)){
+      split.biofeature.data.user.type.plot <- strsplit(config.var$biofeat.user.type.plot, ",")
       gbl.var$split.biofeature.data.user.type.plot <- split.biofeature.data.user.type.plot
     }
   }
   
   #------------- READ DATA and UPDATE VARIABLES
-  if(!is.null(config.var$CORMATRIX.FILE)){
-    split.cormatrix.file <- strsplit(config.var$CORMATRIX.FILE, ",")
-    comatrix.file.length <- length(split.cormatrix.file[[1]])
-    gbl.var$split.cormatrix.file <- split.cormatrix.file
+  if(!is.null(config.var$cormatrix.file)){
+    if(!is.null(config.var$cormatrix.type)){
+      split.cormatrix.type <- strsplit(config.var$cormatrix.type, ",")
+      comatrix.type.length <- length(split.cormatrix.type[[1]])
+      gbl.var$split.cormatrix.type <- split.cormatrix.type
+    } else {
+      stop("Need to define the format of your correlation matrix from FILE or from MATRIX")
+    }
+    if(gbl.var$split.cormatrix.type == "listfile"){
+      split.cormatrix.file <- strsplit(config.var$cormatrix.file, ",")
+      comatrix.file.length <- length(split.cormatrix.file[[1]])
+      gbl.var$split.cormatrix.file <- split.cormatrix.file
+    }else {
+      split.cormatrix.file <- config.var$cormatrix.file
+      comatrix.file.length <- length(split.cormatrix.file)
+      gbl.var$split.cormatrix.file <- split.cormatrix.file
+    }
+    
   } else {
     warning("No visualisation of correlation matrice")
-    DISP.MYDATA <- FALSE
+    disp.mydata <- FALSE
   }
   
-  if(!is.null(config.var$MYDATA.FILE)){
-    split.mydata.file <- strsplit(config.var$MYDATA.FILE, ",")
-    mydata.file.length <- length(split.mydata.file[[1]])
-    gbl.var$split.mydata.file <- split.mydata.file
+  if(!is.null(config.var$mydata.file)){
+    #--- TYPE of DATA
+    if(!is.null(config.var$mydata.type)){
+      split.type <- strsplit(config.var$mydata.type, ",")
+      split.type.length <- length(split.type[[1]])
+      gbl.var$split.type <- unlist(split.type)
+      if(config.var$verbose){
+        cat("TYPE DATA:",gbl.var$split.type,"\n")
+      }
+    } else{
+      stop("Need to define the type of data: FILE, MATRIX\n")
+    }
     
-    gbl.var$mydata.samples <- mydata.file.length
+    mydata.file.length <- 0
+    if(config.var$mydata.type == "file") {
+      split.mydata.file <- strsplit(config.var$mydata.file, ",")
+      mydata.file.length <- length(split.mydata.file[[1]])
+      
+      gbl.var$split.mydata.file <- split.mydata.file
+      gbl.var$mydata.samples <- mydata.file.length
+    } else {
+      split.mydata.file <- list(config.var$mydata.file)
+      mydata.file.length <- length(split.mydata.file)
+      
+      gbl.var$split.mydata.file <- split.mydata.file
+      gbl.var$mydata.samples <- mydata.file.length
+    }
+    
     gbl.var$hap.samples <- 0
     samples <- mydata.file.length
     gbl.var$samples <- samples
@@ -436,36 +495,43 @@ comet <- function(MYDATA.FILE = NULL,
     
     
     #create sample labels
-    #split SAMPLE.LABELS on comma, then take the top 5 or less entries and create a list
-    if(!is.null(config.var$SAMPLE.LABELS)) {
-      split.tmp.sample.list <- strsplit(config.var$SAMPLE.LABELS, ",")
+    #split sample.labels on comma, then take the top 5 or less entries and create a list
+    if(!is.null(config.var$sample.labels)) {
+      split.tmp.sample.list <- strsplit(config.var$sample.labels, ",")
     } else {
       split.tmp.sample.list <- rep("sample", samples)
     }
     
     if(length(split.tmp.sample.list[[1]]) < samples) {
-      warning("SAMPLE.LABELS contains less labels than the number of samples. Labels must be separated by commas without spaces.\n")
+      warning("sample.labels contains less labels than the number of samples. Labels must be separated by commas without spaces.\n")
     }
     
     #--- FORMAT of DATA
-    if(!is.null(config.var$MYDATA.FORMAT)){
-      split.format <- strsplit(config.var$MYDATA.FORMAT, ",")
+    if(!is.null(config.var$mydata.format)){
+      split.format <- strsplit(config.var$mydata.format, ",")
       split.format.length <- length(split.format[[1]])
       gbl.var$split.format <- split.format
+    }else{
+      stop("Need to define the format\n")
     }
+    
     
     #-- Visualisation of ASSOCIATION
-    if(!is.null(config.var$DISP.ASSOCIATION)){
-      split.association <- strsplit(config.var$DISP.ASSOCIATION, ",")
+    if(!is.null(config.var$disp.association)){
+      split.association <- strsplit(config.var$disp.association, ",")
       split.association.length <- length(split.association[[1]])
       gbl.var$split.association <- split.association
+    }else{
+      stop("Need to define if there is the visualisation of association\n")
     }
     
-    #---VISUALISATION of REGION
-    if(!is.null(config.var$DISP.REGION)){
-      split.region <- strsplit(config.var$DISP.REGION, ",")
+    #---VISUALISATION of region
+    if(!is.null(config.var$disp.region)){
+      split.region <- strsplit(config.var$disp.region, ",")
       split.region.length <- length(split.region[[1]])
       gbl.var$split.region <- split.region
+    }else{
+      stop("Need to define if there is the visualisation of region\n")
     }
     
     split.tmp.sample.list.truncated <- substr(split.tmp.sample.list[[1]], 1, 12)
@@ -475,18 +541,35 @@ comet <- function(MYDATA.FILE = NULL,
   }
   
   #DEBUG STATEMENT
-  # if (config.var$VERBOSE)  cat("samples ", samples, "\n")
+  # if (config.var$verbose)  cat("samples ", samples, "\n")
   
   gbl.var$split.sample.labels <- list(head(split.tmp.sample.list.truncated, samples))
   
   #---LARGE REFERENCE DATA
-  if(!is.null(config.var$MYDATA.LARGE.FILE)){
+  if(!is.null(config.var$mydata.large.file)){
+    #--- TYPE of LARGE DATA
+    if(!is.null(config.var$mydata.large.type)){
+      large.split.type <- strsplit(config.var$mydata.large.type, ",")
+      large.split.type.length <- length(large.split.type[[1]])
+      gbl.var$large.split.type <- large.split.type
+    }else{
+      stop("Need to define the type of extra data (LISTFILE,listdataframe)\n")
+    }
+    large.mydata.file.length <- 0
+    if(gbl.var$large.split.type == "listfile"){
+      large.split.mydata.file <- strsplit(config.var$mydata.large.file, ",")
+      large.mydata.file.length <- length(large.split.mydata.file[[1]])
+      
+      gbl.var$large.split.mydata.file <- large.split.mydata.file
+      gbl.var$large.mydata.samples <- large.mydata.file.length
+    } else {
+      large.split.mydata.file <- config.var$mydata.large.file
+      large.mydata.file.length <- length(large.split.mydata.file)
+      
+      gbl.var$large.split.mydata.file <- large.split.mydata.file
+      gbl.var$large.mydata.samples <- large.mydata.file.length
+    }
     
-    large.split.mydata.file <- strsplit(config.var$MYDATA.LARGE.FILE, ",")
-    large.mydata.file.length <- length(large.split.mydata.file[[1]])
-    gbl.var$large.split.mydata.file <- large.split.mydata.file
-    
-    gbl.var$large.mydata.samples <- large.mydata.file.length
     gbl.var$large.hap.samples <- 0
     large.samples <- large.mydata.file.length
     gbl.var$large.samples <- large.samples
@@ -501,42 +584,51 @@ comet <- function(MYDATA.FILE = NULL,
     
     
     #create sample labels
-    #split SAMPLE.LABELS on comma, then take the top 5 or less entries and create a list
-    if(!is.null(config.var$SAMPLE.LABELS.LARGE)) {
-      large.split.tmp.sample.list <- strsplit(config.var$SAMPLE.LABELS.LARGE, ",")
+    #split sample.labels on comma, then take the top 5 or less entries and create a list
+    
+    
+    if(!is.null(config.var$sample.labels.large)) {
+      large.split.tmp.sample.list <- strsplit(config.var$sample.labels.large, ",")
     } 
     
     if(length(large.split.tmp.sample.list[[1]]) < large.samples) {
-      warning("LARGE.SAMPLE.LABELS contains less labels than the number of samples. Labels must be separated by commas without spaces.\n")
+      warning("LARGE.sample.labels contains less labels than the number of samples. Labels must be separated by commas without spaces.\n")
     }
     
     large.split.tmp.sample.list.truncated <- substr(large.split.tmp.sample.list[[1]], 1, 12)
     
     #DEBUG STATEMENT
-    # if (config.var$VERBOSE)  cat("large.samples ", large.samples, "\n")
+    # if (config.var$verbose)  cat("large.samples ", large.samples, "\n")
     
     gbl.var$large.split.sample.labels <- list(head(large.split.tmp.sample.list.truncated, large.samples))
     
     #--- FORMAT of LARGE DATA
-    if(!is.null(config.var$MYDATA.LARGE.FORMAT)){
-      large.split.format <- strsplit(config.var$MYDATA.LARGE.FORMAT, ",")
+    if(!is.null(config.var$mydata.large.format)){
+      large.split.format <- strsplit(config.var$mydata.large.format, ",")
       large.split.format.length <- length(large.split.format[[1]])
       gbl.var$large.split.format <- large.split.format
+    }else{
+      stop("Need to define the format of extra data\n")
     }
     
     #-- Visualisation of ASSOCIATION
-    if(!is.null(config.var$DISP.ASSOCIATION.LARGE)){
-      large.split.association <- strsplit(config.var$DISP.ASSOCIATION.LARGE, ",")
+    if(!is.null(config.var$disp.association.large)){
+      large.split.association <- strsplit(config.var$disp.association.large, ",")
       large.split.association.length <- length(large.split.association[[1]])
       gbl.var$large.split.association <- large.split.association
+    } else{
+      stop("Need to define the visualisation of association of extra data\n")
     }
     
-    #---VISUALISATION of REGION
-    if(!is.null(config.var$DISP.REGION.LARGE)){
-      large.split.region <- strsplit(config.var$DISP.REGION.LARGE, ",")
+    #---VISUALISATION of region
+    if(!is.null(config.var$disp.region.large)){
+      large.split.region <- strsplit(config.var$disp.region.large, ",")
       large.split.region.length <- length(large.split.region[[1]])
       gbl.var$large.split.region <- large.split.region
+    }else{
+      stop("Need to define if there is the visualisation of region of extra data\n")
     }
+    
   } else {
     gbl.var$large.split.mydata.file <- NULL
     gbl.var$large.mydata.samples <- NULL
@@ -547,6 +639,7 @@ comet <- function(MYDATA.FILE = NULL,
     gbl.var$large.fill.list <- NULL
     gbl.var$large.split.sample.labels <- NULL
     gbl.var$large.split.sample.format <- NULL
+    gbl.var$large.split.sample.type <- NULL
     gbl.var$large.split.association <- NULL
     gbl.var$large.split.region <- NULL
   }
@@ -564,20 +657,20 @@ comet <- function(MYDATA.FILE = NULL,
   #---------------- DRAW DIFFERENT ANNOTATION TRACK ---------
   # gbl.var <- create.tracks.web(config.var,gbl.var)
   
-  if( DISP.PVALUEPLOT == FALSE & DISP.CORMATRIXMAP == FALSE){
+  if( disp.pvalueplot == FALSE & disp.cormatrixmap == FALSE){
     stop("Impossible to have no draw pvalue plot and correlation matrix!\n 
-          Change the value of DISP.PVALUEPLOT and DISP.CORMATRIXMAP")
+          Change the value of disp.pvalueplot and disp.cormatrixmap")
   }
   
   #------ DRAW the STRUCTURE COMET	
-  if(DISP.PVALUEPLOT) {
-    if(PRINT.IMAGE == FALSE || is.null(config.var$IMAGE.NAME)){
+  if(disp.pvalueplot) {
+    if(print.image == FALSE || is.null(config.var$image.name)){
       gbl.var <- draw.plot.comet(config.var, gbl.var,newpage=TRUE)
     } else{
       printPlot.comet(config.var, gbl.var)
     }
   }else{
-    if(PRINT.IMAGE == FALSE || is.null(config.var$IMAGE.NAME)){
+    if(print.image == FALSE || is.null(config.var$image.name)){
       gbl.var <- draw.plot.comet.nopval(config.var, gbl.var,newpage=TRUE)
     } else{
       printPlot.comet.nopval(config.var, gbl.var)
@@ -587,7 +680,7 @@ comet <- function(MYDATA.FILE = NULL,
   
   invisible(list(config.var, gbl.var))
   #DEBUG STATEMENT
-  if (config.var$VERBOSE)  cat("FINISH GENERIC COMET \n")
+  if (config.var$verbose)  cat("FINISH GENERIC COMET \n")
 }
 
 

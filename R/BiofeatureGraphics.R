@@ -20,7 +20,7 @@
 # Email: tiphaine.martin@kcl.ac.uk
 # Purpose: coMET allows the display of p-values from association
 #           with a correlation heatmap.
-# Version : 0.99.0
+# Version : 0.99.9
 ###########################################################################
 
 #-------------------- CpG pvalue ------------------
@@ -63,7 +63,7 @@ genesNameENSEMBL<-function(gen,chr,start,end,dataset){
   }
   
   
-
+  
   if(nrow(ens_ENSEMBL) == 0) {
     ens_ENSEMBL <- NULL
   } 
@@ -89,21 +89,21 @@ genesENSEMBL<-function(gen,chr,start,end,showId=FALSE){
   if(length(match(gen, tolower(c("hg19","grch37")))) > 0){
     martENSEMBL=useMart(host='grch37.ensembl.org', biomart='ENSEMBL_MART_ENSEMBL',
                         dataset='hsapiens_gene_ensembl')
-  #  fm <- Gviz:::.getBMFeatureMap()
-  #  fm["symbol"] <- "external_gene_id"
-  #  biomTrack <- BiomartGeneRegionTrack(genome = gen, featureMap=fm, biomart=martENSEMBL,
-  #                                      chromosome = chr, start = start, 
-  #                                      end = end,  name = "ENSEMBL",
-  #                                      groupAnnotation = "group",
-  #                                      just.group = "above",
-  #                                     fontcolor="black",showId=showId,size=2)
-  biomTrack <- BiomartGeneRegionTrack(genome = gen, biomart=martENSEMBL,
-                                     chromosome = chr, start = start, 
-                                     end = end,  name = "ENSEMBL",
-                                     groupAnnotation = "group",
-                                     just.group = "above",
-                                     fontcolor="black",showId=showId,size=2,
-                                     col.line = NULL, col = NULL)
+    #  fm <- Gviz:::.getBMFeatureMap()
+    #  fm["symbol"] <- "external_gene_id"
+    #  biomTrack <- BiomartGeneRegionTrack(genome = gen, featureMap=fm, biomart=martENSEMBL,
+    #                                      chromosome = chr, start = start, 
+    #                                      end = end,  name = "ENSEMBL",
+    #                                      groupAnnotation = "group",
+    #                                      just.group = "above",
+    #                                     fontcolor="black",showId=showId,size=2)
+    biomTrack <- BiomartGeneRegionTrack(genome = gen, biomart=martENSEMBL,
+                                        chromosome = chr, start = start, 
+                                        end = end,  name = "ENSEMBL",
+                                        groupAnnotation = "group",
+                                        just.group = "above",
+                                        fontcolor="black",showId=showId,size=2,
+                                        col.line = NULL, col = NULL)
     
     
   } else {
@@ -117,7 +117,7 @@ genesENSEMBL<-function(gen,chr,start,end,showId=FALSE){
                                         col.line = NULL, col = NULL)
   }
   
- 
+  
   #  cat("change feature\n")
   if(length(feature(biomTrack)) > 0) {
     feature(biomTrack) <- "protein_coding"
@@ -158,19 +158,19 @@ transcriptENSEMBL<-function(gen,chr,start,end,showId=FALSE){
   if(length(match(gen, tolower(c("hg19","grch37")))) > 0){
     martENSEMBL=useMart(host='grch37.ensembl.org', biomart='ENSEMBL_MART_ENSEMBL',
                         dataset='hsapiens_gene_ensembl')
-  #  fm <- Gviz:::.getBMFeatureMap()
-  #  fm["symbol"] <- "external_gene_id"
-  #  biomTrack <- BiomartGeneRegionTrack(genome = gen, featureMap=fm, biomart=martENSEMBL,
-  #                                      chromosome = chr, start = start, 
-  #                                    end = end,  name = "ENSEMBL",
-  #                                      fontcolor="black",groupAnnotation = "group",
-  #                                     just.group = "above",showId=showId,size=2)
-   biomTrack <- BiomartGeneRegionTrack(genome = gen, biomart=martENSEMBL,
-                                     chromosome = chr, start = start, 
-                                     end = end,  name = "ENSEMBL",
-                                     fontcolor="black",groupAnnotation = "group",
-                                     just.group = "above",showId=showId,size=2,
-                                     col.line = NULL, col = NULL)
+    #  fm <- Gviz:::.getBMFeatureMap()
+    #  fm["symbol"] <- "external_gene_id"
+    #  biomTrack <- BiomartGeneRegionTrack(genome = gen, featureMap=fm, biomart=martENSEMBL,
+    #                                      chromosome = chr, start = start, 
+    #                                    end = end,  name = "ENSEMBL",
+    #                                      fontcolor="black",groupAnnotation = "group",
+    #                                     just.group = "above",showId=showId,size=2)
+    biomTrack <- BiomartGeneRegionTrack(genome = gen, biomart=martENSEMBL,
+                                        chromosome = chr, start = start, 
+                                        end = end,  name = "ENSEMBL",
+                                        fontcolor="black",groupAnnotation = "group",
+                                        just.group = "above",showId=showId,size=2,
+                                        col.line = NULL, col = NULL)
     
   } else {
     martENSEMBL=useMart("ensembl",dataset='hsapiens_gene_ensembl')
@@ -506,7 +506,7 @@ knownGenesUCSC<-function(gen,chr,start,end,showId=TRUE){
               fill = "#8282d2", name = "UCSC Genes",stacking="dense",size=2,
               col.line = NULL, col = NULL)
   }
-
+  
 }
 
 #-------------------- CREATION track ref Genes from UCSC ------------------
@@ -540,7 +540,7 @@ xenorefGenesUCSC<-function(gen,chr,start,end,showId=FALSE){
               fill = "#8282d2", stacking="dense", name = "Other RefSeq", 
               col.line = NULL, col = NULL)
   }
-
+  
 }
 
 #-------------------- CREATION track CpG Island from UCSC ------------------
@@ -579,7 +579,7 @@ snpLocationsUCSC <-function(gen,chr,start,end,track){
     stop("Invalid in function snpLocationsUCSC :gen null:\n")
   }
   if(is.null(track) & (gen== "hg19" | gen == "grch37")){
-    track="snp138"
+    track="snp142"
   }else if(is.null(track)){
     stop("Invalid in function snpLocationsUCSC :track null:\n")
   }
@@ -610,7 +610,7 @@ regulationBiomart <- function(gen, chr, start, end) {
   dataset="hsapiens_feature_set"
   if(length(match(gen, tolower(c("hg19","grch37")))) > 0){
     martfunc=useMart(host='grch37.ensembl.org', biomart='ENSEMBL_MART_FUNCGEN',
-                        dataset='hsapiens_feature_set')
+                     dataset='hsapiens_feature_set')
   } else {
     
     martfunc <- useMart('functional_genomics',dataset='hsapiens_feature_set')
@@ -674,7 +674,7 @@ snpBiomart <- function(chr, start, end, dataset, showId=FALSE, title=NULL) {
   chrEnsembl=chrUCSC2ENSEMBL(chr)
   martsnp=useMart("snp",dataset=dataset)
   ens_snp <- getBM(c("refsnp_id","chrom_start","chrom_strand","chr_name"),
-                   filters = c("chr_name","chrom_start","chrom_end"),
+                   filters = c("chr_name","start","end"),
                    values = list(chrEnsembl, start, end), mart=martsnp) 
   
   data_tracksnp <- AnnotationTrack()
@@ -721,7 +721,7 @@ structureBiomart <- function(chr, start, end, strand, dataset,showId=FALSE,title
   martstruct=useMart("snp",dataset=dataset)
   ens <- getBM(c("sv_accession","chrom_start","chrom_end","seq_region_strand","chr_name",
                  "sv_variant_type","dgva_study_accession"),
-               filters = c("chr_name","chrom_start","chrom_end"),
+               filters = c("chr_name","start","end"),
                values = list(chrEnsembl, start, end), mart=martstruct) 
   
   data_track <- AnnotationTrack()
@@ -781,7 +781,7 @@ ClinVarMainTrack <-function(gen,chr,start,end,showId=FALSE){
               stacking="dense", fill = "black", name = "ClinVar Variants", 
               col.line = NULL, col = NULL)
   }
-
+  
 }
 
 
@@ -816,7 +816,7 @@ ClinVarCnvTrack <-function(gen,chr,start,end,showId=FALSE){
               stacking="dense", fill = "black", name = "ClinVar Variants", 
               col.line = NULL, col = NULL)
   }
-
+  
 }
 
 #-------------------- CREATION track Coriell CNV from UCSC ------------------
@@ -851,7 +851,7 @@ CoreillCNVTrack <-function(gen,chr,start,end,showId=FALSE){
               stacking="dense", fill = "blue", name = "Coriell CNVs", 
               col.line = NULL, col = NULL)
   }
-
+  
 }
 
 #-------------------- CREATION track COSMIC from UCSC ------------------
@@ -885,7 +885,7 @@ COSMICTrack <-function(gen,chr,start,end,showId=FALSE){
               stacking="dense", fill = "firebrick1", name = "COSMIC", 
               col.line = NULL, col = NULL)
   }
-
+  
 }
 
 #-------------------- CREATION track GAD from UCSC ------------------
@@ -918,7 +918,7 @@ GADTrack <-function(gen,chr,start,end,showId=FALSE){
               stacking="dense", fill = "darkslategray1", name = "GAD", 
               col.line = NULL, col = NULL)
   }
-
+  
 }
 
 #-------------------- CREATION track raw GWAS Catalog from UCSC ------------------
@@ -950,7 +950,7 @@ GWASTrack <-function(gen,chr,start,end,showId=FALSE){
               id = "name", feature = "func", strand = "*", shape = "box", 
               stacking="dense", fill = "black", name = "GWAS Catalog",  col.line = NULL, col = NULL)
   }
-
+  
 }
 
 #-------------------- CREATION track GeneReviews from UCSC ------------------
@@ -982,7 +982,7 @@ GeneReviewsTrack <-function(gen,chr,start,end,showId=FALSE){
               id = "name", feature = "func", strand = "*", shape = "box", 
               stacking="dense", fill = "red", name = "GeneReviews")
   }
-
+  
 }
 
 #-------------------- CREATION track ISCA from UCSC ------------------
@@ -1089,5 +1089,5 @@ RepeatMaskerTrack <-function(gen,chr,start,end,showId=FALSE){
             id = "repName", group="repName", feature = "repClass", strand = "*", 
             shape = "box", stacking="full", fill = "grey", name = "RepeatMasker",
             groupAnnotation = "group",just.group = "above", 
-            showId=TRUE, col.line = NULL, col = NULL)
+            showId=showId, col.line = NULL, col = NULL)
 }
