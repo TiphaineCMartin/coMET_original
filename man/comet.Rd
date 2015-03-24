@@ -65,7 +65,7 @@ comet(mydata.file = NULL, mydata.format = "site", mydata.type = "file",
     Color scheme options: heat, bluewhitered, cm, topo, gray, bluetored
 }
     \item{cormatrix.conf.level}{
-    Confidence level for the returned confidence interval. Currently only used for the Pearson product moment correlation coefficient if there are at least 4 complete pairs of observations. Default value= 0.95
+    Alpha level for the confidence interval. Default value= 0.05. CI will be the alpha/2 lower and upper values.
 }
     \item{cormatrix.sig.level}{
     Significant level to visualise the correlation. If the correlation has a pvalue under the significant level, the correlation will be colored in "goshwhite", else the color is related to the correlation level and the color scheme choosen.Default value =1.
@@ -227,7 +227,7 @@ comet(mydata.file = NULL, mydata.format = "site", mydata.type = "file",
     Adjusts the spread of the connecting lines. Range: 0-2
 }
     \item{config.file}{
-    Configuration file contains the values of these options instead of defining these by command line. It is a file where each line is one option. The name of option is in capital and is separated to its value by "=". If there are multiple values such as for the option list.tracks or the options for additional data, you need to separated them by a "comma".
+    Configuration file contains the values of these options instead of defining these by command line. It is a file where each line is one option. The name of option and its value are separated by "=". If there are multiple values such as for the option list.tracks or the options for additional data, you need to separated them by a "comma" and not extra space. (i.e. list.tracks=geneENSEMBL,CGI,ChromHMM,DNAse,RegENSEMBL,SNP)
 }
     \item{verbose}{
        logical option TRUE or FALSE. TRUE (default). If TRUE, shows comments.
