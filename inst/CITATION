@@ -17,5 +17,22 @@ citEntry(entry="article",
                "coMET: an R plotting package to visualize regional plots of epigenome-wide association scan results",
           "QG14, 2014")
 )
-
+citEntry(entry="article",
+         title = "coMET: visualisation of regional epigenome-wide association scan results and DNA co-methylation patterns",
+         author = personList(as.person("Martin, T.C."),
+		         as.person("Erte, I."),
+  	         as.person("Tsai, P-C."),
+  	         as.person("Bell, J.T.")),
+         journal= "BMC Bioinformatics",
+         volume	="" ,
+		     number = "",
+         year	= 2015,
+         pages	="",
+	 month  ="",
+         url	="",
+         textVersion = 
+               paste("Martin, T., Yet, I, Tsai, P-C, Bell, J.T.",
+               "coMET: visualisation of regional epigenome-wide association scan results and DNA co-methylation patterns",
+          "BMC Bioinformatics, 2015 (accepted)")
+)
 

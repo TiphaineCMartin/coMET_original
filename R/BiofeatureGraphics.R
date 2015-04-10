@@ -607,18 +607,18 @@ regulationBiomart <- function(gen, chr, start, end) {
   
   chrEnsembl=chrUCSC2ENSEMBL(chr)
   martfunc=NULL
-  dataset="hsapiens_feature_set"
+  dataset="hsapiens_motif_feature"
   if(length(match(gen, tolower(c("hg19","grch37")))) > 0){
     martfunc=useMart(host='grch37.ensembl.org', biomart='ENSEMBL_MART_FUNCGEN',
-                     dataset='hsapiens_feature_set')
+                     dataset='hsapiens_regulatory_feature')
   } else {
     
-    martfunc <- useMart('functional_genomics',dataset='hsapiens_feature_set')
+    martfunc <- useMart('functional_genomics',dataset='hsapiens_regulatory_feature')
   }
-  ensfunc <- getBM(c("regulatory_stable_id","seq_region_start_1057","seq_region_end_1057",
-                     "feature_type_name_1057","display_label_1057"),
-                   filters = c("reg_chromosomal_region"),
-                   values = paste(chrEnsembl, start, end,sep=":"), mart=martfunc) 
+  ensfunc <- getBM(c("chromosome_name","chromosome_start","chromosome_end",
+                     "feature_type_name"),
+                   filters = c("chromosome_name","start","end"),
+                   values = list(chrEnsembl, start, end), mart=martfunc) 
   
   data_trackfunc <- AnnotationTrack()
   if(nrow(ensfunc) > 0) {

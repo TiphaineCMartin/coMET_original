@@ -1,3 +1,8 @@
+COMET 0.99.10 - 2015-04-10
+-------------------------
+- Update regulationBiomart function and the pre-computed data associated because ENSEMBL has recently updated their schema in Biomart for these data.
+- Update the documentations (man and vignette)
+
 COMET 0.99.9 - 2015-03-10
 -------------------------
 - Update snpBiomart and structureBiomart functions and the pre-computed data associated because ENSEMBL has recently updated their schema in Biomart for these data.
