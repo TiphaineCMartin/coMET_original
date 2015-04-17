@@ -1,7 +1,7 @@
 Package: coMET
 Type: Package
 Title: coMET: visualisation of regional epigenome-wide association scan (EWAS) results and DNA co-methylation patterns.
-Version: 0.99.10
+Version: 1.1.0
 Date: 2015-04-10
 Author: Tiphaine C. Martin, Idil Yet, Pei-Chien Tsai, Jordana T. Bell
 Maintainer: Tiphaine Martin <tiphaine.martin@kcl.ac.uk>
