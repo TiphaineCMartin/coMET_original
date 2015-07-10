@@ -397,7 +397,7 @@ check.configVar <- function(config.var) {
   }
   
   
-  if(grepl("ASSO", config.var$mydata.format)[1] & is.null(config.var$disp.association)) {
+  if(grepl("asso", config.var$mydata.format)[1] & is.null(config.var$disp.association)) {
     stop("No value for the association of info file.\n 
           Parametre: disp.association\n")
   }
@@ -440,7 +440,7 @@ check.configVar <- function(config.var) {
            Parameter: color.list.large\n")
     }
     
-    if(grepl("ASSO", config.var$mydata.large.format)[1] & 
+    if(grepl("asso", config.var$mydata.large.format)[1] & 
          is.null(config.var$disp.association.large)) {
       stop("No value of association for supplementary data\n
            Parameter: disp.association.large\n")
@@ -1481,7 +1481,7 @@ check.format.mydata <- function(gbl.var,option,numfile){
   if (length(grep("^[0-9]", mydata.test$MYDATA.NAME)) > 0) {
     stop("MYDATA names cannot start with numbers.\n")
   } 
-  if ((format == "DTR" | format == "DTR_ASSO" | format == "site" | format == "site_asso")) {
+  if ((format == "DTR" | format == "dtr_asso" | format == "site" | format == "site_asso")) {
     if(is.null(mydata.test$LOC)) {
       stop("Missing MYDATA data file column LOC\n")
     }
@@ -1507,7 +1507,7 @@ check.format.mydata <- function(gbl.var,option,numfile){
   }  else if (length(grep("^[a-zA-Z]",mydata.test$MYDATA.PVAL)) > 0){
     stop("Missing column MYDATA.PVAL has to be number\n")
   } 
-  if (format == "region_asso" | format == "DTR_ASSO" |  format == "site_asso") {
+  if (format == "region_asso" | format == "dtr_asso" |  format == "site_asso") {
     if(is.null(mydata.test$MYDATA.ASSO) ) {
       stop("Missing MYDATA data file column MYDATA.ASSO\n")
     }
@@ -1600,7 +1600,7 @@ read.file.mydata <- function(split.mydata.file,config.var, gbl.var,numfile){
   if (config.var$mydata.format == "DTR") {
     gbl.var$mydata.data <- gbl.var$general.data[,c(1,2,7,14)]
     colnames(gbl.var$mydata.data)<-c("MYDATA.NAME","CHROMOSOME","LOC","MYDATA.PVAL")
-  } else if (config.var$mydata.format == "DTR_ASSO") {
+  } else if (config.var$mydata.format == "dtr_asso") {
     gbl.var$mydata.data <- gbl.var$general.data[,c(1,2,7,14,15)]
     colnames(gbl.var$mydata.data)<-c("MYDATA.NAME","CHROMOSOME","LOC","MYDATA.PVAL","MYDATA.ASSO")
   } else if (config.var$mydata.format == "site") {
@@ -1648,7 +1648,7 @@ read.file.mydata.large <- function(large.split.mydata.file, config.var, gbl.var,
   if (large.format == "DTR") {
     general.data.large.raw <- general.data.large.raw.tmp[,c(1,2,7,14)]
     colnames(general.data.large.raw)<-c("MYDATA.NAME","CHROMOSOME","LOC","MYDATA.PVAL")
-  } else if (large.format == "DTR_ASSO") {
+  } else if (large.format == "dtr_asso") {
     general.data.large.raw <- general.data.large.raw.tmp[,c(1,2,7,14,15)]
     colnames(general.data.large.raw)<-c("MYDATA.NAME","CHROMOSOME","LOC","MYDATA.PVAL","MYDATA.ASSO")
   } else if (large.format == "site") {

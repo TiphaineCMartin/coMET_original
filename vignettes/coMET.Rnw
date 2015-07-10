@@ -1,6 +1,6 @@
 %\VignetteIndexEntry{coMET users guide}
 %\VignetteDepends{coMET}
-%\VignetteKeywords{Software, Visualization, genomeAnnotation, GeneRegulation, GenomicVariation, DNAMethylation, SNP, GeneExpression }
+%\VignetteKeywords{Software, DifferentialMethylation, Visualization, Sequencing, Genetics, FunctionalGenomics, Microarray, MethylationArray, MethylSeq, ChIPSeq, DNASeq, RIPSeq, RNASeq, ExomeSeq, DNAMethylation, GenomeWideAssociation }
 %\VignettePackage{coMET}
 %\VignetteEngine{knitr::knitr}
 
@@ -19,7 +19,7 @@ options(replace.assign=TRUE,width=90)
 @
 
 \RequirePackage[utf8]{inputenc} 
-% \RequirePackage{hyperref}
+\RequirePackage{hyperref}
 \RequirePackage{url}
 \RequirePackage[authoryear,round]{natbib}
 \bibliographystyle{plainnat}
@@ -39,8 +39,8 @@ options(replace.assign=TRUE,width=90)
 \newcommand{\RR}[0]{{\texttt{R}}}
 
 \title{The coMET User Guide}
-\author{Tiphaine Martin \footnote{tiphaine.martin@kcl.ac.uk}, Idil Yet \footnote{idil.yet@kcl.ac.uk}, Pei-Chien Tsai \footnote{peichien.tsai@kcl.ac.uk}, Jordana T. Bell \footnote{jordana.bell@kcl.ac.uk}}
-\date{Edited: September 2014; Compiled: \today}
+\author{Tiphaine C. Martin \footnote{tiphaine.martin@kcl.ac.uk}, Thomas Hardiman \footnote{thomas.hardiman@kcl.ac.uk}, Idil Yet \footnote{idil.yet@kcl.ac.uk}, Pei-Chien Tsai \footnote{peichien.tsai@kcl.ac.uk}, Jordana T. Bell \footnote{jordana.bell@kcl.ac.uk}}
+\date{Edited: July 2015; Compiled: \today}
 
 \begin{document}
 
@@ -83,7 +83,15 @@ source("http://bioconductor.org/biocLite.R")
 biocLite("coMET")
 @
 
-Currently, coMET is under the development version of Bioconductor, go to the section "Install he development version of coMET from Bioconductor".
+CoMET uses the package called "psych" that is not under bioconductor. You need to install it before the installation of coMET
+
+<<installPackagesdepend,eval=FALSE>>=
+install.packages("psych")
+@
+
+coMET has a development version on gitHub, go to the section "Install the development version of coMET from Bioconductor". 
+
+You can install also on the version R 3.1 via the master version of package on gitHub. You need to do the same thing that describe in the section "Install the development version of coMET from Bioconductor"
 
 After loading from Bioconductor or gitHUB, CoMET can be loaded into a R session using this command:
 <<dd,echo=FALSE,eval=FALSE>>=
@@ -257,13 +265,13 @@ The important options of a coMET figure include three components:
 \begin{itemize}
 \item \textbf{\emph{pval.threshold}}: Significance threshold to be displayed as a red dashed line
 \item \textbf{\emph{disp.association}}: This logical option works only if \textbf{\emph{mydata.file}} contains the effect direction (\textbf{\emph{mydata.format}}=\textbf{\emph{site\_asso}} or \textbf{\emph{region\_asso}}). The value can be TRUE or FALSE: if FALSE (default), for each point of data in the p-value plot, the color of symbol is the color of co-methylation pattern between the point and the reference site; if TRUE, the effect direction is shown. If the association is positive, the color is the one defined with the option \textbf{\emph{color.list}}. On the other hand, if the association is negative, the color is the opposed color. 
-\item disp.REGION : This logical option works only if \textbf{\emph{mydata.file}} contains regions (\textbf{\emph{mydata.format}}=\textbf{\emph{region}} or \textbf{\emph{region\_asso}}). The value can be TRUE or FALSE (default). If TRUE, the genomic element will be shown by a continuous line with the color of the element, in addition to the symbol at the center of the region. If FALSE, only the symbol is shown.
+\item disp.region : This logical option works only if \textbf{\emph{mydata.file}} contains regions (\textbf{\emph{mydata.format}}=\textbf{\emph{region}} or \textbf{\emph{region\_asso}}). The value can be TRUE or FALSE (default). If TRUE, the genomic element will be shown by a continuous line with the color of the element, in addition to the symbol at the center of the region. If FALSE, only the symbol is shown.
 \end{itemize}
 
 \item The middle panel provides customized annotation tracks; 
 \begin{itemize}
 \item \textbf{\emph{list.tracks}} (for \emph{comet.web} function): List of annotation tracks that can be visualised: geneENSEMBL, CGI, ChromHMM, DNAse, RegENSEMBL, SNP, transcriptENSEMBL, SNPstoma, SNPstru, SNPstrustoma, ISCA, COSMIC, GAD, ClinVar, GeneReviews, GWAS, ClinVarCNV, GCcontent, genesUCSC, xenogenesUCSC. The elements are separated by a comma.
-\item tracks.gviz, tracks.ggbio, tracks.trackviewer (for \emph{comet} function): For each option, it is possible to give a list of annotation tracks that is created by the Gviz, GGBio, and TrackViewer bioconductor packages. 
+\item tracks.gviz, tracks.ggbio, tracks.trackviewer (for \emph{comet} function): For each option, it is possible to give a list of annotation tracks that is created by the Gviz, GGBio, and TrackViewer bioconductor packages. The integration of plots from ggbio and trackviewer can be sometimes not really perfect. It is better to create plots from Gviz and use tracks.gviz
 \end{itemize}
 
 \item The lower panel shows the correlation between selected CpG sites in the genomic region.
@@ -619,7 +627,7 @@ head(listcorr)
 \section{Extra information about annotation tracks}
 Annotation tracks can be created with Gviz using four different functions:
 \begin{enumerate}
-\item UcscTrack. Different UCSC tracks can be selected for visualisation from the table Browser of UCSC \url{http://genome-euro.ucsc.edu/cgi-bin/hgTables?hgsid=202842745_Dlvit14QO0G6ZPpLoEVABG8aqfrm&clade=mammal&org=Human&db=hg19&hgta_group=varRep&hgta_track=cpgIslandExt&hgta_table=0&hgta_regionType=genome&position=chr6%3A32726553-32727053&hgta_outputType=primaryTable&hgta_outFileName=}
+\item UcscTrack. Different UCSC tracks can be selected for visualisation from the table Browser of UCSC \url{http://genome-euro.ucsc.edu/cgi-bin/hgTables?hgsid=202842745\_Dlvit14QO0G6ZPpLoEVABG8aqfrm&clade=mammal&org=Human&db=hg19&hgta_group=varRep&hgta_track=cpgIslandExt&hgta_table=0&hgta\_regionType=genome&position=chr6%3A32726553\-32727053&hgta\_outputType=primaryTable&hgta\_outFileName=}
 \item BiomartGeneRegionTrack. A connection should be established to the Biomart database to visualise the Genes data.
 \item DataTrack. This should be numerical format data
 \item AnnotationTrack. This allows visualisation of any annotation data.
@@ -824,10 +832,41 @@ directory_index off;
 
 
 
+
+
 \clearpage
 \section{SessionInfo}
 The following is the session info that generated this vignette:
 <<session-info, results="asis">>=
 toLatex(sessionInfo())
 @
+
+
+
+<<Development, eval=FALSE,echo=FALSE>>=
+#Need to have the last version of R associated with Bioconductor in parallele of your original version
+
+#Need to have the last version of Bioconductor and BiocCheck
+#Need to update under Rdev
+remove.packages("BiocInstaller")
+source("http://bioconductor.org/biocLite.R")
+biocLite("BiocInstaller")
+
+#Need to update different packages associated with coMET
+biocLite("coMET")
+
+#Go to the parent folder of the package 
+# To create the manual documentation, need to run
+Rdevel CMD Rd2pdf --pdf coMET
+
+#Need to build the  new package
+Rdevel CMD build coMET --no-build-vignette
+
+#Need to check if the new package follow the rules of R
+Rdevel CMD check coMET
+
+#To check if the new package follow the rules from bioconductor
+Rdevel CMD BiocCheckdev3.1 coMET
+@
+
 \end{document}

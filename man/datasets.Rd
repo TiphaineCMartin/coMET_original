@@ -25,6 +25,8 @@
 \alias{strutrack}
 \alias{transENSMBLtrack}
 \alias{xenogenestrack}
+\alias{interestgenesENSMBLtrack}
+\alias{interesttransENSMBLtrack}
 \docType{data}
 \title{
 Data sets

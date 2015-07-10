@@ -789,13 +789,15 @@ draw.plot.grid.mydata <- function(config.var, gbl.var) {
             #---- ASSOCIATION COLOR
             mycolor <- color.cut.ref[i]
             if(! is.null(config.var$disp.association)){
-              if(as.logical(gbl.var$split.association[[1]][gbl.var$cur.sample]) & (grepl("ASSO", format)[1])) {
+              if(as.logical(gbl.var$split.association[[1]][gbl.var$cur.sample]) & (grepl("asso", format)[1])) {
+                if (config.var$verbose)  cat("Association ", gbl.var$mydata.data$MYDATA.ASSO[i]," \n") 
                 mycolor <- gbl.var$fill.list[gbl.var$cur.sample]
-                mycolor <- gbl.var$fill.list[gbl.var$cur.sample]
-                if  (exists("gbl.var$mydata.data$MYDATA.ASSO[i]") & length(gbl.var$mydata.data$MYDATA.ASSO[i]) >0 & gbl.var$mydata.data$MYDATA.ASSO[i] == "-") {
+                myasso <- gbl.var$mydata.data$MYDATA.ASSO[i]
+                if(grepl("-", myasso)[1]) {
+                  if(config.var$verbose)  cat("Opposited color \n") 
                   mycolor.tmp <- opposite(mycolor,plot=FALSE)[2]
                   mycolor <- mycolor.tmp
-                } else if  (exists("gbl.var$mydata.data$MYDATA.ASSO[i]") & length(gbl.var$mydata.data$MYDATA.ASSO[i]) >0 & gbl.var$mydata.data$MYDATA.ASSO[i] == "0") {
+                } else if  (gbl.var$mydata.data$MYDATA.ASSO[i] == "0") {
                   mycolor.tmp <- "black"
                   mycolor <- mycolor.tmp
                 }
@@ -887,9 +889,10 @@ draw.plot.grid.mydata <- function(config.var, gbl.var) {
             #---- ASSOCIATION COLOR
             mycolor <- color.cut.ref[i]
             if(! is.null(config.var$disp.association)){
-              if(gbl.var$split.association[[1]][gbl.var$cur.sample] & (grepl("ASSO", format)[1]) & (grepl("ASSO", format)[1])) {
+              if( as.logical(gbl.var$split.association[[1]][gbl.var$cur.sample]) & (grepl("asso", format)[1])) {
                 mycolor <- gbl.var$fill.list[gbl.var$cur.sample]
-                if  (gbl.var$mydata.data$MYDATA.ASSO[i] == "-") {
+                myasso <- gbl.var$mydata.data$MYDATA.ASSO[i]
+                if  (grepl("-", myasso)[1]) {
                   mycolor.tmp <- opposite(mycolor,plot=FALSE)[2]
                   mycolor <- mycolor.tmp
                 } else if  (gbl.var$mydata.data$MYDATA.ASSO[i] == "0") {
@@ -972,9 +975,10 @@ draw.plot.grid.mydata.large <- function(config.var, gbl.var) {
           mycolor <- gbl.var$large.fill.list[gbl.var$cur.sample.large]
           
           if(!is.null(config.var$disp.association.large)){
-            if(as.logical(gbl.var$large.split.association[[1]][gbl.var$cur.sample.large]) & (grepl("ASSO", format)[1])) {
-              # if (config.var$verbose)  cat("Association ",gbl.var$mydata.large.data$MYDATA.ASSO[i]," \n") 
-              if  (gbl.var$mydata.large.data$MYDATA.ASSO[i] == "-") {
+            if(as.logical(gbl.var$large.split.association[[1]][gbl.var$cur.sample.large]) & (grepl("asso", format)[1])) {
+               if (config.var$verbose)  cat("Association ",gbl.var$mydata.large.data$MYDATA.ASSO[i]," \n") 
+               myassolarge <- gbl.var$mydata.large.data$MYDATA.ASSO[i]
+              if  (grepl("-", myassolarge)[1]) {
                 mycolor.fill.tmp <- opposite(mycolor,plot=FALSE)[2]
                 mycolor <- mycolor.fill.tmp
               } else if  (gbl.var$mydata.large.data$MYDATA.ASSO[i] == "0") {
@@ -1618,13 +1622,13 @@ create.color.bar <- function(config.var, gbl.var) {
       r <- (as.integer(i/matrix.rows))
       r.tmp <- i/matrix.rows
       if(r.tmp%%1==0){
-        if (config.var$verbose)  cat("integer")
+       # if (config.var$verbose)  cat("integer")
       } else {
         r <- r + 1
       }
       c <- i - (r-1)*matrix.rows
       v<- cormatrix.pvalue.matrix[r,c]
-      if (config.var$verbose)  cat ("Pvalue in ",i,":",r,"-",c," is ",v,"\n")
+     # if (config.var$verbose)  cat ("Pvalue in ",i,":",r,"-",c," is ",v,"\n")
       if( cormatrix.pvalue.matrix[r,c] <= config.var$cormatrix.sig.level) {
         color.cut[i] <- tmp.color.cut[tmp.vector[i]]
       } else if(tmp.vector[i] %in% blank.vector){
@@ -1955,9 +1959,9 @@ draw.name.tracks.web <- function(config.var,gbl.var) {
   if(config.var$image.size == 3.5) {
     #All tracks cf order define via create.tracks.web
     # if (config.var$verbose)  cat("All tracks \n")
-    y.label.pos <- c(1.25,0.15, -0.15,-0.75,-1.25,-1.65,-1.95)
+    y.label.pos <- c(1.25,0.15, -0.25,-0.75,-1.25,-1.65,-1.95)
   } else if(config.var$image.size == 7) {
-    y.label.pos <- c(1.25,0,30, -0.1, -0.7, -1.3, -1.7, -2.1)
+    y.label.pos <- c(1.25,0.30, -0.1, -0.7, -1.3, -1.7, -2.1)
   }
   #--- GENES ENSEMBL 
   if(has.key("geneENSEMBL", gbl.var$split.list.tracks)) {
