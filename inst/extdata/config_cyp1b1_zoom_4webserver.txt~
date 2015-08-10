@@ -34,6 +34,6 @@ disp.mult.lab.X=FALSE
 image.type=pdf
 image.title="Example a-DMR in CYP1B1 in Adipose tissue"
 image.name=cyp1b1_zoom_plus_name_expr
-image.size=7
+image.size=3.5
 genome=hg19
 dataset.geneE=hsapiens_gene_ensembl

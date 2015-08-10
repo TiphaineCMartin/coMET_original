@@ -70,7 +70,7 @@ The structure of the plots builds on snp.plotter (Luna et al., 2007), with exten
 
 The current version of coMET can visualise EWAS results and annotations from a genomic region up to an entire chromosome in the upper and middle panels of the coMET plot. However, the lower panel (co-methylation) is restricted to visualising a maximum of 120 single-CpG or region-based datapoints. This limitation is due to limitations in the size of a standard A4 plot, and may be updated in the near future. However, the user can use the function comet.list to extracts all significant correlations beyond a given threshold in the dataset from either a genomic region or from an entire chromosome if required.
 
-
+\clearpage
 \section{Usage}
 CoMET requires the installation of R, the statistical computing software, freely available for Linux, Windows, or MacOS. CoMET can be downloaded from bioconductor. Packages can be installed using the install.packages command in R. The coMET R package includes two major functions \textbf{\emph{comet.web}} and \textbf{\emph{comet}} to visualise omci-WAS results. 
 \begin{itemize}
@@ -145,6 +145,7 @@ install.packages("YourPath/coMET_YourVersion.tar.gz",repos=NULL,type="source")
 install.packages("YourPath/coMET_0.99.9.tar.gz",repos=NULL,type="source")
 @
 
+\clearpage
 \section{Functions in coMET}
 Currently, there are 3 main functions:
 \begin{enumerate}
@@ -155,6 +156,7 @@ Currently, there are 3 main functions:
 
 The functions can read the data input files, but it is also possible to use data frames within R for all data input except for the configuration file. The latter can be achieved with the two functions \textbf{\emph{comet}} and \textbf{\emph{comet.list}}. The structure of the data frames (number of columns, type, format) follows the same rules as for the data input files (cf. section "File formats").
 
+\clearpage
 \section{File formats}
 There are five types of files that the user can give to produce the plot: 
 \begin{enumerate}
@@ -292,6 +294,7 @@ data_config <-read.csv(configfile, quote = "", sep="\t", header=FALSE)
 data_config
 @
 
+\clearpage
 \section{Creating a plot like the webservice: comet.web}
 User can draw coMET via the coMET website (\url{http://epigen.kcl.ac.uk/comet}).
 It is possible to reproduce the web service plotting defaults by using the function comet.web, for example see Figure \ref{fig:cometweb_simple}.
@@ -376,7 +379,7 @@ DATASET.STRU.STOMA &  hsapiens\_structvar\_som \\
 BROWSER.SESSION &  UCSC \\
 \end{longtable}
 
-
+\clearpage
 \section{Creating a plot with the generic function: comet}
 It is possible to create the annotation tracks by Gviz, trackviewer or ggbio, for example see Figure \ref{fig:cometPlotfile}.
 Currently, the Gviz option for annotation tracks, in combination with the heatmap of correlation values between genomic elements, provides the most informative and easy approach to visualize graphics.
@@ -590,6 +593,7 @@ comet(config.file=configfile, mydata.file=myinfofile, mydata.type="file",
 \caption{Plot with comet function without pvalue plot.\label{fig:cometPlotNopval}}
 \end{figure}
 
+\clearpage
 \section{Extract the significant correlations between omic features}
 CoMET can help to visualise the correlations between omic features with EWAS results and other omic data. In addition, a function \textbf{\emph{comet.list}} can extract the significant correlations according the method (\textbf{\emph{cormatrix.method}}) and significance level (\textbf{\emph{cormatrix.sig.level}}).
 
@@ -623,7 +627,7 @@ dim(listcorr)
 head(listcorr)
 @
 
-
+\clearpage
 \section{Extra information about annotation tracks}
 Annotation tracks can be created with Gviz using four different functions:
 \begin{enumerate}
@@ -642,139 +646,95 @@ The color of the genetic elements is defined by the R package Gviz.
 The color of regulatory elements from ENSEMBL is defined from the same criteria as ENSEMBL (in 2014). The colors and the list of features can be updated in ENSEMBL and not yet in coMET. Please to contact us if you see a difference.
 
 Currently the colors are :
-
-\begin{longtable}{|c|c|}
-\hline \multicolumn{1}{|c|}{Omic feature} & \multicolumn{1}{c|}{Color} \\ \hline
-\endfirsthead
-
-\multicolumn{2}{c}%
-{\tablename\ \thetable\ -- continued from previous page} \\
-\hline \multicolumn{1}{|c|}{Omic feature} &
-\multicolumn{1}{c|}{Color} \\ \hline
-\endhead
-
-\hline \multicolumn{2}{|r|}{{Continued on next page}} \\ \hline
-\endfoot
-
-\hline \hline
-\endlastfoot
-Promoter Associated  & darkolivegreen\\
-CTCF Binding Site & cadetblue1\\
-Gene Associated & coral\\
-Non-Gene Associated & darkgoldenrod1\\
-Predicted Transcribed Region & greenyellow\\
-PolIII Transcription Associated & purple\\
-Enhancer & gold\\
-Transcription Factor Binding Site & darkorchid1\\
-Predicted Weak enhancer/Cis-reg element & yellow\\
-Heterochromatin & wheat4\\
-Open Chromatin & snow3\\
-Promoter Flank & tomato\\
-Repressed/Low Activity  & snow4\\
-Unclassified & aquamarine\\
-\end{longtable}
+\\
+\\
+\centerline{\includegraphics[scale=.19]{../inst/extdata/JpegTables/RegulatoryElementsENSEMBL}}
 
 \subsection{ChromHMM from UCSC}
 The color of regulatory regions from UCSC are defined using the same criteria of UCSC in 2014. The colors and the list of features can be updated in UCSC and not yet in coMET. Please to contact us if you see a difference.
 
 Currently the colors are :
-
-\begin{longtable}{|c|c|}
-\hline \multicolumn{1}{|c|}{Omic feature} & \multicolumn{1}{c|}{Color} \\ \hline
-\endfirsthead
-
-\multicolumn{2}{c}%
-{\tablename\ \thetable\ -- continued from previous page} \\
-\hline \multicolumn{1}{|c|}{Omic feature} &
-\multicolumn{1}{c|}{Color} \\ \hline
-\endhead
-
-\hline \multicolumn{2}{|r|}{{Continued on next page}} \\ \hline
-\endfoot
-
-\hline \hline
-\endlastfoot
-1\_Active\_Promoter  & firebrick1 \\
-2\_Weak\_Promoter  & darksalmon  \\
-3\_Poised\_Promoter  & blueviolet \\
-4\_Strong\_Enhancer  & Orange \\
-5\_Strong\_Enhancer  & coral \\
-6\_Weak\_Enhancer  & yellow \\
-7\_Weak\_Enhancer  & gold \\
-8\_Insulator  & cornflowerblue \\
-9\_Txn\_Transition  & darkolivegreen \\
-10\_Txn\_Elongation  & forestgreen \\
-11\_Weak\_Txn  & darkseagreen1 \\
-12\_Repressed  & gainsboro \\
-13\_Heterochrom/lo  & gray74 \\
-14\_Repetitive/CNV  & gray77 \\
-15\_Repetitive/CNV  & gray86 \\
-\end{longtable}
+\\
+\\
+\centerline{\includegraphics[scale=.19]{../inst/extdata/JpegTables/ChromHMM}}
+% 
+% \begin{longtable}{|c|c|}
+% \hline \multicolumn{1}{|c|}{Omic feature} & \multicolumn{1}{c|}{Color} \\ \hline
+% \endfirsthead
+% 
+% \multicolumn{2}{c}%
+% {\tablename\ \thetable\ -- continued from previous page} \\
+% \hline \multicolumn{1}{|c|}{Omic feature} &
+% \multicolumn{1}{c|}{Color} \\ \hline
+% \endhead
+% 
+% \hline \multicolumn{2}{|r|}{{Continued on next page}} \\ \hline
+% \endfoot
+% 
+% \hline \hline
+% \endlastfoot
+% 1\_Active\_Promoter  & firebrick1 \\
+% 2\_Weak\_Promoter  & darksalmon  \\
+% 3\_Poised\_Promoter  & blueviolet \\
+% 4\_Strong\_Enhancer  & Orange \\
+% 5\_Strong\_Enhancer  & coral \\
+% 6\_Weak\_Enhancer  & yellow \\
+% 7\_Weak\_Enhancer  & gold \\
+% 8\_Insulator  & cornflowerblue \\
+% 9\_Txn\_Transition  & darkolivegreen \\
+% 10\_Txn\_Elongation  & forestgreen \\
+% 11\_Weak\_Txn  & darkseagreen1 \\
+% 12\_Repressed  & gainsboro \\
+% 13\_Heterochrom/lo  & gray74 \\
+% 14\_Repetitive/CNV  & gray77 \\
+% 15\_Repetitive/CNV  & gray86 \\
+% \end{longtable}
 
 
 \subsection{structureBiomart from Ensembl}
 These colors are for somatic structural variation and structural variation for any species.
-
-
-\begin{longtable}{|c|c|}
-\hline \multicolumn{1}{|c|}{Omic feature} & \multicolumn{1}{c|}{Color} \\ \hline
-\endfirsthead
-
-\multicolumn{2}{c}%
-{\tablename\ \thetable\ -- continued from previous page} \\
-\hline \multicolumn{1}{|c|}{Omic feature} &
-\multicolumn{1}{c|}{Color} \\ \hline
-\endhead
-
-\hline \multicolumn{2}{|r|}{{Continued on next page}} \\ \hline
-\endfoot
-
-\hline \hline
-\endlastfoot
-copy\_number\_variation & cornsilk \\
-inversion & darkolivegreen \\
-translocation & cyan \\
-sequence\_alteration & coral \\
-snp & red \\
-insertion  & blueviolet \\
-deletion & orange \\
-indel & darkgoldenrod1 \\
-substitution & dodgerblue2 \\
-\end{longtable}
-
+\\
+\\
+\centerline{\includegraphics[scale=.19]{../inst/extdata/JpegTables/structureBiomart}}
 
 \subsection{ISCA track}
 International Standards of Cytogenomic Arrays Consortium defined a set of phenotypes for CNVs. Different colors are defined to represent them.
+\\
+\\
+\centerline{\includegraphics[scale=.19]{../inst/extdata/JpegTables/ISCATrack}}
 
+\subsection{miRNA Target Regions from Ensemb}
+The colour of the miRNA target regions is defined by the R package Gviz.
 
-\begin{longtable}{|c|c|}
-\hline \multicolumn{1}{|c|}{Omic feature} & \multicolumn{1}{c|}{Color} \\ \hline
-\endfirsthead
+\subsection{Binding Motif Biomart from Ensembl}
 
-\multicolumn{2}{c}%
-{\tablename\ \thetable\ -- continued from previous page} \\
-\hline \multicolumn{1}{|c|}{Omic feature} &
-\multicolumn{1}{c|}{Color} \\ \hline
-\endhead
+Listed on the next page are the different colours used for the different types of binding motifs. The frequency shown is that found in GRCh38 (hg38). Motifs with red text are found only in GRCh37 (hg19), motifs with blue text are found only in GRCh38 (hg38)
+\\
+\\
+\centerline{\includegraphics[scale=0.80]{../inst/extdata/JpegTables/bindingMotifBiomart}}
 
-\hline \multicolumn{2}{|r|}{{Continued on next page}} \\ \hline
-\endfoot
+\subsection{Other Regulatory Regions Biomart from Ensembl}
 
-\hline \hline
-\endlastfoot
-iscaPathogeni & purple\\
-iscaPathGainCum & red\\
-iscaPathLossCum & blue\\
-iscaCuratedPathogeni & purple\\
-iscaLikelyPathogeni & lightpurple\\
-iscaUncertain & lightgrey\\
-iscaBenign & black\\
-iscaCuratedBenign & black\\
-iscaLikelyBenign & black\\
-\end{longtable}
+Listed bellow are the different colours used for the different types of regulatory regions. The frequency shown is that found in GRCh38 (hg38).
+\\
+\\
+\centerline{\includegraphics[scale=0.19]{../inst/extdata/JpegTables/OtherRegulatoryRegions}}
 
+\subsection{Regulatory Fetures Biomart from Ensembl}
 
+Listed bellow are the different colours used for the different types of regulatory etures The frequency shown is that found in GRCh38 (hg38).
+\\
+\\
+\centerline{\includegraphics[scale=0.19]{../inst/extdata/JpegTables/RegulatoryFeaturesBiomart}}
 
+\subsection{Other Regulatory Segments Biomart from Ensembl}
+
+Listed bellow are the different colours used for the different types of regulatory segments. The frequency shown is that found in GRCh38 (hg38). Segments with red text are found only in GRCh37 (hg19)
+\\
+\\
+\centerline{\includegraphics[scale=0.19]{../inst/extdata/JpegTables/RegulatorySegmentsBiomart}}
+
+\clearpage
 \section{coMET: Shiny web-service}
 \subsection{How to use the coMET web-service}
 If you want to use coMET via its webservice, please go to \url{http://epigen.kcl.ac.uk/comet} and select one of different instances or direcly access one of the instances, for example \url{http://comet.epigen.kcl.ac.uk:3838/coMET/}. We have created different instances of coMET because we did not have access to the pro version of Shiny. All instances use the same version of coMET.

@@ -90,7 +90,7 @@ draw.plot.grid.setup <- function(config.var, gbl.var) {
     pushViewport(vpTree(top.vp.cormatrixmap.nopval, vpList(title.vp.cormatrixmap.nopval)))
   }
   image.title.text <- textGrob(config.var$image.title, x = 0.5, y = 0.5, just = c("center"),
-                               default.units = "native", gp = gpar(fontsize = gbl.var$font.size + 4, fontface = "bold"))
+                               default.units = "native", gp = gpar(fontsize = gbl.var$font.size + 4, fontface = "bold.italic"))
   image.title <- gTree(children=gList(image.title.text), vp=title.vp.cormatrixmap, name="image.title")
   
   grid.draw(image.title)
@@ -590,14 +590,14 @@ draw.plot.axis.data <- function(top.vp, config.var, gbl.var) {
   grid.yaxis(at = gbl.var$axis.y, label = gbl.var$axis.y, gp = gpar(fontsize = gbl.var$font.size, lwd = gbl.var$line.width))
   #----------- WRITE LABEL for Y-AXIS
   if(config.var$lab.Y == "ln") {
-    grid.text("-ln(p-value)",
+    grid.text("-ln(P-value)",
               x = -0.1,
               y = 0.5,
               rot = 90,
               gp = gpar(fontsize = gbl.var$font.size,
                         fontface = "bold"))
   } else {
-    grid.text("-log(p-value)",
+    grid.text("-log10(P-value)",
               x = -0.1,
               y = 0.5,
               rot = 90,
@@ -772,6 +772,7 @@ draw.plot.grid.mydata <- function(config.var, gbl.var) {
   #z<-color.cut[,mydata.num]
   #  gbl.var$fill.list[gbl.var$cur.sample]
   format <- as.character(gbl.var$split.format[[1]][gbl.var$cur.sample])
+  
   if(config.var$disp.mydata) {
     if(config.var$disp.type == "symbol") {
       if(gbl.var$cur.sample == 1) {
@@ -779,15 +780,16 @@ draw.plot.grid.mydata <- function(config.var, gbl.var) {
         #------------- DATA of INTERET
         for (i in 1:nrow(gbl.var$mydata.data)) {
           name.test <-gbl.var$mydata.data$MYDATA.NAME[i]
-          position <- gbl.var$mydata.hash.names.pos[[name.test ]]
+          position <- gbl.var$mydata.hash.names.pos[[name.test]]
           #cat ("color",i, " ", color.cut.ref[i],"\n")
           if ((gbl.var$mydata.data$MYDATA.PVAL[i] > config.var$disp.pval.threshold) & 
                 (gbl.var$mydata.data$MYDATA.PVAL[i] != 0) &
                 (position > (gbl.var$min.x - 1)) &
                 (position < (gbl.var$max.x + 1)) ) {
             
-            #---- ASSOCIATION COLOR
+            #---- ASSOCIATION COLOR and SIZE
             mycolor <- color.cut.ref[i]
+            myasso <- 0
             if(! is.null(config.var$disp.association)){
               if(as.logical(gbl.var$split.association[[1]][gbl.var$cur.sample]) & (grepl("asso", format)[1])) {
                 if (config.var$verbose)  cat("Association ", gbl.var$mydata.data$MYDATA.ASSO[i]," \n") 
@@ -804,6 +806,15 @@ draw.plot.grid.mydata <- function(config.var, gbl.var) {
               }
             }
             
+            mycex <- tmp.cex.factor.symbol
+            if(! is.null(config.var$disp.beta.association)){
+              myassoorig <- gbl.var$mydata.data$MYDATA.ASSO.ORIGINAL[i]
+              if(is.integer(myassoorig)){
+                myasso.zscore <- (myassoorig - gbl.var$mean.beta)/gbl.var$sd.beta
+                myasso.zscore.abs <- abs(myasso.zscore)
+                mycex <- tmp.cex.factor.symbol + gbl.var$myfactor.beta*myasso.zscore.abs
+              }
+            }
             
             # if (config.var$verbose)  cat("config.var$mydata.ref",config.var$mydata.ref,"\n")
             # if (config.var$verbose)  cat("gbl.var$mydata.data$MYDATA.NAME[i]",gbl.var$mydata.data$MYDATA.NAME[i],"\n")
@@ -828,7 +839,7 @@ draw.plot.grid.mydata <- function(config.var, gbl.var) {
                           gbl.var$mydata.data$MYDATA.PVAL[i],
                           pch = gbl.var$symbol.list[gbl.var$cur.sample],
                           gp = gpar(col = mycolor,
-                                    cex = tmp.cex.factor.symbol,
+                                    cex = mycex,
                                     fill = "black" ,
                                     lwd = gbl.var$line.width))
               
@@ -853,7 +864,7 @@ draw.plot.grid.mydata <- function(config.var, gbl.var) {
                           gbl.var$mydata.data$MYDATA.PVAL[i],
                           pch = gbl.var$symbol.list[gbl.var$cur.sample],
                           gp = gpar(col = "black",
-                                    cex = tmp.cex.factor.symbol,
+                                    cex = mycex,
                                     fill = mycolor ,
                                     lwd = gbl.var$line.width))
               
@@ -886,8 +897,9 @@ draw.plot.grid.mydata <- function(config.var, gbl.var) {
                 (position > (gbl.var$min.x - 1)) &
                 (position < (gbl.var$max.x + 1)) ) {
             
-            #---- ASSOCIATION COLOR
+            #---- ASSOCIATION COLOR  and size
             mycolor <- color.cut.ref[i]
+            myasso <- 0
             if(! is.null(config.var$disp.association)){
               if( as.logical(gbl.var$split.association[[1]][gbl.var$cur.sample]) & (grepl("asso", format)[1])) {
                 mycolor <- gbl.var$fill.list[gbl.var$cur.sample]
@@ -902,13 +914,22 @@ draw.plot.grid.mydata <- function(config.var, gbl.var) {
               }
             }
             
+            mycex <- tmp.cex.factor.symbol
+            if(! is.null(config.var$disp.beta.association)){
+              myassoorig <- gbl.var$mydata.data$MYDATA.ASSO.ORIGINAL[i]
+              if(is.integer(myassoorig)){
+                myasso.zscore <- (myassoorig - gbl.var$mean.beta)/gbl.var$sd.beta
+                myasso.zscore.abs <- abs(myasso.zscore)
+                mycex <- tmp.cex.factor.symbol + gbl.var$myfactor.beta*myasso.zscore.abs
+              }
+            }
             
             if (is.na(gbl.var$symbol.list[gbl.var$cur.sample])) {
               grid.points(position, 
                           gbl.var$mydata.data$MYDATA.PVAL[i], 
                           pch = 25, 
                           gp = gpar(col = gbl.var$color.list[gbl.var$cur.sample], 
-                                    cex = tmp.cex.factor.symbol,
+                                    cex = mycex,
                                     fill = mycolor, 
                                     lwd = gbl.var$line.width))
               
@@ -918,7 +939,7 @@ draw.plot.grid.mydata <- function(config.var, gbl.var) {
                           gbl.var$mydata.data$MYDATA.PVAL[i], 
                           pch = gbl.var$symbol.list[gbl.var$cur.sample],
                           gp = gpar(col = gbl.var$color.list[gbl.var$cur.sample], 
-                                    cex = tmp.cex.factor.symbol, 
+                                    cex = mycex, 
                                     fill = mycolor, 
                                     lwd = gbl.var$line.width))
             }
@@ -973,7 +994,7 @@ draw.plot.grid.mydata.large <- function(config.var, gbl.var) {
           
           #---- ASSOCIATION COLOR
           mycolor <- gbl.var$large.fill.list[gbl.var$cur.sample.large]
-          
+          myassolarge <- 0
           if(!is.null(config.var$disp.association.large)){
             if(as.logical(gbl.var$large.split.association[[1]][gbl.var$cur.sample.large]) & (grepl("asso", format)[1])) {
                if (config.var$verbose)  cat("Association ",gbl.var$mydata.large.data$MYDATA.ASSO[i]," \n") 
@@ -985,6 +1006,18 @@ draw.plot.grid.mydata.large <- function(config.var, gbl.var) {
                 mycolor.fill.tmp <- "black"
                 mycolor <- mycolor.fill.tmp
               }
+            }
+          }
+          
+          mycex <- tmp.cex.factor.symbol
+          if(! is.null(config.var$disp.beta.association.large)){
+            myassolargeorig <- gbl.var$mydata.large.data$MYDATA.ASSO.ORIGINAL[i]
+            if(is.integer(myassolargeorig)){
+              myassolarge.zscore <- (myassolargeorig - gbl.var$mean.beta)/gbl.var$sd.beta
+              myassolarge.zscore.abs <- abs(myassolarge.zscore)
+              cat("original cex",tmp.cex.factor.symbol,"factor",gbl.var$myfactor.beta, " absolue ",myassolarge.zscore.abs,"\n")
+              mycex <- tmp.cex.factor.symbol + gbl.var$myfactor.beta*myassolarge.zscore.abs
+              cat("cex",mycex,"ref",tmp.cex.factor.symbol,"\n")
             }
           }
           
@@ -1005,7 +1038,7 @@ draw.plot.grid.mydata.large <- function(config.var, gbl.var) {
                           gbl.var$mydata.large.data$MYDATA.PVAL[i],
                           pch = 21,
                           gp = gpar(col = gbl.var$large.color.list[gbl.var$cur.sample.large],
-                                    cex = tmp.cex.factor.symbol,
+                                    cex = mycex,
                                     fill = mycolor,
                                     lwd = gbl.var$line.width))
             } else {
@@ -1013,7 +1046,7 @@ draw.plot.grid.mydata.large <- function(config.var, gbl.var) {
                           gbl.var$mydata.large.data$MYDATA.PVAL[i],
                           pch = gbl.var$large.symbol.list[gbl.var$cur.sample.large],
                           gp = gpar(col = gbl.var$large.color.list[gbl.var$cur.sample.large],
-                                    cex = tmp.cex.factor.symbol,
+                                    cex = mycex,
                                     fill = mycolor,
                                     lwd = gbl.var$line.width))
             }
@@ -1274,7 +1307,7 @@ draw.legend <- function(config.var, gbl.var) {
     label.sample.symbol <- pointsGrob(x = x.pos,
                                       y = y.pos,
                                       pch = 21,
-                                      gp = gpar(col = "red",
+                                      gp = gpar(col = "darkorchid1",
                                                 cex = (gbl.var$cex.factor - 0.5),
                                                 lwd = gbl.var$line.width,
                                                 fill = "black"))
@@ -2288,6 +2321,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   # if (config.var$verbose)  cat("test",is.hash(gbl.var$split.list.tracks))
   #---- genome Axis 
   if(has.key("genomeAxis", gbl.var$split.list.tracks)) {
+    if (config.var$verbose) cat("Draw genomeAxis\n")
     gtrack <- GenomeAxisTrack()
     
     if(length(listtracks_gviz) == 0) {
@@ -2299,6 +2333,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #--- GENES ENSEMBL
   if(has.key("geneENSEMBL", gbl.var$split.list.tracks)) {
+    if (config.var$verbose) cat("Draw geneENSEMBL\n")
     ENSEMBLtrack <- genesENSEMBL(config.var$genome,gbl.var$mydata.chr,
                                  gbl.var$min.x,gbl.var$max.x,showId=TRUE)
     
@@ -2311,6 +2346,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #--- transcript ENSEMBL
   if(has.key("transcriptENSEMBL",gbl.var$split.list.tracks)) {
+    if (config.var$verbose) cat("Draw transcriptENSEMBL\n")
     tENSEMBLtrack <- transcriptENSEMBL(config.var$genome,gbl.var$mydata.chr
                                        ,gbl.var$min.x,gbl.var$max.x,showId=TRUE)
     if(length(listtracks_gviz) == 0) {
@@ -2322,6 +2358,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #--- gene UCSC
   if(has.key("genesUCSC",gbl.var$split.list.tracks)) {
+    if (config.var$verbose) cat("Draw genesUCSC\n")
     dnasetrack<-knownGenesUCSC(config.var$genome,gbl.var$mydata.chr,gbl.var$min.x,
                                gbl.var$max.x,showId=TRUE)
     if(length(listtracks_gviz) == 0) {
@@ -2333,6 +2370,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #------ xeno ref
   if(has.key("xenogenesUCSC",gbl.var$split.list.tracks) ){
+    if (config.var$verbose) cat("Draw xenogenesUCSC\n")
     gctrack <-xenorefGenesUCSC(config.var$genome,gbl.var$mydata.chr,gbl.var$min.x,
                                gbl.var$max.x,showId=TRUE)
     if(length(listtracks_gviz) == 0) {
@@ -2344,6 +2382,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #--- CG Island
   if(has.key("CGI",gbl.var$split.list.tracks)) {
+    if (config.var$verbose) cat("Draw CGI\n")
     cgitrack<-cpgIslandsUCSC(config.var$genome,gbl.var$mydata.chr,gbl.var$min.x,gbl.var$max.x)
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(cgitrack)
@@ -2354,6 +2393,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #--- ChromatinHMM
   if(has.key("ChromHMM",gbl.var$split.list.tracks)) {
+    if (config.var$verbose) cat("Draw ChromHMM\n")
     chromatintrack <- chromatinHMMAll(config.var$genome,gbl.var$mydata.chr,
                                       gbl.var$min.x,gbl.var$max.x,
                                       gbl.var$mySession,track.name="Broad ChromHMM",
@@ -2367,6 +2407,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #--- Broad Histone
   if(has.key("BroadHistone",gbl.var$split.list.tracks)) {
+    if (config.var$verbose) cat("Draw BroadHistone\n")
     chromatintrack <- HistoneAll(config.var$genome,gbl.var$mydata.chr,
                                  gbl.var$min.x,gbl.var$max.x,
                                  gbl.var$mySession,track.name="Broad histone",
@@ -2380,6 +2421,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #--- DNAse
   if(has.key("DNAse",gbl.var$split.list.tracks)) {
+    if (config.var$verbose) cat("Draw DNAse\n")
     dnasetrack<-DNAseUCSC(config.var$genome,gbl.var$mydata.chr,gbl.var$min.x,
                           gbl.var$max.x,gbl.var$mySession)
     if(length(listtracks_gviz) == 0) {
@@ -2392,6 +2434,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #---- Regulation
   if(has.key("RegENSEMBL",gbl.var$split.list.tracks)) {
+    if (config.var$verbose) cat("Draw RegENSEMBL\n")
     regtrack<-regulationBiomart(config.var$genome,gbl.var$mydata.chr,gbl.var$min.x,gbl.var$max.x)
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(regtrack)
@@ -2402,6 +2445,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #---- structural variation
   if(has.key("SNPstru",gbl.var$split.list.tracks)) {
+    if (config.var$verbose) cat("Draw SNPstru\n")
     structrack<-structureBiomart(gbl.var$mydata.chr,gbl.var$min.x,gbl.var$max.x,"*",
                                  config.var$DATASET.STRU)
     if(length(listtracks_gviz) == 0) {
@@ -2413,6 +2457,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #---- stomatic structural variation
   if(has.key("SNPstrustoma",gbl.var$split.list.tracks)) {
+    if (config.var$verbose) cat("Draw SNPstrustoma\n")
     structrack<-structureBiomart(gbl.var$mydata.chr,gbl.var$min.x,gbl.var$max.x,"*",
                                  config.var$DATASET.STRU.STOMA)
     if(length(listtracks_gviz) == 0) {
@@ -2424,6 +2469,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #---- SNP stomatic cell
   if(has.key("SNPstoma",gbl.var$split.list.tracks)) {
+    if (config.var$verbose) cat("Draw SNPstoma\n")
     snpstomaENSEMBLtrack<-snpBiomart(gbl.var$mydata.chr,gbl.var$min.x,gbl.var$max.x,
                                      config.var$DATASET.SNP.STOMA,
                                      title="Stomatic Short Variation")
@@ -2436,6 +2482,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #---- SNP
   if(has.key("SNP",gbl.var$split.list.tracks) ){
+    if (config.var$verbose) cat("Draw SNP\n")
     snptrack <- snpLocationsUCSC(config.var$genome,gbl.var$mydata.chr,gbl.var$min.x,
                                  gbl.var$max.x,config.var$VERSION.DBSNP)
     if(length(listtracks_gviz) == 0) {
@@ -2447,6 +2494,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #------ ISCA
   if(has.key("ISCA",gbl.var$split.list.tracks) ){
+    if (config.var$verbose) cat("Draw ISCA\n")
     iscatrack <-ISCATrack(config.var$genome,gbl.var$mydata.chr,gbl.var$min.x,gbl.var$max.x,
                           gbl.var$mySession, table.name="iscaPathogenic",showId=FALSE)
     if(length(listtracks_gviz) == 0) {
@@ -2459,6 +2507,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #------ COSMIC
   if(has.key("COSMIC",gbl.var$split.list.tracks) ){
+    if (config.var$verbose) cat("Draw COSMIC\n")
     cosmictrack <-COSMICTrack(config.var$genome,gbl.var$mydata.chr,
                               gbl.var$min.x,gbl.var$max.x,showId=FALSE)
     if(length(listtracks_gviz) == 0) {
@@ -2470,6 +2519,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #------ GAD
   if(has.key("GAD",gbl.var$split.list.tracks) ){
+    if (config.var$verbose) cat("Draw GAD\n")
     iscatrack <-GADTrack(config.var$genome,gbl.var$mydata.chr,gbl.var$min.x,gbl.var$max.x,
                          showId=FALSE)
     if(length(listtracks_gviz) == 0) {
@@ -2481,6 +2531,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #------ clinic Variant
   if(has.key("ClinVar",gbl.var$split.list.tracks) ){
+    if (config.var$verbose) cat("Draw ClinVar\n")
     clinVariant<-ClinVarMainTrack(config.var$genome,gbl.var$mydata.chr,gbl.var$min.x,
                                   gbl.var$max.x)
     if(length(listtracks_gviz) == 0) {
@@ -2491,6 +2542,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   }
   
   if(has.key("ClinVarCNV",gbl.var$split.list.tracks) ){
+    if (config.var$verbose) cat("Draw ClinVarCNV\n")
     clinCNV<-ClinVarCnvTrack(config.var$genome,gbl.var$mydata.chr,gbl.var$min.x,gbl.var$max.x)
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(clinCNV)
@@ -2501,6 +2553,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #------ GWAS Variant
   if(has.key("GWAS",gbl.var$split.list.tracks) ){
+    if (config.var$verbose) cat("Draw GWAS\n")
     gwastrack <-GWASTrack(config.var$genome,gbl.var$mydata.chr,gbl.var$min.x,gbl.var$max.x)
     if(length(listtracks_gviz) == 0) {
       listtracks_gviz <- list(gwastrack)
@@ -2511,6 +2564,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #------ GeneReviews
   if(has.key("GeneReviews",gbl.var$split.list.tracks) ){
+    if (config.var$verbose) cat("Draw GeneReviews\n")
     geneRtrack <-GeneReviewsTrack(config.var$genome,gbl.var$mydata.chr,gbl.var$min.x,
                                   gbl.var$max.x)
     if(length(listtracks_gviz) == 0) {
@@ -2522,6 +2576,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #------ GC content
   if(has.key("GCcontent",gbl.var$split.list.tracks) ){
+    if (config.var$verbose) cat("Draw GCcontent\n")
     gctrack <-gcContent(config.var$genome,gbl.var$mydata.chr,gbl.var$min.x,
                         gbl.var$max.x)
     if(length(listtracks_gviz) == 0) {
@@ -2535,6 +2590,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #------ BioUSER
   if(!is.null(config.var$biofeat.user.file)){
+    if (config.var$verbose) cat("Draw BioUser\n")
     if(length(gbl.var$listtracks_user) == 0) {
       listtracks_gviz <- gbl.var$listtracks_user
     } else {
@@ -2544,6 +2600,7 @@ create.tracks.web <- function(config.var,gbl.var) {
   
   #------ Repeat element 
   if(has.key("RepeatElt",gbl.var$split.list.tracks) ){
+    if (config.var$verbose) cat("Draw RepeatElt\n")
     reptrack <-RepeatMaskerTrack(config.var$genome,gbl.var$mydata.chr,gbl.var$min.x,
                                  gbl.var$max.x,showId=TRUE)
     if(length(listtracks_gviz) == 0) {

@@ -166,6 +166,7 @@ read.config <- function(config.file, config.var) {
     if(identical("color.list.large", tmp[[1]][1])) {
       config.var$color.list.large <- tmp[[1]][2]
     }
+    
     if(identical("disp.association", tmp[[1]][1])) {
       #no format logical because of reading as string with comma
       config.var$disp.association <- tmp[[1]][2]
@@ -174,6 +175,21 @@ read.config <- function(config.file, config.var) {
     if(identical("disp.association.large", tmp[[1]][1])) {
       #no format logical because of multiple cases
       config.var$disp.association.large <- tmp[[1]][2]
+    }
+    
+    if(identical("disp.beta.association", tmp[[1]][1])) {
+      #no format logical because of reading as string with comma
+      config.var$disp.beta.association <- tmp[[1]][2]
+    }
+    
+    if(identical("disp.beta.association.large", tmp[[1]][1])) {
+      #no format logical because of multiple cases
+      config.var$disp.beta.association.large <- tmp[[1]][2]
+    }
+    
+    if(identical("factor.beta", tmp[[1]][1])) {
+      #no format logical because of multiple cases
+      config.var$factor.beta <- as.numeric(tmp[[1]][2])
     }
     
     if(identical("disp.region", tmp[[1]][1])) {
@@ -402,6 +418,12 @@ check.configVar <- function(config.var) {
           Parametre: disp.association\n")
   }
   
+  if(grepl("asso", config.var$mydata.format)[1] & 
+       (is.null(config.var$disp.beta.association) | is.null(config.var$factor.beta)))  {
+    stop("No value for the association of info file.\n 
+          Parametre: disp.beta.association or factor.beta\n")
+  }
+  
   if(grepl("region", config.var$mydata.format)[1] & is.null(config.var$disp.region)) {
     stop("No value for the region of info file.\n 
           Parametre: disp.region\n")
@@ -446,6 +468,12 @@ check.configVar <- function(config.var) {
            Parameter: disp.association.large\n")
     }
     
+    if(grepl("asso", config.var$mydata.large.format)[1] & 
+         (is.null(config.var$disp.beta.association.large) | is.null(config.var$factor.beta)))  {
+      stop("No value for the association of info file.\n 
+          Parametre: disp.beta.association.large or factor.beta\n")
+    }
+    
     if(grepl("region", config.var$mydata.large.format)[1] &
          is.null(config.var$disp.region.large)) {
       stop("No value of region for supplementary data\n
@@ -459,9 +487,11 @@ check.configVar <- function(config.var) {
       split.mydata.large.file <- config.var$mydata.large.file
       length.datalarge <- length(split.mydata.large.file)
     }
+    
     split.mydata.large.format <- strsplit(config.var$mydata.large.format, ",")
     split.mydata.large.region <- strsplit(config.var$disp.region.large, ",")
     split.mydata.large.asso <- strsplit(config.var$disp.association.large, ",")
+    split.mydata.large.beta.asso <- strsplit(config.var$disp.beta.association.large, ",")
     split.mydata.large.color <- strsplit(config.var$color.list.large, ",")
     split.mydata.large.label <- strsplit(config.var$sample.labels.large, ",")
     split.mydata.large.symbol <- strsplit(config.var$symbols.large, ",")
@@ -469,11 +499,13 @@ check.configVar <- function(config.var) {
     if( length.datalarge !=  length(split.mydata.large.format[[1]]) ||
           length.datalarge !=  length(split.mydata.large.region[[1]]) ||
           length.datalarge !=  length(split.mydata.large.asso[[1]]) ||
+          length.datalarge !=  length(split.mydata.large.beta.asso[[1]]) ||
           length.datalarge !=  length(split.mydata.large.color[[1]]) ||
           length.datalarge !=  length(split.mydata.large.label[[1]]) ||
           length.datalarge !=  length(split.mydata.large.symbol[[1]])) {
       stop("Need to have the same number of element for all options related to supplementary data\n
-           mydata.large.file, mydata.large.format, disp.region.large, disp.association.large, color.list.large,
+           mydata.large.file, mydata.large.format, disp.region.large, disp.association.large, 
+           disp.beta.association.large, color.list.large,
            sample.labels.large, symbols.large: ",length.datalarge,"\n")
     }
   } 
@@ -889,6 +921,7 @@ retrieve.data <- function(config.var, gbl.var) {
   #initialize distance variables
   min.dist <- NULL
   max.dist <- NULL
+  all.beta <- NULL
   
   gbl.var$mydata.gen <- config.var$genome
   split.mydata.file <- gbl.var$split.mydata.file
@@ -1178,11 +1211,18 @@ retrieve.data <- function(config.var, gbl.var) {
       gbl.var$mydata.best.position <- best.position
       if (config.var$verbose)  cat("Ref",gbl.var$mydata.ref.pos,"\n")
       
+      #---------- EXTRACT BETA VALUES
+      if(grepl("asso", format)[1] & is.integer(gbl.var$mydata.data$MYDATA.ASSO.ORIGINAL[1])) {
+          all.beta <- c(all.beta,gbl.var$mydata.data$MYDATA.ASSO.ORIGINAL)
+      }
+      
       #-----------------READ MATRICE for CORMATRIX MAP
       # if (config.var$verbose)  cat("config.var$disp.cormatrixmap ", config.var$disp.cormatrixmap, "\n")
       #Need to read even if we don't show data
       gbl.var <-read.file.cormatrix(config.var, gbl.var,split.cormatrix.file)
     }
+    
+    
   }
   
   
@@ -1205,6 +1245,12 @@ retrieve.data <- function(config.var, gbl.var) {
       #one hash has the name as the key and the other the location because R has no way of looking
       #up hash keys based on values
       format <- as.character(gbl.var$large.split.format[[1]][i])
+      
+      #---------- EXTRACT BETA VALUES
+      if(grepl("asso", format)[1] & is.integer(gbl.var$mydata.large.data$MYDATA.ASSO.ORIGINAL[1])) {
+        all.beta <- c(all.beta,gbl.var$mydata.large.data$MYDATA.ASSO.ORIGINAL)
+      }
+      
       if(grepl("region", format)[1] ) {
         mydata.large.hash.names.start <- new.env(hash=TRUE)
         mydata.large.hash.names.end <- new.env(hash=TRUE)
@@ -1273,6 +1319,8 @@ retrieve.data <- function(config.var, gbl.var) {
       gbl.var$sorted.mydata.large.pos.zoom <- sorted.mydata.large.pos.zoom  
       # if (config.var$verbose)  cat("gbl.var$sorted.mydata.large.pos.zoom ", gbl.var$sorted.mydata.large.pos.zoom, "\n")
       
+     
+      
     }
     
     #----------------- DEFINE THE HIGHEST VALUE OF Y
@@ -1305,6 +1353,20 @@ retrieve.data <- function(config.var, gbl.var) {
     
   }
   
+  #------ DEFINE MEAN and SD of ALL BETA
+  if (config.var$verbose)  cat("Longer of all.beta",length(all.beta),"\n")
+  if(is.null(all.beta)){
+    gbl.var$mean.beta <- 0
+    gbl.var$sd.beta <- 0
+  } else {
+    gbl.var$mean.beta <- mean(all.beta)
+    gbl.var$sd.beta <- sd(all.beta)
+  }
+  
+  if (config.var$verbose)   cat("Mean beta",gbl.var$mean.beta,"\n")
+  if (config.var$verbose)   cat("SD beta",gbl.var$sd.beta,"\n")
+
+    
   #----- CREATE LIST of BIOFEATURES -------------------------
   
   if(!is.null(config.var$biofeat.user.file)) {
@@ -1511,6 +1573,7 @@ check.format.mydata <- function(gbl.var,option,numfile){
     if(is.null(mydata.test$MYDATA.ASSO) ) {
       stop("Missing MYDATA data file column MYDATA.ASSO\n")
     }
+    mydata.test$MYDATA.ASSO.ORIGINAL <- mydata.test$MYDATA.ASSO
     #  if (gbl.var$verbose)  cat("BUG Association ",length(mydata.test$MYDATA.ASSO)," \n")
     # if (gbl.var$verbose)  cat("BUG Association ",length(grep("[0-9]",mydata.test$MYDATA.ASSO))," \n")
     if ((length(grep("[a-zA-Z]",mydata.test$MYDATA.ASSO)) > 0)){
@@ -1758,7 +1821,7 @@ read.file.cormatrix <- function(config.var, gbl.var,split.cormatrix.file=NULL){
       matrix.data.raw <- matrix.data.raw_rot
       if(gbl.var$presence.mydata == 0){
         ## For comet and comet.web
-        matrix.data.raw[match(gbl.var$mydata.data$MYDATA.NAME, rownames(matrix.data.raw)),]
+        matrix.data.raw <- matrix.data.raw[match(gbl.var$mydata.data$MYDATA.NAME, rownames(matrix.data.raw)),]
       }
       #Update the rownames
       rownames(matrix.data.raw) <-matrix.data.raw[,1]
@@ -1794,7 +1857,7 @@ read.file.cormatrix <- function(config.var, gbl.var,split.cormatrix.file=NULL){
       matrix.data.raw <- t(matrix.data.raw_rot)
       if(gbl.var$presence.mydata == 0){
         ## For comet and comet.web
-        matrix.data.raw[match(gbl.var$mydata.data$MYDATA.NAME, rownames(matrix.data.raw)),]
+        matrix.data.raw <- matrix.data.raw[match(gbl.var$mydata.data$MYDATA.NAME, rownames(matrix.data.raw)),]
       }
       gbl.var$matrix.data <-matrix.data.raw
       nr=nrow(matrix.data.raw)
@@ -2031,7 +2094,7 @@ set.image.parameters <- function(config.var, gbl.var) {
   
   #DEBUG STATEMENT
   # if (config.var$verbose)  cat("gbl.var$mydata.num ", gbl.var$mydata.num, "\n")
-  # if (config.var$verbose)  cat("font.size ", font.size, "\n")
+   if (config.var$verbose)  cat("font.size ", font.size, "\n")
   # if (config.var$verbose)  cat("line.width ", line.width, "\n")
   # if (config.var$verbose)  cat("cex.factor.symbol ", cex.factor.symbol, "\n")
   # if (config.var$verbose)  cat("cex.factor ", cex.factor, "\n")

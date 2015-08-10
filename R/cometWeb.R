@@ -46,10 +46,13 @@ comet.web <- function(mydata.file = NULL,
                       lab.Y = "log",
                       pval.threshold = 10e-8,
                       disp.pval.threshold = 1,
-                      disp.association = FALSE,
-                      disp.association.large = FALSE,
-                      disp.region = FALSE,
-                      disp.region.large = FALSE, 
+                      disp.association = "FALSE",
+                      disp.association.large = "FALSE",
+                      disp.beta.association = "FALSE",
+                      disp.beta.association.large = "FALSE",
+                      factor.beta = 0.3,
+                      disp.region = "FALSE",
+                      disp.region.large = "FALSE", 
                       symbols = "circle-fill",
                       symbols.large = NA,
                       sample.labels = NULL,
@@ -148,6 +151,9 @@ comet.web <- function(mydata.file = NULL,
   
   equidis.pos <- NULL
   
+  mean.beta <- NULL
+  sd.beta <- NULL
+  
   #FORMATTING VARIABLES
   
   split.sample.labels <- NULL
@@ -157,6 +163,7 @@ comet.web <- function(mydata.file = NULL,
   fill.list <- NULL
   split.format <- NULL
   split.association <- NULL
+  split.beta.association <- NULL
   split.region <- NULL
   split.type <- NULL
   
@@ -167,6 +174,7 @@ comet.web <- function(mydata.file = NULL,
   large.fill.list <- NULL
   large.split.format <- NULL
   large.split.association <- NULL
+  large.split.beta.association <- NULL
   large.split.region <- NULL
   large.split.type <- NULL
   ref <- NULL
@@ -179,6 +187,7 @@ comet.web <- function(mydata.file = NULL,
   cex.factor.symbol <- 0.25
   font.size <- NULL
   line.width <- 0.5
+  myfactor.beta <- 0.3
   
   cormatrix.data <- NULL
   split.cormatrix.type <- NULL
@@ -205,9 +214,11 @@ comet.web <- function(mydata.file = NULL,
                   split.biofeature.data.user.type.plot = split.biofeature.data.user.type.plot,
                   split.format = split.format,
                   split.association =  split.association,
+                  split.beta.association =  split.beta.association,
                   split.region = split.region,
                   large.split.format = large.split.format,
                   large.split.association =  large.split.association,
+                  large.split.beta.association =  large.split.beta.association,
                   large.split.region = large.split.region,
                   large.split.type = large.split.type,
                   mySession = mySession,
@@ -235,6 +246,9 @@ comet.web <- function(mydata.file = NULL,
                   mydata.large.hash.names.start = mydata.large.hash.names.start,
                   mydata.large.hash.names.end = mydata.large.hash.names.end,
                   mydata.hash.pos.names = mydata.hash.pos.names,
+                  myfactor.beta = myfactor.beta,
+                  mean.beta = mean.beta,
+                  sd.beta = sd.beta,
                   cormatrix.data = cormatrix.data,
                   split.cormatrix.type = split.cormatrix.type,
                   cormatrix.pvalue.data = cormatrix.pvalue.data,
@@ -342,6 +356,9 @@ comet.web <- function(mydata.file = NULL,
                      disp.association.large = disp.association.large,
                      disp.region = disp.region,
                      disp.region.large = disp.region.large,
+                     disp.beta.association = disp.beta.association,
+                     disp.beta.association.large = disp.beta.association.large,
+                     factor.beta = factor.beta,
                      dataset.gene = dataset.gene,
                      DATASET.SNP = DATASET.SNP,
                      DATASET.SNP.STOMA = DATASET.SNP.STOMA,
@@ -554,6 +571,15 @@ comet.web <- function(mydata.file = NULL,
       gbl.var$split.association <- split.association
     }
     
+    if(!is.null(config.var$disp.beta.association)){
+      split.beta.association <- strsplit(config.var$disp.beta.association, ",")
+      split.beta.association.length <- length(split.beta.association[[1]])
+      gbl.var$split.beta.association <- split.beta.association
+      gbl.var$myfactor.beta <- config.var$factor.beta
+    }else{
+      stop("Need to define if there is the visualisation of association\n")
+    }
+    
     #---VISUALISATION of region
     if(!is.null(config.var$disp.region)){
       split.region <- strsplit(config.var$disp.region, ",")
@@ -631,6 +657,16 @@ comet.web <- function(mydata.file = NULL,
       gbl.var$large.split.association <- large.split.association
     }
     
+    # -- Visualisation of ASSOCIATION for beta
+    if(!is.null(config.var$disp.beta.association.large)){
+      large.split.beta.association <- strsplit(config.var$disp.beta.association.large, ",")
+      large.split.beta.association.length <- length(large.split.beta.association[[1]])
+      gbl.var$large.split.beta.association <- large.split.beta.association
+      gbl.var$myfactor.beta <- config.var$factor.beta
+    } else{
+      stop("Need to define the visualisation of association of extra data\n")
+    }
+    
     #---VISUALISATION of region
     if(!is.null(config.var$disp.region.large)){
       large.split.region <- strsplit(config.var$disp.region.large, ",")
@@ -648,6 +684,7 @@ comet.web <- function(mydata.file = NULL,
     gbl.var$large.split.sample.labels <- NULL
     gbl.var$large.split.sample.format <- NULL
     gbl.var$large.split.association <- NULL
+    gbl.var$large.split.beta.association <- NULL
     gbl.var$large.split.region <- NULL
   }
   

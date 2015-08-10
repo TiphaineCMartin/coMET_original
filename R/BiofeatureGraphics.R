@@ -35,16 +35,16 @@ chrUCSC2ENSEMBL<-function(chr){
 #-------------------- CREATION track all elements but only one line per element ------------------
 genesNameENSEMBL<-function(gen,chr,start,end,dataset){
   if(is.null(chr)){
-    stop("Invalid in function genesENSEMB :chr null:\n")
+    stop("Invalid in function genesNameENSEMBL :chr null:\n")
   }
   if(is.null(start)){
-    stop("Invalid in function genesENSEMB :start null:\n")
+    stop("Invalid in function genesNameENSEMBL :start null:\n")
   }
   if(is.null(end)){
-    stop("Invalid in function genesENSEMB :end null:\n")
+    stop("Invalid in function genesNameENSEMBL :end null:\n")
   }
   if(is.null(gen)){
-    stop("Invalid in function genesENSEMB :gen null:\n")
+    stop("Invalid in function genesNameENSEMBL :gen null:\n")
   }
   chrEnsembl=chrUCSC2ENSEMBL(chr)
   
@@ -816,7 +816,7 @@ regulationBiomart <- function(gen, chr, start, end) {
   
   data_trackfunc <- AnnotationTrack()
   if(nrow(ensfunc) > 0) {
-    data_trackfunc <- AnnotationTrack(chromosome=chrEnsembl,strand ="*",start=ensfunc[,2],
+    data_trackfunc <- AnnotationTrack(chromosome=chrEnsembl,strand="*",start=ensfunc[,2],
                                       end=ensfunc[,3],
                                       feature=ensfunc[,4],group=ensfunc[,1],id=ensfunc[,1], 
                                       name = "Regulation ENSEMBL",stacking="dense", 
@@ -920,7 +920,7 @@ structureBiomart <- function(chr, start, end, strand, dataset,showId=FALSE,title
   
   data_track <- AnnotationTrack()
   if(nrow(ens) > 0) {
-    data_track <- AnnotationTrack(chromosome=chr,strand ="*",start=ens[,2],end=ens[,3],
+    data_track <- AnnotationTrack(chromosome=chr,strand =ens[,4],start=ens[,2],end=ens[,3],
                                   feature=ens[,6],group=ens[,1],id=ens[,1], 
                                   name = "Structural variation",stacking="squish",
                                   showId=showId,  col.line = NULL, col = NULL)
@@ -1339,11 +1339,11 @@ OtherRegulatoryRegions <- function (gen, chr, start, end, featureDisplay = "all"
     martfunc <- useMart("regulation", dataset = datasetEnsembl)
     
   } else {
-    stop("Invalid function OtherRegulatoryRegions :genome not recognised:\n")
+    stop("Invalid function BindingMotifsBiomart :genome not recognised:\n")
   }
   
   biomTrack <- getBM(c("chromosome_name", "chromosome_start","chromosome_end",
-                       "feature_type_class"), 
+                      "feature_type_class"), 
                      filters = c("chromosome_name","start","end"),
                      values = list(chrEnsembl, start, end), mart = martfunc)
   
@@ -1400,7 +1400,7 @@ RegulatoryFeaturesBiomart  <- function (gen, chr, start, end, featureDisplay = "
     martfunc <- useMart("regulation", dataset = datasetEnsembl)
     
   } else {
-    stop("Invalid function RegulatoryFeaturesBiomart :genome not recognised:\n")
+    stop("Invalid function BindingMotifsBiomart :genome not recognised:\n")
   }
   
   
@@ -1413,13 +1413,14 @@ RegulatoryFeaturesBiomart  <- function (gen, chr, start, end, featureDisplay = "
   biomTrackDislay <- biomTrack
   
   if( !("all" %in% featureDisplay) ) {
-    biomTrackDislay <- biomTrack[which(biomTrack$feature_type_class %in% featureDisplay),]
+    biomTrackDislay <- biomTrack[which(biomTrack$feature_type_name %in% featureDisplay),]
   }
   
-  data_trackfunc <- AnnotationTrack(genome = genTrunk,chromosome=chrEnsembl,strand ="*",start=biomTrackDislay[,2],
+  
+  data_trackfunc <- AnnotationTrack(genome = genTrunk,chromosome=chrEnsembl,strand="*",start=biomTrackDislay[,2],
                                     end=biomTrackDislay[,3],
                                     feature=biomTrackDislay[,4],group=biomTrackDislay[,1],
-                                    id=biomTrackDislay[,1], name = "Other Regulatory Regions ENSEMBL",stacking="dense", 
+                                    id=biomTrackDislay[,1], name = " Regulatory Features ENSEMBL",stacking="dense", 
                                     col.line = "black", col = NULL, collapse= FALSE)
   displayPars(data_trackfunc) <- list("Promoter" = "#1b9e77", "TF binding site" = "#d95f02", 
                                       "Open chromatin" = "#7570b3", "Promoter Flanking Region" =  "#e7298a", 
@@ -1429,7 +1430,7 @@ RegulatoryFeaturesBiomart  <- function (gen, chr, start, end, featureDisplay = "
 } 
 
 #-------------------- CREATION track for all Regulatory segments from ENSEMBL or a list of them ----------------
-RegulatorySegmentsBiomart  <- function (gen, chr, start, end, featureDisplay = "all",datasetEnsembl = NULL) {
+RegulatorySegmentsBiomart  <- function (gen, chr, start, end,featureDisplay = 'all', datasetEnsembl = NULL) {
   if(is.null(gen)){
     stop("Invalid function RegulatorySegmentsBiomart :gen null:\n")
   }
@@ -1463,7 +1464,7 @@ RegulatorySegmentsBiomart  <- function (gen, chr, start, end, featureDisplay = "
     martfunc <- useMart("regulation", dataset = datasetEnsembl)
     
   } else {
-    stop("Invalid function RegulatorySegmentsBiomart: genome not recognised:\n")
+    stop("Invalid function RegulatorySegementsBiomart :genome not recognised:\n")
   }
   
   
@@ -1476,25 +1477,27 @@ RegulatorySegmentsBiomart  <- function (gen, chr, start, end, featureDisplay = "
   biomTrackDislay <- biomTrack
   
   if( !("all" %in% featureDisplay) ) {
-    biomTrackDislay <- biomTrack[which(biomTrack$feature_type_class %in% featureDisplay),]
+    biomTrackDislay <- biomTrack[which(biomTrack$feature_type_name %in% featureDisplay),]
   }
   
-  data_trackfunc <- AnnotationTrack(genome = genTrunk,chromosome=chrEnsembl,strand ="*",start=biomTrackDislay[,2],
+  data_trackfunc <- AnnotationTrack(genome = genTrunk,chromosome=chrEnsembl,strand="*",start=biomTrackDislay[,2],
                                     end=biomTrackDislay[,3],
                                     feature=biomTrackDislay[,4],group=biomTrackDislay[,1],
-                                    id=biomTrackDislay[,1], name = "Other Regulatory Regions ENSEMBL",stacking="dense", 
+                                    id=biomTrackDislay[,1], name = "Regulatory Segments ENSEMBL",stacking="dense", 
                                     col.line = "black", col = NULL, collapse= FALSE)
-  displayPars(data_trackfunc) <- list("Predicted Promoter with TSS" = "#7fc97f","CTCF enriched" = "#beaed4",
-                                      "Predicted Promoter Flank" = "#fdc086", "Predicted Enhancer" = "#ffff99",
-                                      "Predicted Repressed" = "#386cb0", "Predicted low activity" = "#f0027f",
-                                      "Predicted Transcribed Region" = "#bf5b17", "Predicted heterochomatin" = "#666666")
+  displayPars(data_trackfunc) <- list('Predicted Promoter with TSS' = '#a6cee3','CTCF enriched' = '#1f78b4',
+                                      'Predicted Poised' = '#b2df8a', 'Predicted Promoter Flank' = '#33a02c',
+                                      'Predicted Enhancer' = '#fb9a99', 'Predicted Transcribed Region' = '#e31a1c',
+                                      'Predicted low activity' = '#fdbf6f', 'Predicted Repressed' = '#ff7f00',
+                                      'Predicted heterochomatin' = '#cab2d6')
   
   data_trackfunc
+  
 } 
 
 #-------------------- CREATION track for all binding motifs from ENSEMBL or a list of them ----------------
 
-BindingMotifsBiomart <- function (gen, chr, start, end, featureDisplay = "all",datasetEnsembl = NULL) {
+BindingMotifsBiomart <- function (gen, chr, start, end, featureDisplay = "all",showId=FALSE,datasetEnsembl = NULL) {
   if(is.null(gen)){
     stop("Invalid function BindingMotifsBiomart :gen null:\n")
   }
@@ -1534,7 +1537,7 @@ BindingMotifsBiomart <- function (gen, chr, start, end, featureDisplay = "all",d
   
   
   biomTrack <- getBM(c("chromosome_name", "chromosome_start","chromosome_end",
-                       "feature_type_name"), 
+                       "chromosome_strand","feature_type_name","display_label"), 
                      filters = c("chromosome_name","start","end"),
                      values = list(chrEnsembl, start, end), mart = martfunc)
   
@@ -1544,11 +1547,11 @@ BindingMotifsBiomart <- function (gen, chr, start, end, featureDisplay = "all",d
     biomTrackDislay <- biomTrack[which(biomTrack$feature_type_name %in% featureDisplay),]
   }
   
-  data_trackfunc <- AnnotationTrack(genome = genTrunk,chromosome=chrEnsembl,strand ="*",start=biomTrackDislay[,2],
+  data_trackfunc <- AnnotationTrack(genome = genTrunk,chromosome=chrEnsembl,strand =biomTrackDislay[,4],start=biomTrackDislay[,2],
                                     end=biomTrackDislay[,3],
-                                    feature=biomTrackDislay[,4],group=biomTrackDislay[,1],
-                                    id=biomTrackDislay[,1], name = "Regulation ENSEMBL",stacking="dense", 
-                                    col.line = "black", col = NULL, collapse= FALSE)
+                                    feature=biomTrackDislay[,5],group=biomTrackDislay[,1],
+                                    id=biomTrackDislay[,6], name = "Binding Motifs ENSEMBL",stacking="dense", 
+                                    col.line = "black", col = NULL, collapse= FALSE,showId=showId)
   displayPars(data_trackfunc) <- list(
     "Egr1" = "#a6cee3", "CTCF" = "#1f78b4", "Cjun" = "#b2df8a", "USF1" = "#33a02c", "PU1" = "#fb9a99",
     "Gabp" = "#e31a1c", "JUN::FOS" = "#fdbf6f", "Jund" = "#ff7f00", "Znf263" = "#cab2d6", 
@@ -1565,6 +1568,62 @@ BindingMotifsBiomart <- function (gen, chr, start, end, featureDisplay = "all",d
     "SRebp2" = "#B2B2F0")
   
   data_trackfunc
+} 
+
+#-------------------- CREATION track for all miRN ATarget from ENSEMBL ----------------
+miRNATargetRegionsBiomart  <- function (gen, chr, start, end, showId=FALSE, datasetEnsembl = NULL) {
+  if(is.null(gen)){
+    stop("Invalid function miRNATargetRegionsBiomart :gen null:\n")
+  }
+  if(is.null(chr)){
+    stop("Invalid function miRNATargetRegionsBiomart :chr null:\n")
+  }
+  if(is.null(start)){
+    stop("Invalid function miRNATargetRegionsBiomart :start null:\n")
+  }
+  if(is.null(end)){
+    stop("Invalid function miRNATargetRegionsBiomart :end null:\n")
+  }
+  
+  options(ucscChromosomeNames=FALSE)
+  chrEnsembl <- chrUCSC2ENSEMBL(chr)
+  
+  biomTrack <- NULL
+  martfunc <- NULL
+  biomTrackDislay <- NULL
+  
+  genTrunk <- gsub("\\..*","",gen)
+  
+  if(!is.na(match(tolower(genTrunk), c("grch37","hg19")))){
+    martfunc <- useMart(host='grch37.ensembl.org', biomart='ENSEMBL_MART_FUNCGEN',
+                        dataset='hsapiens_mirna_target_feature')
+    
+  } else if(!is.na(match(tolower(genTrunk), c("grch38","hg38")))) {
+    martfunc <- useMart("regulation", dataset = "hsapiens_mirna_target_feature")
+    
+  } else if(!is.null(datasetEnsembl) && !is.na(datasetEnsembl)) {
+    martfunc <- useMart("regulation", dataset = datasetEnsembl)
+    
+  } else {
+    stop("Invalid function BindingMotifsBiomart :genome not recognised:\n")
+  }
+  
+  
+  
+  biomTrack <- getBM(c("chromosome_name", "chromosome_start","chromosome_end",
+                       "chromosome_strand","feature_type_class","xref_display_label"), 
+                     filters = c("chromosome_name","start","end"),
+                     values = list(chrEnsembl, start, end), mart = martfunc)
+  
+  data_trackfunc <- AnnotationTrack(genome = genTrunk,chromosome=chrEnsembl,strand =biomTrack[,4],start=biomTrack[,2],
+                                    end=biomTrack[,3],
+                                    feature=biomTrack[,5],group=biomTrack[,1],
+                                    id=biomTrack[,6], name = "miRNA Target Regions ENSEMBL",stacking="dense", 
+                                    col.line = "plum4", col = NULL, collapse= FALSE,showId=showId)
+  displayPars(data_track) <- list(RNA="plum4")
+  
+  data_trackfunc
+  
 } 
 
 #-------------------- CREATION track for all Segmental duplications from UCSC  ----------------
@@ -1586,11 +1645,141 @@ SegmentalDupsUCSC <- function(gen, chr, start, end, showId=FALSE){
                           track = "Segmental Dups", table = "genomicSuperDups", 
                           trackType = "AnnotationTrack", start = "chromStart", 
                           end="chromEnd", id = "name", name = "Segmental Dups UCSC",
-                          showID=showId)
+                          showId=showId)
   
   Dupregions
   
 }
+
+#------------------- ROADMap visualisation data --------------
+chromatinHMMRoadMap <- function(chr,start, end, bedFilePath, featureDisplay = 'all' ) {
+  
+  if(is.null(gen)){
+    stop("Invalid function RoadMap :gen null:\n")
+  }
+  if(is.null(chr)){
+    stop("Invalid function RoadMap :chr null:\n")
+  }
+  if(is.null(start)){
+    stop("Invalid function RoadMap :start null:\n")
+  }
+  if(is.null(end)){
+    stop("Invalid function RoadMap :end null:\n")
+  }
+  
+  chrEnsembl <- chrUCSC2ENSEMBL(toupper(chr))
+  
+  bedFile <- read.table(bedFilePath,header = TRUE)
+  desiredRegion <- subset(bedFile, chromosome_stop > start & chromosome_start < end &  chromosome_name == chrEnsembl)
+  
+  desiredRegionDisplay <- desiredRegion
+  
+  if( !("all" %in% featureDisplay) ) {
+    desiredRegionDisplay <- desiredRegion[which(desiredRegion$feature_type_name %in% featureDisplay),]
+  }
+  
+  track <- AnnotationTrack(chromosome=chrEnsembl,strand ="*",start=desiredRegionDisplay[,2],
+                           end=desiredRegionDisplay[,3],
+                           feature=desiredRegionDisplay[,4], name = "RoadMap",stacking="dense",
+                           col.line = "black", col = NULL, collapse= FALSE)
+  
+  displayPars(track) <- list("1_TssA" = "#FF0000", "2_TssAFlnk" = "#FF6E00","3_TxFlnk" = "#32CD32",
+                             "4_Tx" = "#008000", "5_TxWk" = "#006400", "6_EnhG" = "#C2E105", "7_Enh" = "#FFFF00",
+                             "8_ZNF/Rpts" = "#66CDAA", "9_Het" = "#8A91D0", "10_TssBiv" = "#CD5C5C",
+                             "11_BivFlnk" = "#E9967A", "12_EnhBiv" = "#BDB76B", "13_ReprPC" = "#808080",
+                             "14_ReprPCWk" = "#C0C0C0", "15_Quies" = "#FFFFFF")
+  
+  track
+}
+
+#------------------- metQTL visualisation data --------------
+metQTL <- function(chr,start, end, bedFilePath, featureDisplay = 'all', showId=FALSE ) {
+  
+  if(is.null(gen)){
+    stop("Invalid function metQTL :gen null:\n")
+  }
+  if(is.null(chr)){
+    stop("Invalid function metQTL :chr null:\n")
+  }
+  if(is.null(start)){
+    stop("Invalid function metQTL :start null:\n")
+  }
+  if(is.null(end)){
+    stop("Invalid function metQTL :end null:\n")
+  }
+  
+  chrEnsembl <- chrUCSC2ENSEMBL(toupper(chr))
+  
+  bedFile <- read.table(bedFilePath,header = TRUE)
+  desiredRegion <- subset(bedFile, chromosome_stop > start & chromosome_start < end &  chromosome_name == chrEnsembl)
+  
+  desiredRegionDisplay <- desiredRegion
+  
+  if( !("all" %in% featureDisplay) ) {
+    desiredRegionDisplay <- desiredRegion[which(desiredRegion$feature_type_name %in% featureDisplay),]
+  }
+  
+  track <- AnnotationTrack(chromosome=chrEnsembl,strand =desiredRegionDisplay[,4],start=desiredRegionDisplay[,2],
+                           end=desiredRegionDisplay[,3],
+                           feature=desiredRegionDisplay[,5], group=biomTrack[,7],
+                           id=biomTrack[,7], name = "metQTL",stacking="dense", 
+                           col.line = "black", col = NULL, collapse= FALSE,showId=showId)
+  
+  displayPars(track) <- list("SNP_pheno" = "seagreen", "SNP" = "seagreen1","CpG_pheno" = "tomato1",
+                             "CpG" = "sienna1", "cis_local_metQTL" = "violet", 
+                             "trans_local_metQTL" = "skyblue", "distal_metQTL" = "rosybrown1",
+                             "cis_local_metQTL_pheno" = "violetred", 
+                             "trans_local_metQTL_pheno" = "slateblue4", 
+                             "distal_metQTL_pheno" = "plum2")
+  
+  track
+}
+
+#------------------- metQTL visualisation data --------------
+eQTL <- function(chr,start, end, bedFilePath, featureDisplay = 'all', showId=FALSE ) {
+  
+  if(is.null(gen)){
+    stop("Invalid function eQTL :gen null:\n")
+  }
+  if(is.null(chr)){
+    stop("Invalid function eQTL :chr null:\n")
+  }
+  if(is.null(start)){
+    stop("Invalid function eQTL :start null:\n")
+  }
+  if(is.null(end)){
+    stop("Invalid function eQTL :end null:\n")
+  }
+  
+  chrEnsembl <- chrUCSC2ENSEMBL(toupper(chr))
+  
+  bedFile <- read.table(bedFilePath,header = TRUE)
+  desiredRegion <- subset(bedFile, chromosome_stop > start & chromosome_start < end &  chromosome_name == chrEnsembl)
+  
+  desiredRegionDisplay <- desiredRegion
+  
+  if( !("all" %in% featureDisplay) ) {
+    desiredRegionDisplay <- desiredRegion[which(desiredRegion$feature_type_name %in% featureDisplay),]
+  }
+  
+  track <- AnnotationTrack(chromosome=chrEnsembl,strand =desiredRegionDisplay[,4],start=desiredRegionDisplay[,2],
+                           end=desiredRegionDisplay[,3],
+                           feature=desiredRegionDisplay[,5], group=biomTrack[,7],
+                           id=biomTrack[,7], name = "eQTL",stacking="dense", 
+                           col.line = "black", col = NULL, collapse= FALSE,showId=showId)
+  
+  displayPars(track) <- list("SNP_pheno" = "seagreen", "SNP" = "seagreen1","exon_pheno" = "tomato1",
+                             "exon_pheno" = "sienna1", "mRNA_pheno" = "tomato1",
+                             "mRNA_pheno" = "sienna1",
+                             "cis_local_eQTL" = "violet", 
+                             "trans_local_eQTL" = "skyblue", "distal_eQTL" = "rosybrown1",
+                             "cis_local_eQTL_pheno" = "violetred", 
+                             "trans_local_eQTL_pheno" = "slateblue4", 
+                             "distal_eQTL_pheno" = "plum2")
+  
+  track
+}
+
 
 #-------------------- CREATION track for CG content  ----------------
 # CGcontent <-  function(bsgenome, chr, start, end, tilewidth)

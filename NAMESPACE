@@ -85,5 +85,8 @@ export(chrUCSC2ENSEMBL,
 	RegulatorySegmentsBiomart,
 	RegulatoryFeaturesBiomart,
 	OtherRegulatoryRegions,
+        miRNATargetRegionsBiomart,
 	RepeatMaskerTrack,
-	SegmentalDupsUCSC)
+	SegmentalDupsUCSC,
+	chromatinHMMRoadMap,
+        metQTL,eQTL)

@@ -16,7 +16,8 @@ comet(mydata.file = NULL, mydata.format = "site", mydata.type = "file",
     cormatrix.sig.level= 1, cormatrix.adjust="none", 
     cormatrix.type = "listfile", mydata.ref = NULL,
     start = NULL, end = NULL, zoom = FALSE, lab.Y = "log", pval.threshold = 1e-05, 
-    disp.pval.threshold = 1, disp.association = FALSE, disp.association.large = FALSE, 
+    disp.pval.threshold = 1, disp.association = FALSE, disp.association.large = FALSE,
+    disp.beta.association = FALSE, disp.beta.association.large = FALSE, factor.beta = 0.3,
     disp.region = FALSE, disp.region.large = FALSE, symbols = "circle-fill", 
     symbols.large = NA, sample.labels = NULL, sample.labels.large = NULL, 
     use.colors = TRUE , disp.color.ref = TRUE, color.list = NULL, color.list.large = NULL, 
@@ -103,6 +104,15 @@ comet(mydata.file = NULL, mydata.format = "site", mydata.type = "file",
     \item{disp.association.large}{
     This logical option works only if mydata.large.file contains the effect direction (mydata.large.format=site_asso or region_asso). The value can be TRUE or FALSE: if FALSE (default), for each point of data in the p-value plot, the color of symbol is the color of co-methylation pattern between the point and the reference site; if TRUE, the effect direction is shown. If the association is positive, the color is the one defined with the option color.list.large. On the other hand, if the association is negative, the color is the opposed color.
 }
+    \item{disp.beta.association}{
+    This logical option works only if mydata.file contains the effect direction (mydata.format=site_asso or region_asso). The value can be TRUE or FALSE: if FALSE (default), for each point of data in the p-value plot, the size of symbol is the default size of symbole; if TRUE, the effect direction is shown. 
+}
+    \item{disp.beta.association.large}{
+    This logical option works only if mydata.large.file contains the effect direction (mydata.large.format=site_asso or region_asso). The value can be TRUE or FALSE: if FALSE (default), for each point of data in the p-value plot, the size of symbol is ththe default size of symbole; if TRUE, the effect direction is shown.
+}
+    \item{factor.beta}{
+    Factor to visualise the size of beta. Default value = 0.3.
+    }
     \item{disp.region}{
     This logical option works only if mydata.file contains regions (mydata.format=region or region_asso). The value can be TRUE or FALSE (default). If TRUE, the genomic element will be shown by a continuous line with the color of the element, in addition to the symbol at the center of the region. If FALSE, only the symbol is shown.
 }
