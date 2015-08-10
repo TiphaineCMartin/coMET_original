@@ -693,6 +693,40 @@ knownGenesUCSC<-function(gen,chr,start,end,showId=TRUE){
   
 }
 
+#-------------------- CREATION track Known genes from UCSC ------------------
+refGenesUCSC<-function(gen,chr,start,end,showId=TRUE){
+  if(is.null(chr)){
+    stop("Invalid in function refGenesUCSC :chr null:\n")
+  }
+  if(is.null(start)){
+    stop("Invalid in function refGenesUCSC :start null:\n")
+  }
+  if(is.null(end)){
+    stop("Invalid in function refGenesUCSC :end null:\n")
+  }
+  if(is.null(gen)){
+    stop("Invalid in function refGenesUCSC :gen null:\n")
+  }
+  
+  genTrunk <- gsub("\\..*","",gen)
+  
+  if(showId){
+    UcscTrack(genome = genTrunk, chromosome = chr,track = "refGene", from = start, to = end,
+              trackType = "GeneRegionTrack", rstarts = "exonStarts", rends = "exonEnds",
+              gene = "name", symbol = "name", transcript = "name", strand = "strand",
+              fill = "#8282d2", name = "Ref Genes",stacking="squish", group="name",
+              fontcolor="black", groupAnnotation = "group", just.group = "above",
+              size=2, showId=TRUE,col.line = NULL, col = NULL)
+  } else {
+    UcscTrack(genome = genTrunk, chromosome = chr,track = "knownGene", from = start, to = end,
+              trackType = "GeneRegionTrack", rstarts = "exonStarts", rends = "exonEnds",
+              gene = "name", symbol = "name", transcript = "name", strand = "strand",
+              fill = "#8282d2", name = "ref Genes",stacking="dense",size=2,
+              col.line = NULL, col = NULL)
+  }
+  
+}
+
 #-------------------- CREATION track ref Genes from UCSC ------------------
 xenorefGenesUCSC<-function(gen,chr,start,end,showId=FALSE){
   if(is.null(chr)){
@@ -1708,24 +1742,26 @@ metQTL <- function(chr,start, end, bedFilePath, featureDisplay = 'all', showId=F
     stop("Invalid function metQTL :end null:\n")
   }
   
-  chrEnsembl <- chrUCSC2ENSEMBL(toupper(chr))
+ # chrEnsembl <- chrUCSC2ENSEMBL(toupper(chr))
   
   bedFile <- read.table(bedFilePath,header = TRUE)
-  desiredRegion <- subset(bedFile, chromosome_stop > start & chromosome_start < end &  chromosome_name == chrEnsembl)
+  desiredRegion <- subset(bedFile, chromosome_stop >= start & chromosome_start <= end &  chromosome_name == chr)
   
   desiredRegionDisplay <- desiredRegion
   
   if( !("all" %in% featureDisplay) ) {
-    desiredRegionDisplay <- desiredRegion[which(desiredRegion$feature_type_name %in% featureDisplay),]
+    desiredRegionDisplay <- desiredRegion[which(desiredRegion$feature_type %in% featureDisplay),]
   }
   
-  track <- AnnotationTrack(chromosome=chrEnsembl,strand =desiredRegionDisplay[,4],start=desiredRegionDisplay[,2],
+  desiredRegionDisplay <- data.frame(lapply(desiredRegionDisplay, as.character), stringsAsFactors=FALSE)
+  track <- AnnotationTrack(chromosome=chr,strand =desiredRegionDisplay[,4],start=desiredRegionDisplay[,2],
                            end=desiredRegionDisplay[,3],
-                           feature=desiredRegionDisplay[,5], group=biomTrack[,7],
-                           id=biomTrack[,7], name = "metQTL",stacking="dense", 
+                           feature=desiredRegionDisplay[,5], group=desiredRegionDisplay[,7],
+                           id=desiredRegionDisplay[,7], name = "metQTL", groupAnnotation = "group",
+                           just.group = "above", stacking="squish", 
                            col.line = "black", col = NULL, collapse= FALSE,showId=showId)
   
-  displayPars(track) <- list("SNP_pheno" = "seagreen", "SNP" = "seagreen1","CpG_pheno" = "tomato1",
+  displayPars(track) <- list("SNP_pheno" = "seagreen", "SNP" = "seagreen1", "CpG_pheno" = "tomato1",
                              "CpG" = "sienna1", "cis_local_metQTL" = "violet", 
                              "trans_local_metQTL" = "skyblue", "distal_metQTL" = "rosybrown1",
                              "cis_local_metQTL_pheno" = "violetred", 
@@ -1751,21 +1787,21 @@ eQTL <- function(chr,start, end, bedFilePath, featureDisplay = 'all', showId=FAL
     stop("Invalid function eQTL :end null:\n")
   }
   
-  chrEnsembl <- chrUCSC2ENSEMBL(toupper(chr))
+ # chrEnsembl <- chrUCSC2ENSEMBL(tolower(chr))
   
   bedFile <- read.table(bedFilePath,header = TRUE)
-  desiredRegion <- subset(bedFile, chromosome_stop > start & chromosome_start < end &  chromosome_name == chrEnsembl)
+  desiredRegion <- subset(bedFile, chromosome_stop >= start & chromosome_start <= end &  chromosome_name == chr)
   
   desiredRegionDisplay <- desiredRegion
   
   if( !("all" %in% featureDisplay) ) {
-    desiredRegionDisplay <- desiredRegion[which(desiredRegion$feature_type_name %in% featureDisplay),]
+    desiredRegionDisplay <- desiredRegion[which(desiredRegion$feature_type %in% featureDisplay),]
   }
   
-  track <- AnnotationTrack(chromosome=chrEnsembl,strand =desiredRegionDisplay[,4],start=desiredRegionDisplay[,2],
+  track <- AnnotationTrack(chromosome=chr,strand=desiredRegionDisplay[,4],start=desiredRegionDisplay[,2],
                            end=desiredRegionDisplay[,3],
-                           feature=desiredRegionDisplay[,5], group=biomTrack[,7],
-                           id=biomTrack[,7], name = "eQTL",stacking="dense", 
+                           feature=desiredRegionDisplay[,5], group=desiredRegionDisplay[,7],
+                           id=desiredRegionDisplay[,7], name = "eQTL",stacking="squish", 
                            col.line = "black", col = NULL, collapse= FALSE,showId=showId)
   
   displayPars(track) <- list("SNP_pheno" = "seagreen", "SNP" = "seagreen1","exon_pheno" = "tomato1",
