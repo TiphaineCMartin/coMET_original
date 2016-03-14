@@ -25,7 +25,7 @@ list of internal variables
  list of different matrix
   \item{color.cut}{the matrix of color related to correlation matrix} ,
   \item{color.cut.ref}{the vector of color related to the reference CpG} ,
-  \item{cormatrix.key}{the generic panel having different panels associated with the correlation matrix}, 
+  \item{cormatrix.key}{the generic panel having different panels associated with the correlation matrix},
   \item{map.label.ldtype}{the panel with the method of creation of correlation matrix}.
   \item{map.label.distance}{the panel with the legend of distance}
 }

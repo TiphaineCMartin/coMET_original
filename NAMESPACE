@@ -8,6 +8,8 @@
 ###
 import(grid)
 import(grDevices)
+import(utils)
+
 
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### Non-bioconductor packages
@@ -19,6 +21,8 @@ importClassesFrom("hash",hash)
 #importMethodsFrom("hash",keys)
 importFrom("hash",hash)
 importFrom("hash",has.key)
+importFrom("stats",cor)
+importFrom("corrplot",corrplot)
 
 
 
@@ -58,35 +62,50 @@ export(comet,comet.web,comet.list)
 ### pre-formatted tracks
 ###
 export(chrUCSC2ENSEMBL,
-	gcContent,
-	GWASTrack,
-	ISCATrack,
-	GADTrack,
-	GeneReviewsTrack,
-	xenorefGenesUCSC,
-	knownGenesUCSC,
-	genesNameENSEMBL,
-	genesENSEMBL,
-	interestGenesENSEMBL,
-	transcriptENSEMBL,
-	interestTranscriptENSEMBL,
-	snpBiomart,
-	snpLocationsUCSC,
-	structureBiomart,
-	ClinVarCnvTrack, ClinVarMainTrack,
-	CoreillCNVTrack,
-	COSMICTrack,
-	chromatinHMMAll, chromatinHMMOne,
-	HistoneAll, HistoneOne,
-	cpgIslandsUCSC,
-	DNAseUCSC,
-	regulationBiomart,
-	BindingMotifsBiomart,
-	RegulatorySegmentsBiomart,
-	RegulatoryFeaturesBiomart,
-	OtherRegulatoryRegions,
-        miRNATargetRegionsBiomart,
-	RepeatMaskerTrack,
-	SegmentalDupsUCSC,
-	chromatinHMMRoadMap,
-        metQTL,eQTL)
+    gcContent_UCSC,
+    GWAScatalog_UCSC,
+    GAD_UCSC,
+    GeneReviews_UCSC,
+    refGenes_UCSC,
+    xenorefGenes_UCSC,
+    knownGenes_UCSC,
+    genesName_ENSEMBL,
+    genes_ENSEMBL,
+    interestGenes_ENSEMBL,
+    transcript_ENSEMBL,
+    interestTranscript_ENSEMBL,
+    snpBiomart_ENSEMBL,
+    snpLocations_UCSC,
+    structureBiomart_ENSEMBL,
+    ClinVarCnv_UCSC, ClinVarMain_UCSC,
+    CoreillCNV_UCSC,
+    COSMIC_UCSC,
+    chromatinHMMAll_UCSC, chromatinHMMOne_UCSC,
+    HistoneAll_UCSC, HistoneOne_UCSC,
+    cpgIslands_UCSC,
+    DNAse_UCSC,
+    regulationBiomart_ENSEMBL,
+    bindingMotifsBiomart_ENSEMBL,
+    regulatorySegmentsBiomart_ENSEMBL,
+    regulatoryFeaturesBiomart_ENSEMBL,
+    otherRegulatoryRegions_ENSEMBL,
+    regulatoryEvidenceBiomart_ENSEMBL,
+    miRNATargetRegionsBiomart_ENSEMBL,
+    repeatMasker_UCSC,
+    segmentalDups_UCSC,
+    chromHMM_RoadMap,
+    DNaseI_RoadMap,
+    dgfootprints_RoadMap,
+    eQTL_GTEx,
+    imprintedGenes_GTEx,
+    psiQTL_GTEx,
+    metQTL,eQTL,
+    TFBS_FANTOM,
+    DNaseI_FANTOM,
+    ChIPTF_ENCODE,
+    HiCdata2matrix)
+
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+### obselete tracks
+###
+#ISCATrack

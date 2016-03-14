@@ -19,7 +19,7 @@ comet function
 \item{gbl.var}{
 list of internal variables
 }
-  
+
 \item{numfile}{
 the number of file to visualise
 }

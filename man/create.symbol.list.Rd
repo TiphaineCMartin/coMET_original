@@ -26,8 +26,8 @@ list of internal variables
 
 \value{
 return a list of symbole:
-\item{split.symbol.list}{a list which contains the list of symbole for the info data}, 
-\item{split.fill.list}{a list which contains the list of fill for the info data} 
+\item{split.symbol.list}{a list which contains the list of symbole for the info data},
+\item{split.fill.list}{a list which contains the list of fill for the info data}
 }
 
 \author{

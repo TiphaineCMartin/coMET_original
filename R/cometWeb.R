@@ -45,6 +45,7 @@ comet.web <- function(mydata.file = NULL,
                       zoom = FALSE,
                       lab.Y = "log",
                       pval.threshold = 10e-8,
+                      pval.threshold.2 = 0,
                       disp.pval.threshold = 1,
                       disp.association = "FALSE",
                       disp.association.large = "FALSE",
@@ -70,6 +71,8 @@ comet.web <- function(mydata.file = NULL,
                       image.name = "coMET",
                       image.type = c("pdf", "eps"),
                       image.size = 3.5,
+                      fontsize.gviz = 5,
+                      font.factor = 1,
                       print.image = FALSE,
                       config.file = NULL,
                       verbose = FALSE) {
@@ -196,7 +199,7 @@ comet.web <- function(mydata.file = NULL,
   cormatrix.pvalue.data <- NULL
   cormatrix.pvalue.data.full <- NULL
   cormatrix.CI.data <- NULL
-   
+  
   mySession <- NULL
   listtracks_gviz <- NULL
   listtracks_user <- NULL
@@ -321,7 +324,7 @@ comet.web <- function(mydata.file = NULL,
   connecting.lines.adj = 0.01
   connecting.lines.vert.adj = -1
   connecting.lines.flex = 0
-  font.factor = NULL
+  font.factor = 1
   color.list = "red"
   symbol.factor = NULL
   dataset.gene = "hsapiens_gene_ensembl"
@@ -374,7 +377,9 @@ comet.web <- function(mydata.file = NULL,
                      tracks.trackviewer = tracks.trackviewer,
                      symbols = symbols,
                      symbols.large = symbols.large,
+                     fontsize.gviz = fontsize.gviz,
                      pval.threshold = pval.threshold,
+                     pval.threshold.2 = pval.threshold.2,
                      disp.type = disp.type,
                      disp.cormatrixmap = disp.cormatrixmap,
                      disp.mydata = disp.mydata,
@@ -699,7 +704,7 @@ comet.web <- function(mydata.file = NULL,
   #---------------- DRAW DIFFERENT ANNOTATION TRACK ---------
   gbl.var <- create.tracks.web(config.var,gbl.var)
   
-  #------ DRAW the STRUCTURE COMET	
+  #------ DRAW the STRUCTURE COMET    
   if(print.image == FALSE || is.null(config.var$image.name)){
     gbl.var <- draw.plot.comet.web(config.var, gbl.var,newpage=TRUE)
   } else{

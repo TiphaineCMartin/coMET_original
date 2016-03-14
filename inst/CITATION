@@ -5,34 +5,33 @@ citEntry(entry="article",
 		         as.person("Erte, I."),
   	         as.person("Tsai, P-C."),
   	         as.person("Bell, J.T.")),
-         journal= "QG14",
+         journal = "QG14",
          volume	="" ,
-		     number = "",
+	 number = "",
          year	= 2014,
          pages	="",
 		     month  ="May",
-         url	="http://quantgen.soc.srcf.net/qg14/",
+         url	= "http://quantgen.soc.srcf.net/qg14/",
          textVersion = 
                paste("Martin, T., Erte, I, Tsai, P-C, Bell, J.T.",
-               "coMET: an R plotting package to visualize regional plots of epigenome-wide association scan results",
-          "QG14, 2014")
+               "coMET: an R plotting package to visualize regional plots of epigenome-wide association scan results","QG14, 2014")
 )
 citEntry(entry="article",
          title = "coMET: visualisation of regional epigenome-wide association scan results and DNA co-methylation patterns",
          author = personList(as.person("Martin, T.C."),
-		         as.person("Erte, I."),
+		         as.person("Yet, I."),
   	         as.person("Tsai, P-C."),
   	         as.person("Bell, J.T.")),
-         journal= "BMC Bioinformatics",
-         volume	="" ,
-		     number = "",
+         journal = "BMC Bioinformatics",
+         volume	= "16" ,
+         number = "131",
          year	= 2015,
          pages	="",
 	 month  ="",
-         url	="",
+         url	= "http://epigen.kcl.ac.uk/comet",
+         doi = "0.1186/s12859-015-0568-2",
          textVersion = 
                paste("Martin, T., Yet, I, Tsai, P-C, Bell, J.T.",
-               "coMET: visualisation of regional epigenome-wide association scan results and DNA co-methylation patterns",
-          "BMC Bioinformatics, 2015 (accepted)")
+               "coMET: visualisation of regional epigenome-wide association scan results and DNA co-methylation patterns",", BMC Bioinformatics, 2015, 16:131")
 )
 

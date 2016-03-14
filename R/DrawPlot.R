@@ -96,7 +96,7 @@ draw.plot.comet.web <- function(config.var, gbl.var,newpage=TRUE){
   draw.plot.annotation(config.var, gbl.var)
   
   if(has.key("geneENSEMBL", gbl.var$split.list.tracks) | 
-       (has.key("transcriptENSEMBL", gbl.var$split.list.tracks))
+     (has.key("transcriptENSEMBL", gbl.var$split.list.tracks))
      | (has.key("genesUCSC",gbl.var$split.list.tracks) )) {
     # draw name of genes
     draw.name.genes.web(config.var, gbl.var)
@@ -383,8 +383,8 @@ write.comet.list <- function(config.var, gbl.var){
   if (config.var$verbose)  cat("START WRITE COMET LIST\n")
   #Create the output file
   cormatrix.output = config.var$cormatrix.output
- # tmp.cormatrix.output <- paste(cormatrix.output, ".txt", sep="")
-
+  # tmp.cormatrix.output <- paste(cormatrix.output, ".txt", sep="")
+  
   #Different matrix
   cormatrix.matrix <- gbl.var$cormatrix.data.full
   cormatrix.pvalue.matrix <- gbl.var$cormatrix.pvalue.data.full

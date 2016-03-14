@@ -47,14 +47,15 @@ comet <- function(mydata.file = NULL,
                   zoom = FALSE,
                   lab.Y = "log",
                   pval.threshold = 10e-6,
+                  pval.threshold.2 = 0,
                   disp.pval.threshold = 1 ,
                   disp.association = "FALSE",
                   disp.association.large = "FALSE",
+                  disp.region = "FALSE",
+                  disp.region.large = "FALSE",
                   disp.beta.association = "FALSE",
                   disp.beta.association.large = "FALSE",
                   factor.beta = 0.3,
-                  disp.region = "FALSE",
-                  disp.region.large = "FALSE",
                   symbols = "circle-fill",
                   symbols.large = NA,
                   sample.labels = NULL,
@@ -87,7 +88,8 @@ comet <- function(mydata.file = NULL,
                   image.name = "coMET",
                   image.type = NULL,
                   image.size = 3.5,
-                  font.factor = NULL,
+                  fontsize.gviz =5, 
+                  font.factor = 1,
                   symbol.factor = NULL,
                   print.image = TRUE,
                   connecting.lines.factor = 1.5,
@@ -346,8 +348,10 @@ comet <- function(mydata.file = NULL,
                      end = end,
                      zoom = zoom,
                      lab.Y = lab.Y,
+                     fontsize.gviz = fontsize.gviz,
                      disp.pval.threshold = disp.pval.threshold,
                      pval.threshold = pval.threshold,
+                     pval.threshold.2 = pval.threshold.2,
                      disp.type = disp.type,
                      disp.cormatrixmap = disp.cormatrixmap,
                      disp.pvalueplot = disp.pvalueplot,
@@ -647,7 +651,7 @@ comet <- function(mydata.file = NULL,
       stop("Need to define the visualisation of association of extra data\n")
     }
     
-   # -- Visualisation of ASSOCIATION for beta
+    # -- Visualisation of ASSOCIATION for beta
     if(!is.null(config.var$disp.beta.association.large)){
       large.split.beta.association <- strsplit(config.var$disp.beta.association.large, ",")
       large.split.beta.association.length <- length(large.split.beta.association[[1]])
@@ -700,7 +704,7 @@ comet <- function(mydata.file = NULL,
           Change the value of disp.pvalueplot and disp.cormatrixmap")
   }
   
-  #------ DRAW the STRUCTURE COMET	
+  #------ DRAW the STRUCTURE COMET    
   if(disp.pvalueplot) {
     if(print.image == FALSE || is.null(config.var$image.name)){
       gbl.var <- draw.plot.comet(config.var, gbl.var,newpage=TRUE)

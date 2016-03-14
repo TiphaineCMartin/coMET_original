@@ -2,7 +2,7 @@
 \alias{draw.name.genes.web}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-display the gene names 
+display the gene names
 }
 \description{
 display the gene names for the web page(see cometweb)

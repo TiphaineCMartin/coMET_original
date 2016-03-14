@@ -1,3 +1,8 @@
+COMET 1.0.3 - 2015-12-06
+-------------------------
+- Add functions to visualise data from FANTOM, GeTEX and Hi-C data
+- Update the vignette related to these new functions
+
 COMET 1.0.2 - 2015-08-10
 -------------------------
 - Add the option to visualise beta values in changing the size of symbole relative to the absolue value of beta valuein the top of plot

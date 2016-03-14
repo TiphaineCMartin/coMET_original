@@ -9,8 +9,8 @@ coMET is an R-based package to visualize EWAS (epigenome-wide association scans)
 In addition, the function comet.list gives the list of correlations between omic features
 }
 \usage{
-comet.list(cormatrix.file = NULL, cormatrix.method = "spearman", cormatrix.format = "raw", 
-    cormatrix.conf.level=0.05, cormatrix.sig.level= 1, cormatrix.adjust="none", 
+comet.list(cormatrix.file = NULL, cormatrix.method = "spearman", cormatrix.format = "raw",
+    cormatrix.conf.level=0.05, cormatrix.sig.level= 1, cormatrix.adjust="none",
     cormatrix.type = "listdataframe", cormatrix.output="cormatrix_list",
     config.file = NULL, verbose = FALSE)
 }
@@ -77,7 +77,7 @@ myoutput <- file.path(extdata, "cyp1b1_res37_cormatrix_list_BH05.txt")
 comet.list(cormatrix.file=mycorrelation,cormatrix.method = "spearman",
            cormatrix.format= "raw", cormatrix.conf.level=0.05,
            cormatrix.sig.level= 0.05, cormatrix.adjust="BH",
-           cormatrix.type = "listfile", cormatrix.output=myoutput, 
+           cormatrix.type = "listfile", cormatrix.output=myoutput,
            verbose=FALSE)
 
 }
