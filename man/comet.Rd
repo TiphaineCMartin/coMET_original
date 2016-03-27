@@ -9,27 +9,29 @@ coMET is an R-based package to visualize EWAS (epigenome-wide association scans)
 }
 \usage{
 comet(mydata.file = NULL, mydata.format = "site", mydata.type = "file",
-    mydata.large.file = NULL, mydata.large.format = "site", 
-    mydata.large.type = "listfile", cormatrix.file = NULL, 
-    cormatrix.method = "spearman", cormatrix.format = "raw", 
-    cormatrix.color.scheme = "bluewhitered",cormatrix.conf.level=0.05, 
-    cormatrix.sig.level= 1, cormatrix.adjust="none", 
+    mydata.large.file = NULL, mydata.large.format = "site",
+    mydata.large.type = "listfile", cormatrix.file = NULL,
+    cormatrix.method = "spearman", cormatrix.format = "raw",
+    cormatrix.color.scheme = "bluewhitered",cormatrix.conf.level=0.05,
+    cormatrix.sig.level= 1, cormatrix.adjust="none",
     cormatrix.type = "listfile", mydata.ref = NULL,
-    start = NULL, end = NULL, zoom = FALSE, lab.Y = "log", pval.threshold = 1e-05, 
-    disp.pval.threshold = 1, disp.association = FALSE, disp.association.large = FALSE, 
-    disp.region = FALSE, disp.region.large = FALSE, symbols = "circle-fill", 
-    symbols.large = NA, sample.labels = NULL, sample.labels.large = NULL, 
-    use.colors = TRUE , disp.color.ref = TRUE, color.list = NULL, color.list.large = NULL, 
-    disp.mydata = TRUE, biofeat.user.file = NULL, biofeat.user.type = NULL, 
-    biofeat.user.type.plot = NULL, genome = "hg19", dataset.gene = "hsapiens_gene_ensembl", 
-    tracks.gviz = NULL, tracks.ggbio = NULL, tracks.trackviewer = NULL, 
-    disp.mydata.names = TRUE, disp.color.bar = TRUE, disp.phys.dist = TRUE, 
-    disp.legend = TRUE, disp.marker.lines = TRUE, disp.cormatrixmap = TRUE, 
-    disp.pvalueplot =TRUE, disp.type = "symbol", disp.mult.lab.X = FALSE, 
-    disp.connecting.lines = TRUE, palette.file = NULL, image.title = NULL, 
-    image.name = "coMET", image.type = NULL, image.size = 3.5, font.factor = NULL, 
-    symbol.factor = NULL, print.image = TRUE, connecting.lines.factor = 1.5, 
-    connecting.lines.adj = 0.01, connecting.lines.vert.adj = -1, 
+    start = NULL, end = NULL, zoom = FALSE, lab.Y = "log", 
+    pval.threshold = 1e-05,pval.threshold.2 = 0,disp.pval.threshold = 1, 
+    disp.association = FALSE, disp.association.large = FALSE,
+    disp.region = FALSE, disp.region.large = FALSE,
+    disp.beta.association = FALSE, disp.beta.association.large = FALSE, factor.beta = 0.3,
+    symbols = "circle-fill", symbols.large = NA, sample.labels = NULL, sample.labels.large = NULL,
+    use.colors = TRUE , disp.color.ref = TRUE, color.list = NULL, color.list.large = NULL,
+    disp.mydata = TRUE, biofeat.user.file = NULL, biofeat.user.type = NULL,
+    biofeat.user.type.plot = NULL, genome = "hg19", dataset.gene = "hsapiens_gene_ensembl",
+    tracks.gviz = NULL, tracks.ggbio = NULL, tracks.trackviewer = NULL,
+    disp.mydata.names = TRUE, disp.color.bar = TRUE, disp.phys.dist = TRUE,
+    disp.legend = TRUE, disp.marker.lines = TRUE, disp.cormatrixmap = TRUE,
+    disp.pvalueplot =TRUE, disp.type = "symbol", disp.mult.lab.X = FALSE,
+    disp.connecting.lines = TRUE, palette.file = NULL, image.title = NULL,
+    image.name = "coMET", image.type = NULL, image.size = 3.5, fontsize.gviz=5, font.factor = 1,
+    symbol.factor = NULL, print.image = TRUE, connecting.lines.factor = 1.5,
+    connecting.lines.adj = 0.01, connecting.lines.vert.adj = -1,
     connecting.lines.flex = 0, config.file = NULL, verbose = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -94,21 +96,33 @@ comet(mydata.file = NULL, mydata.format = "site", mydata.type = "file",
     \item{pval.threshold}{
  Significance threshold to be displayed as a red dashed line
 }
+  \item{pval.threshold.2}{
+ the second significance threshold to be displayed as a orange dashed line
+}
     \item{disp.pval.threshold}{
  Display only the findings that pass the value put in disp.pval.threshold
 }
     \item{disp.association}{
-    This logical option works only if mydata.file contains the effect direction (mydata.format=site_asso or region_asso). The value can be TRUE or FALSE: if FALSE (default), for each point of data in the p-value plot, the color of symbol is the color of co-methylation pattern between the point and the reference site; if TRUE, the effect direction is shown. If the association is positive, the color is the one defined with the option color.list. On the other hand, if the association is negative, the color is the opposed color. 
+    This logical option works only if mydata.file contains the effect direction (mydata.format=site_asso or region_asso). The value can be TRUE or FALSE: if FALSE (default), for each point of data in the p-value plot, the color of symbol is the color of co-methylation pattern between the point and the reference site; if TRUE, the effect direction is shown. If the association is positive, the color is the one defined with the option color.list. On the other hand, if the association is negative, the color is the opposed color.
 }
     \item{disp.association.large}{
     This logical option works only if mydata.large.file contains the effect direction (mydata.large.format=site_asso or region_asso). The value can be TRUE or FALSE: if FALSE (default), for each point of data in the p-value plot, the color of symbol is the color of co-methylation pattern between the point and the reference site; if TRUE, the effect direction is shown. If the association is positive, the color is the one defined with the option color.list.large. On the other hand, if the association is negative, the color is the opposed color.
 }
-    \item{disp.region}{
+   \item{disp.region}{
     This logical option works only if mydata.file contains regions (mydata.format=region or region_asso). The value can be TRUE or FALSE (default). If TRUE, the genomic element will be shown by a continuous line with the color of the element, in addition to the symbol at the center of the region. If FALSE, only the symbol is shown.
 }
     \item{disp.region.large}{
     This logical option works only if mydata.large.file contains regions (mydata.large.format=region or region_asso). The value can be TRUE or FALSE (default). If TRUE, the genomic element will be shown by a continuous line with the color of the element, in addition to the symbol at the center of the region. If FALSE, only the symbol is shown.
 }
+    \item{disp.beta.association}{
+    This logical option works only if mydata.file contains the effect direction (mydata.format=site_asso or region_asso). The value can be TRUE or FALSE: if FALSE (default), for each point of data in the p-value plot, the size of symbol is the default size of symbole; if TRUE, the effect direction is shown.
+}
+    \item{disp.beta.association.large}{
+    This logical option works only if mydata.large.file contains the effect direction (mydata.large.format=site_asso or region_asso). The value can be TRUE or FALSE: if FALSE (default), for each point of data in the p-value plot, the size of symbol is ththe default size of symbole; if TRUE, the effect direction is shown.
+}
+    \item{factor.beta}{
+    Factor to visualise the size of beta. Default value = 0.3.
+    }
     \item{symbols}{
     The symbol shown in the p-value plot. Options: circle, square, diamond, triangle. symbols can be filled by appending -fill, e.g. square-fill. Example: circle,diamond-fill,triangle
 }
@@ -205,6 +219,9 @@ comet(mydata.file = NULL, mydata.format = "site", mydata.type = "file",
     \item{image.size}{
     Default: 3.5 inches. Possible sizes : 3.5 or 7
 }
+    \item{fontsize.gviz}{
+    Font size of writing in annotation track. Default value =5
+   }
     \item{font.factor}{
     Font size of the sample labels. Range: 0-1
 }
@@ -264,14 +281,14 @@ mycorrelation <- file.path(extdata, "cyp1b1_res37_rawMatrix.txt")
 chrom <- "chr2"
 start <- 38290160
 end <- 38303219
-gen <- "hg19"
+gen <- "hg38"
 
 if(interactive()){
     cat("interactive")
     genetrack <-genesENSEMBL(gen,chrom,start,end,showId=TRUE)
-    snptrack <- snpBiomart(chrom, start, end, 
+    snptrack <- snpBiomart(chrom, start, end,
                 dataset="hsapiens_snp_som",showId=FALSE)
-    strutrack <- structureBiomart(chrom, start, end, 
+    strutrack <- structureBiomart(chrom, start, end,
                 strand, dataset="hsapiens_structvar_som")
     clinVariant<-ClinVarMainTrack(gen,chrom,start,end)
     clinCNV<-ClinVarCnvTrack(gen,chrom,start,end)

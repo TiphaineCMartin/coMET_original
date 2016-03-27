@@ -8,26 +8,28 @@ Visualize EWAS results in a genomic region of interest with predefined annotatio
 coMET is an R-based package to visualize EWAS (epigenome-wide association scans) results in a genomic region of interest. The main feature of coMET is to plot the the significance level of EWAS results in the selected region, along with correlation in DNA methylation values between CpG sites in the region. The coMET package generates plots of phenotype-association, co-methylation patterns, and a series of annotation tracks.
 }
 \usage{
-comet.web(mydata.file = NULL, mydata.format = c("site", "region", "site_asso", "region_asso"), 
-        mydata.large.file = NULL, 
-        mydata.large.format = c("site", "region", "site_asso", "region_asso"), 
-        cormatrix.file = NULL, cormatrix.method = c("spearman", "pearson", "kendall"), 
-        cormatrix.format = c("cormatrix", "raw","raw_rev"), 
-        cormatrix.color.scheme = "heat", cormatrix.conf.level=0.05, 
+comet.web(mydata.file = NULL, mydata.format = c("site", "region", "site_asso", "region_asso"),
+        mydata.large.file = NULL,
+        mydata.large.format = c("site", "region", "site_asso", "region_asso"),
+        cormatrix.file = NULL, cormatrix.method = c("spearman", "pearson", "kendall"),
+        cormatrix.format = c("cormatrix", "raw","raw_rev"),
+        cormatrix.color.scheme = "heat", cormatrix.conf.level=0.05,
         cormatrix.sig.level= 1, cormatrix.adjust="none",mydata.ref = NULL,
-        genome="hg19", start = NULL, end = NULL, zoom = FALSE, lab.Y = "log", 
-        pval.threshold = 1e-07, disp.pval.threshold = 1, 
-        disp.association= FALSE, disp.association.large = FALSE, 
-        disp.region = FALSE, disp.region.large = FALSE, symbols = "circle-fill", 
-        symbols.large = NA, sample.labels = NULL, sample.labels.large = NULL, 
-        use.colors = TRUE, disp.color.ref = TRUE, color.list = NULL, 
+        genome="hg19", start = NULL, end = NULL, zoom = FALSE, lab.Y = "log",
+        pval.threshold = 1e-07, pval.threshold.2 = 0,  disp.pval.threshold = 1,
+        disp.association= FALSE, disp.association.large = FALSE,
+        disp.beta.association = "FALSE",disp.beta.association.large = "FALSE", factor.beta = 0.3,
+        disp.region = FALSE, disp.region.large = FALSE, symbols = "circle-fill",
+        symbols.large = NA, sample.labels = NULL, sample.labels.large = NULL,
+        use.colors = TRUE, disp.color.ref = TRUE, color.list = NULL,
         color.list.large = NULL, biofeat.user.file = NULL,
-        biofeat.user.type = c("GeneRegion", "Annotation", "Data"), 
-        biofeat.user.type.plot = NULL, 
-        list.tracks = "geneENSEMBL,CGI,ChromHMM,DNAse,RegENSEMBL,SNP", 
+        biofeat.user.type = c("GeneRegion", "Annotation", "Data"),
+        biofeat.user.type.plot = NULL,
+        list.tracks = "geneENSEMBL,CGI,ChromHMM,DNAse,RegENSEMBL,SNP",
         pattern.regulation = "GM12878",
-        image.title = NULL, image.name = "coMET", image.type = c("pdf", "eps"), 
-        image.size = 3.5, print.image = FALSE, config.file = NULL, verbose = FALSE)
+        image.title = NULL, image.name = "coMET", image.type = c("pdf", "eps"),
+        image.size = 3.5, fontsize.gviz=5, font.factor = 1,
+        print.image = FALSE, config.file = NULL, verbose = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{.
@@ -64,7 +66,7 @@ comet.web(mydata.file = NULL, mydata.format = c("site", "region", "site_asso", "
     \item{cormatrix.adjust}{
     indicates which adjustment for multiple tests should be used. "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none".Default value="none"
 }
- 
+
     \item{mydata.ref}{
     The name of the reference omic feature (e.g. CpG-site) listed in mydata.file
 }
@@ -84,17 +86,29 @@ comet.web(mydata.file = NULL, mydata.format = c("site", "region", "site_asso", "
     Scale of the y-axis. Options: log or ln
 }
     \item{pval.threshold}{
-    Significance threshold to be displayed as a red dashed line
+    Significance threshold to be displayed as a red dashed line. Default value = 1e-7
+}
+    \item{pval.threshold.2}{
+    the second significance threshold to be displayed as a orange dashed line. Default value= 0 (no printed)
 }
     \item{disp.pval.threshold}{
     Display only the findings that pass the value put in disp.pval.threshold
 }
     \item{disp.association}{
-    This logical option works only if mydata.file contains the effect direction (mydata.format=site_asso or region_asso). The value can be TRUE or FALSE: if FALSE (default), for each point of data in the p-value plot, the color of symbol is the color of co-methylation pattern between the point and the reference site; if TRUE, the effect direction is shown. If the association is positive, the color is the one defined with the option color.list. On the other hand, if the association is negative, the color is the opposed color. 
+    This logical option works only if mydata.file contains the effect direction (mydata.format=site_asso or region_asso). The value can be TRUE or FALSE: if FALSE (default), for each point of data in the p-value plot, the color of symbol is the color of co-methylation pattern between the point and the reference site; if TRUE, the effect direction is shown. If the association is positive, the color is the one defined with the option color.list. On the other hand, if the association is negative, the color is the opposed color.
 }
     \item{disp.association.large}{
     This logical option works only if mydata.large.file contains the effect direction (MYDATA.large.FORMA=site_asso or region_asso). The value can be TRUE or FALSE: if FALSE (default), for each point of data in the p-value plot, the color of symbol is the color of co-methylation pattern between the point and the reference site; if TRUE, the effect direction is shown. If the association is positive, the color is the one defined with the option color.list.large. On the other hand, if the association is negative, the color is the opposed color.
 }
+    \item{disp.beta.association}{
+    This logical option works only if mydata.file contains the effect direction (mydata.format=site_asso or region_asso). The value can be TRUE or FALSE: if FALSE (default), for each point of data in the p-value plot, the size of symbol is the default size of symbole; if TRUE, the effect direction is shown.
+}
+    \item{disp.beta.association.large}{
+    This logical option works only if mydata.large.file contains the effect direction (mydata.large.format=site_asso or region_asso). The value can be TRUE or FALSE: if FALSE (default), for each point of data in the p-value plot, the size of symbol is ththe default size of symbole; if TRUE, the effect direction is shown.
+}
+    \item{factor.beta}{
+    Factor to visualise the size of beta. Default value = 0.3.
+    }
     \item{disp.region}{
     This logical option works only if mydata.file contains regions (mydata.format=region or region_asso). The value can be TRUE or FALSE (default). If TRUE, the genomic element will be shown by a continuous line with the color of the element, in addition to the symbol at the center of the region. If FALSE, only the symbol is shown.
 }
@@ -135,7 +149,7 @@ comet.web(mydata.file = NULL, mydata.format = c("site", "region", "site_asso", "
     Format of the plot if the data are shown with the Gviz's function called DataTrack (comma-separated)
 }
     \item{list.tracks}{
-    List of annotation tracks to visualise. Options include geneENSEMBL, CGI, ChromHMM, DNAse, RegENSEMBL, SNP, transcriptENSEMBL, SNPstoma, SNPstru, SNPstrustoma, ISCA, COSMIC, GAD, ClinVar, GeneReviews, GWAS, ClinVarCNV, GCcontent, genesUCSC, xenogenesUCSC. 
+    List of annotation tracks to visualise. Options include geneENSEMBL, CGI, ChromHMM, DNAse, RegENSEMBL, SNP, transcriptENSEMBL, SNPstoma, SNPstru, SNPstrustoma, BindingMotifENSEMBL, otherRegulatoryENSEMBL, regulatoryEvidenceENSEMBL, regulatoryFeaturesENSEMBL, regulatorySegmeENSEMBL, miRNAENSEMBL, ImprintedtissuesGenes, COSMIC, GAD, ClinVar, GeneReviews, GWAS, ClinVarCNV, GCcontent, genesUCSC, xenogenesUCSC, SegDuplication,RepeatElt.
 }
     \item{pattern.regulation}{
     The cell/tissue or the list of cells/tissues to visualise in the regulation region defined by Broad ChromHMM
@@ -151,6 +165,12 @@ comet.web(mydata.file = NULL, mydata.format = c("site", "region", "site_asso", "
 }
     \item{image.size}{
     Default: 3.5 inches. Possible sizes : 3.5 or 7
+}
+\item{fontsize.gviz}{
+    Font size of writing in annotation track. Default value =5
+   }
+    \item{font.factor}{
+    Font size of the sample labels. Range: 0-1
 }
     \item{print.image}{
     Print image in file or not.
@@ -195,7 +215,7 @@ myinfofile <- file.path(extdata, "cyp1b1_infofile.txt")
 myexpressfile <- file.path(extdata, "cyp1b1_infofile_exprGene_region.txt")
 mycorrelation <- file.path(extdata, "cyp1b1_res37_rawMatrix.txt")
 
-comet.web(config.file=configfile, mydata.file=myinfofile, cormatrix.file=mycorrelation, 
+comet.web(config.file=configfile, mydata.file=myinfofile, cormatrix.file=mycorrelation,
     mydata.large.file=myexpressfile, print.image=FALSE,verbose=FALSE)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

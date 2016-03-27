@@ -21,7 +21,7 @@ comet function
 \item{gbl.var}{
 list of internal variables
 }
- 
+
 \item{newpage}{
 Option to ask if the plot should create on new page or not
 }

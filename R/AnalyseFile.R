@@ -147,6 +147,10 @@ read.config <- function(config.file, config.var) {
       config.var$pval.threshold <- as.numeric(tmp[[1]][2])
     }
     
+    if(identical("pval.threshold.2", tmp[[1]][1])) {
+      config.var$pval.threshold.2 <- as.numeric(tmp[[1]][2])
+    }
+    
     if(identical("disp.pval.threshold", tmp[[1]][1])) {
       config.var$disp.pval.threshold <- as.logical(tmp[[1]][2])
     }
@@ -166,6 +170,7 @@ read.config <- function(config.file, config.var) {
     if(identical("color.list.large", tmp[[1]][1])) {
       config.var$color.list.large <- tmp[[1]][2]
     }
+    
     if(identical("disp.association", tmp[[1]][1])) {
       #no format logical because of reading as string with comma
       config.var$disp.association <- tmp[[1]][2]
@@ -174,6 +179,21 @@ read.config <- function(config.file, config.var) {
     if(identical("disp.association.large", tmp[[1]][1])) {
       #no format logical because of multiple cases
       config.var$disp.association.large <- tmp[[1]][2]
+    }
+    
+    if(identical("disp.beta.association", tmp[[1]][1])) {
+      #no format logical because of reading as string with comma
+      config.var$disp.beta.association <- tmp[[1]][2]
+    }
+    
+    if(identical("disp.beta.association.large", tmp[[1]][1])) {
+      #no format logical because of multiple cases
+      config.var$disp.beta.association.large <- tmp[[1]][2]
+    }
+    
+    if(identical("factor.beta", tmp[[1]][1])) {
+      #no format logical because of multiple cases
+      config.var$factor.beta <- as.numeric(tmp[[1]][2])
     }
     
     if(identical("disp.region", tmp[[1]][1])) {
@@ -192,6 +212,10 @@ read.config <- function(config.file, config.var) {
     
     if(identical("disp.pvalueplot", tmp[[1]][1])) {
       config.var$disp.pvalueplot <- as.logical(tmp[[1]][2])
+    }
+    
+    if(identical("fontsize.gviz", tmp[[1]][1])) {
+      config.var$fontsize.gviz <- tmp[[1]][2]
     }
     
     if(identical("list.tracks", tmp[[1]][1])) {
@@ -363,11 +387,13 @@ check.configVar <- function(config.var) {
     if(config.var$mydata.type == "file") {
       split.mydata.file <- strsplit(config.var$mydata.file, ",")
       if( length(split.mydata.file[[1]]) >1 ) {
+        
         stop("Need only one file. Put other files via mydata.large.file \n")
       }
     } else {
       split.mydata.file <- list(config.var$mydata.file)
       if( length(split.mydata.file) >1 ) {
+        
         stop("Need only one file. Put other files via mydata.large.file \n")
       }
     }
@@ -375,34 +401,47 @@ check.configVar <- function(config.var) {
   }
   
   if(is.null(config.var$mydata.format)) {
+    
     stop("No value for the format of info file.\n 
           Parametre: mydata.format.\n 
           Potential value: site, region, site_asso, region_asso\n")
   }
   
   if(is.null(config.var$symbols)) {
+    
     stop("No value for the format of info file.\n 
           Parametre: symbols\n 
           Potential value: circle-fill, square-fill diamont-fill\n")
   }
   
   if(is.null(config.var$sample.labels)) {
+    
     stop("No value for the label of info file.\n 
           Parametre: sample.labels\n")
   }
   
   if(is.null(config.var$color.list)) {
+    
     if (config.var$verbose)   cat("No value for the color of info file.\n 
           Parametre: color.list\n")
   }
   
   
-  if(grepl("ASSO", config.var$mydata.format)[1] & is.null(config.var$disp.association)) {
+  if(grepl("asso", config.var$mydata.format)[1] & is.null(config.var$disp.association)) {
+    
     stop("No value for the association of info file.\n 
           Parametre: disp.association\n")
   }
   
+  if(grepl("asso", config.var$mydata.format)[1] & 
+     (is.null(config.var$disp.beta.association) | is.null(config.var$factor.beta)))  {
+    
+    stop("No value for the association of info file.\n 
+          Parametre: disp.beta.association or factor.beta\n")
+  }
+  
   if(grepl("region", config.var$mydata.format)[1] & is.null(config.var$disp.region)) {
+    
     stop("No value for the region of info file.\n 
           Parametre: disp.region\n")
   }
@@ -415,39 +454,53 @@ check.configVar <- function(config.var) {
   
   if( ! is.null(config.var$mydata.large.file)) {
     if(is.null(config.var$mydata.large.format)) {
+      
       stop("No value for the format of supplementary data.\n 
           Parametre: mydata.large.format.\n 
           Potential value: site, region, site_asso, region_asso\n")
     }
     if(is.null(config.var$mydata.large.type)) {
+      
       stop("No value for the format of supplementary data.\n 
           Parametre: mydata.large.type.\n 
           Potential value: LISTFILE or listdataframe \n")
     }
     
     if(is.null(config.var$symbols.large)) {
+      
       stop("No value of symbole for supplementary data\n
            Parameter: symbols.large\n")
     }
     
     if(is.null( config.var$sample.labels.large)) {
+      
       stop("No value of label for supplementary data\n
            Parameter: sample.labels.large\n")
     }
     
     if(is.null(config.var$color.list.large)) {
+      
       stop("No value of color for supplementary data\n
            Parameter: color.list.large\n")
     }
     
-    if(grepl("ASSO", config.var$mydata.large.format)[1] & 
-         is.null(config.var$disp.association.large)) {
+    if(grepl("asso", config.var$mydata.large.format)[1] & 
+       is.null(config.var$disp.association.large)) {
+      
       stop("No value of association for supplementary data\n
            Parameter: disp.association.large\n")
     }
     
+    if(grepl("asso", config.var$mydata.large.format)[1] & 
+       (is.null(config.var$disp.beta.association.large) | is.null(config.var$factor.beta)))  {
+      
+      stop("No value for the association of info file.\n 
+          Parametre: disp.beta.association.large or factor.beta\n")
+    }
+    
     if(grepl("region", config.var$mydata.large.format)[1] &
-         is.null(config.var$disp.region.large)) {
+       is.null(config.var$disp.region.large)) {
+      
       stop("No value of region for supplementary data\n
            Parameter: disp.region.large\n")
     }
@@ -459,79 +512,94 @@ check.configVar <- function(config.var) {
       split.mydata.large.file <- config.var$mydata.large.file
       length.datalarge <- length(split.mydata.large.file)
     }
+    
     split.mydata.large.format <- strsplit(config.var$mydata.large.format, ",")
     split.mydata.large.region <- strsplit(config.var$disp.region.large, ",")
     split.mydata.large.asso <- strsplit(config.var$disp.association.large, ",")
+    split.mydata.large.beta.asso <- strsplit(config.var$disp.beta.association.large, ",")
     split.mydata.large.color <- strsplit(config.var$color.list.large, ",")
     split.mydata.large.label <- strsplit(config.var$sample.labels.large, ",")
     split.mydata.large.symbol <- strsplit(config.var$symbols.large, ",")
     
     if( length.datalarge !=  length(split.mydata.large.format[[1]]) ||
-          length.datalarge !=  length(split.mydata.large.region[[1]]) ||
-          length.datalarge !=  length(split.mydata.large.asso[[1]]) ||
-          length.datalarge !=  length(split.mydata.large.color[[1]]) ||
-          length.datalarge !=  length(split.mydata.large.label[[1]]) ||
-          length.datalarge !=  length(split.mydata.large.symbol[[1]])) {
+        length.datalarge !=  length(split.mydata.large.region[[1]]) ||
+        length.datalarge !=  length(split.mydata.large.asso[[1]]) ||
+        length.datalarge !=  length(split.mydata.large.beta.asso[[1]]) ||
+        length.datalarge !=  length(split.mydata.large.color[[1]]) ||
+        length.datalarge !=  length(split.mydata.large.label[[1]]) ||
+        length.datalarge !=  length(split.mydata.large.symbol[[1]])) {
+      
       stop("Need to have the same number of element for all options related to supplementary data\n
-           mydata.large.file, mydata.large.format, disp.region.large, disp.association.large, color.list.large,
+           mydata.large.file, mydata.large.format, disp.region.large, disp.association.large, 
+           disp.beta.association.large, color.list.large,
            sample.labels.large, symbols.large: ",length.datalarge,"\n")
     }
   } 
   
   #-----------------------Correlation matrix
   if(is.null(config.var$cormatrix.file)) {
+    
     stop("No value for the correlation file.\n 
           Parametre: cormatrix.file ")
   } else {
     if(is.null(config.var$disp.mydata)) {
+      
       stop("No value to show the correlation file.\n 
           Parametre: disp.mydata ")
     }
     
     if(is.null(config.var$cormatrix.type)) {
+      
       stop("No value for the correlation file.\n 
           Parametre: cormatrix.type \n
           Potential value: listfile or listdataframe")
     }
     
     if(is.null(config.var$cormatrix.conf.level)) {
+      
       stop("No value for the confiance level in the visualisation of correlation matrix.\n 
           Parametre: cormatrix.conf.level \n
           Potential value:  under or equal 1")
     }
     
     if(is.null(config.var$cormatrix.sig.level)) {
+      
       stop("No value for the pvalue in the visualisation of correlation matrix.\n 
           Parametre: cormatrix.sig.level \n
           Potential value:  under or equal 1")
     }
     
     if(is.null(config.var$cormatrix.adjust)) {
+      
       stop("No value for the adjust hypothesis.\n 
           Parametre: cormatrix.adjust \n
           Potential value: holm, hochberg, hommel, bonferroni, BH, BY, fdr, none ")
     }
     
     if(is.null(config.var$cormatrix.format)) {
+      
       stop("No value for the correlation file.\n 
           Parametre: cormatrix.format \n
           Potential value: CORMATRIX, RAW")
     }
     
     if(config.var$cormatrix.format == "raw" & 
-         is.null(config.var$cormatrix.method)) {
+       is.null(config.var$cormatrix.method)) {
+      
       stop("No value for the method of correlation file for raw.\n 
           Parametre: cormatrix.method \n
           Potential value: spearman, pearson, kendall")
     }
     
     if(is.null(config.var$cormatrix.color.scheme)) {
+      
       stop("No value for the method of correlation file for raw.\n 
           Parametre: cormatrix.color.scheme \n
           Potential value: spearman, pearson, kendall")
     }
     
     if(is.null(config.var$disp.cormatrixmap)) {
+      
       stop("Show heatmap of correlation matrix.\n 
           Parametre: disp.cormatrixmap \n
           Potential value: TRUE or FALSE")
@@ -555,48 +623,63 @@ check.configVar <- function(config.var) {
   }
   
   if(is.null(config.var$lab.Y)) {
+    
     stop("No value of axis\n
            Parameter: lab.Y\n
            Potential value: log10, ln \n")
   }
   
   if(is.null(config.var$pval.threshold)) {
+    
     stop("No value of threshold of the significance\n
            Parameter: pval.threshold\n
            Potential value: 10e-8\n")
   }
   
+  if(is.null(config.var$pval.threshold.2)) {
+    
+    stop("No value of threshold 2 of the significance\n
+           Parameter: pval.threshold. 2\n
+           Potential value: 10e-5\n")
+  }
+  
   if(is.null(config.var$disp.pval.threshold)) {
+    
     stop("No value of threshold to visualise the pvalue\n
            Parameter: disp.pval.threshold\n
            Potential value: 0\n")
   }
   
   if(is.null(config.var$disp.color.ref)) {
+    
     stop("No value of threshold to visualise the pvalue\n
            Parameter: disp.color.ref\n
            Potential value: TRUE or FALSE\n")
   }
   
   if(is.null(config.var$use.colors)) {
+    
     stop("No value to use\n
            Parameter: use.colors\n
            Potential value: TRUE or FALSE\n")
   }
   
   if(is.null(config.var$disp.mydata.names)) {
+    
     stop("No value to show the name of genes\n
            Parameter: disp.mydata.names\n
            Potential value: TRUE or FALSE\n")
   }
   
   if(is.null(config.var$disp.pvalueplot)) {
+    
     stop("No value to show the pvalue plot \n
            Parameter: disp.pvalueplot\n
            Potential value: TRUE or FALSE\n")
   }
   
   if(is.null(config.var$genome)) {
+    
     stop("No value of genome\n
            Parameter: genome\n
            Potential value: hg19\n")
@@ -604,6 +687,7 @@ check.configVar <- function(config.var) {
   
   
   if(is.null(config.var$BROWSER.SESSION)) {
+    
     stop("No value of name of browser session\n
            Parameter: BROWSER.SESSION\n
            Potential value: UCSC\n")
@@ -689,11 +773,13 @@ check.configVar <- function(config.var) {
            Parameter: biofeat.user.file\n")
   } else {
     if(is.null(config.var$biofeat.user.type)) {
+      
       stop("No type of visualise of user file\n
            Parameter: biofeat.user.type\n")
     }
     
     if(is.null(config.var$biofeat.user.type.plot)) {
+      
       stop("No type of visualise of user file\n
            Parameter: biofeat.user.type.plot\n")
     }
@@ -704,51 +790,60 @@ check.configVar <- function(config.var) {
     
     
     if( length(split.biouser.file[[1]]) !=  length(split.biouser.type[[1]]) ||
-          length(split.biouser.file[[1]]) !=  length(split.biouser.plot[[1]])  ) {
+        length(split.biouser.file[[1]]) !=  length(split.biouser.plot[[1]])  ) {
+      
       stop("Need to have the same number of element for all options related to supplementary data\n
            biofeat.user.type.plot, biofeat.user.file, biofeat.user.type, biofeat.user.type.plot\n")
     }
   }
   
   if(is.null(config.var$disp.color.bar)) {
+    
     stop("No value to show the color bar\n
            Parameter: disp.color.bar\n
        Potential value; TRUE or FALSE\n")
   }
   
   if(is.null(config.var$disp.phys.dist)) {
+    
     stop("No value to show the physique distance\n
            Parameter: disp.phys.dist\n
        Potential value; TRUE or FALSE\n")
   }
   
   if(is.null(config.var$disp.connecting.lines)) {
+    
     stop("No value to show the connecting lines\n
            Parameter: disp.connecting.lines\n
        Potential value; TRUE or FALSE\n")
   }else {
     if(is.null(config.var$connecting.lines.factor)) {
+      
       stop("No value for the connecting lines factor \n
            Parameter: connecting.lines.factor\n")
     }
     
     if(is.null(config.var$connecting.lines.adj)) {
+      
       stop("No value for the connecting lines adj \n
            Parameter: connecting.lines.adj\n")
     }
     
     if(is.null(config.var$connecting.lines.vert.adj)) {
+      
       stop("No value for the connecting lines vertical adj \n
            Parameter: connecting.lines.vert.adj\n")
     }
     
     if(is.null(config.var$connecting.lines.flex)) {
+      
       stop("No value for the connecting lines flexible \n
            Parameter: connecting.lines.flex\n")
     }
   }
   
   if(is.null(config.var$disp.legend)) {
+    
     stop("No value to show the legend\n
            Parameter: disp.legend\n
        Potential value; TRUE or FALSE\n")
@@ -771,29 +866,34 @@ check.configVar <- function(config.var) {
   }
   
   if(is.null(config.var$image.title)) {
+    
     stop("No title for the plot\n
            Parameter: image.title\n")
   }
   
   if(is.null(config.var$image.type)) {
+    
     stop("No value for the type of image\n
            Parameter: image.type\n
        Potential value; PDF or EPS\n")
   }
   
   if(is.null(config.var$image.size)) {
+    
     stop("No value for the size of image\n
            Parameter: image.size\n
        Potential value; 3.5 or 7\n")
   }
   
   if(is.null(config.var$print.image)) {
+    
     stop("No value for the size of image\n
            Parameter: image.size\n
        Potential value; 3.5 or 7\n")
   }
   
   if(is.null(config.var$image.name)) {
+    
     stop("No value for the name of image\n
            Parameter: image.name\n")
   }
@@ -819,48 +919,56 @@ check.configVar.cometlist <- function(config.var) {
   
   #-----------------------Correlation matrix
   if(is.null(config.var$cormatrix.file)) {
+    
     stop("No value for the correlation file.\n 
          Parametre: cormatrix.file ")
   } else {
     
     if(is.null(config.var$cormatrix.type)) {
+      
       stop("No value for the correlation file.\n 
            Parametre: cormatrix.type \n
            Potential value: listfile or listdataframe")
     }
     
     if(is.null(config.var$cormatrix.conf.level)) {
+      
       stop("No value for the confiance level in the visualisation of correlation matrix.\n 
            Parametre: cormatrix.conf.level \n
            Potential value:  under or equal 1")
     }
     
     if(is.null(config.var$cormatrix.sig.level)) {
+      
       stop("No value for the pvalue in the visualisation of correlation matrix.\n 
            Parametre: cormatrix.sig.level \n
            Potential value:  under or equal 1")
     }
     
     if(is.null(config.var$cormatrix.adjust)) {
+      
       stop("No value for the adjust hypothesis.\n 
            Parametre: cormatrix.adjust \n
            Potential value: holm, hochberg, hommel, bonferroni, BH, BY, fdr, none")
     }
     
     if(is.null(config.var$cormatrix.output)) {
+      
       stop("No name for the output file.\n 
            Parametre: cormatrix.output \n
            No need the extention, need absolue path")
     }
     
     if(is.null(config.var$cormatrix.format)) {
+      
       stop("No value for the correlation file.\n 
            Parametre: cormatrix.format \n
            Potential value: CORMATRIX, RAW")
     }
     
     if(config.var$cormatrix.format == "raw" & 
-         is.null(config.var$cormatrix.method)) {
+       is.null(config.var$cormatrix.method)) {
+      
       stop("No value for the method of correlation file for raw.\n 
            Parametre: cormatrix.method \n
            Potential value: spearman, pearson, kendall")
@@ -889,6 +997,7 @@ retrieve.data <- function(config.var, gbl.var) {
   #initialize distance variables
   min.dist <- NULL
   max.dist <- NULL
+  all.beta <- NULL
   
   gbl.var$mydata.gen <- config.var$genome
   split.mydata.file <- gbl.var$split.mydata.file
@@ -909,7 +1018,8 @@ retrieve.data <- function(config.var, gbl.var) {
     if (config.var$verbose)  cat("READ ",i," MYDATA file \n")
     
     cur.mydata.num <- nrow(gbl.var$mydata.data)
-    gbl.var$palette.size <- cur.mydata.num
+    #gbl.var$palette.size <- cur.mydata.num
+    gbl.var$palette.size <- 100
     #create 2 hash tables containing MYDATA names and positions for current and previous sample sets
     #one hash has the name as the key and the other the location because R has no way of looking
     #up hash keys based on values
@@ -931,6 +1041,7 @@ retrieve.data <- function(config.var, gbl.var) {
         if(!is.null(gbl.var$mydata.data$LOC.START[p]) & !is.null(gbl.var$mydata.data$LOC.END[p]) &  ( gbl.var$mydata.data$LOC.START[p] < gbl.var$mydata.data$LOC.END[p]  | gbl.var$mydata.data$LOC.START[p] == gbl.var$mydata.data$LOC.END[p]) ){
           localiation <- gbl.var$mydata.data$LOC.START[p] + ((gbl.var$mydata.data$LOC.END[p] -gbl.var$mydata.data$LOC.START[p]))/2
         }else {
+          
           stop("Problem in the coordinates of region\n")
         }
         
@@ -1017,6 +1128,7 @@ retrieve.data <- function(config.var, gbl.var) {
     } else if(config.var$image.size == 7) {
       gbl.var$mydata.names <- substr(gbl.var$mydata.data$MYDATA.NAME, 1, 9)
     } else {
+      
       stop("Invalid image size: ", config.var$image.size, "\n")
     }
     
@@ -1026,6 +1138,7 @@ retrieve.data <- function(config.var, gbl.var) {
     } else {
       if(is.null(min.dist)){
         if(is.null(gbl.var$mydata.data$LOC)) {
+          
           stop("No value for LOC (min.dist)",gbl.var$mydata.data$LOC)
         }
         min.dist <- min(gbl.var$mydata.data$LOC, na.rm=TRUE)
@@ -1045,6 +1158,7 @@ retrieve.data <- function(config.var, gbl.var) {
       
       if(is.null(max.dist)){
         if(is.null(gbl.var$mydata.data$LOC)){
+          
           stop("NO value for LOC (max.dist)", gbl.var$mydata.data$LOC)
         }
         max.dist <- max(gbl.var$mydata.data$LOC, na.rm = TRUE)
@@ -1070,6 +1184,7 @@ retrieve.data <- function(config.var, gbl.var) {
       gbl.var$min.x <- config.var$start 
     } else {
       if(is.null(gbl.var$mydata.data$LOC)){
+        
         stop("NULL value for min.x", gbl.var$mydata.data$LOC)
       }
       if(is.null(gbl.var$min.x)){
@@ -1086,6 +1201,7 @@ retrieve.data <- function(config.var, gbl.var) {
       gbl.var$max.x <- config.var$end 
     } else {
       if(is.null(gbl.var$mydata.data$LOC)){
+        
         stop("NULL value for max.x", gbl.var$mydata.data$LOC)
       }
       if(is.null(gbl.var$max.x)){
@@ -1178,11 +1294,18 @@ retrieve.data <- function(config.var, gbl.var) {
       gbl.var$mydata.best.position <- best.position
       if (config.var$verbose)  cat("Ref",gbl.var$mydata.ref.pos,"\n")
       
+      #---------- EXTRACT BETA VALUES
+      if(grepl("asso", format)[1] & is.integer(gbl.var$mydata.data$MYDATA.ASSO.ORIGINAL[1])) {
+        all.beta <- c(all.beta,gbl.var$mydata.data$MYDATA.ASSO.ORIGINAL)
+      }
+      
       #-----------------READ MATRICE for CORMATRIX MAP
       # if (config.var$verbose)  cat("config.var$disp.cormatrixmap ", config.var$disp.cormatrixmap, "\n")
       #Need to read even if we don't show data
       gbl.var <-read.file.cormatrix(config.var, gbl.var,split.cormatrix.file)
     }
+    
+    
   }
   
   
@@ -1205,6 +1328,12 @@ retrieve.data <- function(config.var, gbl.var) {
       #one hash has the name as the key and the other the location because R has no way of looking
       #up hash keys based on values
       format <- as.character(gbl.var$large.split.format[[1]][i])
+      
+      #---------- EXTRACT BETA VALUES
+      if(grepl("asso", format)[1] & is.integer(gbl.var$mydata.large.data$MYDATA.ASSO.ORIGINAL[1])) {
+        all.beta <- c(all.beta,gbl.var$mydata.large.data$MYDATA.ASSO.ORIGINAL)
+      }
+      
       if(grepl("region", format)[1] ) {
         mydata.large.hash.names.start <- new.env(hash=TRUE)
         mydata.large.hash.names.end <- new.env(hash=TRUE)
@@ -1218,6 +1347,7 @@ retrieve.data <- function(config.var, gbl.var) {
           if( (!is.na(gbl.var$mydata.large.data$LOC.START[p]) & !is.na(gbl.var$mydata.large.data$LOC.END[p])) &  ( gbl.var$mydata.large.data$LOC.START[p] < gbl.var$mydata.large.data$LOC.END[p]  | gbl.var$mydata.large.data$LOC.START[p] == gbl.var$mydata.large.data$LOC.END[p])){
             localisation <- gbl.var$mydata.large.data$LOC.START[p] + ((gbl.var$mydata.large.data$LOC.END[p] -gbl.var$mydata.large.data$LOC.START[p]))/2
           }else {
+            
             stop("Problem in the coordinates of region\n")
           }
           
@@ -1273,6 +1403,8 @@ retrieve.data <- function(config.var, gbl.var) {
       gbl.var$sorted.mydata.large.pos.zoom <- sorted.mydata.large.pos.zoom  
       # if (config.var$verbose)  cat("gbl.var$sorted.mydata.large.pos.zoom ", gbl.var$sorted.mydata.large.pos.zoom, "\n")
       
+      
+      
     }
     
     #----------------- DEFINE THE HIGHEST VALUE OF Y
@@ -1304,6 +1436,20 @@ retrieve.data <- function(config.var, gbl.var) {
     }
     
   }
+  
+  #------ DEFINE MEAN and SD of ALL BETA
+  if (config.var$verbose)  cat("Longer of all.beta",length(all.beta),"\n")
+  if(is.null(all.beta)){
+    gbl.var$mean.beta <- 0
+    gbl.var$sd.beta <- 0
+  } else {
+    gbl.var$mean.beta <- mean(all.beta)
+    gbl.var$sd.beta <- sd(all.beta)
+  }
+  
+  if (config.var$verbose)   cat("Mean beta",gbl.var$mean.beta,"\n")
+  if (config.var$verbose)   cat("SD beta",gbl.var$sd.beta,"\n")
+  
   
   #----- CREATE LIST of BIOFEATURES -------------------------
   
@@ -1357,6 +1503,7 @@ fix.values.generic <- function(config.var, gbl.var) {
   if(config.var$lab.Y == "ln") {
     
     config.var$pval.threshold <- -log(config.var$pval.threshold)
+    config.var$pval.threshold.2 <- -log(config.var$pval.threshold.2)
     
     #DEBUG STATEMENT
     # if (config.var$verbose)  cat("pval.threshold ", config.var$disp.pval.threshold, "\n")
@@ -1374,6 +1521,7 @@ fix.values.generic <- function(config.var, gbl.var) {
   } else if (config.var$lab.Y == "log") {
     
     config.var$pval.threshold <- -log10(config.var$pval.threshold)
+    config.var$pval.threshold.2 <- -log10(config.var$pval.threshold.2)
     
     #DEBUG STATEMENT
     # if (config.var$verbose)  cat("disp.pval.threshold ", config.var$disp.pval.threshold, "\n")
@@ -1389,6 +1537,7 @@ fix.values.generic <- function(config.var, gbl.var) {
       }
     }
   } else {
+    
     stop("Invalid lab.Y: ", config.var$lab.Y, ". Specify either 'log' or 'ln'.\n")
   }
   
@@ -1414,6 +1563,7 @@ fix.values <- function(config.var, gbl.var) {
     gbl.var$mydata.data$MYDATA.PVAL <- -log10(gbl.var$mydata.data$MYDATA.PVAL) # LOG Variable
     
   } else {
+    
     stop("Invalid lab.Y: ", config.var$lab.Y, ". Specify either 'log' or 'ln'.\n")
   }
   
@@ -1439,6 +1589,7 @@ fix.values.large <- function(config.var, gbl.var) {
     gbl.var$mydata.large.data$MYDATA.PVAL <- -log10(gbl.var$mydata.large.data$MYDATA.PVAL) # LOG Variable
     
   } else {
+    
     stop("Invalid lab.Y: ", config.var$lab.Y, ". Specify either 'log' or 'ln'.\n")
   }
   
@@ -1473,47 +1624,61 @@ check.format.mydata <- function(gbl.var,option,numfile){
   
   #check for data columns and compatibility with display type option
   if (is.null(mydata.test)) {
+    
     stop("Missing MYDATA data file \n")
   } 
   if (is.null(mydata.test$MYDATA.NAME)) {
+    
     stop("Missing MYDATA data file column MYDATA.NAME\n")
   } 
   if (length(grep("^[0-9]", mydata.test$MYDATA.NAME)) > 0) {
+    
     stop("MYDATA names cannot start with numbers.\n")
   } 
-  if ((format == "DTR" | format == "DTR_ASSO" | format == "site" | format == "site_asso")) {
+  if ((format == "DTR" | format == "dtr_asso" | format == "site" | format == "site_asso")) {
     if(is.null(mydata.test$LOC)) {
+      
       stop("Missing MYDATA data file column LOC\n")
     }
     if ((length(grep("^[a-zA-Z]",mydata.test$LOC)) > 0) ){
+      
       stop("Missing column LOC has to be number\n")
     }
   } else if (format == "region" | format == "region_asso") {
     if(is.null(mydata.test$LOC.START)) {
+      
       stop("Missing MYDATA data file column LOC.START\n")
     }
     if ((length(grep("^[a-zA-Z]",mydata.test$LOC.START)) > 0) ){
+      
       stop("Missing column LOC.START has to be number\n")
     }
     if (is.null(mydata.test$LOC.END)) {
+      
       stop("Missing MYDATA data file column LOC.END\n")
     } 
     if ((length(grep("^[a-zA-Z]",mydata.test$LOC.END)) > 0) ){
+      
       stop("Missing column LOC.END has to be number\n")
     }
   } 
   if (is.null(mydata.test$MYDATA.PVAL)) {
+    
     stop("Missing MYDATA data file column MYDATA.PVAL\n")
   }  else if (length(grep("^[a-zA-Z]",mydata.test$MYDATA.PVAL)) > 0){
+    
     stop("Missing column MYDATA.PVAL has to be number\n")
   } 
-  if (format == "region_asso" | format == "DTR_ASSO" |  format == "site_asso") {
+  if (format == "region_asso" | format == "dtr_asso" |  format == "site_asso") {
     if(is.null(mydata.test$MYDATA.ASSO) ) {
+      
       stop("Missing MYDATA data file column MYDATA.ASSO\n")
     }
+    mydata.test$MYDATA.ASSO.ORIGINAL <- mydata.test$MYDATA.ASSO
     #  if (gbl.var$verbose)  cat("BUG Association ",length(mydata.test$MYDATA.ASSO)," \n")
     # if (gbl.var$verbose)  cat("BUG Association ",length(grep("[0-9]",mydata.test$MYDATA.ASSO))," \n")
     if ((length(grep("[a-zA-Z]",mydata.test$MYDATA.ASSO)) > 0)){
+      
       stop("Missing column MYDATA.ASSO has to be number\n")
     } else if ((length(grep("[0-9|-|+]",mydata.test$MYDATA.ASSO)) == length(mydata.test$MYDATA.ASSO))){
       pos <- which(as.numeric(mydata.test$MYDATA.ASSO) > 0)
@@ -1532,11 +1697,13 @@ check.format.mydata <- function(gbl.var,option,numfile){
     } else {
       dd <- length(grep("[0-9|+|-]",mydata.test$MYDATA.ASSO))
       da <- length(mydata.test$MYDATA.ASSO)
+      
       stop("Do not recognize column MYDATA.ASSO ", dd, " vs ",da," \n")
     }
     
   } 
   if (is.null(mydata.test$CHROMOSOME)) {
+    
     stop("Missing MYDATA data file column CHROMOSOME\n")
   } else if (!grepl( "^chr",mydata.test$CHROMOSOME)[1]) {
     if (gbl.var$verbose)  cat("Missing column CHROMOSOME should be at UCSC format\n")
@@ -1600,7 +1767,7 @@ read.file.mydata <- function(split.mydata.file,config.var, gbl.var,numfile){
   if (config.var$mydata.format == "DTR") {
     gbl.var$mydata.data <- gbl.var$general.data[,c(1,2,7,14)]
     colnames(gbl.var$mydata.data)<-c("MYDATA.NAME","CHROMOSOME","LOC","MYDATA.PVAL")
-  } else if (config.var$mydata.format == "DTR_ASSO") {
+  } else if (config.var$mydata.format == "dtr_asso") {
     gbl.var$mydata.data <- gbl.var$general.data[,c(1,2,7,14,15)]
     colnames(gbl.var$mydata.data)<-c("MYDATA.NAME","CHROMOSOME","LOC","MYDATA.PVAL","MYDATA.ASSO")
   } else if (config.var$mydata.format == "site") {
@@ -1616,6 +1783,7 @@ read.file.mydata <- function(split.mydata.file,config.var, gbl.var,numfile){
     gbl.var$mydata.data <- gbl.var$general.data
     colnames(gbl.var$mydata.data)<-c("MYDATA.NAME","CHROMOSOME","LOC.START","LOC.END","MYDATA.PVAL","MYDATA.ASSO")
   } else {
+    
     stop("This format does not exist\n")
   }
   
@@ -1648,7 +1816,7 @@ read.file.mydata.large <- function(large.split.mydata.file, config.var, gbl.var,
   if (large.format == "DTR") {
     general.data.large.raw <- general.data.large.raw.tmp[,c(1,2,7,14)]
     colnames(general.data.large.raw)<-c("MYDATA.NAME","CHROMOSOME","LOC","MYDATA.PVAL")
-  } else if (large.format == "DTR_ASSO") {
+  } else if (large.format == "dtr_asso") {
     general.data.large.raw <- general.data.large.raw.tmp[,c(1,2,7,14,15)]
     colnames(general.data.large.raw)<-c("MYDATA.NAME","CHROMOSOME","LOC","MYDATA.PVAL","MYDATA.ASSO")
   } else if (large.format == "site") {
@@ -1664,6 +1832,7 @@ read.file.mydata.large <- function(large.split.mydata.file, config.var, gbl.var,
     general.data.large.raw <- general.data.large.raw.tmp
     colnames(general.data.large.raw)<-c("MYDATA.NAME","CHROMOSOME","LOC.START","LOC.END","MYDATA.PVAL","MYDATA.ASSO")
   }else{
+    
     stop("This format does not exist\n")
   }
   
@@ -1696,6 +1865,7 @@ read.file.cormatrix <- function(config.var, gbl.var,split.cormatrix.file=NULL){
   
   if(is.null(split.cormatrix.file)){
     #  if (config.var$verbose)  cat("CORMATRIX empty \n")
+    
     stop("EMPTY CORMATRIX data file \n")
   } else {
     if (config.var$verbose)  cat("Format data",config.var$cormatrix.format,"\n")
@@ -1715,9 +1885,11 @@ read.file.cormatrix <- function(config.var, gbl.var,split.cormatrix.file=NULL){
           if(identical(as.vector(gbl.var$mydata.data$MYDATA.NAME),as.vector(colnames(cormatrix.data.raw)))) {
             gbl.var$cormatrix.data <-as.matrix(cormatrix.data.raw)
           } else {
+            
             stop("Invalid MYDATA data file: ", config.var$mydata.file, " and CORMATRIX ",split.cormatrix.file[[1]][1] ," do not have the same omic sites/regions or not in the same order, need to put the ascendant order of their start position in the two files.\n Error: ",all.equal(as.vector(gbl.var$mydata.data$MYDATA.NAME),as.vector(colnames(cormatrix.data.raw))),"\n")
           }
         }else {
+          
           stop("Invalid MYDATA data file: ", config.var$mydata.file, " and CORMATRIX ",split.cormatrix.file[[1]][1] ," do not have the same size\n")
         }
       }
@@ -1738,9 +1910,11 @@ read.file.cormatrix <- function(config.var, gbl.var,split.cormatrix.file=NULL){
           if(identical(as.vector(gbl.var$mydata.data$MYDATA.NAME),as.vector(colnames(cormatrix.data.raw)))) {
             gbl.var$cormatrix.data <-as.matrix(cormatrix.data.raw)
           } else {
+            
             stop("Invalid MYDATA data file: ", config.var$mydata.file, " and CORMATRIX ",split.cormatrix.file[[1]][1] ," do not have the same omic sites/regions or not in the same order, need to put the ascendant order of their start position in the two files.\n Error: ",all.equal(as.vector(gbl.var$mydata.data$MYDATA.NAME),as.vector(colnames(cormatrix.data.raw))),"\n")
           }
         }else {
+          
           stop("Invalid MYDATA data file: ", config.var$mydata.file, " and CORMATRIX ",split.cormatrix.file[[1]][1] ," do not have the same size\n")
         }
       } else {
@@ -1758,7 +1932,7 @@ read.file.cormatrix <- function(config.var, gbl.var,split.cormatrix.file=NULL){
       matrix.data.raw <- matrix.data.raw_rot
       if(gbl.var$presence.mydata == 0){
         ## For comet and comet.web
-        matrix.data.raw[match(gbl.var$mydata.data$MYDATA.NAME, rownames(matrix.data.raw)),]
+        matrix.data.raw <- matrix.data.raw[match(gbl.var$mydata.data$MYDATA.NAME, rownames(matrix.data.raw)),]
       }
       #Update the rownames
       rownames(matrix.data.raw) <-matrix.data.raw[,1]
@@ -1776,6 +1950,7 @@ read.file.cormatrix <- function(config.var, gbl.var,split.cormatrix.file=NULL){
           gbl.var<-compute.cormatrix(config.var, gbl.var)
           # gbl.var <-compute.pvalue.cormatrix(config.var, gbl.var)
         }else {
+          
           stop("Invalid MYDATA data file: ", config.var$mydata.file," value (" ,nr1,") and CORMATRIX ",split.cormatrix.file[[1]][1] ," value (" ,nr,") do not have the same size\n")
         }
       } else {
@@ -1794,7 +1969,7 @@ read.file.cormatrix <- function(config.var, gbl.var,split.cormatrix.file=NULL){
       matrix.data.raw <- t(matrix.data.raw_rot)
       if(gbl.var$presence.mydata == 0){
         ## For comet and comet.web
-        matrix.data.raw[match(gbl.var$mydata.data$MYDATA.NAME, rownames(matrix.data.raw)),]
+        matrix.data.raw <- matrix.data.raw[match(gbl.var$mydata.data$MYDATA.NAME, rownames(matrix.data.raw)),]
       }
       gbl.var$matrix.data <-matrix.data.raw
       nr=nrow(matrix.data.raw)
@@ -1809,6 +1984,7 @@ read.file.cormatrix <- function(config.var, gbl.var,split.cormatrix.file=NULL){
           gbl.var<-compute.cormatrix(config.var, gbl.var)
           #   gbl.var <-compute.pvalue.cormatrix(config.var, gbl.var)
         }else {
+          
           stop("Invalid MYDATA data file: ", config.var$mydata.file," value (" ,nr1,") and CORMATRIX ",split.cormatrix.file[[1]][1] ," value (" ,nr,") do not have the same size\n")
         }
       } else {
@@ -1832,6 +2008,7 @@ read.file.cormatrix <- function(config.var, gbl.var,split.cormatrix.file=NULL){
           gbl.var<-compute.cormatrix(config.var, gbl.var)
           #  gbl.var <-compute.pvalue.cormatrix(config.var, gbl.var)
         }else {
+          
           stop("Invalid MYDATA data file: ", config.var$mydata.file, " and MATRIX do not have the same size\n")
         }
       } else {
@@ -1858,10 +2035,11 @@ read.file.cormatrix <- function(config.var, gbl.var,split.cormatrix.file=NULL){
     if(gbl.var$presence.mydata == 0){
       ## For comet and comet.web
       
-    if (row.LD != num.mydata | col.LD != num.mydata ) {
-      stop("Not the same number of row or column between the correlation matrice and MYDATA data\n")
-    }  
-    
+      if (row.LD != num.mydata | col.LD != num.mydata ) {
+        
+        stop("Not the same number of row or column between the correlation matrice and MYDATA data\n")
+      }  
+      
       rownames(gbl.var$cormatrix.data) <- gbl.var$mydata.data$MYDATA.NAME
     }
     #--------- REDUCE the matrix to triangle ---
@@ -1874,7 +2052,7 @@ read.file.cormatrix <- function(config.var, gbl.var,split.cormatrix.file=NULL){
     #(upper matrix=adjusted pvalue; lower matrix=raw pvalue because of psych library)
     gbl.var$cormatrix.pvalue.data[lower.tri(gbl.var$cormatrix.pvalue.data)] <- NA
     diag(gbl.var$cormatrix.pvalue.data) <- NA
-
+    
     
     #--------- VECTOR for the reference gene ---
     if(gbl.var$presence.mydata == 0){
@@ -1898,16 +2076,17 @@ compute.cormatrix <- function(config.var, gbl.var){
   if(gbl.var$presence.mydata == 0){
     ## For comet and comet.web
     if(!(nrow(gbl.var$mydata.data) == nrow(matrix.data.raw) )){
+      
       stop("Invalid MYDATA data file: ", config.var$mydata.file, " and MATRIX do not have the same size\n")
     }
   }
   
   mat <- t(matrix.data.raw)
   numrow<- nrow(mat)
- # if (config.var$verbose) cat("Number row",numrow,"\n")
+  # if (config.var$verbose) cat("Number row",numrow,"\n")
   if (config.var$cormatrix.method == "spearman" | 
-        config.var$cormatrix.method == "pearson" |
-        config.var$cormatrix.method == "kendall") {
+      config.var$cormatrix.method == "pearson" |
+      config.var$cormatrix.method == "kendall") {
     tmp <- corr.test(mat, adjust=config.var$cormatrix.adjust,
                      method=config.var$cormatrix.method,
                      alpha=config.var$cormatrix.conf.level)
@@ -1927,6 +2106,7 @@ compute.cormatrix <- function(config.var, gbl.var){
     gbl.var$cormatrix.CI.data <- CI.mat
     
   }else {
+    
     stop("Invalid CORMATRIX method : ", config.var$cormatrix.method, "\n")
   }
   
@@ -2011,6 +2191,7 @@ set.image.parameters <- function(config.var, gbl.var) {
     sec.cex.factor <- 2
     cex.factor.symbol <- 0.5
   } else {
+    
     stop("Invalid image size: ", config.var$image.size, "\n")
   }
   
@@ -2026,12 +2207,13 @@ set.image.parameters <- function(config.var, gbl.var) {
     cex.factor <- 0.1 * sec.cex.factor
     line.width <- 0.5
   } else {
+    
     stop("Invalid image size: ", gbl.var$mydata.num, "\n")
   }
   
   #DEBUG STATEMENT
   # if (config.var$verbose)  cat("gbl.var$mydata.num ", gbl.var$mydata.num, "\n")
-  # if (config.var$verbose)  cat("font.size ", font.size, "\n")
+  if (config.var$verbose)  cat("font.size ", font.size, "\n")
   # if (config.var$verbose)  cat("line.width ", line.width, "\n")
   # if (config.var$verbose)  cat("cex.factor.symbol ", cex.factor.symbol, "\n")
   # if (config.var$verbose)  cat("cex.factor ", cex.factor, "\n")

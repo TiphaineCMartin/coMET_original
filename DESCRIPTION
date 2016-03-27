@@ -1,17 +1,17 @@
 Package: coMET
 Type: Package
 Title: coMET: visualisation of regional epigenome-wide association scan (EWAS) results and DNA co-methylation patterns.
-Version: 1.1.0
-Date: 2015-04-10
-Author: Tiphaine C. Martin, Idil Yet, Pei-Chien Tsai, Jordana T. Bell
+Version: 1.3.1
+Date: 2015-12-06
+Author: Tiphaine C. Martin, Thomas Hardiman, Idil Yet, Pei-Chien Tsai, Jordana T. Bell
 Maintainer: Tiphaine Martin <tiphaine.martin@kcl.ac.uk>
 Description: Visualisation of EWAS results in a genomic region. In addition to phenotype-association P-values, coMET also generates plots of co-methylation patterns and provides a series of annotation tracks. It can be used to other omic-wide association scans as long as the data can be translated to genomic level and for any species.
-Depends: R (>= 3.1.0), grid,  biomaRt, Gviz (>= 1.10.9), psych
+Depends: R (>= 3.3.0), grid, utils, biomaRt, Gviz (>= 1.10.9), psych
 Suggests: knitr, RUnit, BiocGenerics, BiocStyle
-Imports: colortools, hash, grDevices, gridExtra, rtracklayer, IRanges, S4Vectors, GenomicRanges, ggbio, ggplot2, trackViewer
+Imports: colortools, hash, grDevices, gridExtra, rtracklayer, IRanges, S4Vectors, GenomicRanges, ggbio, ggplot2, trackViewer, stats, corrplot
 License: GPL (>= 2)
 URL:  http://epigen.kcl.ac.uk/comet
-biocViews: Software, DifferentialMethylation, Visualization, Sequencing, Genetics, FunctionalGenomics, Microarray, MethylationArray, MethylSeq, ChIPSeq, DNASeq, RIPSeq, RNASeq, ExomeSeq, DNAMethylation, GenomeWideAssociation
+biocViews: Software, DifferentialMethylation, Visualization, Sequencing, Genetics, FunctionalGenomics, Microarray, MethylationArray, MethylSeq, ChIPSeq, DNASeq, RiboSeq, RNASeq, ExomeSeq, DNAMethylation, GenomeWideAssociation
 VignetteBuilder: knitr
 NeedsCompilation: no
 Repository: Bioconductor

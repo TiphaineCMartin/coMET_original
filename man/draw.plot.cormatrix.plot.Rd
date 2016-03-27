@@ -22,7 +22,7 @@ list of internal variables
 }
 
 \value{
-Return a viewport containing the correlation matrix 
+Return a viewport containing the correlation matrix
 }
 
 \author{

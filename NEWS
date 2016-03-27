@@ -1,3 +1,26 @@
+COMET 1.0.3 - 2015-12-06
+-------------------------
+- Add functions to visualise data from FANTOM, GeTEX and Hi-C data
+- Update the vignette related to these new functions
+
+COMET 1.0.2 - 2015-08-10
+-------------------------
+- Add the option to visualise beta values in changing the size of symbole relative to the absolue value of beta valuein the top of plot
+- Visualisation of RoadMap data for chrommHMM for specific tissues
+- Visualisation of metQTL data and of eQTL data
+
+COMET 1.0.1 - 2015-07-10
+-------------------------
+- Update the vignette (need to install the package psych, command line to check the new package before upload on bioconductor)
+- New functions for annotation tracks (4 functions related to Regulation ENSEMBL biomart, 1 related to UCSC [segmental duplications])
+- New functions for change colors in genesENSEMBL and transciptENSEMBL called interestGenesENSEMBL and interestTranscriptENSEMBL
+- Correction for uppercase to lowcase for the word "ASSO" related to the option disp.association
+- New dataset related to new functions
+
+COMET 1.0.0 - 2015-04-15
+-------------------------
+- Enter in the stable release of Bioconductor
+
 COMET 0.99.10 - 2015-04-10
 -------------------------
 - Update regulationBiomart function and the pre-computed data associated because ENSEMBL has recently updated their schema in Biomart for these data.
